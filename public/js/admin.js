@@ -486,16 +486,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            container.innerHTML = data.recipients.map(id => `
+            container.innerHTML = data.recipients.map(id => {
+                const phone = id.split('@')[0];
+                const displayNum = phone.startsWith('62') ? '+' + phone : phone;
+                return `
                 <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl cursor-pointer hover:bg-sky-50 hover:border-sky-200 transition-all group">
                     <input type="checkbox" name="recipient" value="${id}" class="w-4 h-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
                     <div class="flex-1">
-                        <div class="text-sm font-bold text-slate-700 font-outfit">${id.split('@')[0]}</div>
-                        <div class="text-[10px] text-slate-400 font-semibold tracking-wide">${id.includes('@lid') ? 'WHATSAPP ID' : 'PHONE'}</div>
+                        <div class="text-sm font-bold text-slate-700 font-outfit">${displayNum}</div>
+                        <div class="text-[10px] text-slate-400 font-semibold tracking-wide flex items-center gap-1">
+                            <i data-lucide="smartphone" class="w-3 h-3"></i> WHATSAPP / HP
+                        </div>
                     </div>
                     <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all"></i>
                 </label>
-            `).join('');
+            `; }).join('');
             
             if (window.lucide) lucide.createIcons();
         } catch (e) {
@@ -587,8 +592,14 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetch('/api/sync', { method: 'POST' });
             const data = await res.json();
-            showNotification('Sync Berhasil! Data: ' + data.count);
-            fetchStatus();
+            if (res.ok) {
+                const displayMsg = data.count ? data.count + ' entries' : (data.message || 'System Updated');
+                showNotification('Sync Berhasil! Data: ' + displayMsg);
+                fetchStatus();
+                fetchKB();
+            } else {
+                showNotification('Gagal Sinkronisasi', 'error');
+            }
         } catch (e) {
             showNotification('Gagal Sinkronisasi', 'error');
         } finally {

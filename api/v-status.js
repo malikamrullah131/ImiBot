@@ -25,8 +25,8 @@ module.exports = async (req, res) => {
     const result = await pool.query('SELECT * FROM system_status WHERE id = 1');
     const status = result.rows[0] || {};
 
-    // Get KB entry count
-    const kbRes = await pool.query('SELECT COUNT(*) as count FROM knowledge_base');
+    // Get valid KB entry count
+    const kbRes = await pool.query("SELECT COUNT(*) as count FROM knowledge_base WHERE question IS NOT NULL AND TRIM(question) != '' AND answer IS NOT NULL AND TRIM(answer) != ''");
     const kbCount = parseInt(kbRes.rows[0].count) || 0;
 
     // Safe uptime (seconds)

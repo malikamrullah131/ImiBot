@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const result = await pool.query('SELECT question as "Question", answer as "Answer", last_updated FROM knowledge_base ORDER BY last_updated DESC LIMIT 500');
+    const result = await pool.query("SELECT question as \"Question\", answer as \"Answer\", last_updated FROM knowledge_base WHERE question IS NOT NULL AND TRIM(question) != '' AND answer IS NOT NULL AND TRIM(answer) != '' ORDER BY last_updated DESC LIMIT 500");
     res.json({ kb: result.rows });
   } catch (err) {
     res.status(500).json({ error: err.message });
