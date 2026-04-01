@@ -1,0 +1,25 @@
+# Node
+node_modules/
+
+# Env
+.env
+
+# Logs
+*.log
+chatbot_logs.txt
+
+# Cache / Sessions
+.wwebjs_auth/
+.wwebjs_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# JSON runtime files
+cache.json
+queue.json
+vectors.json
+
+# Testing output
+*.txt
