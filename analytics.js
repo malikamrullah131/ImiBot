@@ -121,38 +121,63 @@ async function getInsights() {
 }
 
 /**
- * Uses Gemini to suggest a professional answer for a query.
+ * Uses DeepSeek R-1 (via OpenRouter) or Gemini to suggest a professional answer.
  */
 async function generateSuggestedAnswer(query, existingContext) {
+    const promptText = `
+        Kamu adalah petugas Humas Imigrasi yang profesional.
+        Warga sering menanyakan pertanyaan ini: "${query}"
+        
+        Konteks referensi (bila relevan): 
+        ${existingContext.substring(0, 1500)}
+        
+        Berdasarkan informasi di atas (atau pengetahuan imigrasi umum), buatkan DRAF JAWABAN yang sangat singkat, jelas, ramah, dan solutif.
+        Jangan menggunakan format penjelasan. Berikan langsung jawaban murni yang akan dikirim ke WhatsApp warga.
+    `;
+
+    // 1. PRIORITAS UTAMA: Gunakan OpenRouter (Gratis: Deepseek-R1 / Llama 3)
+    const openRouterKey = process.env.OPENROUTER_API_KEY;
+    if (openRouterKey) {
+        try {
+            console.log("[AI] Meminta saran dari Model Alternatif (OpenRouter/DeepSeek R-1)...");
+            const response = await axios.post("https://openrouter.ai/api/v1/chat/completions", {
+                "model": "deepseek/deepseek-r1:free", // Bisa diganti ke meta-llama/llama-3-8b-instruct:free
+                "messages": [
+                    { "role": "system", "content": "Kamu adalah asisten Imigrasi. Jawab dengan cerdas dan ringkas tanpa penjelasan panjang." },
+                    { "role": "user", "content": promptText }
+                ]
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${openRouterKey.trim()}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            // DeepSeek R-1 memisahkan <think> tag, jadi kita hapus blok think jika ada.
+            let reply = response.data.choices[0].message.content;
+            reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            return reply;
+        } catch (error) {
+            console.error("[AI Error] OpenRouter gagal:", error.response ? error.response.data : error.message);
+        }
+    }
+
+    // 2. FALLBACK (Metode Cadangan): Gunakan Gemini jika OpenRouter tidak ada/limit
     const rawKeys = process.env.GEMINI_API_KEY || "";
     const keys = rawKeys.split(',').map(k => k.replace(/['"]/g, '').trim()).filter(Boolean);
     
-    if (keys.length === 0) return "API Key missing.";
+    if (keys.length === 0) return "Gagal mendapatkan saran. Semua kuota API habis (Memerlukan API Key Baru atau OpenRouter).";
 
-    // Use a random key from the pool to avoid rate limits
     const selectedKey = keys[Math.floor(Math.random() * keys.length)];
-
     try {
+        console.log("[AI] Fallback ke Gemini API untuk saran jawaban...");
         const genAI = new GoogleGenerativeAI(selectedKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-        const prompt = `
-            You are drafting a new entry for an Immigration Office Knowledge Base.
-            The user frequently asks: "${query}"
-            
-            Current context available: 
-            ${existingContext.substring(0, 2000)}
-            
-            Based on the context (if available) or general knowledge about Passport Administration, 
-            write a concise, professional, and helpful answer for this question. 
-            Format: Just the plain text answer.
-        `;
-
-        const result = await model.generateContent(prompt);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Fast and cheap
+        const result = await model.generateContent(promptText);
         return result.response.text().trim();
     } catch (error) {
-        console.error("Error generating suggested answer:", error.message);
-        return "Gagal membuat saran jawaban otomatis.";
+        console.error("Error generating suggested answer via Gemini:", error.message);
+        return "Terjadi kesalahan internal. Limit AI Tercapai atau Kuota Habis. Pertimbangkan menggunakan OpenRouter (Deepseek Gratis).";
     }
 }
 

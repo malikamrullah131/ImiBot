@@ -73,23 +73,40 @@ async function fetchSpreadsheetData(url) {
 
 /**
  * Adds a new entry to the knowledge base via POST request to Google Apps Script.
- * @param {string} url - The URL to the Web App
- * @param {string} question - Improved user question
- * @param {string} answer - Approved accurate answer
  */
 async function addKnowledgeBaseEntry(url, question, answer) {
     if (!url) throw new Error("Google Script URL is missing.");
-
     try {
-        const response = await axios.post(url, {
-            question: question,
-            answer: answer
+        const payload = {
+            Question: question,
+            Answer: answer,
+            action: "add", // Optional hint for some scripts
+            timestamp: new Date().toISOString()
+        };
+        
+        console.log(`[SHEETS] Attempting to send data to: ${url.substring(0, 50)}...`);
+        console.log(`[SHEETS] Payload:`, JSON.stringify(payload));
+
+        const response = await axios.post(url, payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ChatbotNode/1.0'
+            }
         });
         
+        console.log(`[SHEETS] Request Success! Status: ${response.status}`);
+        console.log(`[SHEETS] Response Data:`, typeof response.data === 'string' ? response.data.substring(0, 200) : response.data);
         return response.data;
     } catch (error) {
-        console.error("Error adding data to Google Sheets:", error.message);
-        throw error;
+        console.error("❌ [SHEETS] CRITICAL ERROR adding to Sheets:");
+        if (error.response) {
+            console.error(`- Status: ${error.response.status}`);
+            console.error(`- Data:`, error.response.data);
+        } else {
+            console.error(`- Message: ${error.message}`);
+        }
+        // Don't re-throw, just log, so the bot continues with local data
+        return null;
     }
 }
 

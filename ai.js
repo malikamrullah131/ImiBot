@@ -1,185 +1,259 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const { vectorSearch } = require('./vectorStore');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+// --- DATABASE & CACHE ---
+let localCache = new Map();
+let chatHistory = {}; // { [remoteId]: [{role: 'user'|'model', text: string}, ...] }
+const MAX_HISTORY = 6; // Remember last 3 exchanges
 
-// --- SESSION MEMORY (Phase 4) ---
-const sessions = {};
+function getCache(key) { return localCache.get(key); }
+function setCache(key, val) { localCache.set(key, val); }
 
-function saveContext(userId, question, answer) {
-    if (!sessions[userId]) sessions[userId] = [];
-    sessions[userId].push({ question, answer, time: Date.now() });
-    if (sessions[userId].length > 5) sessions[userId].shift(); // limit last 5
-}
-
-function getContext(userId) {
-    if (!sessions[userId]) return "";
-    return sessions[userId]
-        .map(c => `User: ${c.question}\nBot: ${c.answer}`)
-        .join("\n");
-}
-
-// --- ANALYTICS & HEALTH TRACKING (Phase 10) ---
-let currentKeyIndex = 0;
-let keyHealthMap = [];
-
-function getActiveKey() {
-    const rawKeys = process.env.GEMINI_API_KEY || "";
-    const keys = rawKeys.split(',').map(k => k.replace(/['"]/g, '').trim()).filter(Boolean);
-    
-    if (keyHealthMap.length === 0 && keys.length > 0) {
-        keyHealthMap = keys.map(k => ({ key: k.substring(0, 8) + "...", status: "active", errors: 0 }));
-    }
-
-    if (keys.length === 0) return null;
-    const idx = currentKeyIndex % keys.length;
-    return { key: keys[idx], index: idx };
-}
-
-global.getBotHealth = () => ({
-    activeIndex: currentKeyIndex % (keyHealthMap.length || 1),
-    keysStatus: keyHealthMap,
-    modelUsed: "gemini-2.0-flash"
-});
-
-function logAnalytics({ question, source, confidence, responseTime }) {
-    const log = { question, source, confidence, responseTime, timestamp: new Date().toISOString() };
-    fs.appendFileSync(path.join(__dirname, 'analytics.log'), JSON.stringify(log) + "\n");
-}
-
-function logUnknown(question) {
-    fs.appendFileSync(path.join(__dirname, 'unknown.txt'), question + "\n");
-}
-
-let isAIReady = true;
-function getAIStatus() { return isAIReady; }
-
-function normalizeText(text) {
+// Step 1: Normalize Input
+function normalize(text) {
     if (!text) return "";
-    let normalized = text.toLowerCase().trim();
-    const typos = { "pasport": "paspor", "biayaa": "biaya", "sarat": "syarat" };
-    for (const [typo, correct] of Object.entries(typos)) {
-        normalized = normalized.replace(new RegExp(`\\b${typo}\\b`, 'g'), correct);
+    return text.toLowerCase().trim().replace(/[?.,!]/g, "");
+}
+
+// Step 2: Rule-Based Logic (Fastest)
+function ruleCheck(input) {
+    if (input === 'ping') return 'Pong! I am alive and thinking. 🤖';
+    if (input === 'siapa kamu' || input.includes('nama kamu')) return 'Saya adalah ImiBot, asisten AI Kantor Imigrasi PKP. Ada yang bisa saya bantu?';
+    return null;
+}
+
+// Step 3: Similarity Search (Keyword based)
+async function searchDB(input, rawKB) {
+    if (!rawKB || rawKB.length === 0) return null;
+    
+    // Exactish match
+    const match = rawKB.find(row => normalize(row.Question) === input);
+    if (match) return match.Answer;
+
+    // Simple keyword match
+    const keywords = input.split(" ").filter(w => w.length > 3);
+    if (keywords.length > 0) {
+        let bestMatch = null;
+        let maxCount = 0;
+        rawKB.forEach(row => {
+            let count = 0;
+            const q = normalize(row.Question);
+            keywords.forEach(kw => { if (q.includes(kw)) count++; });
+            if (count > maxCount) {
+                maxCount = count;
+                bestMatch = row.Answer;
+            }
+        });
+        if (maxCount >= 1) return bestMatch;
     }
-    normalized = normalized.replace(/(h)(a+)(i+)/gi, "$1ai").replace(/(h)(a+)(l+)(o+)/gi, "$1alo");
-    return normalized;
+    return null;
 }
 
-const cacheFilePath = path.join(__dirname, 'cache.json');
-function loadCache() {
-    if (!fs.existsSync(cacheFilePath)) return [];
-    try { return JSON.parse(fs.readFileSync(cacheFilePath, 'utf8')).filter(i => (Date.now() - i.timestamp) < 86400000); } catch(e) { return []; }
-}
-function saveToCache(question, answer) {
-    let cache = loadCache();
-    cache.push({ question: question.toLowerCase().trim(), answer, timestamp: Date.now() });
-    if (cache.length > 200) cache.shift();
-    fs.writeFileSync(cacheFilePath, JSON.stringify(cache, null, 2));
-}
-function checkCache(question) {
-    const match = loadCache().find(i => i.question === question.toLowerCase().trim());
-    return match ? match.answer : null;
+// Step 4-1: API Key Rotation
+function getRandomKey(envVar) {
+    const keys = (process.env[envVar] || "").split(',').filter(k => k.trim() !== "");
+    if (keys.length === 0) return null;
+    return keys[Math.floor(Math.random() * keys.length)].trim();
 }
 
-function findDirectAnswer(userQuestion, rawData) {
-    if (!rawData || !Array.isArray(rawData)) return null;
-    const qWords = userQuestion.toLowerCase().split(/\W+/).filter(w => w.length > 3);
-    if (qWords.length === 0) return null;
-    let best = null, hi = 0;
-    rawData.forEach(row => {
-        let sc = 0;
-        const txt = Object.values(row).join(" ").toLowerCase();
-        qWords.forEach(w => { if (txt.includes(w)) sc++; });
-        if (sc / qWords.length >= 0.5 && sc > hi) {
-            hi = sc;
-            best = row.Answer || row.answer || row.Jawaban || row.jawaban || Object.values(row).find(v => String(v).length > 20);
-        }
+// Step 5: AI Engines (Free/OpenRouter/Local)
+async function deepseek(prompt) {
+    const key = getRandomKey('OPENROUTER_API_KEY') || getRandomKey('DEEPSEEK_API_KEY');
+    if (!key) throw new Error("No DeepSeek/OpenRouter Key");
+    
+    const res = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
+        model: "deepseek/deepseek-r1-distill-llama-70b:free",
+        messages: [{ role: "user", content: `Identify intent: ${prompt}` }]
+    }, { headers: { Authorization: `Bearer ${key}` } });
+    return res.data.choices[0].message.content;
+}
+
+async function gemini(prompt) {
+    const key = getRandomKey('GEMINI_API_KEY');
+    if (!key) throw new Error("No Gemini Key");
+    
+    const genAI = new GoogleGenerativeAI(key);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+}
+
+async function mistral(prompt) {
+    const key = getRandomKey('OPENROUTER_API_KEY') || getRandomKey('MISTRAL_API_KEY');
+    if (!key) throw new Error("No Mistral Key");
+
+    const res = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
+        model: "mistralai/mistral-7b-instruct:free",
+        messages: [{ role: "user", content: prompt }]
+    }, { headers: { Authorization: `Bearer ${key}` } });
+    return res.data.choices[0].message.content;
+}
+
+async function ollama(prompt) {
+    const res = await axios.post('http://localhost:11434/api/generate', {
+        model: "llama3",
+        prompt: prompt,
+        stream: false
     });
-    return best;
+    return res.data.response;
 }
 
-function pruneContext(userQuestion, context) {
-    const qLower = userQuestion.toLowerCase();
-    const entries = context.split("Entry ");
-    const words = qLower.split(/\W+/).filter(w => w.length > 3);
-    const matches = entries.filter((e, i) => i === 0 || words.some(w => e.toLowerCase().includes(w)) || i < 10);
-    return matches[0] + matches.slice(1).map(e => "Entry " + e).join("");
-}
-
-function humanize(text) {
-    const v = [text, "Baik, " + text, text + " 😊"];
-    return v[Math.floor(Math.random() * v.length)];
-}
-
-function isValidAIResponse(text) {
-    if (!text || text.length < 20) return false;
-    const safe = ["paspor", "imigrasi", "dokumen", "biaya", "syarat", "kantor", "aplikasi"];
-    return safe.some(w => text.toLowerCase().includes(w));
-}
-
-async function classifyIntent(userQuestion, apiKey) {
-    if (!apiKey) return "GENERAL_ENQUIRY";
+// Step 8: Multi-Model AI Router Orchestrator
+async function aiRouter(input) {
     try {
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-        const res = await model.generateContent("Classify Category: " + userQuestion);
-        return res.response.text().trim().toUpperCase();
-    } catch (e) { return "GENERAL_ENQUIRY"; }
+        console.log("[AI ROUTER] Analyzing intent & history...");
+        
+        // Jalan paralel untuk efisiensi
+        const [intent, rephrase] = await Promise.all([
+            deepseek(input).catch(() => "General Inquiry"),
+            gemini(input).catch(() => input) 
+        ]);
+        
+        let answer;
+        try {
+            console.log("[AI ROUTER] Menghasilkan Jawaban via Mistral...");
+            answer = await mistral(rephrase);
+        } catch (e) {
+            console.log("[AI ROUTER] Mistral Gagal, beralih ke Ollama...");
+            answer = await ollama(rephrase);
+        }
+
+        return { intent, rephrase, answer };
+    } catch (err) {
+        console.log("[AI ROUTER] Cloud AI Total Failure! Menggunakan Full Ollama Fallback...");
+        try {
+            const fallbackAnswer = await ollama(input);
+            return { intent: "Fallback Mode", rephrase: input, answer: fallbackAnswer };
+        } catch (fErr) {
+            return { intent: "System Busy", rephrase: input, answer: "Maaf, sistem AI sedang sangat sibuk. Pesan Anda terekam untuk admin kami." };
+        }
+    }
 }
 
-async function askGemini(userQuestion, knowledgeBaseContext, rawData = [], attempt = 1, onRetry = null, userId = "default") {
-    const startTime = Date.now();
-    const apiKeyData = getActiveKey();
-    
-    if (!apiKeyData) {
-        return findDirectAnswer(userQuestion, rawData) || "Sistem sibuk 🙏";
+// Step 9: Save Pending (Untuk Admin Dashboard)
+function savePending(data) {
+    const pendingPath = path.join(__dirname, 'pending.json');
+    let arr = [];
+    if (fs.existsSync(pendingPath)) {
+        try { arr = JSON.parse(fs.readFileSync(pendingPath, 'utf8')); } catch(e) {}
     }
-
-    const { key: currentKey, index: keyIdx } = apiKeyData;
-    const normalizedQuestion = normalizeText(userQuestion);
     
-    // Quick Canned Check
-    const quickMap = { "halo": "Halo! 😊", "hai": "Hai! 😊", "terima kasih": "Sama-sama! 🙏" };
-    if (quickMap[normalizedQuestion]) return quickMap[normalizedQuestion];
+    arr.push({
+        id: Date.now(),
+        question: data.question,
+        normalized: data.normalized,
+        suggestion: data.answer,
+        rephrase: data.rephrase,
+        intent: data.intent,
+        timestamp: new Date().toISOString(),
+        status: "pending"
+    });
+    
+    if (arr.length > 100) arr.shift();
+    fs.writeFileSync(pendingPath, JSON.stringify(arr, null, 2));
+}
 
-    const cached = checkCache(userQuestion);
+// Step 10: ALUR KERJA UTAMA (Final Lifecycle with History)
+async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
+    const input = normalize(msgBody);
+    
+    // 1. Get History Context
+    const history = chatHistory[remoteId] || [];
+    const historySummary = history.map(h => `${h.role === 'user' ? 'User' : 'AI'}: ${h.text}`).join('\n');
+
+    // 2. Rule Check
+    const rule = ruleCheck(input);
+    if (rule) return rule;
+
+    // 3. Cache Check
+    const cached = getCache(input);
     if (cached) return cached;
 
-    try {
-        const intent = await classifyIntent(normalizedQuestion, currentKey);
-        const contextMem = getContext(userId);
-        const vResults = await vectorSearch(normalizedQuestion);
-        let ragContext = vResults ? vResults.filter(r => r.score > 0.4).map((r, i) => `[Source ${i+1}]: ${r.answer}`).join("\n\n") : "";
-        const finalCtx = ragContext.length > 50 ? ragContext : pruneContext(userQuestion, knowledgeBaseContext);
-
-        const genAI = new GoogleGenerativeAI(currentKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-        const prompt = `You are Imibot, Immigration AI.\n\nContext: ${finalCtx}\n\nQuestion: ${userQuestion}`;
-
-        const result = await model.generateContent(prompt);
-        let resText = result.response.text().trim();
-
-        if (!isValidAIResponse(resText)) {
-            logUnknown(userQuestion);
-            return findDirectAnswer(userQuestion, rawData) || "Maaf, hubungi petugas 😊";
-        }
-
-        if (keyHealthMap[keyIdx]) keyHealthMap[keyIdx].status = "active";
-        saveContext(userId, userQuestion, resText);
-        logAnalytics({ question: userQuestion, source: "AI", confidence: 0.9, responseTime: Date.now() - startTime });
-        return humanize(resText);
-
-    } catch (error) {
-        if (keyHealthMap[keyIdx]) {
-            keyHealthMap[keyIdx].status = "error";
-            keyHealthMap[keyIdx].errors++;
-            currentKeyIndex++; // Next key
-        }
-        if (attempt <= 3) return askGemini(userQuestion, knowledgeBaseContext, rawData, attempt + 1, onRetry, userId);
-        return findDirectAnswer(userQuestion, rawData) || "Maaf, sedang sibuk 🙏";
+    // 4. Database Similarity Search
+    const dbMatch = await searchDB(input, rawKB);
+    if (dbMatch) {
+       setCache(input, dbMatch);
+       return dbMatch;
     }
+
+    // 5. AI Multi-Router with History
+    console.log(`[AI] Processing query with history context for ${remoteId}`);
+    
+    const augmentedPrompt = `
+RIWAYAT PERCAKAPAN:
+${historySummary || '(Awal obrolan)'}
+
+DATABASE IMIGRASI:
+${rawKB.length > 0 ? rawKB.slice(0, 15).map((row, i) => `${i+1}. Q: ${row.Question} | A: ${row.Answer}`).join('\n') : "Tidak ada data."}
+
+PERTANYAAN USER SEKARANG: "${msgBody}"
+
+INSTRUKSI:
+- Jawablah menggunakan database di atas. Berikan informasi akurat.
+- Kaitkan dengan konteks riwayat percakapan di atas jika diperlukan untuk memahami pertanyaan user.
+- Jika database tidak ada yang cocok, gunakan pengetahuan AI Anda namun tetap sopan.
+- Jangan mengarang info harga jika tidak ada di database.
+- Jawab ramah, sopan, dan ringkas dalam Bahasa Indonesia.
+`;
+
+    const aiResult = await aiRouter(augmentedPrompt);
+    const finalAnswer = aiResult.answer;
+
+    // 6. Update History
+    if (!chatHistory[remoteId]) chatHistory[remoteId] = [];
+    chatHistory[remoteId].push({ role: 'user', text: msgBody });
+    chatHistory[remoteId].push({ role: 'model', text: finalAnswer });
+    if (chatHistory[remoteId].length > MAX_HISTORY) chatHistory[remoteId].shift();
+
+    // 7. Save to Cache/Pending (Filter out noise/short messages)
+    if (!finalAnswer.includes('sangat sibuk') && msgBody.trim().length > 3) {
+        setCache(input, finalAnswer);
+        savePending({
+            question: msgBody,
+            normalized: input,
+            answer: finalAnswer,
+            rephrase: aiResult.rephrase,
+            intent: aiResult.intent
+        });
+    }
+
+    return finalAnswer;
 }
 
-module.exports = { askGemini, findDirectAnswer, normalizeText, getAIStatus, logUnknown };
+// Check if any AI service is configured
+function getAIStatus() {
+    return !!(getRandomKey('GEMINI_API_KEY') || 
+              getRandomKey('OPENROUTER_API_KEY') || 
+              getRandomKey('DEEPSEEK_API_KEY') || 
+              getRandomKey('MISTRAL_API_KEY'));
+}
+
+// Log unknown questions for analytics
+function logUnknown(question) {
+    const unknownPath = path.join(__dirname, 'unknown.txt');
+    const entry = `[${new Date().toLocaleString()}] ${question}\n`;
+    fs.appendFileSync(unknownPath, entry);
+}
+
+// Get comprehensive health report for the bot (Cloud + Local)
+function getBotHealth() {
+    return {
+        deepseekReady: !!(getRandomKey('OPENROUTER_API_KEY') || getRandomKey('DEEPSEEK_API_KEY')),
+        geminiReady: !!getRandomKey('GEMINI_API_KEY'),
+        mistralReady: !!(getRandomKey('OPENROUTER_API_KEY') || getRandomKey('MISTRAL_API_KEY')),
+        ollamaReady: true,
+        modelUsed: "Multi-Model Router + Chat Context"
+    };
+}
+
+module.exports = {
+    askAIProtocol,
+    askGemini: askAIProtocol, // Backward compatibility
+    getCache,
+    savePending,
+    getAIStatus,
+    getBotHealth,
+    logUnknown
+};

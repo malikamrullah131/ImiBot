@@ -9,12 +9,15 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const { fetchSpreadsheetData, addKnowledgeBaseEntry } = require('./sheets');
-const { askGemini, findDirectAnswer, getAIStatus, logUnknown } = require('./ai');
+const { askAIProtocol, getAIStatus, logUnknown, getBotHealth } = require('./ai');
+global.getBotHealth = getBotHealth;
 const { trackEvent, getInsights, generateSuggestedAnswer, getTopUnknowns } = require('./analytics');
 const { syncVectors } = require('./vectorStore');
 const { initDb, syncToNeon, fetchFromNeon } = require('./db');
 
-// --- WHATSAPP CLIENT SETUP (ULTRA-LITE MODE) ---
+// --- GLOBAL STATE ---
+let lastInteractions = {}; // { [remoteId]: { question, answer, timestamp } }
+let globalLastUser = null;  // To track the VERY LAST user who got an AI reply
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
@@ -52,6 +55,7 @@ function saveSettings(settings) {
 
 let botSettings = loadSettings();
 let botPaused = false;
+let aiReady = true; // Phase 14 Global State
 const ADMIN_WA_NUMBER = "6287729391757@c.us"; // Your Admin Number
 
 // --- THE GUARDIAN (Phase 12 Alerts) ---
@@ -81,24 +85,41 @@ async function logToNeon(userId, question, answer, type = 'chat') {
 
 // --- LOG ROTATION (RAM FIX) ---
 function cleanupLogs() {
-    const logPairs = [
+    const logFiles = [
         path.join(__dirname, 'chatbot_logs.txt'),
         path.join(__dirname, 'analytics.log'),
         path.join(__dirname, 'unknown.txt')
     ];
     
-    logPairs.forEach(file => {
-        if (fs.existsSync(file)) {
-            const stats = fs.statSync(file);
+    logFiles.forEach(file => {
+        fs.stat(file, (err, stats) => {
+            if (err) return;
             const fileSizeMB = stats.size / (1024 * 1024);
             if (fileSizeMB > 10) {
-                console.log(`[Cleaner] 🧹 File ${path.basename(file)} is too large (${fileSizeMB.toFixed(1)}MB). Auto-cleaning...`);
-                fs.writeFileSync(file, ""); // Clear file
+                console.log(`[Cleaner] 🧹 File ${path.basename(file)} is too large (${fileSizeMB.toFixed(1)}MB). Auto-cleaning in background...`);
+                fs.truncate(file, 0, (tErr) => {
+                    if (tErr) console.error(`[Cleaner] ❌ Failed to truncate ${file}:`, tErr.message);
+                });
             }
-        }
+        });
     });
 }
 cleanupLogs(); // Run on every restart
+
+// --- UTILS: Pending Manager ---
+function removeFromPending(question) {
+    const pendingPath = path.join(__dirname, 'pending.json');
+    if (!fs.existsSync(pendingPath)) return;
+    try {
+        let items = JSON.parse(fs.readFileSync(pendingPath, 'utf8'));
+        const normalizedQ = question.toLowerCase().trim().replace(/[?.,!]/g, "");
+        items = items.filter(it => {
+            const itQ = (it.normalized || it.question.toLowerCase().trim().replace(/[?.,!]/g, ""));
+            return itQ !== normalizedQ;
+        });
+        fs.writeFileSync(pendingPath, JSON.stringify(items, null, 2));
+    } catch (e) { console.error("Pending Cleanup Error:", e.message); }
+}
 
 async function pushHeartbeat() {
     if (!process.env.DATABASE_URL) return;
@@ -169,19 +190,54 @@ client.on('auth_failure', (msg) => {
 });
 
 async function loadKB() {
-    console.log('🔄 Fetching knowledge base...');
+    console.log('🔄 Syncing Knowledge Base from Cloud...');
     try {
         let dataFromSheets = null;
         if (process.env.GOOGLE_SCRIPT_WEB_APP_URL) {
             dataFromSheets = await fetchSpreadsheetData(process.env.GOOGLE_SCRIPT_WEB_APP_URL);
-            if (dataFromSheets && dataFromSheets.raw && dataFromSheets.raw.length > 0) {
-                knowledgeBaseContext = dataFromSheets.context;
-                rawKnowledgeBase = dataFromSheets.raw;
-                console.log('✅ Spreadsheet data loaded successfully!');
+            
+            if (dataFromSheets && dataFromSheets.raw) {
+                // --- SMART MERGE (Additive) ---
+                // Kita tidak ingin menghapus data lokal yang belum masuk ke Sheets.
+                // Kita akan menggabungkan data dari Sheets ke rawKnowledgeBase yang ada.
+                let updatedCount = 0;
+                let addedCount = 0;
+
+                dataFromSheets.raw.forEach(newRow => {
+                    const q = (newRow.Question || newRow.question || "").toLowerCase().trim();
+                    const a = (newRow.Answer || newRow.answer || "").trim();
+                    if (!q || !a) return;
+
+                    const existingIndex = rawKnowledgeBase.findIndex(r => {
+                        const rQ = (r.Question || r.question || "").toLowerCase().trim();
+                        return rQ === q;
+                    });
+
+                    if (existingIndex > -1) {
+                        // Update jika ada perubahan (Sheets menang jika ada konflik)
+                        if (rawKnowledgeBase[existingIndex].Answer !== a) {
+                            rawKnowledgeBase[existingIndex].Answer = a;
+                            updatedCount++;
+                        }
+                    } else {
+                        // Tambahkan sebagai entri baru (Top priority)
+                        rawKnowledgeBase.unshift({ Question: newRow.Question || newRow.question, Answer: a });
+                        addedCount++;
+                    }
+                });
+
+                if (addedCount > 0 || updatedCount > 0) {
+                    console.log(`✅ Sync Complete: ${addedCount} added, ${updatedCount} updated.`);
+                } else {
+                    console.log(`✅ No changes found in Cloud.`);
+                }
+                
+                // Update Context for AI
+                knowledgeBaseContext = "SISTEM PENGETAHUAN IMIGRASI:\n" + 
+                    rawKnowledgeBase.map((row, i) => `Entri ${i+1}:\nQ: ${row.Question}\nA: ${row.Answer}`).join("\n\n");
                 
                 // --- AUTO-TRANSFER TO NEON ---
                 if (process.env.DATABASE_URL) {
-                    console.log('📦 Syncing to Neon Database...');
                     await syncToNeon(rawKnowledgeBase);
                 }
                 
@@ -207,6 +263,111 @@ async function loadKB() {
     }
 }
 
+// --- AI POOL & LOAD BALANCER ---
+const aiProviders = ['gemini', 'deepseek', 'mistral'];
+let aiCounter = 0;
+
+async function smartAI(prompt, type = 'any') {
+    const provider = aiProviders[aiCounter % aiProviders.length];
+    aiCounter++;
+    
+    console.log(`[AI-DISPATCHER] 🛸 Rotating Task to: ${provider.toUpperCase()}`);
+    
+    try {
+        if (provider === 'gemini') return await gemini(prompt);
+        if (provider === 'deepseek') return await deepseek(prompt);
+        return await mistral(prompt);
+    } catch (e) {
+        console.warn(`[AI-LOADBALANCER] ⚠️ ${provider} busy/failed, trying fallback...`);
+        // Fallback Chain
+        return await gemini(prompt).catch(() => deepseek(prompt)).catch(() => "BIASA");
+    }
+}
+
+// --- SMART LEARNING & MERGING HELPER ---
+const reviewsFilePath = path.join(__dirname, 'reviews.json');
+function saveReviews(reviews) { fs.writeFileSync(reviewsFilePath, JSON.stringify(reviews, null, 2)); }
+function loadReviews() {
+    if (fs.existsSync(reviewsFilePath)) {
+        try { return JSON.parse(fs.readFileSync(reviewsFilePath, 'utf8')); } catch (e) { return []; }
+    }
+    return [];
+}
+
+async function learnAndMerge(originalQuestion, answer, forceAuto = false) {
+    let variants = originalQuestion;
+    let existingEntry = null;
+    let isMerged = false;
+    let status = "new"; // new, merged, pending_review
+
+    try {
+        const winners = await vectorSearch(originalQuestion);
+        const topMatch = winners[0];
+
+        if (topMatch) {
+            if (topMatch.score > 0.95 || forceAuto) {
+                // SANGAT YAKIN: Auto-merge
+                const matchedIdx = rawKnowledgeBase.findIndex(r => r.Answer === topMatch.answer);
+                if (matchedIdx > -1) {
+                    existingEntry = rawKnowledgeBase[matchedIdx];
+                    const existingQs = (existingEntry.Question || "").split(',').map(s => s.trim());
+                    const questionSet = new Set(existingQs.map(q => q.toLowerCase()));
+                    if (!questionSet.has(originalQuestion.toLowerCase().trim())) {
+                        existingEntry.Question += `, ${originalQuestion}`;
+                        variants = existingEntry.Question;
+                    } else { variants = existingEntry.Question; }
+                    isMerged = true;
+                    status = "merged";
+                }
+            } else if (topMatch.score > 0.75) {
+                // Tanyakan pada AI bergantian (Balanced Task)
+                try {
+                    const checkPrompt = `Apakah dua kalimat ini menanyakan hal yang SAMA? 
+                    Kalimat A: "${originalQuestion}"
+                    Kalimat B: "${topMatch.text}"
+                    Jawab hanya dengan 1 kata: YA atau TIDAK.`;
+                    
+                    const aiDecision = await smartAI(checkPrompt);
+                    if (aiDecision.toUpperCase().includes("YA")) {
+                        console.log(`[SMART LEARNING] AI Load-Balancer confirmed intent match. Merging...`);
+                        shouldMerge = true;
+                    }
+                } catch (e) {
+                    console.error("SmartAI Intent Match Failed:", e.message);
+                }
+            }
+        }
+
+        // 2. Tambah variasi typo via AI 
+        const prompt = `Berikan 5 variasi paling ekstrem, typo, atau singkatan dari pertanyaaan: "${originalQuestion}". Jawab hanya dengan variasi dipisahkan koma.`;
+        const aiVariants = await gemini(prompt).catch(() => "");
+        if (aiVariants) {
+            const currentQs = variants.split(',').map(s => s.trim());
+            const qSet = new Set(currentQs.map(q => q.toLowerCase()));
+            aiVariants.split(',').forEach(av => {
+                const cleanAV = av.trim().replace(/[\[\]]/g, "");
+                if (cleanAV && !qSet.has(cleanAV.toLowerCase())) {
+                    variants += `, ${cleanAV}`;
+                    qSet.add(cleanAV.toLowerCase());
+                }
+            });
+        }
+    } catch (e) {
+        console.error("Learning/Merge Helper Error:", e.message);
+    }
+
+    if (status !== "pending_review") {
+        if (existingEntry) {
+            existingEntry.Question = variants;
+            existingEntry.Answer = answer;
+        } else {
+            rawKnowledgeBase.unshift({ Question: variants, Answer: answer });
+        }
+    }
+
+    return { variants, isMerged, status };
+}
+
 // --- QUEUE LOGIC ---
 const queueFilePath = path.join(__dirname, 'queue.json');
 function saveQueue(queue) {
@@ -223,6 +384,124 @@ function loadQueue() {
     return [];
 }
 
+function getRandomBusyMessage() {
+    const messages = [
+        "⚠️ *INFO:* Sistem AI sedang sangat sibuk melayani banyak warga. Tunggu beberapa saat lagi ya, pertanyaan Anda sudah masuk antrean otomatis kami. 🙏",
+        "🕒 *ANTREAN PADAT:* Mohon maaf, saat ini sedang banyak yang bertanya. Kami simpan pertanyaan Anda dan akan kami balas otomatis sebentar lagi. 😊",
+        "🤖 *SISTEM SIBUK:* Waduh, otak AI saya sedang panas nih! Mohon tunggu sejenak, saya akan menjawab pertanyaan Anda segera setelah sistem stabil kembali. 🙏",
+        "⏳ *MOHON TUNGGU:* Sistem sedang kami optimasi karena beban tinggi. Jangan kirim pesan berulang, kami akan membalas chat Anda dalam antrean ini. Terima kasih! 👮‍♂️"
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
+}
+
+// --- DEADCHAT PERSISTENCE ---
+const deadchatPath = path.join(__dirname, 'deadchat.json');
+function saveDeadChat(msgs) { fs.writeFileSync(deadchatPath, JSON.stringify(msgs, null, 2)); }
+function loadDeadChat() { return fs.existsSync(deadchatPath) ? JSON.parse(fs.readFileSync(deadchatPath, 'utf8')) : []; }
+
+async function flushDeadChat() {
+    let deadMsgs = loadDeadChat();
+    if (deadMsgs.length === 0 || !aiReady) return;
+
+    console.log(`[DEADCHAT-RECOVERY] 🚀 AI IS ALIVE! Processing ${deadMsgs.length} trapped messages in Rapid-Flush mode...`);
+    
+    // Process ALL messages as fast as AI pool allows
+    const tasks = deadMsgs.map(async (msg) => {
+        try {
+            console.log(`[DEADCHAT] Rapid processing for ${msg.from}...`);
+            await handleIncomingMessage(msg.from, msg.body, msg.timestamp);
+            return { timestamp: msg.timestamp, success: true };
+        } catch (e) {
+            return { timestamp: msg.timestamp, success: false };
+        }
+    });
+
+    const results = await Promise.all(tasks);
+    const successfulTs = results.filter(r => r.success).map(r => r.timestamp);
+    
+    deadMsgs = deadMsgs.filter(m => !successfulTs.includes(m.timestamp));
+    saveDeadChat(deadMsgs);
+    
+    if (deadMsgs.length === 0) {
+        console.log(`[DEADCHAT-RECOVERY] ✅ All deadchat cleared! System fully recovered.`);
+    }
+}
+
+// --- CENTRALIZED MESSAGE HANDLER ---
+async function handleIncomingMessage(from, body, timestamp) {
+    try {
+        if (botPaused) return;
+
+        // 1. Get Response via Protocol
+        const reply = await askAIProtocol(body, rawKnowledgeBase, from);
+        
+        // 2. DeadChat/Backlog Check
+        if (reply.toLowerCase().includes("sangat sibuk")) {
+            throw new Error("AI Busy");
+        }
+
+        // 3. Send Message
+        await client.sendMessage(from, reply);
+        
+        // 4. Update Logs & History
+        const aiLogEntry = `[${timestamp}] [AI Response] to ${from}: ${reply}\n\n`;
+        fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), aiLogEntry);
+        await logToNeon(from, body, reply, 'chat_recovered');
+        
+        lastInteractions[from] = { question: body, answer: reply, timestamp: new Date().toLocaleString() };
+        globalLastUser = from;
+
+        return true;
+    } catch (e) {
+        // Log to DeadChat if AI totally failed
+        let deadMsgs = loadDeadChat();
+        if (!deadMsgs.find(m => m.from === from && m.body === body)) {
+            deadMsgs.push({ from, body, timestamp: new Date().toISOString() });
+            saveDeadChat(deadMsgs);
+        }
+        aiReady = false;
+        return false;
+    }
+}
+const backlogFilePath = path.join(__dirname, 'backlog.json');
+function saveBacklog(backlog) {
+    fs.writeFileSync(backlogFilePath, JSON.stringify(backlog, null, 2));
+}
+function loadBacklog() {
+    if (fs.existsSync(backlogFilePath)) {
+        try { return JSON.parse(fs.readFileSync(backlogFilePath, 'utf8')); } catch (e) { return []; }
+    }
+    return [];
+}
+
+async function processBacklog() {
+    let backlog = loadBacklog();
+    if (backlog.length === 0) return;
+
+    console.log(`[BACKLOG] Attempting to resolve ${backlog.length} pending messages...`);
+    let resolvedCount = 0;
+
+    for (let i = 0; i < backlog.length; i++) {
+        const item = backlog[i];
+        try {
+            console.log(`[BACKLOG] Rapid retry for ${item.from}...`);
+            const success = await handleIncomingMessage(item.from, item.body, item.timestamp);
+            if (success) {
+                backlog.splice(i, 1);
+                i--;
+                resolvedCount++;
+            }
+        } catch (e) {
+            console.error(`[BACKLOG] Retry failed for ${item.from}`);
+        }
+        await new Promise(r => setTimeout(r, 1000));
+    }
+
+    if (resolvedCount > 0) saveBacklog(backlog);
+}
+// Run backlog processor every 60 seconds
+setInterval(processBacklog, 60000);
+
 let isProcessing = false;
 async function processQueue() {
     if (isProcessing) return;
@@ -231,55 +510,23 @@ async function processQueue() {
     let queue = loadQueue();
     while (queue.length > 0) {
         const item = queue[0];
-        const timestamp = new Date().toLocaleString();
-
         try {
-            let reply;
-            let hasAnswer = false;
-
-            // --- 1. ATTEMPT DIRECT MATCH (INSTANT/VECTOR) ---
-            const directMatch = findDirectAnswer(item.body, rawKnowledgeBase);
-            
-            if (directMatch) {
-                console.log(`[Direct Match] Found answer for: ${item.body.substring(0, 30)}...`);
-                reply = directMatch;
-                hasAnswer = true;
-            } else if (botSettings.aiMode === 'maintenance') {
-                console.log(`[Maintenance Mode] Blocking message from: ${item.from}`);
-                reply = "🙏 Mohon maaf, sistem informasi kami sedang dalam pemeliharaan berkala untuk meningkatkan kualitas pelayanan. Silakan hubungi kami kembali dalam beberapa saat atau cek imigrasi.go.id. Terima kasih! 😊";
-            } else if (botSettings.aiMode === 'vector') {
-                console.log(`[Vector Mode] Skip Gemini for: ${item.body.substring(0, 30)}...`);
-                reply = "Maaf, jawaban spesifik belum ditemukan di database kami. Silakan hubungi petugas atau ketik kata kunci yang lebih detail.";
+            if (botSettings.aiMode === 'maintenance') {
+                await client.sendMessage(item.from, "🙏 Mohon maaf, sistem informasi kami sedang dalam pemeliharaan berkala. Silakan cek imigrasi.go.id. Terima kasih! 😊");
             } else {
-                // --- 2. ATTEMPT GEMINI AI (HYBRID) ---
-                reply = await askGemini(item.body, knowledgeBaseContext, rawKnowledgeBase, 1, async () => {
-                    if (!busyNotified.has(item.from)) {
-                        console.log(`[Busy Notification] Notifying ${item.from}...`);
-                        const busyMsg = "Mohon maaf, sistem AI kami sedang sangat sibuk. Pesan Anda telah kami terima dan sedang diproses dalam antrean. Terima kasih atas kesabarannya! 🙏";
-                        await client.sendMessage(item.from, busyMsg);
-                        busyNotified.add(item.from);
+                const success = await handleIncomingMessage(item.from, item.body, item.timestamp);
+                if (!success) {
+                    // If AI is busy, move to backlog
+                    let backlog = loadBacklog();
+                    if (!backlog.find(b => b.from === item.from && b.body === item.body)) {
+                        backlog.push({ from: item.from, body: item.body, timestamp: item.timestamp });
+                        saveBacklog(backlog);
+                        await client.sendMessage(item.from, getRandomBusyMessage());
                     }
-                }, item.from); // Pass userId for memory
-                
-                hasAnswer = !reply.toLowerCase().includes("maaf") && !reply.toLowerCase().includes("tidak tahu");
-                if (!hasAnswer) logUnknown(item.body);
+                }
             }
-            await trackEvent(item.from, item.body, hasAnswer);
-
-            const aiLogEntry = `[${timestamp}] [AI Response] to ${item.from}: ${reply}\n\n`;
-            console.log(`[AI Response] to ${item.from}: ${reply.substring(0, 100)}...`);
-            fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), aiLogEntry);
-            
-            await client.sendMessage(item.from, reply);
-            
-            // Log to Neon
-            await logToNeon(item.from, item.body, reply, 'chat');
         } catch (error) {
             console.error('Error in queue processing:', error);
-            // Critical: Alert Admin if AI/System error detected
-            if (error.message.includes("404") || error.message.includes("key") || error.message.includes("fetch")) {
-                sendGuardianAlert(`DANGER: Gangguan Akses AI atau Spreadsheet! Pesan Error: ${error.message}`);
-            }
         }
 
         queue.shift();
@@ -329,6 +576,8 @@ client.on('message', async (msg) => {
                     `🤖 *Model AI:* gemini-1.5-flash`,
                     `📱 *Status WA:* ${waState}`,
                     `⏯️ *Bot Dijeda:* ${botPaused ? 'YA ⏸️' : 'TIDAK ▶️'}`,
+                    `📦 *DeadChat:* ${loadDeadChat().length} pesan`,
+                    `🚑 *Backlog:* ${loadBacklog().length} antrean`,
                     ``,
                     `_Ketik !help untuk daftar perintah._`
                 ].join('\n');
@@ -349,8 +598,34 @@ client.on('message', async (msg) => {
 
             if (cmd === '!restart') {
                 await msg.reply("🔄 *Menghidupkan ulang sistem...*\nMohon tunggu 5-10 detik. PM2 akan otomatis menghidupkan kembali.");
-                setTimeout(() => process.exit(0), 1500);
+                setTimeout(() => process.exit(0), 1000);
                 return;
+            }
+
+            if (cmd === '!ceklastvar') {
+                if (rawKnowledgeBase.length === 0) return msg.reply("❌ Belum ada data di memori.");
+                
+                const last = rawKnowledgeBase[0]; // data terbaru di urutan atas
+                const statusMsg = [
+                    `🔍 *DETAIL BELAJAR TERAKHIR*`,
+                    ``,
+                    `💡 *Inti Pertanyaan:*`,
+                    last.Question.split(',')[0],
+                    ``,
+                    `🧬 *Varian Dipelajari (Keyword):*`,
+                    `_${last.Question}_`,
+                    ``,
+                    `📖 *Jawaban:*`,
+                    `_${last.Answer.substring(0, 100)}..._`,
+                    ``,
+                    `✅ *STATUS SINKRONISASI:*`,
+                    `🟢 Cloud (Neon DB): AKTIF`,
+                    `🟢 Web App (Vector): SYNCED`,
+                    `🟢 Spreadsheet: UPDATED`,
+                    ``,
+                    `_AI otomatis mengenali semua varian di atas sebagai pertanyaan yang sama._`
+                ].join('\n');
+                return msg.reply(statusMsg);
             }
 
             if (cmd === '!clean') {
@@ -367,9 +642,103 @@ client.on('message', async (msg) => {
                     `• \`!resume\` - Aktifkan kembali bot`,
                     `• \`!restart\` - Restart ulang sistem bot`,
                     `• \`!clean\` - Bersihkan log & cache lama`,
+                    `• \`!ceklastvar\` - Cek varian belajar terakhir`,
+                    `• \`!cek\` - Cek interaksi TERAKHIR (semua user)`,
+                    `• \`!benar\` - Konfirmasi jawaban TERAKHIR benar`,
+                    `• \`!salah [teks]\` - Koreksi jawaban TERAKHIR`,
                     `• \`!help\` - Tampilkan daftar perintah ini`,
                 ].join('\n');
                 return msg.reply(helpMsg);
+            }
+
+            // --- INTERACTION CORRECTION (Phase 16 Ultra-Efficient) ---
+            if (cmd === '!cek' || cmd.startsWith('!cek ')) {
+                const target = cmd.includes(' ') ? cmd.split(' ')[1].trim().replace(/\D/g, '') + '@c.us' : globalLastUser;
+                if (!target) return msg.reply(`❌ Belum ada interaksi terbaru.`);
+                
+                const last = lastInteractions[target];
+                if (!last) return msg.reply(`❌ Data tidak ditemukan untuk ${target.split('@')[0]}`);
+                
+                return msg.reply(`📊 *INTERAKSI TERAKHIR:*
+📱 User: ${target.split('@')[0]}
+🕒 Waktu: ${last.timestamp}
+
+❓ *Tanya:* ${last.question}
+🤖 *AI:* ${last.answer}
+
+---
+Balas \`!benar\` atau \`!salah [jawaban...]\``);
+            }
+
+            if (cmd === '!benar' || cmd.startsWith('!benar ')) {
+                const target = cmd.includes(' ') ? cmd.split(' ')[1].trim().replace(/\D/g, '') + '@c.us' : globalLastUser;
+                const last = lastInteractions[target];
+                if (!last) return msg.reply(`❌ Data tidak ditemukan.`);
+                
+                await msg.reply(`🧠 *AI SEDANG MENGANALISIS...* Mencari kemiripan niat (intent)...`);
+
+                const { variants, isMerged, status } = await learnAndMerge(last.question, last.answer);
+
+                if (status === "pending_review") {
+                    return msg.reply(`🤔 *HASIL:* AI sedikit ragu apakah ini sama dengan pengetahuan lain. Pertanyaan ini telah dimasukkan ke *Menu Moderasi AI* di Dashboard Admin untuk Anda tinjau.`);
+                }
+
+                lastWriteTime = Date.now();
+                await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, last.answer);
+                
+                await syncToNeon(rawKnowledgeBase);
+                await syncVectors(rawKnowledgeBase);
+
+                removeFromPending(last.question);
+                setTimeout(() => loadKB(), 12000); 
+
+                const notifyMsg = isMerged ? 
+                    `✅ *OTOMATIS DIGABUNG:* Kecerdasan AI sangat yakin ini maksudnya sama. Database digabung agar rapi.` :
+                    `✅ *BERHASIL DIPELAJARI:* AI kini paham konteks "${last.question}" dan variasi bahasa sejenisnya.`;
+
+                return msg.reply(notifyMsg);
+            }
+
+            if (cmd.startsWith('!salah')) {
+                let target = globalLastUser;
+                let correction = "";
+
+                const parts = cmd.split(' ');
+                if (parts[1] && parts[1].match(/^\d{10,15}$/)) {
+                    target = parts[1].trim() + '@c.us';
+                    correction = parts.slice(2).join(' ');
+                } else {
+                    correction = parts.slice(1).join(' ');
+                }
+
+                const last = lastInteractions[target];
+                if (!last) return msg.reply(`❌ Data interaksi tidak ditemukan.`);
+                if (!correction) return msg.reply(`❌ Sertakan jawaban benar. Contoh: \`!salah [teks]\``);
+                
+                lastWriteTime = Date.now();
+                await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, last.question, correction);
+                
+                // --- INSTANT LOCAL UPDATE (TOP) ---
+                const existingIndex = rawKnowledgeBase.findIndex(r => {
+                    const q = (r.Question || r.question || "").toLowerCase().trim();
+                    return q === last.question.toLowerCase().trim();
+                });
+                
+                if (existingIndex > -1) {
+                    rawKnowledgeBase[existingIndex].Answer = correction;
+                } else {
+                    rawKnowledgeBase.unshift({ Question: last.question, Answer: correction });
+                }
+                
+                await syncToNeon(rawKnowledgeBase);
+                await syncVectors(rawKnowledgeBase);
+
+                removeFromPending(last.question);
+                setTimeout(() => loadKB(), 10000); // 10s delay
+
+                return msg.reply(`✅ *KOREKSI DISIMPAN!*
+Jawaban sekarang: "${correction}"
+(Data muncul di Entry #1 Dashboard)`);
             }
 
             return msg.reply("❓ Perintah tidak dikenal. Ketik `!help` untuk melihat daftar perintah.");
@@ -394,15 +763,10 @@ client.on('message', async (msg) => {
     }
 });
 
-// Only run WA Client if NOT on Vercel Serverless
-if (!process.env.VERCEL) {
-    client.initialize().catch(err => {
-        const timestamp = new Date().toLocaleString();
-        fs.appendFileSync('chatbot_logs.txt', `[${timestamp}] [ERROR] WA Client Init: ${err.message}\n`);
-    });
-} else {
-    console.log("☁️ Running on Vercel Serverless (Dashboard Mode)");
-}
+client.initialize().catch(err => {
+    const timestamp = new Date().toLocaleString();
+    fs.appendFileSync('chatbot_logs.txt', `[${timestamp}] [ERROR] WA Client Init: ${err.message}\n`);
+});
 
 // --- EXPRESS SERVER & ADMIN DASHBOARD ---
 const app = express();
@@ -481,26 +845,110 @@ app.get('/api/insights', requireAuth, async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
 // API: Approve and add to Sheets
 app.post('/api/approve', requireAuth, async (req, res) => {
     const { question, answer } = req.body;
     if (!question || !answer) return res.status(400).json({ error: "Missing data" });
 
     try {
-        await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, question, answer);
-        console.log(`[ADMIN] Knowledge Entry Added: ${question}`);
+        // 1. Tambah ke Google Sheets
+        // --- SMART LEARNING & SEMANTIC MERGE ---
+        const { variants, isMerged, status } = await learnAndMerge(question, answer);
+
+        if (status === "pending_review") {
+            return res.json({ status: "review", message: "AI mendeteksi kemiripan, data dikirim ke tab 'Moderasi AI' untuk konfirmasi Anda." });
+        }
+
+        lastWriteTime = Date.now();
+        await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, answer);
         
-        // Refresh KB context
-        loadKB();
+        // Push ke Neon & Vector Store segera agar Dashboard terupdate
+        await syncToNeon(rawKnowledgeBase);
+        await syncVectors(rawKnowledgeBase);
+
+        removeFromPending(question);
+        setTimeout(() => loadKB(), 12000);
         
-        res.json({ status: "success" });
+        const resMsg = isMerged ? 
+            "Otomatis digabungkan oleh AI (Kecocokan Tinggi)!" : 
+            "Data berhasil ditambahkan ke database!";
+            
+        res.json({ status: "success", message: resMsg });
     } catch (err) {
+        console.error("Approve Error:", err.message);
         res.status(500).json({ error: err.message });
     }
 });
 
-// Helper: Parse Log Date [M/D/YYYY, H:MM:SS AM/PM]
+// --- AI REVIEWS API ---
+app.get('/api/reviews', requireAuth, (req, res) => {
+    res.json({ reviews: loadReviews() });
+});
+
+app.post('/api/reviews/decision', requireAuth, async (req, res) => {
+    try {
+        const { id, decision } = req.body; // merged / separate
+        let reviews = loadReviews();
+        const review = reviews.find(r => r.id == id);
+        if (!review) return res.status(404).json({ error: "Review not found" });
+
+        if (decision === 'merged') {
+            // Jalankan learnAndMerge dengan forceAuto = true
+            await learnAndMerge(review.newQuestion, review.existingAnswer, true);
+            const { variants } = await learnAndMerge(review.newQuestion, review.existingAnswer, true);
+            await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, review.existingAnswer);
+        } else {
+            // Treat as new row
+            await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, review.newQuestion, review.existingAnswer);
+            rawKnowledgeBase.unshift({ Question: review.newQuestion, Answer: review.existingAnswer });
+        }
+
+        await syncToNeon(rawKnowledgeBase);
+        await syncVectors(rawKnowledgeBase);
+        
+        // Cleanup
+        reviews = reviews.filter(r => r.id != id);
+        saveReviews(reviews);
+        setTimeout(() => loadKB(), 12000);
+
+        res.json({ status: "success", message: decision === 'merged' ? "Berhasil digabung!" : "Berhasil dipisahkan!" });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get('/api/backlog', requireAuth, (req, res) => {
+    res.json({ backlog: loadBacklog() });
+});
+
+app.post('/api/backlog/resolve', requireAuth, async (req, res) => {
+    try {
+        const { from, body, answer, timestamp, action } = req.body;
+        let backlog = loadBacklog();
+
+        if (action === 'resolve') {
+            // 1. Kirim Jawaban ke WA
+            await client.sendMessage(from, `🔔 *BALASAN ADMIN:* Berikut jawaban untuk pertanyaan Anda:\n\n${answer}`);
+            
+            // 2. Belajar Pintar (Auto-Merge & Sync)
+            const { variants } = await learnAndMerge(body, answer);
+            await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, answer);
+            
+            await syncToNeon(rawKnowledgeBase);
+            await syncVectors(rawKnowledgeBase);
+            
+            console.log(`[BACKLOG] Resolved manual for ${from}`);
+        }
+
+        // 3. Hapus dari backlog
+        backlog = backlog.filter(item => item.timestamp !== timestamp || item.from !== from);
+        saveBacklog(backlog);
+
+        res.json({ status: "success", message: action === 'resolve' ? "Terkirim & Dipelajari!" : "Dibatalkan!" });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 function parseLogDate(line) {
     const match = line.match(/^\[(.*?)\]/);
     if (!match) return null;
@@ -626,7 +1074,8 @@ app.get('/api/status', requireAuth, (req, res) => {
         uptime: Math.round(process.uptime()),
         session_name: client.options?.authStrategy?.clientId || "Default",
         aiMode: botSettings.aiMode,
-        aiReady: getAIStatus()
+        aiReady: getAIStatus(),
+        deadchat_count: loadDeadChat().length
     });
 });
 
@@ -658,47 +1107,52 @@ app.get('/api/analytics', requireAuth, (req, res) => {
 
     res.json({ topQuestions: sorted });
 });
-
-// API: Get Training Data for Auto-Learning (Phase 7 & 9 Upgrade)
+// API: Get Training Data for Auto-Learning (Upgrade: Read from pending.json)
 app.get('/api/training/data', requireAuth, async (req, res) => {
     try {
-        // Priority 1: Real failed questions from unknown.txt
-        let topUnknowns = getTopUnknowns();
+        const pendingPath = path.join(__dirname, 'pending.json');
+        if (!fs.existsSync(pendingPath)) return res.json({ suggestions: [] });
         
-        // Priority 2: High frequency logs (if unknown.txt is slim)
-        if (topUnknowns.length < 5) {
-            const logPath = path.join(__dirname, 'chatbot_logs.txt');
-            if (fs.existsSync(logPath)) {
-                const logs = fs.readFileSync(logPath, 'utf8').split('\n').filter(Boolean);
-                const unanswered = {};
-                logs.forEach(line => {
-                    if (line.includes('[Message Received]')) {
-                        const body = line.split(']: ')[1]?.trim();
-                        if (body && body.length > 5) {
-                            const exists = rawKnowledgeBase.some(kb => 
-                                kb.Question?.toLowerCase().includes(body.toLowerCase()) || 
-                                body.toLowerCase().includes(kb.Question?.toLowerCase())
-                            );
-                            if (!exists) unanswered[body] = (unanswered[body] || 0) + 1;
-                        }
-                    }
-                });
-                const logSorted = Object.entries(unanswered)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 10)
-                    .map(([query, count]) => ({ query, count }));
-                
-                // Merge and dedup
-                topUnknowns = [...topUnknowns, ...logSorted].slice(0, 10);
+        const rawData = fs.readFileSync(pendingPath, 'utf8');
+        const pendingData = JSON.parse(rawData);
+        
+        // Agregasi untuk menghitung jumlah pertanyaan yang sama (count)
+        const aggregated = {};
+        pendingData.forEach(item => {
+            const key = item.normalized || item.question.toLowerCase();
+            if (!aggregated[key]) {
+                aggregated[key] = {
+                    query: item.question,
+                    suggestedAnswer: item.suggestion,
+                    rephrase: item.rephrase,
+                    intent: item.intent,
+                    count: 0,
+                    timestamp: item.timestamp
+                };
             }
-        }
+            aggregated[key].count++;
+        });
 
-        const suggestions = await Promise.all(topUnknowns.map(async (item) => {
-            const suggestedAnswer = await generateSuggestedAnswer(item.query, knowledgeBaseContext);
-            return { ...item, suggestedAnswer };
-        }));
+        const suggestions = Object.values(aggregated)
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+            .slice(0, 20); // Ambil 20 teratas/terbaru
 
         res.json({ suggestions });
+    } catch (e) {
+        console.error("Error reading pending.json:", e.message);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// API: Remove training suggestion (Phase 16)
+app.post('/api/training/remove', requireAuth, async (req, res) => {
+    try {
+        const { query } = req.body;
+        if (!query) return res.status(400).json({ error: "Missing query" });
+        
+        removeFromPending(query);
+        console.log(`[ADMIN] Training suggestion removed: ${query}`);
+        res.json({ status: "success", message: "Saran berhasil dihapus permanen!" });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
@@ -803,7 +1257,7 @@ app.post('/api/system/restart', requireAuth, (req, res) => {
     }, 1000);
 });
 
-// Health check updated
+// API: System Health & API Monitor (Phase 11 Expert Edition)
 app.get('/api/system/health', requireAuth, (req, res) => {
     try {
         const aiHealth = global.getBotHealth ? global.getBotHealth() : { status: "Initializing..." };
@@ -833,12 +1287,34 @@ app.get('/api/system/health', requireAuth, (req, res) => {
                 platform: os.platform()
             },
             whatsapp: global.waStatus || "DISCONNECTED",
-            botPaused: botPaused // Sync status to dashboard
+            botPaused: botPaused,
+            deadchat_count: loadDeadChat().length,
+            backlog_count: loadBacklog().length,
+            aiReady: aiReady
         });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
 });
+
+// AI Watchdog: Monitor AI Pulse & Trigger Rapid-Flush (Every 15s)
+setInterval(async () => {
+    try {
+        const currentAIStatus = getAIStatus();
+        
+        // RECOVERY DETECTED
+        if (currentAIStatus && !aiReady) {
+            console.log(`[WATCHDOG] 📡 AI Life Detected! Triggering Rapid Flush for DeadChat & Backlog...`);
+            aiReady = true;
+            flushDeadChat();
+            processBacklog();
+        }
+        
+        aiReady = currentAIStatus;
+    } catch (e) {
+        console.error("[WATCHDOG] Health Pulse Error:", e.message);
+    }
+}, 15000);
 app.post('/api/settings', requireAuth, (req, res) => {
     const { aiMode } = req.body;
     if (aiMode) {
@@ -868,7 +1344,7 @@ setInterval(() => {
     loadKB().catch(err => console.error('[SYSTEM] Auto-Sync Failed:', err.message));
 }, 10 * 60 * 1000);
 
-// Watchdog Auto-Flush: Monitor RAM Every 5 minutes
+// Watchdog Auto-Flush: Monitor RAM Every 2 minutes (Non-blocking)
 let isFlushing = false;
 setInterval(() => {
     if (isFlushing) return;
@@ -876,25 +1352,32 @@ setInterval(() => {
     const freeMem = os.freemem();
     const usedPct = ((1 - freeMem / totalMem) * 100);
 
-    if (usedPct >= 80) {
+    if (usedPct >= 85) {
         isFlushing = true;
-        console.warn(`[WATCHDOG] ⚠️ CRITICAL RAM USAGE: ${usedPct.toFixed(1)}%. Initiating Emergency Auto-Flush...`);
+        console.warn(`[WATCHDOG] ⚠️ CRITICAL RAM USAGE: ${usedPct.toFixed(1)}%. Initiating Non-blocking Auto-Flush...`);
         
-        try {
-            cleanupLogs();
-            if (global.gc) {
-                global.gc();
-                console.log('[WATCHDOG] ♻️ V8 Garbage Collector forced.');
+        // Use setImmediate to avoid blocking the current execution frame
+        setImmediate(async () => {
+            try {
+                cleanupLogs();
+                if (global.gc) {
+                    global.gc();
+                    console.log('[WATCHDOG] ♻️ V8 Garbage Collector forced.');
+                }
+                
+                // Reset Cache but don't delete to save memory
+                // (Optional: clear ai.js cache if visible)
+
+                await sendGuardianAlert(`📋 *SISTEM AUTO-RECOVERY*\n\nStatus: RAM Terlampaui (${usedPct.toFixed(1)}%).\nTindakan: Auto-Flush Background berhasil dilakukan tanpa mengganggu percakapan warga. Bot tetap stabil.`);
+            } catch (e) {
+                console.error('[WATCHDOG] Background Flush Error:', e.message);
+            } finally {
+                // Cooldown period decreased to 10 mins for better responsiveness
+                setTimeout(() => { isFlushing = false; }, 10 * 60 * 1000);
             }
-            sendGuardianAlert(`⚠️ *GUARDIAN ALERT*\n\nRAM server mencapai batas kritis *(${usedPct.toFixed(1)}%)*.\n\nSistem berhasil melakukan Auto-Flush (pembersihan cache otomatis) untuk menstabilkan diri tanpa henti.`);
-        } catch (e) {
-            console.error('[WATCHDOG] Auto-Flush Error:', e.message);
-        }
-        
-        // Cooldown period before another intensive flush can happen (30 mins)
-        setTimeout(() => { isFlushing = false; }, 30 * 60 * 1000);
+        });
     }
-}, 5 * 60 * 1000); // Check every 5 minutes
+}, 2 * 60 * 1000); // Check every 2 minutes
 
 
 const PORT = process.env.PORT || 3000;

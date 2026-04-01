@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchRecipients();
         } else if (tabId === 'training') {
             fetchTrainingData();
+        } else if (tabId === 'moderation') {
+            fetchReviews();
+        } else if (tabId === 'backlog') {
+            fetchBacklog();
+            updateInterval = setInterval(fetchBacklog, 5000);
         } else if (tabId === 'system') {
             fetchSystemHealth();
             updateInterval = setInterval(fetchSystemHealth, 5000);
@@ -97,7 +102,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastAIReady = data.aiReady;
             }
 
-            // Status Dot Pulse
+            // Review Badge Sync
+            const badge = document.getElementById('review-badge');
+            if (badge) {
+                const rRes = await fetch('/api/reviews');
+                const rData = await rRes.json();
+                if (rData.reviews && rData.reviews.length > 0) {
+                    badge.classList.remove('hidden');
+                    badge.innerText = rData.reviews.length;
+                    badge.className = "absolute -top-1 -right-1 bg-sky-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce";
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+
+            // Sync Dot Pulse
             const statusDot = document.getElementById('status-dot');
             if (data.status === "Connected") {
                 statusDot.classList.add('bg-emerald-500');
@@ -210,11 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Saran Jawaban (Draf)</label>
                             <textarea id="tg-ans-${i}" class="w-full text-sm bg-slate-50 border border-slate-100 rounded-2xl p-4 focus:ring-2 focus:ring-sky-500/10 focus:border-sky-500 outline-none h-32 leading-relaxed transition-all">${item.suggestedAnswer}</textarea>
                             <div class="flex gap-3 mt-4">
-                                <button onclick="approveTraining('${i}', '${encodeURIComponent(item.query)}')" class="flex-1 bg-emerald-500 text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-100">
+                                <button id="btn-approve-${i}" onclick="approveTraining('${i}', '${encodeURIComponent(item.query)}')" class="flex-1 bg-emerald-500 text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-100">
                                     <i data-lucide="check" class="w-4 h-4"></i>
                                     <span>Setujui & Tambah</span>
                                 </button>
-                                <button class="px-5 border border-slate-100 rounded-2xl text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-all">
+                                <button onclick="window.removeTrainingSuggestion('${encodeURIComponent(item.query)}')" class="px-5 border border-slate-100 rounded-2xl text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-all">
                                     <i data-lucide="x" class="w-4 h-4"></i>
                                 </button>
                             </div>
@@ -232,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.approveTraining = async (idx, queryEncoded) => {
         const query = decodeURIComponent(queryEncoded);
         const answer = document.getElementById(`tg-ans-${idx}`).value;
-        const btn = event.currentTarget;
+        const btn = document.getElementById(`btn-approve-${idx}`);
         
         btn.disabled = true;
         const originalContent = btn.innerHTML;
@@ -249,13 +268,35 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 showNotification('✅ Pengetahuan baru berhasil dipelajari!');
                 fetchTrainingData(); 
+                fetchKB();
                 fetchStatus();
             }
         } catch (e) {
             showNotification('Gagal menyimpan data', 'error');
-            btn.disabled = false;
-            btn.innerHTML = originalContent;
-            if (window.lucide) lucide.createIcons();
+            const btn = document.getElementById(`btn-approve-${idx}`);
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = 'Setujui & Tambah';
+            }
+        }
+    };
+    
+    window.removeTrainingSuggestion = async (queryEncoded) => {
+        const query = decodeURIComponent(queryEncoded);
+        if (!confirm(`Hapus saran untuk "${query}" secara permanen?`)) return;
+        
+        try {
+            const res = await fetch('/api/training/remove', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query })
+            });
+            if (res.ok) {
+                showNotification('🗑️ Saran berhasil dihapus permanen!');
+                fetchTrainingData();
+            }
+        } catch (e) {
+            showNotification('Gagal menghapus saran', 'error');
         }
     };
 
@@ -766,24 +807,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 lucide.createIcons();
             }
 
-            // 7. Update Health Checklist Icons (Phase 12)
+            // 7. Update Health Checklist Icons (Updated for Multi-Model)
             const updateCheck = (id, ok) => {
                 const el = document.getElementById(id);
                 if (!el) return;
                 if (ok) {
-                    el.innerHTML = '<i data-lucide="check-circle-2" class="w-3 h-3"></i> OK';
-                    el.className = "font-bold text-emerald-500 flex items-center gap-1";
+                    el.innerHTML = '<i data-lucide="check-circle-2" class="w-3 h-3"></i> READY';
+                    el.className = "font-bold text-emerald-500 flex items-center gap-1 transition-all";
                 } else {
                     el.innerHTML = '<i data-lucide="x-circle" class="w-3 h-3"></i> ERROR';
-                    el.className = "font-bold text-rose-500 flex items-center gap-1";
+                    el.className = "font-bold text-rose-500 flex items-center gap-1 transition-all";
                 }
             };
             
-            // Logic: If active index found and model used, AI is OK.
-            updateCheck('health-ai', (data.activeIndex !== undefined && data.modelUsed));
-            // Logic: If uptime exists, spreadsheet is likely OK (fetched on start).
-            updateCheck('health-sheet', (data.uptime > 0));
-            updateCheck('health-vector', true); // Vector DB is local/stable
+            updateCheck('health-ds', data.deepseekReady);
+            updateCheck('health-gemini', data.geminiReady);
+            updateCheck('health-mistral', data.mistralReady);
+            updateCheck('health-ollama', data.ollamaReady);
+            updateCheck('health-vector', true);
+            
+            const uptimeMsg = `${hours}h ${mins}m`;
+            document.getElementById('stat-uptime').innerText = uptimeMsg;
+            
+            // Sync Global Badges
+            updateSystemBadges();
             lucide.createIcons();
 
         } catch (e) {
@@ -901,10 +948,203 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // --- MODERATION LOGIC ---
+    async function fetchReviews() {
+        const container = document.getElementById('review-list');
+        if (!container) return;
+
+        try {
+            const res = await fetch('/api/reviews');
+            const data = await res.json();
+            
+            if (!data.reviews || data.reviews.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-20 text-center opacity-40 italic">
+                        <i data-lucide="coffee" class="w-12 h-12 mx-auto mb-4"></i>
+                        Semua niat sudah rapi dan jelas. Belum ada antrean moderasi baru.
+                    </div>
+                `;
+                if (window.lucide) lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = data.reviews.map(r => `
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-soft space-y-4 animate-fade">
+                    <div class="flex justify-between items-start">
+                        <div class="px-3 py-1 bg-sky-50 text-sky-600 rounded-full text-[10px] font-black uppercase tracking-widest">
+                            Kemiripan ${(r.score * 100).toFixed(1)}%
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono">${new Date(r.timestamp).toLocaleString()}</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="p-4 bg-purple-50 rounded-2xl border border-purple-100">
+                            <label class="text-[9px] font-bold text-purple-400 uppercase tracking-widest block mb-1">Pertanyaan Baru (User)</label>
+                            <p class="text-sm font-bold text-purple-900">"${r.newQuestion}"</p>
+                        </div>
+                        <div class="flex justify-center -my-2 relative z-10">
+                            <div class="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400">
+                                <i data-lucide="git-branch" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-sky-50 rounded-2xl border border-sky-100">
+                            <label class="text-[9px] font-bold text-sky-400 uppercase tracking-widest block mb-1">Pengetahuan Terkait (Database)</label>
+                            <p class="text-sm font-bold text-sky-900">"${r.matchedQuestion}"</p>
+                            <p class="text-[10px] text-sky-600 mt-2 line-clamp-2 italic">A: ${r.existingAnswer}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button onclick="window.submitReviewDecision(${r.id}, 'merged')" class="bg-sky-500 text-white rounded-xl py-3 text-xs font-bold hover:bg-sky-600 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="merge" class="w-4 h-4"></i>
+                            Ya, Gabungkan
+                        </button>
+                        <button onclick="window.submitReviewDecision(${r.id}, 'separate')" class="border border-slate-200 text-slate-600 rounded-xl py-3 text-xs font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="split" class="w-4 h-4"></i>
+                            Beda, Pisahkan
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            if (window.lucide) lucide.createIcons();
+        } catch (e) {
+            container.innerHTML = `<div class="p-10 text-rose-500 font-bold">Error: ${e.message}</div>`;
+        }
+    }
+
+    window.submitReviewDecision = async (id, decision) => {
+        try {
+            const res = await fetch('/api/reviews/decision', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, decision })
+            });
+            const data = await res.json();
+            
+            if (data.status === 'success') {
+                showNotification(`✅ ${data.message}`);
+                fetchReviews();
+                setTimeout(fetchKB, 1500);
+            }
+        } catch (e) {
+            showNotification(`❌ Gagal: ${e.message}`);
+        }
+    };
+
+    // --- BACKLOG LOGIC ---
+    async function fetchBacklog() {
+        const container = document.getElementById('backlog-list');
+        if (!container) return;
+
+        try {
+            const res = await fetch('/api/backlog');
+            const data = await res.json();
+            
+            if (!data.backlog || data.backlog.length === 0) {
+                container.innerHTML = `<div class="py-20 text-center opacity-40 italic">Semua antrean kosong. Pelayanan berjalan lancar!</div>`;
+                return;
+            }
+
+            container.innerHTML = data.backlog.map(item => `
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-soft space-y-6 animate-fade">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center font-bold">
+                                <i data-lucide="user" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">${item.from}</h4>
+                                <p class="text-[10px] text-slate-400 font-mono uppercase tracking-widest">${item.timestamp}</p>
+                            </div>
+                        </div>
+                        <div class="px-3 py-1 bg-rose-50 text-rose-600 rounded-full text-[10px] font-black italic">PENDING AS BUSY</div>
+                    </div>
+
+                    <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                        <label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Pesan Warga:</label>
+                        <p class="text-sm font-bold text-slate-800 italic">"${item.body}"</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <textarea id="reply-${item.timestamp.replace(/\W/g,'')}" placeholder="Ketik jawaban resmi Anda di sini..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-rose-500/20 outline-none transition-all resize-none"></textarea>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="window.resolveBacklog('${item.from}', '${item.body}', '${item.timestamp}', 'resolve')" class="btn-premium py-4 justify-center">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                                Kirim & Masukkan Memori
+                            </button>
+                            <button onclick="window.resolveBacklog('${item.from}', '${item.body}', '${item.timestamp}', 'delete')" class="border border-slate-200 text-slate-400 rounded-2xl py-4 text-sm font-bold hover:bg-rose-50 hover:text-rose-500 transition-all">
+                                Abaikan & Hapus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            if (window.lucide) lucide.createIcons();
+        } catch (e) {
+            container.innerHTML = `<div class="p-10 text-rose-500 font-bold">Error: ${e.message}</div>`;
+        }
+    }
+
+    window.resolveBacklog = async (from, body, timestamp, action) => {
+        try {
+            const safeId = timestamp.replace(/\W/g,'');
+            const answer = document.getElementById(`reply-${safeId}`)?.value || "";
+            if (action === 'resolve' && !answer) return showNotification("❌ Ketik jawaban dulu!");
+
+            const res = await fetch('/api/backlog/resolve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ from, body, answer, timestamp, action })
+            });
+            const data = await res.json();
+            
+            if (data.status === 'success') {
+                showNotification(`✅ ${data.message}`);
+                fetchBacklog();
+                if (action === 'resolve') setTimeout(fetchKB, 2000);
+            }
+        } catch (e) {
+            showNotification(`❌ Error: ${e.message}`);
+        }
+    };
+
+    // Periodic Check for Badges (Reviews & Backlog)
+    async function updateSystemBadges() {
+        try {
+            // 1. Moderation Badge
+            const rBadge = document.getElementById('review-badge');
+            const rRes = await fetch('/api/reviews');
+            const rData = await rRes.json();
+            if (rData.reviews && rData.reviews.length > 0) {
+                rBadge.innerText = rData.reviews.length;
+                rBadge.classList.remove('hidden');
+                rBadge.className = "absolute -top-1 -right-1 bg-sky-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce";
+            } else {
+                rBadge.classList.add('hidden');
+            }
+
+            // 2. Backlog Badge
+            const bBadge = document.getElementById('backlog-badge');
+            const bRes = await fetch('/api/backlog');
+            const bData = await bRes.json();
+            if (bData.backlog && bData.backlog.length > 0) {
+                const count = bData.backlog.length;
+                if (bBadge.innerText != count && !isMuted) playNotification();
+                bBadge.innerText = count;
+                bBadge.classList.remove('hidden');
+                bBadge.className = "absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse";
+            } else {
+                bBadge.classList.add('hidden');
+            }
+        } catch(e) {}
+    }
+
     // Initialization
     fetchStatus();
     initCharts();
     fetchAnalytics();
     setInterval(fetchStatus, 10000);
     setInterval(fetchAnalytics, 15000);
+    setInterval(updateSystemBadges, 8000);
 });
