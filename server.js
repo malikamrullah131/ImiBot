@@ -12,6 +12,7 @@ const { fetchSpreadsheetData, addKnowledgeBaseEntry } = require('./sheets');
 const { askGemini, findDirectAnswer, getAIStatus, logUnknown } = require('./ai');
 const { trackEvent, getInsights, generateSuggestedAnswer, getTopUnknowns } = require('./analytics');
 const { syncVectors } = require('./vectorStore');
+const { initDb, syncToNeon, fetchFromNeon } = require('./db');
 
 // --- WHATSAPP CLIENT SETUP (ULTRA-LITE MODE) ---
 const client = new Client({
@@ -65,6 +66,19 @@ async function sendGuardianAlert(message) {
     }
 }
 
+async function logToNeon(userId, question, answer, type = 'chat') {
+    if (!process.env.DATABASE_URL) return;
+    try {
+        const { pool } = require('./db');
+        await pool.query(
+            'INSERT INTO chatbot_logs (user_id, question, answer, log_type) VALUES ($1, $2, $3, $4)',
+            [userId, question, answer, type]
+        );
+    } catch (e) {
+        console.error('❌ Failed to log to Neon:', e.message);
+    }
+}
+
 // --- LOG ROTATION (RAM FIX) ---
 function cleanupLogs() {
     const logPairs = [
@@ -86,46 +100,110 @@ function cleanupLogs() {
 }
 cleanupLogs(); // Run on every restart
 
+async function pushHeartbeat() {
+    if (!process.env.DATABASE_URL) return;
+    try {
+        const { pool } = require('./db');
+        const totalMem = os.totalmem();
+        const freeMem = os.freemem();
+        const ramUsage = ((1 - freeMem / totalMem) * 100).toFixed(1);
+        const uptime = Math.round(process.uptime());
+        
+        await pool.query(
+            'UPDATE system_status SET bot_status = $1, wa_status = $2, uptime = $3, ram_usage = $4, last_updated = CURRENT_TIMESTAMP WHERE id = 1',
+            [botPaused ? 'PAUSED' : 'RUNNING', global.waStatus || 'UNKNOWN', uptime, ramUsage]
+        );
+    } catch (e) {
+        // Silent fail
+    }
+}
+// First pulse (Skip if on Vercel)
+if (!process.env.VERCEL) {
+    setInterval(pushHeartbeat, 30000); // Pulse every 30 seconds
+    pushHeartbeat(); 
+}
+
 client.on('qr', (qr) => {
-    console.log('\n--- SCAN THIS QR CODE WITH YOUR WHATSAPP ---\n');
+    const timestamp = new Date().toLocaleString();
+    const logMsg = `[${timestamp}] [STATUS] QR Code generated. Please scan!`;
+    console.log(`\n--- SCAN THIS QR CODE WITH YOUR WHATSAPP ---\n`);
     qrcode.generate(qr, { small: true });
+    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
     global.waStatus = "SCAN_QR";
 });
 
 client.on('authenticated', () => {
-    console.log('WhatsApp authenticated!');
+    const timestamp = new Date().toLocaleString();
+    const logMsg = `[${timestamp}] [STATUS] WhatsApp authenticated!`;
+    console.log(logMsg);
+    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
     global.waStatus = "AUTHENTICATED";
 });
 
 client.on('ready', async () => {
-    console.log('WhatsApp Bot is ready and connected!');
+    const timestamp = new Date().toLocaleString();
+    const logMsg = `[${timestamp}] [STATUS] WhatsApp Bot is ready and connected!`;
+    console.log(logMsg);
+    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
     global.waStatus = "READY";
+    
+    // Initialize Database
+    await initDb();
     loadKB();
 });
 
 client.on('disconnected', (reason) => {
-    console.log('WhatsApp disconnected:', reason);
+    const timestamp = new Date().toLocaleString();
+    const logMsg = `[${timestamp}] [STATUS] WhatsApp disconnected: ${reason}`;
+    console.log(logMsg);
+    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
     global.waStatus = "DISCONNECTED";
 });
 
-client.on('auth_failure', () => {
+client.on('auth_failure', (msg) => {
+    const timestamp = new Date().toLocaleString();
+    const logMsg = `[${timestamp}] [STATUS] AUTHENTICATION FAILURE: ${msg}`;
+    console.log(logMsg);
+    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
     global.waStatus = "AUTH_FAILURE";
 });
 
 async function loadKB() {
-    console.log('Fetching data from Google Sheets...');
+    console.log('🔄 Fetching knowledge base...');
     try {
-        if (!process.env.GOOGLE_SCRIPT_WEB_APP_URL) {
-            console.warn('WARNING: GOOGLE_SCRIPT_WEB_APP_URL is not set in .env file.');
-        } else {
-            const data = await fetchSpreadsheetData(process.env.GOOGLE_SCRIPT_WEB_APP_URL);
-            knowledgeBaseContext = data.context;
-            rawKnowledgeBase = data.raw;
-            console.log('Spreadsheet data loaded successfully!');
-            await syncVectors(rawKnowledgeBase);
+        let dataFromSheets = null;
+        if (process.env.GOOGLE_SCRIPT_WEB_APP_URL) {
+            dataFromSheets = await fetchSpreadsheetData(process.env.GOOGLE_SCRIPT_WEB_APP_URL);
+            if (dataFromSheets && dataFromSheets.raw && dataFromSheets.raw.length > 0) {
+                knowledgeBaseContext = dataFromSheets.context;
+                rawKnowledgeBase = dataFromSheets.raw;
+                console.log('✅ Spreadsheet data loaded successfully!');
+                
+                // --- AUTO-TRANSFER TO NEON ---
+                if (process.env.DATABASE_URL) {
+                    console.log('📦 Syncing to Neon Database...');
+                    await syncToNeon(rawKnowledgeBase);
+                }
+                
+                await syncVectors(rawKnowledgeBase);
+                return;
+            }
+        }
+
+        // --- FALLBACK TO NEON ---
+        if (process.env.DATABASE_URL) {
+            console.log('📦 Falling back to Neon Database...');
+            const dbData = await fetchFromNeon();
+            if (dbData && dbData.length > 0) {
+                rawKnowledgeBase = dbData;
+                knowledgeBaseContext = "KNOWLEDGE BASE DATA FROM NEON DB:\n" + 
+                    dbData.map((row, i) => `Entry ${i+1}:\n- Question: ${row.Question}\n- Answer: ${row.Answer}\n`).join("\n");
+                console.log('✅ Data loaded from Neon Database!');
+                await syncVectors(rawKnowledgeBase);
+            }
         }
     } catch (err) {
-        console.error('Error loading KB:', err.message);
+        console.error('❌ Error loading KB:', err.message);
     }
 }
 
@@ -193,6 +271,9 @@ async function processQueue() {
             fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), aiLogEntry);
             
             await client.sendMessage(item.from, reply);
+            
+            // Log to Neon
+            await logToNeon(item.from, item.body, reply, 'chat');
         } catch (error) {
             console.error('Error in queue processing:', error);
             // Critical: Alert Admin if AI/System error detected
@@ -209,20 +290,23 @@ async function processQueue() {
 }
 
 client.on('message', async (msg) => {
-    // Robust admin check using contact lookup (handles @lid and @c.us)
+    // Robust admin check (Handles multiple formats)
     let isFromAdmin = false;
     try {
         const contact = await msg.getContact();
-        const contactNum = contact.number || ''; // actual phone digits e.g. "6287729391757"
-        const adminNum = ADMIN_WA_NUMBER.replace('@c.us', '').replace('@lid', '');
-        // Match if contact number ends with admin digits (handles leading 62 vs 0)
-        isFromAdmin = contactNum === adminNum ||
-                      contactNum.endsWith(adminNum.slice(-9)) ||
-                      adminNum.endsWith(contactNum.slice(-9));
+        const contactNum = (contact.number || '').replace(/\D/g, ''); // "6287729391757"
+        const adminNumClean = ADMIN_WA_NUMBER.replace(/\D/g, '');    // "6287729391757"
+        
+        isFromAdmin = (contactNum === adminNumClean) || 
+                      (msg.from.includes(adminNumClean)) || 
+                      (msg.author && msg.author.includes(adminNumClean));
+                      
+        // Extra debug for admin login failure
+        if (msg.body && msg.body.startsWith('!') && !isFromAdmin) {
+            console.warn(`[Security] Unauthorized admin attempt from ${msg.from}: ${msg.body}`);
+        }
     } catch (e) {
-        // Fallback: direct string check
-        isFromAdmin = (msg.from === ADMIN_WA_NUMBER) ||
-                      (msg.author === ADMIN_WA_NUMBER);
+        isFromAdmin = (msg.from === ADMIN_WA_NUMBER) || (msg.author === ADMIN_WA_NUMBER);
     }
 
     // --- ADMIN COMMANDS ---
@@ -310,7 +394,15 @@ client.on('message', async (msg) => {
     }
 });
 
-client.initialize();
+// Only run WA Client if NOT on Vercel Serverless
+if (!process.env.VERCEL) {
+    client.initialize().catch(err => {
+        const timestamp = new Date().toLocaleString();
+        fs.appendFileSync('chatbot_logs.txt', `[${timestamp}] [ERROR] WA Client Init: ${err.message}\n`);
+    });
+} else {
+    console.log("☁️ Running on Vercel Serverless (Dashboard Mode)");
+}
 
 // --- EXPRESS SERVER & ADMIN DASHBOARD ---
 const app = express();
@@ -318,11 +410,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'MalikGanteng';
 
 // Auth Middleware (Phase 9 Upgrade)
 function requireAuth(req, res, next) {
-    if (req.cookies.auth === ADMIN_PASSWORD) {
+    const authCookie = req.cookies.auth || '';
+    if (authCookie.toLowerCase() === ADMIN_PASSWORD.toLowerCase()) {
         next();
     } else {
         // Check if requester wants JSON or HTML
@@ -341,9 +434,8 @@ app.get('/login', (req, res) => {
 // JSON Login API for ultra-smooth transitions
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
-    if (password === ADMIN_PASSWORD) {
-        // Set cookie for 24 hours
-        res.cookie('auth', ADMIN_PASSWORD, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    if (password && password.trim().toLowerCase() === ADMIN_PASSWORD.toLowerCase()) {
+        res.cookie('auth', ADMIN_PASSWORD, { maxAge: 86400000 * 7, httpOnly: true, sameSite: 'lax' });
         res.json({ success: true });
     } else {
         res.status(401).json({ success: false });

@@ -1,0 +1,11 @@
+.wwebjs_auth
+node_modules
+.env
+*.log
+chatbot_logs.txt
+session
+.vercel
+.git
+.gitignore
+sa-min.json
+add_envs.ps1

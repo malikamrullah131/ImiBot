@@ -106,8 +106,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusDot.classList.remove('bg-emerald-500');
                 statusDot.classList.add('bg-rose-500');
             }
+
+            // Cloud Sync Status (Hybrid Update)
+            const cloudBadge = document.getElementById('cloud-sync-badge');
+            if (cloudBadge) {
+                cloudBadge.innerText = (data.status === "Connected" ? "● CLOUD LIVE" : "● SYNCING...");
+                cloudBadge.className = `px-2 py-0.5 rounded text-[8px] font-black uppercase ${data.status === "Connected" ? 'text-emerald-500 bg-emerald-50' : 'text-amber-500 bg-amber-50 animate-pulse'}`;
+            }
+
         } catch (e) {
             console.error("Status fetch error", e);
+            const cloudBadge = document.getElementById('cloud-sync-badge');
+            if (cloudBadge) {
+                cloudBadge.innerText = "● OFFLINE";
+                cloudBadge.className = "px-2 py-0.5 rounded text-[8px] font-black uppercase text-rose-500 bg-rose-50";
+            }
         }
     }
 
