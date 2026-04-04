@@ -4,90 +4,89 @@
 
 ---
 
-## 🌟 Arsitektur Sistem (Cyber-Resilient)
+## 🌟 Arsitektur Sistem (Cyber-Resilient v3.5)
 
 ```
 Pesan WhatsApp
       │
       ▼
 ┌─────────────────┐
-│  Rule Engine     │ ◄── Jawaban kilat (0ms)
+│ ⚡ FAST PATH     │ ◄── Rule Engine + Keyword Cache (0-5ms)
 └────────┬────────┘
-         │ (Belum cocok)
+         │ (Cache Miss)
          ▼
 ┌─────────────────┐
-│  Smart Cache     │ ◄── Keyword-sorted cache (5ms)
+│ 🔍 SEMANTIC DB   │ ◄── NeonDB + pgvector (Embedding Search)
 └────────┬────────┘
-         │ (Cache miss)
+         │ (Complex Query)
          ▼
-┌─────────────────┐
-│  DB + Semantic   │ ◄── NeonDB + pgvector (Embedding)
-└────────┬────────┘
-         │ (Kasus Kompleks)
-         ▼
-┌─────────────────────────────────┐
-│  🧠 AI DISPATCHER (Multi-Model) │ ◄── Llama 3.3 / Qwen / DeepSeek
-└────────────────┬────────────────┘
-                 │ (Fail / Limit 429)
-                 ▼
-┌─────────────────────────────────┐
-│  🛡️ ULTIMATE FALLBACK (SDK)     │ ◄── Direct Google Gemini 1.5 Flash/Pro
-└────────────────┬────────────────┘
-                 │
-                 ▼
-         Jawaban Final WhatsApp
+┌───────────────────────────────────────┐
+│ 🧠 AI DISPATCHER (Load Balanced)      │ ◄── Multi-Key API Rotation
+│ (Llama 3.3 / Qwen / Claude / DeepSeek)│
+└───────────────────┬───────────────────┘
+                    │ (API Fail/Limit 429)
+                    ▼
+┌───────────────────────────────────────┐
+│ 🛡️ ULTIMATE FALLBACK (SDK DIRECT)     │ ◄── Gemini 1.5 Flash ➔ Pro
+└───────────────────┬───────────────────┘
+                    │
+                    ▼
+         ✅ JAWABAN FINAL WHATSAPP
 ```
 
 ---
 
-## 🚀 Fitur Utama (v3.5 - Elite Edition)
+## 🚀 Fitur Unggulan (Elite Edition)
 
-### 1. 🛡️ Ultimate Fallback (Direct-to-Silicon)
-- **Direct Google SDK**: Jika OpenRouter (perantara) mengalami gangguan besar atau limit saldo, bot secara otomatis berpindah ke jalur darurat menggunakan Google Generative AI SDK.
-- **Tiered SDK Fallback**: Mencoba `Gemini 1.5 Flash` (kecepatan) terlebih dahulu, jika gagal otomatis berpindah ke `Gemini Pro` (stabilitas).
+### 1. 🌐 Cloud Deployment & Remote Access
+- **Remote QR Web**: Menampilkan QR code login WhatsApp langsung di Dashboard Admin untuk kemudahan koneksi jarak jauh (Cloud Ready).
+- **Mobile-First Dashboard**: Navigasi bot yang dioptimalkan untuk perangkat mobile dengan **Bottom Navigation Bar** yang intuitif.
 
-### 2. 💎 Premium Startup & Branding
-- **ASCII Terminal Art**: Sambutan visual profesional saat bot dijalankan di server.
-- **Admin Welcome Greeting**: Bot mengirimkan pesan sapaan hangat ke WhatsApp Admin segera setelah sistem online dan siap melayani warga.
+### 2. 🛡️ Kecahanan API & System Guardian
+- **Ultimate Fallback (Direct-to-Silicon)**: Jalur darurat langsung ke Google Generative AI SDK, melewati perantara (OpenRouter) saat terjadi gangguan massal.
+- **Multi-Key API Rotation**: Rotasi otomatis antara beberapa kunci API untuk memaksimalkan kuota harian (Free Tier Bypass).
+- **Guardian Pulse Watchdog**: Monitor 24/7 yang secara otomatis merestart sistem, membersihkan sampah cache, dan memulihkan sesi WhatsApp jika terdeteksi kegagalan.
 
-### 3. 🪟 Dashboard Glassmorphism (Cyber-UI)
-- **Futuristic Design**: Tampilan dashboard admin menggunakan efek *blur* transparan (Glassmorphism) yang bersih dan elegan (Aero Aesthetic).
-- **AI Intelligence Pulse**: Indikator visual real-time di dashboard yang berdenyut (pulse) saat AI sedang "berpikir" memproses pesan warga.
+### 3. 🎨 Visual Experience (Aero Glass)
+- **Glassmorphism Design**: Dashboard admin futuristik dengan latar belakang blur transparan yang elegan.
+- **AI Thinking Pulse**: Indikator visual real-time yang menyala saat AI sedang memproses nalar hukum untuk warga.
+- **Performance Analytics**: Grafik resolusi pertanyaan (RAG) dan statistik performa sistem secara visual.
 
-### 4. 🧠 Self-Learning & Intent Expansion
-- **Training Room 2.0**: Mempelajari pertanyaan baru yang belum ada di database secara otomatis dengan fitur *suggested variants*.
-- **Keyword Enrichment**: Mengidentifikasi konteks dan makna yang sama untuk memperluas jangkauan jawaban tanpa menambah data manual.
+### 4. 🧠 Intelligence & Learning System
+- **Training Room 2.0**: Moderasi pintar dengan saran varian pertanyaan dari AI untuk memperkaya pangkalan data.
+- **Google Sheets Automated Sync**: Sinkronisasi dua arah antara database lokal, Neon DB, dan Google Spreadsheet pusat.
+- **Smart Intention (!benar / !salah)**: Bot belajar langsung dari koreksi Admin via WhatsApp untuk meningkatkan akurasi secara permanen.
 
-### 5. 🚑 Guardian Self-Recovery
-- **Guardian Process**: Skrip `guardian.js` yang memantau server 24/7. Jika terjadi crash atau RAM melampaui batas, sistem akan melakukan *auto-restart* dalam 5 detik.
-- **RAM Guardian**: Ambang batas otomatis (92%) untuk pembersihan log dan cache guna menjaga stabilitas server Windows.
+### 5. 📢 Broadcast & Moderation Pro
+- **Smart Broadcast**: Kirim pesan pengumuman massal ke ribuan warga dengan jeda acak (anti-ban) dan filter waktu (aktif 24 jam, 7 hari, dsb).
+- **Emergency Backlog**: Antrean khusus untuk pesan yang gagal terjawab AI, memungkinkan Admin menjawab secara manual tanpa kehilangan konteks.
 
 ---
 
 ## 📊 Admin Command Center (WhatsApp)
-| Perintah | Fungsi |
-|---|---|
-| `!status` | RAM, Uptime, jumlah Antrean, status koneksi |
-| `!think` | Audit AI Brain terhadap respons terakhir |
-| `!benar` | Konfirmasi jawaban terakhir sudah benar |
-| `!salah [jawaban]` | Koreksi jawaban dan simpan ke database |
-| `!pause` / `!resume` | Jeda / aktifkan bot secara manual |
-| `!clean` | Bersihkan cache & log lama secara mendalam |
-| `!restart` | Restart sistem secara remote (via Guardian) |
+Kelola bot Anda secara remote langsung dari aplikasi WhatsApp dengan perintah berikut:
+
+| Perintah | Fungsi Utama | Detail Teknis |
+|---|---|---|
+| `!status` | **Cek Kesehatan** | Menampilkan RAM, Uptime, Sesi WA, & jumlah Antrean. |
+| `!sync` | **Sync Darurat** | Ambil data dari Google Sheets & sinkron ke Neon DB. |
+| `!logs` | **Audit Cepat** | Menampilkan 10 baris aktivitas/error terbaru di server. |
+| `!pause` / `!stop` | **Jeda Bot** | Menghentikan bot menjawab warga sementara waktu. |
+| `!resume` / `!start` | **Aktifkan Bot** | Menyalakan kembali bot setelah dijeda. |
+| `!restart` / `!reboot`| **Reboot Sistem** | Mematikan proses Node.js (Auto-restart via Guardian). |
+| `!reindex` | **Upgrade Vektor** | Menghitung ulang embedding memori dengan model terbaru. |
+| `!expand` | **AI Keyword** | Panggil AI untuk mencari variasi kata kunci baru secara cerdas. |
+| `!clean` | **Cleanup** | Menghapus log lama & cache untuk mengosongkan RAM. |
+| `!ceklastvar` | **Review Belajar** | Melihat varian kata kunci terakhir yang dipelajari AI. |
+| `!cek [nomor]` | **Intip Chat** | Melihat pertanyaan & jawaban terakhir dari user tertentu. |
+| `!think [nomor]` | **AI Reflection** | Minta AI mengaudit logikanya sendiri terhadap chat terakhir. |
+| `!benar [nomor]` | **Verify Correct** | Konfirmasi jawaban AI benar & simpan permanen ke Memori. |
+| `!salah [teks]` | **Quick Fix** | Koreksi jawaban salah & simpan sebagai pengetahuan baru. |
+| `!help` | **Manual Book** | Menampilkan daftar lengkap perintah yang tersedia. |
 
 ---
 
-## 🛠️ Persyaratan Sistem
-| Komponen | Detail |
-|---|---|
-| Node.js | v18+ (Disarankan v20+) |
-| Database | Neon DB (PostgreSQL Cloud) |
-| AI Pipeline | OpenRouter (Core) + Google Gemini SDK (Fallback) |
-| WhatsApp | `whatsapp-web.js` + Puppeteer (No-Headless Ready) |
-
----
-
-## 📦 Instalasi & Konfigurasi
+## 🛠️ Persyaratan & Instalasi
 
 ```bash
 # 1. Install dependencies
@@ -95,19 +94,16 @@ npm install
 
 # 2. Konfigurasi .env
 # Isi variabel berikut di file .env:
-OPENROUTER_API_KEY="sk-or-v1-..."   # Primary AI (Qwen + Claude)
-QWEN_MODEL="qwen/qwen3.6-plus:free"
-OPENCLAW_BASE_URL="https://openrouter.ai/api/v1"
-OPENCLAW_MODEL="anthropic/claude-3.5-sonnet"
-GEMINI_API_KEY="..."                 # Cadangan
-DATABASE_URL="postgresql://..."      # Neon DB
+OPENROUTER_API_KEY="sk-or-v1-..."   # Primary AI (Dispatcher)
+GEMINI_API_KEY="..."                 # Cadangan / Fallback Direct
+DATABASE_URL="postgresql://..."      # Neon DB (pgvector)
 GOOGLE_SCRIPT_WEB_APP_URL="..."     # Google Sheets Sync
 ADMIN_PASSWORD="..."                 # Dashboard login
 
-# 3. Jalankan (dengan Garbage Collector aktif)
-node --expose-gc server.js
+# 3. Jalankan Bot (Guardian Mode)
+npm start
 
-# 4. Scan QR Code di terminal via WhatsApp
+# 4. Scan QR Code di dashboard atau terminal via WhatsApp
 ```
 
 ---

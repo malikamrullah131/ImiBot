@@ -691,10 +691,31 @@ client.on('message', async (msg) => {
                 return msg.reply("▶️ *Bot aktif kembali.*\nBot sekarang siap melayani warga.");
             }
 
-            if (cmd === '!restart') {
-                await msg.reply("🔄 *Menghidupkan ulang sistem...*\nMohon tunggu 5-10 detik. PM2 akan otomatis menghidupkan kembali.");
+            if (cmd === '!restart' || cmd === '!reboot') {
+                await msg.reply("🔄 *Menghidupkan ulang sistem...*\nMohon tunggu 5-10 detik. Guardian akan otomatis menghidupkan kembali.");
                 setTimeout(() => process.exit(0), 1000);
                 return;
+            }
+
+            if (cmd === '!sync') {
+                await msg.reply("🔄 *MEMULAI SINKRONISASI MANUAL...*\nBot akan mengambil data terbaru dari Google Sheets dan menyamakannya ke Neon DB (Vektor & SQL).");
+                try {
+                    const data = await fetchFromSheets(process.env.GOOGLE_SCRIPT_WEB_APP_URL);
+                    rawKnowledgeBase = data;
+                    await syncToNeon(rawKnowledgeBase);
+                    await syncVectors();
+                    lastSyncTime = new Date().toLocaleTimeString();
+                    return msg.reply(`✅ *SYNC BERHASIL!* ${data.length} data telah dimuat ke otak bot.`);
+                } catch (e) {
+                    return msg.reply(`❌ *SYNC GAGAL:* ${e.message}`);
+                }
+            }
+
+            if (cmd === '!logs') {
+                const logPath = path.join(__dirname, 'chatbot_logs.txt');
+                if (!fs.existsSync(logPath)) return msg.reply("❌ File log tidak ditemukan.");
+                const logs = fs.readFileSync(logPath, 'utf8').split('\n').filter(Boolean).slice(-10);
+                return msg.reply(`📄 *10 AKTIVITAS TERAKHIR:*\n\n${logs.join('\n')}`);
             }
 
             if (cmd === '!reindex') {
@@ -766,6 +787,8 @@ client.on('message', async (msg) => {
                     `🛡️ *IMIBOT ADMIN COMMANDS*`,
                     ``,
                     `• \`!status\` - Laporan RAM, uptime & koneksi`,
+                    `• \`!sync\` - Paksa sinkronisasi Google Sheets`,
+                    `• \`!logs\` - Lihat 10 aktivitas/error terakhir`,
                     `• \`!pause\` - Jeda bot (berhenti jawab warga)`,
                     `• \`!resume\` - Aktifkan kembali bot`,
                     `• \`!restart\` - Restart ulang sistem bot`,
