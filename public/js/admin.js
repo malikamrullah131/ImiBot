@@ -126,6 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusDot.classList.add('bg-rose-500');
             }
 
+            // AI Thinking Pulse (Phase 17)
+            const pulse = document.getElementById('ai-pulse');
+            if (pulse) {
+                if (data.aiThinking) {
+                    pulse.classList.remove('hidden');
+                    pulse.classList.add('flex');
+                } else {
+                    pulse.classList.add('hidden');
+                    pulse.classList.remove('flex');
+                }
+            }
+
             // Cloud Sync Status (Hybrid Update)
             const cloudBadge = document.getElementById('cloud-sync-badge');
             if (cloudBadge) {

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=768 server.js",
+    "start": "node guardian.js",
+    "bot": "node --max-old-space-size=768 server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -12,10 +12,29 @@ const { fetchSpreadsheetData, addKnowledgeBaseEntry } = require('./sheets');
 const { askAIProtocol, getAIStatus, logUnknown, getBotHealth, clearCacheForQuestion, clearAllCache, reflectOnInteraction, markBadKey } = require('./ai');
 global.getBotHealth = getBotHealth;
 const { trackEvent, getInsights, generateSuggestedAnswer, getTopUnknowns, suggestCategory } = require('./analytics');
-const { syncVectors } = require('./vectorStore');
+const { syncVectors, forceReindexDB, vectorSearch } = require('./vectorStore');
 const { initDb, syncToNeon, fetchFromNeon } = require('./db');
 
+// --- 💎 PREMIUM STARTUP BRANDING 💎 ---
+console.log("\x1b[36m%s\x1b[0m", `
+██╗███╗   ███╗██╗██████╗  ██████╗ ████████╗
+██║████╗ ████║██║██╔══██╗██╔═══██╗╚══██╔══╝
+██║██╔████╔██║██║██████╔╝██║   ██║   ██║   
+██║██║╚██╔╝██║██║██╔══██╗██║   ██║   ██║   
+██║██║ ╚═╝ ██║██║██████╔╝╚██████╔╝   ██║   
+╚═╝╚═╝     ╚═╝╚═╝╚═════╝  ╚═════╝    ╚═╝   
+`);
+console.log("\x1b[32m%s\x1b[0m", "====================================================");
+console.log("\x1b[32m%s\x1b[0m", "🚀 IMIBOT ADVISOR - KANTOR IMIGRASI PKP IS ONLINE");
+console.log("\x1b[32m%s\x1b[0m", "====================================================");
+console.log(`📡 Platform      : ${os.platform()} (${os.arch()})`);
+console.log(`🧠 AI Dispatcher  : Multi-Model Ready (Gemini/Llama/DeepSeek)`);
+console.log(`🛡️  Guardian Mode  : ACTIVE`);
+console.log(`📦 Node Version   : ${process.version}`);
+console.log("\x1b[32m%s\x1b[0m", "====================================================\n");
+
 // --- GLOBAL STATE ---
+let isAiThinking = false; // Phase 17: UI Pulse Trigger
 let lastInteractions = {}; // { [remoteId]: { question, answer, timestamp } }
 let globalLastUser = null;  // To track the VERY LAST user who got an AI reply
 
@@ -93,9 +112,26 @@ async function logToNeon(userId, question, answer, type = 'chat') {
             [userId, question, answer, type]
         );
     } catch (e) {
-        console.error('❌ Failed to log to Neon:', e.message);
+        console.error('❌ Failed to update RAM status:', e.message);
     }
 }
+
+// --- INITIALIZATION ---
+async function startBot() {
+    console.log("⏱️  Initializing modules...");
+    await initDb();
+    
+    client.initialize();
+    
+    // WELCOME MESSAGE TO ADMIN
+    setTimeout(async () => {
+        try {
+            await sendGuardianAlert("🌟 *Halo Admin!* ImiBot Advisor sudah Online.\n\nSistem siap melayani warga Kantor Imigrasi PKP. Semua jalur AI (Local/Cloud) dalam status siaga. 🚀");
+        } catch (e) {}
+    }, 10000);
+}
+
+startBot();
 
 // --- LOG ROTATION (RAM FIX) ---
 function cleanupLogs() {
@@ -284,23 +320,17 @@ async function loadKB() {
 }
 
 // --- AI POOL & LOAD BALANCER ---
-const aiProviders = ['gemini', 'deepseek', 'mistral'];
-let aiCounter = 0;
-
 async function smartAI(prompt, type = 'any') {
-    const provider = aiProviders[aiCounter % aiProviders.length];
-    aiCounter++;
+    const { geminiAgent } = require('./ai'); // Use the advanced agent from ai.js
     
-    console.log(`[AI-DISPATCHER] 🛸 Rotating Task to: ${provider.toUpperCase()}`);
+    console.log(`[AI-DISPATCHER] 🛸 Dispatching task to Agentic AI...`);
     
     try {
-        if (provider === 'gemini') return await gemini(prompt);
-        if (provider === 'deepseek') return await deepseek(prompt);
-        return await mistral(prompt);
+        // We use the agent which now handles Gemini 2.0 / Llama 3.3 automatically
+        return await geminiAgent(prompt, type === 'complex');
     } catch (e) {
-        console.warn(`[AI-LOADBALANCER] ⚠️ ${provider} busy/failed, trying fallback...`);
-        // Fallback Chain
-        return await gemini(prompt).catch(() => deepseek(prompt)).catch(() => "BIASA");
+        console.warn(`[AI-LOADBALANCER] ⚠️ Agent busy/failed, trying fallback...`);
+        return "SISTEM SIBUK";
     }
 }
 
@@ -453,7 +483,9 @@ async function handleIncomingMessage(from, body, timestamp) {
         if (botPaused) return;
 
         // 1. Get Response via Protocol
+        isAiThinking = true; // Pulse ON
         const reply = await askAIProtocol(body, rawKnowledgeBase, from);
+        isAiThinking = false; // Pulse OFF
         
         // 2. DeadChat/Backlog Check
         if (reply.toLowerCase().includes("sangat sibuk")) {
@@ -635,7 +667,8 @@ client.on('message', async (msg) => {
                     ``,
                     `🖥️ *RAM Terpakai:* ${usedMemPct}%`,
                     `⏳ *Uptime:* ${uptimeMin} menit`,
-                    `🤖 *Model AI:* gemini-1.5-flash`,
+                    `🤖 *Mode AI:* Local Priority (Ollama)`,
+                    `🧠 *Cloud Fallback:* Active (Gemini)`,
                     `📱 *Status WA:* ${waState}`,
                     `⏯️ *Bot Dijeda:* ${botPaused ? 'YA ⏸️' : 'TIDAK ▶️'}`,
                     `📦 *DeadChat:* ${loadDeadChat().length} pesan`,
@@ -661,6 +694,22 @@ client.on('message', async (msg) => {
             if (cmd === '!restart') {
                 await msg.reply("🔄 *Menghidupkan ulang sistem...*\nMohon tunggu 5-10 detik. PM2 akan otomatis menghidupkan kembali.");
                 setTimeout(() => process.exit(0), 1000);
+                return;
+            }
+
+            if (cmd === '!reindex') {
+                await msg.reply("🛠️ *MEMULAI RE-INDEXING (Embedding Upgrade)...*\nSistem akan menghapus database lama dan menghitung ulang vektor menggunakan model terbaru. Proses ini butuh waktu beberapa menit (Tergantung jumlah data).");
+                const success = await forceReindexDB();
+                return msg.reply(success ? "✅ *RE-INDEX SELESAI!* Bot kini jauh lebih cerdas dalam mencari jawaban." : "❌ *RE-INDEX GAGAL!* Silakan cek log server untuk detailnya.");
+            }
+
+            if (cmd === '!expand') {
+                await msg.reply("🧠 *MEMULAI PENGAYAAN KATA KUNCI (Keyword Expander)...*\nBot akan menggunakan AI untuk mencari variasi pertanyaan baru dari database Anda agar bot makin pintar menjawab warga.\n\n_Proses ini berjalan di background, silakan cek terminal untuk progres._");
+                const { exec } = require('child_process');
+                exec('node keyword_expander.js', (err, stdout, stderr) => {
+                    if (err) console.error(`[Admin] Expand Error: ${err.message}`);
+                    console.log(`[Admin] Expand Result: ${stdout}`);
+                });
                 return;
             }
 
@@ -720,6 +769,8 @@ client.on('message', async (msg) => {
                     `• \`!pause\` - Jeda bot (berhenti jawab warga)`,
                     `• \`!resume\` - Aktifkan kembali bot`,
                     `• \`!restart\` - Restart ulang sistem bot`,
+                    `• \`!reindex\` - Paksa re-index (Update Embedding model)`,
+                    `• \`!expand\` - AI Pengayaan kata kunci (Smart Keyword)`,
                     `• \`!clean\` - Bersihkan log & cache lama`,
                     `• \`!ceklastvar\` - Cek varian belajar terakhir`,
                     `• \`!cek\` - Cek interaksi TERAKHIR (semua user)`,
@@ -1446,8 +1497,8 @@ setInterval(() => {
     const totalMem = os.totalmem();
     const freeMem = os.freemem();
     const usedPct = ((1 - freeMem / totalMem) * 100);
-
-    if (usedPct >= 85) {
+    // RAM Threshold ditingkatkan ke 92% (Windows RAM management lebih berisik di 85%)
+    if (usedPct >= 92) {
         isFlushing = true;
         console.warn(`[WATCHDOG] ⚠️ CRITICAL RAM USAGE: ${usedPct.toFixed(1)}%. Initiating Non-blocking Auto-Flush...`);
         

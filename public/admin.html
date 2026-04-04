@@ -204,6 +204,15 @@
                 <p class="text-slate-400 mt-1">Sistem Administrasi Paspor Otomatis</p>
             </div>
             <div class="flex items-center gap-4">
+                <!-- AI Thinking Indicator (Dynamic Pulse) -->
+                <div id="ai-pulse" class="hidden items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50/50 backdrop-blur-md border border-sky-100 animate-pulse">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                    </span>
+                    <span class="text-[10px] font-black text-sky-600 uppercase tracking-widest">AI Thinking</span>
+                </div>
+
                 <button id="mute-btn" onclick="toggleMute()" class="w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-400 hover:text-sky-500 hover:border-sky-200 transition-all shadow-sm group">
                     <i data-lucide="volume-2" id="mute-icon" class="w-5 h-5"></i>
                 </button>
@@ -233,35 +242,43 @@
         <div id="tab-dashboard" class="tab-content space-y-10">
             <!-- Stats -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="stat-card">
-                    <div class="flex justify-between items-start">
+                <!-- Stat Cards with Glassmorphism -->
+                <div class="stat-card backdrop-blur-xl bg-white/60 border-white/40 shadow-xl overflow-hidden relative group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-sky-200/20 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-sky-300/30 transition-all"></div>
+                    <div class="flex justify-between items-start relative z-10">
                         <div class="icon-box"><i data-lucide="database" class="w-5 h-5"></i></div>
-                        <span class="text-[10px] bg-sky-100 text-sky-600 px-2 py-0.5 rounded-full font-bold">READY</span>
+                        <div class="flex items-center gap-2">
+                            <span id="health-db-dot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase">Ready</span>
+                        </div>
                     </div>
-                    <div class="mt-4">
+                    <div class="mt-4 relative z-10">
                         <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Entries</span>
                         <h3 id="stat-kb" class="text-3xl font-bold mt-1 text-slate-800">0</h3>
                     </div>
                 </div>
-                <div class="stat-card">
+
+                <div class="stat-card backdrop-blur-xl bg-white/60 border-white/40 shadow-xl">
                     <div class="icon-box text-emerald-500 bg-emerald-50"><i data-lucide="history" class="w-5 h-5"></i></div>
                     <div class="mt-4">
                         <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Last Sync</span>
                         <h3 id="stat-sync" class="text-lg font-bold mt-1 text-slate-800">00:00:00</h3>
                     </div>
                 </div>
-                <div class="stat-card">
+
+                <div class="stat-card backdrop-blur-xl bg-white/60 border-white/40 shadow-xl">
                     <div class="icon-box text-amber-500 bg-amber-50"><i data-lucide="clock" class="w-5 h-5"></i></div>
                     <div class="mt-4">
                         <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Uptime</span>
                         <h3 id="stat-uptime" class="text-lg font-bold mt-1 text-slate-800">0h 0m</h3>
                     </div>
                 </div>
-                <div class="stat-card">
+
+                <div class="stat-card backdrop-blur-xl bg-white/60 border-white/40 shadow-xl">
                     <div class="icon-box text-purple-500 bg-purple-50"><i data-lucide="users" class="w-5 h-5"></i></div>
                     <div class="mt-4">
                         <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Session</span>
-                        <h3 id="stat-session" class="text-lg font-bold mt-1 text-slate-800">Default</h3>
+                        <h3 id="stat-session" class="text-lg font-bold mt-1 text-slate-800">Stable</h3>
                     </div>
                 </div>
             </div>
@@ -683,6 +700,19 @@
             if (active) active.classList.add('active');
             lucide.createIcons();
         }
+
+        // --- PREMUM WELCOME SYSTEM ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showNotification("👋 Selamat Datang kembali, Admin! Sistem ImiBot berjalan optimal.");
+                // Audio Welcome (Optional)
+                const audio = document.getElementById('notif-sound');
+                if (audio) audio.play().catch(e => {}).then(() => {
+                    // Stop after 2 seconds
+                    setTimeout(() => { audio.pause(); audio.currentTime = 0; }, 2000);
+                });
+            }, 1000);
+        });
     </script>
 </body>
 </html>

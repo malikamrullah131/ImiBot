@@ -1,10 +1,10 @@
 # ImiBot: AI-Powered Immigration Chatbot 🤖⚖️👮‍♂️
 
-**ImiBot** adalah chatbot WhatsApp bertenaga AI untuk administrasi Paspor dan Layanan Imigrasi Pangkalpinang. Dibangun dengan arsitektur **Dual-Brain AI** dan sistem **Auto-Recovery** untuk 24/7 uptime.
+**ImiBot** adalah chatbot WhatsApp bertenaga AI untuk administrasi Paspor dan Layanan Imigrasi Pangkalpinang. Dibangun dengan arsitektur **Resilient AI Dispatcher** dan sistem **Auto-Recovery** untuk 24/7 uptime.
 
 ---
 
-## 🌟 Arsitektur Sistem
+## 🌟 Arsitektur Sistem (Cyber-Resilient)
 
 ```
 Pesan WhatsApp
@@ -21,17 +21,17 @@ Pesan WhatsApp
          │ (Cache miss)
          ▼
 ┌─────────────────┐
-│  DB + Semantic   │ ◄── NeonDB + pgvector
+│  DB + Semantic   │ ◄── NeonDB + pgvector (Embedding)
 └────────┬────────┘
          │ (Kasus Kompleks)
          ▼
 ┌─────────────────────────────────┐
-│  🧠 OTAK PERTAMA: Qwen 3.6 Plus │ ◄── Nalar hukum mendalam
+│  🧠 AI DISPATCHER (Multi-Model) │ ◄── Llama 3.3 / Qwen / DeepSeek
 └────────────────┬────────────────┘
-                 │
+                 │ (Fail / Limit 429)
                  ▼
 ┌─────────────────────────────────┐
-│  🦂 OTAK KEDUA: Claude 3.5      │ ◄── Polish & validasi bahasa
+│  🛡️ ULTIMATE FALLBACK (SDK)     │ ◄── Direct Google Gemini 1.5 Flash/Pro
 └────────────────┬────────────────┘
                  │
                  ▼
@@ -40,63 +40,50 @@ Pesan WhatsApp
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Fitur Utama (v3.5 - Elite Edition)
 
-### 1. 🧠 Dual-Brain AI Engine
-- **Otak Pertama — Qwen 3.6 Plus** (via OpenRouter): Penalaran hukum imigrasi yang mendalam, aktif untuk pertanyaan kompleks (WNA, KITAS, Deportasi, dll).
-- **Otak Kedua — Claude 3.5 Sonnet** (via OpenRouter): Mengaudit & memoles jawaban Qwen agar lebih sopan, profesional, dan akurat sebelum dikirim ke warga.
-- **Traffic Throttle**: Jeda otomatis 1.5 detik antar panggil AI Cloud untuk menghindari Rate Limit (Error 429).
+### 1. 🛡️ Ultimate Fallback (Direct-to-Silicon)
+- **Direct Google SDK**: Jika OpenRouter (perantara) mengalami gangguan besar atau limit saldo, bot secara otomatis berpindah ke jalur darurat menggunakan Google Generative AI SDK.
+- **Tiered SDK Fallback**: Mencoba `Gemini 1.5 Flash` (kecepatan) terlebih dahulu, jika gagal otomatis berpindah ke `Gemini Pro` (stabilitas).
 
-### 2. 🛡️ API Circuit Breaker
-- Setiap kunci API (OpenRouter/Gemini/DeepSeek) yang gagal (401/429) otomatis **dikarantina selama 15 menit**.
-- Sistem akan rotasi ke kunci lain secara otomatis. Jika semua kunci habis, karantina direset (Emergency Reset).
-- Log di terminal: `[API] ⚠️ Key sk-or-v1-xxx... ditandai RUSAK/LIMIT. Cooldown 15 menit.`
+### 2. 💎 Premium Startup & Branding
+- **ASCII Terminal Art**: Sambutan visual profesional saat bot dijalankan di server.
+- **Admin Welcome Greeting**: Bot mengirimkan pesan sapaan hangat ke WhatsApp Admin segera setelah sistem online dan siap melayani warga.
 
-### 3. 🧮 Smart Keyword Cache
-- Cache berbasis **urutan kata terurut** (`normalizeSort`): "Paspor Hilang" dan "Hilang Paspor" menghasilkan **cache yang sama**.
-- Memangkas beban Qwen hingga **70%** saat jam sibuk karena pertanyaan serupa tidak perlu diproses ulang.
+### 3. 🪟 Dashboard Glassmorphism (Cyber-UI)
+- **Futuristic Design**: Tampilan dashboard admin menggunakan efek *blur* transparan (Glassmorphism) yang bersih dan elegan (Aero Aesthetic).
+- **AI Intelligence Pulse**: Indikator visual real-time di dashboard yang berdenyut (pulse) saat AI sedang "berpikir" memproses pesan warga.
 
-### 4. 🔄 Auto-Recovery System
-- **DeadChat Persistence**: Pesan warga tidak hilang saat AI mati, disimpan di `deadchat.json`.
-- **Backlog Queue** dengan batas retry **5 kali** — setelah 5 kali gagal, pesan dipindah ke DeadChat agar tidak memboroskan RAM.
-- **RAM Safety Switch**: Ollama (AI lokal) tidak akan dinyalakan jika RAM komputer sudah di atas 88%.
-- **AI Pulse Watchdog**: Memantau kesehatan AI setiap 15 detik dan memicu Rapid-Flush otomatis.
+### 4. 🧠 Self-Learning & Intent Expansion
+- **Training Room 2.0**: Mempelajari pertanyaan baru yang belum ada di database secara otomatis dengan fitur *suggested variants*.
+- **Keyword Enrichment**: Mengidentifikasi konteks dan makna yang sama untuk memperluas jangkauan jawaban tanpa menambah data manual.
 
-### 5. 🪞 Self-Reflection Admin (`!think`)
-- Admin dapat menjalankan `!think` di WhatsApp untuk memicu audit AI terhadap jawaban terakhirnya.
-- Hasil audit berisi: ✅ Penilaian akurasi, ❌ Kesalahan terdeteksi, dan 💡 Saran perbaikan.
-- Terhubung langsung dengan `!salah [jawaban baru]` untuk siklus **Audit → Koreksi → Belajar**.
+### 5. 🚑 Guardian Self-Recovery
+- **Guardian Process**: Skrip `guardian.js` yang memantau server 24/7. Jika terjadi crash atau RAM melampaui batas, sistem akan melakukan *auto-restart* dalam 5 detik.
+- **RAM Guardian**: Ambang batas otomatis (92%) untuk pembersihan log dan cache guna menjaga stabilitas server Windows.
 
-### 6. 📊 Admin Command Center (WhatsApp)
+---
+
+## 📊 Admin Command Center (WhatsApp)
 | Perintah | Fungsi |
 |---|---|
-| `!status` | RAM, Uptime, jumlah DeadChat, status koneksi |
+| `!status` | RAM, Uptime, jumlah Antrean, status koneksi |
 | `!think` | Audit AI Brain terhadap respons terakhir |
 | `!benar` | Konfirmasi jawaban terakhir sudah benar |
 | `!salah [jawaban]` | Koreksi jawaban dan simpan ke database |
-| `!pause` / `!resume` | Jeda / aktifkan bot |
-| `!clean` | Bersihkan cache & log lama |
-| `!restart` | Restart sistem (butuh PM2) |
-| `!help` | Tampilkan semua perintah |
-
-### 7. 🏢 Admin Dashboard (Web)
-Akses: `http://localhost:3000/admin`
-- **Training Room**: Moderasi & approve jawaban AI ke database.
-- **Antrean Pesan**: Jawab manual saat sistem sibuk.
-- **Real-time Logs**: Pantau aktivitas bot.
-- **Manual Sync**: Tarik data terbaru dari Google Sheets.
+| `!pause` / `!resume` | Jeda / aktifkan bot secara manual |
+| `!clean` | Bersihkan cache & log lama secara mendalam |
+| `!restart` | Restart sistem secara remote (via Guardian) |
 
 ---
 
 ## 🛠️ Persyaratan Sistem
-
 | Komponen | Detail |
 |---|---|
 | Node.js | v18+ (Disarankan v20+) |
 | Database | Neon DB (PostgreSQL Cloud) |
-| AI Utama | OpenRouter API Key (untuk Qwen + Claude) |
-| AI Cadangan | Gemini API Key, DeepSeek API Key, Mistral API Key |
-| WhatsApp | `whatsapp-web.js` + Puppeteer |
+| AI Pipeline | OpenRouter (Core) + Google Gemini SDK (Fallback) |
+| WhatsApp | `whatsapp-web.js` + Puppeteer (No-Headless Ready) |
 
 ---
 
@@ -110,7 +97,6 @@ npm install
 # Isi variabel berikut di file .env:
 OPENROUTER_API_KEY="sk-or-v1-..."   # Primary AI (Qwen + Claude)
 QWEN_MODEL="qwen/qwen3.6-plus:free"
-OPENCLAW_API_KEY="sk-or-v1-..."     # Otak Kedua (Claude)
 OPENCLAW_BASE_URL="https://openrouter.ai/api/v1"
 OPENCLAW_MODEL="anthropic/claude-3.5-sonnet"
 GEMINI_API_KEY="..."                 # Cadangan
