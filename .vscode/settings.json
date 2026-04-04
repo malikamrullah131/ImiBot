@@ -1,0 +1,22 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.wwebjs_auth": true,
+    "**/.wwebjs_cache": true,
+    "vectors.json": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.wwebjs_auth": true,
+    "**/.wwebjs_cache": true,
+    "vectors.json": true,
+    "chatbot_logs.txt": true,
+    "all_kb_data.json": true,
+    "merged_kb_data.json": true
+  }
+}

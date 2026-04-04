@@ -9,15 +9,27 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const { fetchSpreadsheetData, addKnowledgeBaseEntry } = require('./sheets');
-const { askAIProtocol, getAIStatus, logUnknown, getBotHealth } = require('./ai');
+const { askAIProtocol, getAIStatus, logUnknown, getBotHealth, clearCacheForQuestion, clearAllCache, reflectOnInteraction, markBadKey } = require('./ai');
 global.getBotHealth = getBotHealth;
-const { trackEvent, getInsights, generateSuggestedAnswer, getTopUnknowns } = require('./analytics');
+const { trackEvent, getInsights, generateSuggestedAnswer, getTopUnknowns, suggestCategory } = require('./analytics');
 const { syncVectors } = require('./vectorStore');
 const { initDb, syncToNeon, fetchFromNeon } = require('./db');
 
 // --- GLOBAL STATE ---
 let lastInteractions = {}; // { [remoteId]: { question, answer, timestamp } }
 let globalLastUser = null;  // To track the VERY LAST user who got an AI reply
+
+// --- CRASH PREVENTION GUARD ---
+// Menahan error bawaan library "whatsapp-web.js" agar server tidak mati (Exit Code 1)
+process.on('unhandledRejection', (reason, promise) => {
+    const msg = reason ? (reason.message || reason) : '';
+    if (String(msg).includes('ProtocolError') || String(msg).includes('preflight') || String(msg).includes('Target closed') || String(msg).includes('getChat')) {
+        // Silently catch known wweb.js bug
+    } else {
+        console.error('Unhandled Rejection:', reason);
+    }
+});
+
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
@@ -32,7 +44,9 @@ const client = new Client({
             '--disable-background-networking',
             '--disable-default-apps',
             '--disable-extensions',
-            '--disable-sync'
+            '--disable-sync',
+            '--disable-web-security',
+            '--disable-features=IsolateOrigins,site-per-process'
         ],
     }
 });
@@ -206,6 +220,7 @@ async function loadKB() {
                 dataFromSheets.raw.forEach(newRow => {
                     const q = (newRow.Question || newRow.question || "").toLowerCase().trim();
                     const a = (newRow.Answer || newRow.answer || "").trim();
+                    const cat = (newRow.Category || newRow.category || "Umum").trim();
                     if (!q || !a) return;
 
                     const existingIndex = rawKnowledgeBase.findIndex(r => {
@@ -214,14 +229,19 @@ async function loadKB() {
                     });
 
                     if (existingIndex > -1) {
-                        // Update jika ada perubahan (Sheets menang jika ada konflik)
-                        if (rawKnowledgeBase[existingIndex].Answer !== a) {
+                        // Update jika ada perubahan
+                        if (rawKnowledgeBase[existingIndex].Answer !== a || rawKnowledgeBase[existingIndex].Category !== cat) {
                             rawKnowledgeBase[existingIndex].Answer = a;
+                            rawKnowledgeBase[existingIndex].Category = cat;
                             updatedCount++;
                         }
                     } else {
-                        // Tambahkan sebagai entri baru (Top priority)
-                        rawKnowledgeBase.unshift({ Question: newRow.Question || newRow.question, Answer: a });
+                        // Tambahkan sebagai entri baru
+                        rawKnowledgeBase.unshift({ 
+                            Question: newRow.Question || newRow.question, 
+                            Answer: a,
+                            Category: cat
+                        });
                         addedCount++;
                     }
                 });
@@ -234,7 +254,7 @@ async function loadKB() {
                 
                 // Update Context for AI
                 knowledgeBaseContext = "SISTEM PENGETAHUAN IMIGRASI:\n" + 
-                    rawKnowledgeBase.map((row, i) => `Entri ${i+1}:\nQ: ${row.Question}\nA: ${row.Answer}`).join("\n\n");
+                    rawKnowledgeBase.map((row, i) => `Entri ${i+1}:\n[${row.Category || "Umum"}] Q: ${row.Question}\nA: ${row.Answer}`).join("\n\n");
                 
                 // --- AUTO-TRANSFER TO NEON ---
                 if (process.env.DATABASE_URL) {
@@ -253,7 +273,7 @@ async function loadKB() {
             if (dbData && dbData.length > 0) {
                 rawKnowledgeBase = dbData;
                 knowledgeBaseContext = "KNOWLEDGE BASE DATA FROM NEON DB:\n" + 
-                    dbData.map((row, i) => `Entry ${i+1}:\n- Question: ${row.Question}\n- Answer: ${row.Answer}\n`).join("\n");
+                    dbData.map((row, i) => `Entry ${i+1}:\n- Question: ${row.Question}\n- Answer: ${row.Answer}\n- Category: ${row.Category || "Umum"}\n`).join("\n");
                 console.log('✅ Data loaded from Neon Database!');
                 await syncVectors(rawKnowledgeBase);
             }
@@ -451,6 +471,36 @@ async function handleIncomingMessage(from, body, timestamp) {
         lastInteractions[from] = { question: body, answer: reply, timestamp: new Date().toLocaleString() };
         globalLastUser = from;
 
+        // 5. ✅ NOTIFIKASI KONFIRMASI ADMIN (Non-blocking)
+        // Hanya kirim untuk jawaban AI yang panjang/substansif (bukan sapaan singkat)
+        if (reply.length > 150 && from !== ADMIN_WA_NUMBER) {
+            const userNum = from.split('@')[0];
+            const previewQ = body.length > 120 ? body.substring(0, 120) + '...' : body;
+            const previewA = reply.length > 350 ? reply.substring(0, 350) + '...' : reply;
+            
+            const notifMsg = [
+                `🔔 *[QA REVIEW] Konfirmasi Jawaban Bot*`,
+                ``,
+                `👤 *Penanya:* ${userNum}`,
+                `⏰ *Waktu:* ${new Date().toLocaleTimeString()}`,
+                ``,
+                `❓ *Pertanyaan Warga:*`,
+                previewQ,
+                ``,
+                `🤖 *Jawaban ImiBot:*`,
+                previewA,
+                ``,
+                `━━━━━━━━━━━━━━━━`,
+                `✅ *Benar?* Ketik: \`!benar\``,
+                `✏️ *Perlu koreksi?* Ketik: \`!salah [isi jawaban yang benar]\``
+            ].join('\n');
+            
+            // Kirim ke admin tanpa menghambat alur utama
+            client.sendMessage(ADMIN_WA_NUMBER, notifMsg).catch(e => 
+                console.warn('[QA Notif] Gagal kirim notif ke admin:', e.message)
+            );
+        }
+
         return true;
     } catch (e) {
         // Log to DeadChat if AI totally failed
@@ -483,8 +533,20 @@ async function processBacklog() {
 
     for (let i = 0; i < backlog.length; i++) {
         const item = backlog[i];
+        item.retries = (item.retries || 0) + 1;
+
+        if (item.retries > 5) {
+            console.warn(`[BACKLOG] ⛔ Message for ${item.from} failed 5 times. Moving to DeadChat.`);
+            let deadMsgs = loadDeadChat();
+            deadMsgs.push(item);
+            saveDeadChat(deadMsgs);
+            backlog.splice(i, 1);
+            i--;
+            continue;
+        }
+
         try {
-            console.log(`[BACKLOG] Rapid retry for ${item.from}...`);
+            console.log(`[BACKLOG] Rapid retry (${item.retries}/5) for ${item.from}...`);
             const success = await handleIncomingMessage(item.from, item.body, item.timestamp);
             if (success) {
                 backlog.splice(i, 1);
@@ -494,7 +556,7 @@ async function processBacklog() {
         } catch (e) {
             console.error(`[BACKLOG] Retry failed for ${item.from}`);
         }
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise(r => setTimeout(r, 2000)); // Increase delay
     }
 
     if (resolvedCount > 0) saveBacklog(backlog);
@@ -633,6 +695,23 @@ client.on('message', async (msg) => {
                 return msg.reply("🧹 *Pembersihan selesai!*\nLog lama dan cache sudah dihapus. RAM akan berkurang secara bertahap.");
             }
 
+            if (cmd === '!think' || cmd.startsWith('!think ')) {
+                const target = cmd.includes(' ') ? cmd.split(' ')[1].trim().replace(/\D/g, '') + '@c.us' : globalLastUser;
+                if (!target) return msg.reply(`❌ Belum ada interaksi terbaru.`);
+                
+                const last = lastInteractions[target];
+                if (!last) return msg.reply(`❌ Data tidak ditemukan untuk ${target.split('@')[0]}`);
+                
+                await msg.reply(`🧠 *AI BRAIN* sedang melakukan audit nalar terhadap jawaban terakhir...`);
+
+                try {
+                    const reflection = await reflectOnInteraction(last.question, last.answer);
+                    return msg.reply(`🧐 *HASIL REFLEKSI AI BRAIN:*\n\n${reflection}`);
+                } catch (err) {
+                    return msg.reply(`❌ AI Brain gagal berpikir: ${err.message}`);
+                }
+            }
+
             if (cmd === '!help') {
                 const helpMsg = [
                     `🛡️ *IMIBOT ADMIN COMMANDS*`,
@@ -644,8 +723,9 @@ client.on('message', async (msg) => {
                     `• \`!clean\` - Bersihkan log & cache lama`,
                     `• \`!ceklastvar\` - Cek varian belajar terakhir`,
                     `• \`!cek\` - Cek interaksi TERAKHIR (semua user)`,
+                    `• \`!think\` - Audit nalar AI terhadap jawaban terakhir`,
                     `• \`!benar\` - Konfirmasi jawaban TERAKHIR benar`,
-                    `• \`!salah [teks]\` - Koreksi jawaban TERAKHIR`,
+                    `• \`!salah [teks]\` - Koreksi jawaban TERAKHIR (AI Belajar)`,
                     `• \`!help\` - Tampilkan daftar perintah ini`,
                 ].join('\n');
                 return msg.reply(helpMsg);
@@ -687,7 +767,7 @@ Balas \`!benar\` atau \`!salah [jawaban...]\``);
                 await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, last.answer);
                 
                 await syncToNeon(rawKnowledgeBase);
-                await syncVectors(rawKnowledgeBase);
+                await syncVectors();
 
                 removeFromPending(last.question);
                 setTimeout(() => loadKB(), 12000); 
@@ -731,10 +811,13 @@ Balas \`!benar\` atau \`!salah [jawaban...]\``);
                 }
                 
                 await syncToNeon(rawKnowledgeBase);
-                await syncVectors(rawKnowledgeBase);
+                await syncVectors();
 
                 removeFromPending(last.question);
                 setTimeout(() => loadKB(), 10000); // 10s delay
+
+                // Clear stale cache so bot uses updated answer immediately
+                clearCacheForQuestion(last.question);
 
                 return msg.reply(`✅ *KOREKSI DISIMPAN!*
 Jawaban sekarang: "${correction}"
@@ -837,7 +920,8 @@ app.get('/api/insights', requireAuth, async (req, res) => {
         // Populate suggested answers using Gemini
         const detailedInsights = await Promise.all(insights.map(async (item) => {
             const suggestedAnswer = await generateSuggestedAnswer(item.query, knowledgeBaseContext);
-            return { ...item, suggestedAnswer };
+            const suggestedCategory = await suggestCategory(item.query);
+            return { ...item, suggestedAnswer, suggestedCategory };
         }));
 
         res.json({ insights: detailedInsights });
@@ -847,10 +931,12 @@ app.get('/api/insights', requireAuth, async (req, res) => {
 });
 // API: Approve and add to Sheets
 app.post('/api/approve', requireAuth, async (req, res) => {
-    const { question, answer } = req.body;
-    if (!question || !answer) return res.status(400).json({ error: "Missing data" });
-
     try {
+        const { question, answer, category } = req.body;
+        if (!question || !answer) return res.status(400).json({ error: "Missing data" });
+        
+        const targetCategory = category || "Lainnya";
+
         // 1. Tambah ke Google Sheets
         // --- SMART LEARNING & SEMANTIC MERGE ---
         const { variants, isMerged, status } = await learnAndMerge(question, answer);
@@ -860,11 +946,16 @@ app.post('/api/approve', requireAuth, async (req, res) => {
         }
 
         lastWriteTime = Date.now();
-        await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, answer);
+        await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, answer, targetCategory);
         
         // Push ke Neon & Vector Store segera agar Dashboard terupdate
-        await syncToNeon(rawKnowledgeBase);
-        await syncVectors(rawKnowledgeBase);
+        const newEntry = { Question: variants, Answer: answer, Category: targetCategory };
+        rawKnowledgeBase.unshift(newEntry);
+        await syncToNeon(rawKnowledgeBase);  // Persist to Neon immediately
+        await syncVectors();
+
+        // Invalidate stale cache so next user query gets fresh answer
+        clearCacheForQuestion(question);
 
         removeFromPending(question);
         setTimeout(() => loadKB(), 12000);
@@ -935,7 +1026,7 @@ app.post('/api/backlog/resolve', requireAuth, async (req, res) => {
             await addKnowledgeBaseEntry(process.env.GOOGLE_SCRIPT_WEB_APP_URL, variants, answer);
             
             await syncToNeon(rawKnowledgeBase);
-            await syncVectors(rawKnowledgeBase);
+            await syncVectors();
             
             console.log(`[BACKLOG] Resolved manual for ${from}`);
         }
@@ -983,7 +1074,7 @@ app.get('/api/logs', requireAuth, (req, res) => {
         });
     }
 
-    const lastLogs = logs.slice(-100).reverse(); // Last 100 lines for efficiency
+    const lastLogs = logs.slice(-100); // Last 100 lines for efficiency
     res.json({ logs: lastLogs });
 });
 
@@ -1133,9 +1224,13 @@ app.get('/api/training/data', requireAuth, async (req, res) => {
             aggregated[key].count++;
         });
 
-        const suggestions = Object.values(aggregated)
-            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-            .slice(0, 20); // Ambil 20 teratas/terbaru
+        const suggestions = await Promise.all(Object.values(aggregated)
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 15)
+            .map(async item => {
+                const cat = await suggestCategory(item.query);
+                return { ...item, suggestedCategory: cat };
+            }));
 
         res.json({ suggestions });
     } catch (e) {

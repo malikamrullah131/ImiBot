@@ -1,7 +1,6 @@
-node_modules/
-.env
-.wwebjs_auth/
-.wwebjs_cache/
+node_modules
+.wwebjs_auth
+.wwebjs_cache
 chatbot_logs.txt
 unknown.txt
 pending.json
@@ -10,3 +9,6 @@ debug_sheets.txt
 test_ai.txt
 tmp.txt
 *.log
+.env
+.git
+.gitignore

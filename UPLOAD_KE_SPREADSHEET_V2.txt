@@ -1,0 +1,86 @@
+QUESTION	ANSWER	CATEGORY
+keimigrasian, apa itu imigrasi, fungsi imigrasi, tugas imigrasi	Keimigrasian adalah hal ihwal lalu lintas orang yang masuk atau keluar wilayah Indonesia serta pengawasannya untuk menjaga kedaulatan negara (UU No. 6 Tahun 2011). Fungsinya meliputi pelayanan, penegakan hukum, keamanan negara, dan fasilitator kesejahteraan.	Umum
+m-paspor, mpaspor, aplikasi daftar paspor, daftar online, antrean online, syarat sebelum datang, cara daftar, langkah bikin paspor, alur buat paspor, gimana cara buat paspor pertama kali, daftar paspor untuk orang lain, m-paspor error	Pendaftaran paspor wajib melalui aplikasi M-Paspor (Play Store/App Store). Alurnya: Download -> Daftar akun -> Pilih jadwal & kantor -> Datang bawa berkas asli -> Verifikasi -> Biometrik & Wawancara -> Bayar -> Ambil. Jika error, coba hapus cache atau login saat malam hari.	M-Paspor
+syarat umum paspor, berkas paspor, dokumen apa saja, syarat pembuatan paspor, bawa apa saja, apa saja persyaratannya, fotokopi atau asli, dokumen asli wajib	Syarat umum: E-KTP, KK, Akta Lahir/Buku Nikah/Ijazah (Asli). Wajib membawa dokumen asli untuk verifikasi; fotokopi hanya pelengkap. Untuk penggantian (setelah 2009), cukup bawa E-KTP dan Paspor Lama.	Paspor
+e-paspor, paspor elektronik, biaya e-paspor, biaya paspor elektronik, apa itu e-paspor, keunggulan e-paspor, chip paspor, beda paspor biasa vs elektronik, e-paspor 5 tahun 10 tahun	Kantor Imigrasi Pangkalpinang saat ini hanya melayani E-Paspor (memiliki chip biometrik, lebih aman, bisa autogate, & potensi bebas visa ke Jepang). Biaya: 5 Tahun (Rp 650.000), 10 Tahun (Rp 950.000).	Biaya
+harga paspor anak, biaya paspor anak, paspor balita brp, paspor bayi, paspor anak brp, harga paspor dewasa sama	Harga paspor anak dan dewasa itu sama (E-Paspor): 5 tahun Rp 650.000 dan 10 tahun Rp 950.000. Setiap individu (termasuk bayi) wajib memiliki paspor sendiri.	Biaya
+syarat paspor anak, paspor anak di bawah umur, pendampingan orang tua, paspor anak hadir, bayi hadir foto	Syarat paspor anak (<17 thn): E-KTP ayah & ibu, KK, Akta Lahir, Buku Nikah Ortu, & Paspor Lama anak (jika ada). Wajib didampingi kedua orang tua dan anak harus hadir untuk foto biometrik.	Paspor
+paspor hilang, syarat paspor hilang, denda paspor hilang, lapor polisi paspor hilang, kehilangan paspor di luar negeri	Jika hilang, wajib lapor polisi untuk Surat Keterangan Hilang. Syarat: Surat Polisi, E-KTP, KK. Denda Kehilangan Rp 1.000.000. Jika di luar negeri, hubungi KBRI/KJRI terdekat untuk mendapatkan SPLP.	Biaya
+paspor rusak, syarat paspor rusak, denda paspor rusak, kondisi paspor rusak, paspor basah, paspor kena air, paspor sobek	Paspor basah, sobek, atau tercoret dianggap rusak. Syarat: Paspor lama, E-KTP, KK. Denda Kerusakan Rp 500.000. Pemohon harus melalui proses pemeriksaan (BAP) oleh petugas Inteldakim.	Biaya
+paspor haji, paspor umroh, syarat paspor umroh, syarat paspor haji, rekomendasi travel, rekomendasi kemenag, endorsement nama, tambah nama paspor, nama 3 kata haji, nama 2 kata umroh	Untuk Haji/Umroh, syarat tambahan berupa Surat Rekomendasi Travel/Kemenag. Nama minimal 2 kata (Umroh) atau 3 kata (Haji). Jika nama di paspor masih 1 kata, bisa dilakukan penambahan nama (Endorsement) tanpa biaya tambahan.	Biaya
+lama proses paspor, berapa hari paspor jadi, paspor selesai kapan, status ajudikasi, kapan paspor bisa diambil	Paspor selesai dalam 4 hari kerja setelah foto, wawancara, dan pembayaran terkonfirmasi. Status 'Ajudikasi' berarti sedang verifikasi akhir di pusat.	Biaya
+pengambilan paspor, syarat ambil paspor, siapa yang boleh ambil, ambil paspor diwakilkan, surat kuasa pengambilan, jadwal pengambilan, ambil paspor via gojek grab	Ambil paspor di hari kerja (10.00 - 15.30 WIB) membawa bukti bayar & KTP. Bisa diwakilkan keluarga serumah (bawa KK asli) atau orang lain dengan Surat Kuasa bermaterai 10.000.	Biaya
+percepatan paspor, sehari jadi, paspor kilat, layanan express, biaya percepatan	Layanan percepatan (Selesai Hari yang Sama) tersedia dengan biaya tambahan Rp 1.000.000 (tidak termasuk biaya buku). Pemohon harus datang pagi sebelum jam 10.00 WIB.	Biaya
+bayar paspor, kode billing, cara bayar billing, transfer paspor, masa berlaku billing, bayar di imigrasi tidak bisa	Pembayaran via Bank, ATM, M-Banking, Kantor Pos, atau Minimarket menggunakan kode billing M-Paspor. Batas bayar adalah 2 jam setelah billing terbit. Kantor Imigrasi tidak melayani pembayaran tunai.	M-Paspor
+beda domisili, paspor luar daerah, bikin paspor beda ktp, paspor tanpa domisili	Bisa. Pembuatan paspor tidak harus sesuai domisili KTP. Anda bisa mengajukan di kantor imigrasi manapun di Indonesia.	Lokasi & Jadwal
+pakaian foto paspor, baju foto paspor, hijab foto paspor, boleh pakai jilbab	Gunakan pakaian rapi berkerah dan sopan. Hindari warna putih polos (background foto putih). Penggunaan hijab diperbolehkan selama wajah terlihat jelas.	Paspor
+Apa aplikasi untuk daftar paspor?	Aplikasi M-Paspor yang tersedia di Google Play Store dan App Store.	M-Paspor
+Apa syarat umum pembuatan paspor?	Membawa berkas asli; materai Rp10.000; dan data dukung lainnya jika diperlukan.	Paspor
+Apa syarat penting sebelum datang ke kantor imigrasi?	Harus mendaftar terlebih dahulu melalui aplikasi M-Paspor.	M-Paspor
+Bagaimana prosedur pembuatan paspor?	Datang membawa antrian M-Paspor (Membawa berkas asli; materai Rp10.000; dan data dukung lainnya jika diperlukan); verifikasi berkas; ambil nomor antrian; tunggu; biometrik dan wawancara.	M-Paspor
+Apa itu pelayanan walk-in?	Layanan pembuatan paspor tanpa aplikasi untuk kondisi tertentu sesuai SOP.	M-Paspor
+Siapa yang termasuk pemohon prioritas?	Pemohon tertentu sesuai ketentuan SOP.	Umum
+Apa yang terjadi jika billing tidak dibayar?	Permohonan kadaluarsa dan harus mengajukan ulang.	Biaya
+Apakah bisa reschedule jadwal?	Bisa 1 kali maksimal H-1 kedatangan.	Lokasi & Jadwal
+Apa itu endorsement (penambahan nama)?	Penambahan nama pada paspor untuk keperluan seperti haji/umroh.	Paspor
+Nama apa yang ditambahkan dalam endorsement?	Nama ayah (orang tua laki-laki).	Umum
+Apakah ada biaya endorsement?	Tidak ada biaya tambahan.	Biaya
+Apa syarat endorsement?	Dokumen pendukung seperti surat travel atau bukti pelunasan haji (BPIH).	Paspor
+Berapa lama paspor selesai?	Sekitar 3 hari setelah permohonan.	Paspor
+Siapa yang boleh mengambil paspor?	Pemohon; keluarga satu KK; atau orang lain dengan surat kuasa.	Paspor
+Apa itu TPPO?	Tindak Pidana Perdagangan Orang yang dicegah melalui kebijakan imigrasi.	Umum
+Untuk layanan Paspor Anak, silakan siapkan dokumen berikut (Asli & Fotokopi A4):	Catatan Penting: Apabila saat pemeriksaan di loket ditemukan perbedaan data antara KTP dan Paspor Lama, petugas berhak meminta dokumen tambahan. Disarankan tetap membawa dokumen lengkap untuk berjaga-jaga.) KTP-el Kedua Orang Tua Kartu Keluarga Akta Kelahiran Anak Buku Nikah Orang Tua Paspor Lama Anak (Jika ada)	Paspor
+Jika nama, tempat lahir, atau tanggal lahir pada KTP, KK, dan Akta/Ijazah Anda tidak sama (meskipun hanya beda satu huruf atau spasi), harap perhatikan ketentuan berikut:	Data yang Benar: Tentukan dokumen mana yang datanya paling benar dan ingin digunakan di paspor.  Surat Keterangan: Anda WAJIB membawa Surat Keterangan dari instansi terkait (misal: Disdukcapil untuk beda nama di KTP/KK, atau Sekolah/Kampus untuk beda nama di Ijazah).  Penetapan Pengadilan: Jika perbedaan data sangat signifikan (ganti nama total), Anda wajib membawa Salinan Penetapan Pengadilan.  Risiko Penundaan: Petugas loket berhak menunda permohonan Anda untuk penelitian lebih lanjut jika perbedaan data dianggap meragukan.	Paspor
+Paspor Anda dianggap RUSAK (dan harus melalui jalur BAP) jika terdapat kondisi berikut:	Halaman biodata/foto tidak terbaca jelas atau terkelupas.  Ada coretan pulpen/spidol di halaman manapun.  Terkena air (lembab, berjamur, atau halaman lengket).  Sampul atau jahitan buku terlepas.  Instruksi: "Jika paspor Anda mengalami salah satu hal di atas, silahkan klik 'Berikutnya' dan pilih opsi 'Hilang/Rusak'.   	Paspor
+Untuk layanan Penggantian Paspor, silakan siapkan dokumen berikut (Asli & Fotokopi A4):	KTP Elektronik Paspor Lama      Catatan Penting: Apabila saat pemeriksaan di loket ditemukan perbedaan data antara KTP dan Paspor Lama, petugas berhak meminta dokumen tambahan (KK/Akta Kelahiran/Ijazah). Disarankan tetap membawa dokumen lengkap untuk berjaga-jaga.	Paspor
+FORMULIR PERSYARATAN PEMBUATAN PASPOR (in general)	https://drive.google.com/drive/folders/1neE7ndKq6HvCNP9iZiUIpx8jzZtdaDlp	Paspor
+FORMULIR SURAT PERNYATAAN ORTU PERSYARATAN UNTUK PASPOR ANAK	https://docs.google.com/document/d/13HAgAqMdHSYEoytE2HR7Zd6uw-Oz83m2/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true	Paspor
+FORMULIR SURAT PERNYATAAN PENAMBAHAN NAMA UNTUK PEMOHON YANG INGIN PENAMBAHAN NAMA (ENDORSEMENT)	https://docs.google.com/document/d/1MnIb5c7kHhkfusIkQZLV992sxDqjI7ZX/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true	Umum
+paspor anak, bayi, anak, balita, dibawah umur, di bawah umur?	👶 *Paspor untuk Anak (di bawah 17 tahun):*\n✅ KTP kedua orang tua.\n✅ Kartu Keluarga.\n✅ Akta Kelahiran anak.\n✅ Buku Nikah orang tua.\n✅ Paspor orang tua (jika ada).\n\n*Penting:* Kedua orang tua wajib hadir saat wawancara. Informasi ini berdasarkan UU No. 6 Tahun 2011 tentang Keimigrasian & Peraturan Pemerintah No. 28 Tahun 2019. Data dapat berubah sewaktu-waktu sesuai kebijakan terbaru.	Paspor
+paspor baru 10 th, masa berlaku 10 th, 10 tahun?	📅 *Paspor Masa Berlaku 10 Tahun:*\nSesuai Peraturan Menteri Hukum dan HAM No. 18 Tahun 2022, paspor RI dengan masa berlaku paling lama 10 tahun diberikan kepada WNI yang telah berusia 17 tahun atau sudah menikah.\n\n• Biaya tetap mulai dari Rp 350.000 (Non-Elektronik) atau Rp 650.000 (Elektronik). Informasi ini berdasarkan UU No. 6 Tahun 2011 tentang Keimigrasian & Peraturan Pemerintah No. 28 Tahun 2019. Data dapat berubah sewaktu-waktu sesuai kebijakan terbaru.	Biaya
+apakah bisa bikin paspor tanpa ktp, tidak punya ktp, ktp hilang bikin paspor	❌ Tidak bisa. KTP adalah dokumen wajib untuk pembuatan paspor. Silakan urus KTP terlebih dahulu di Disdukcapil	Paspor
+paspor bisa dikirim, kirim paspor ke rumah, delivery paspor	📦 Pengiriman paspor tergantung kebijakan kantor imigrasi. Biasanya paspor diambil langsung, namun beberapa kantor menyediakan layanan pengiriman via pos.	Lokasi & Jadwal
+boleh pakai fotokopi saja, dokumen fotokopi, apakah harus asli	📄 Wajib membawa dokumen asli. Fotokopi hanya sebagai pelengkap, bukan pengganti.	Paspor
+telat datang imigrasi, terlambat jadwal paspor, tidak datang sesuai jadwal	⏰ Jika terlambat, Anda berisiko tidak dilayani dan harus reschedule atau daftar ulang melalui M-Paspor.	M-Paspor
+bisa datang lebih cepat dari jadwal, datang sebelum jam, antrian lebih awal	📌 Disarankan datang sesuai jadwal. Datang terlalu awal belum tentu langsung dilayani.	Lokasi & Jadwal
+bisa daftar langsung ke kantor imigrasi, tanpa aplikasi, offline daftar paspor	❌ Tidak bisa (umumnya). Pendaftaran wajib melalui aplikasi M-Paspor, kecuali kondisi khusus (prioritas/walk-in tertentu).	M-Paspor
+berapa lama wawancara paspor, proses wawancara lama	⏳ Wawancara biasanya berlangsung sekitar 5–10 menit tergantung kondisi.	Paspor
+apakah boleh diwakilkan saat wawancara, bisa diwakilkan bikin paspor	❌ Tidak bisa. Pemohon wajib hadir sendiri untuk biometrik & wawancara.	Paspor
+apakah bisa ganti foto paspor, foto paspor ulang	📸 Tidak bisa memilih atau mengganti foto sendiri. Foto diambil langsung oleh petugas imigrasi.	Paspor
+pakaian saat foto paspor, baju paspor, dresscode paspor	👕 Gunakan pakaian rapi dan sopan. Hindari warna putih polos (karena background putih).	Paspor
+apakah paspor bisa dipercepat tanpa bayar, gratis percepatan	❌ Tidak bisa. Layanan percepatan dikenakan biaya tambahan Rp1.000.000.	Biaya
+paspor expired apakah masih bisa dipakai, paspor kadaluarsa	❌ Tidak bisa digunakan. Paspor harus masih berlaku minimal 6 bulan untuk perjalanan internasional.	Paspor
+apakah bisa ubah data di paspor, revisi nama paspor, perubahan data	📄 Bisa, tetapi harus melalui prosedur perubahan data dengan dokumen pendukung resmi.	Paspor
+apakah paspor bisa dipakai untuk umroh tanpa endorsement	⚠️ Tidak disarankan. Biasanya diperlukan endorsement (penambahan nama) sesuai ketentuan travel/kemenag.	Paspor
+apakah anak harus hadir saat buat paspor	👶 Ya, anak wajib hadir untuk foto & biometrik.	Paspor
+paspor lama hilang tapi ada fotokopi	📄 Tetap dianggap hilang. Harus mengikuti prosedur paspor hilang dan tetap dikenakan denda.	Biaya
+Apakah bisa memilih kantor imigrasi lain setelah daftar?	❌ Tidak bisa. Harus sesuai kantor yang dipilih saat pendaftaran di M-Paspor.	M-Paspor
+Apakah wajib punya paspor untuk ke luar negeri?	✅ Ya, paspor adalah dokumen wajib untuk perjalanan internasional.	Paspor
+Apakah paspor bisa hangus jika tidak diambil?	⚠️ Bisa. Jika tidak diambil dalam waktu tertentu, paspor dapat dibatalkan sesuai kebijakan.	Paspor
+Apakah bisa memperpanjang paspor sebelum habis masa berlaku?	✅ Bisa. Disarankan perpanjangan dilakukan sebelum masa berlaku habis.	Paspor
+Berapa minimal sisa masa berlaku paspor untuk bepergian?	📅 Minimal 6 bulan sebelum tanggal keberangkatan.	Paspor
+Apakah bisa membuat paspor untuk lansia?	👴 Bisa. Lansia termasuk kategori prioritas pelayanan.	Paspor
+Apakah bisa membuat paspor tanpa KK?	❌ Tidak bisa. KK merupakan salah satu dokumen wajib.	Paspor
+Apakah paspor bisa digunakan sebagai KTP?	❌ Tidak bisa. Paspor hanya untuk identitas perjalanan internasional.	Paspor
+Apakah bisa membuat paspor jika belum menikah?	✅ Bisa. Status pernikahan tidak mempengaruhi pembuatan paspor.	Paspor
+Apakah bisa membuat paspor untuk bayi baru lahir?, Untuk layanan Paspor Anak, silakan siapkan dokumen berikut (Asli & Fotokopi A4):, paspor anak, bayi, anak, balita, dibawah umur, di bawah umur?	👶 Bisa, selama dokumen persyaratan lengkap.	Paspor
+Apakah bisa menggunakan paspor lama yang masih berlaku setelah buat baru?	❌ Tidak bisa. Paspor lama akan dinonaktifkan.	Paspor
+Apakah paspor bisa ditolak?	⚠️ Bisa. Jika data tidak lengkap, tidak valid, atau tidak memenuhi syarat.	Paspor
+Apakah bisa mempercepat proses tanpa antrian?	❌ Tidak bisa, kecuali menggunakan layanan percepatan resmi.	Umum
+Apakah bisa membuat paspor untuk keperluan kerja di luar negeri?	✅ Bisa, namun biasanya diperlukan dokumen tambahan sesuai ketentuan.	Paspor
+SYARAT TAMBAHAN BERKAS PEMBUATAN PASPOR DENGAN TUJUAN UNTUK UMROH ADALAH	SURAT REKOMENDASI KEMENAG/TRAVEL UMROH DAN SURAT PENAMBAHAN NAMA: DENGAN MENAMBAH NAMA MENJADI 2 SUKU KATA (MISAL: Malik Amrullah)	Paspor
+SYARAT TAMBAHAN BERKAS PEMBUATAN PASPOR DENGAN TUJUAN UNTUK HAJI ADALAH	SURAT Biaya Penyelenggaraan Ibadah Haji (BPIH) DAN SURAT PENAMBAHAN NAMA: DENGAN MENAMBAH NAMA MENJADI 3 SUKU KATA (MISAL: Malik Amrullah Ambo)	Biaya
+Apakah bisa membuat paspor tanpa travel umroh?, paspor tanpa travel umroh, bikin paspor sendiri umroh, paspor tanpa agen	✅ Bisa, namun untuk keberangkatan tetap memerlukan travel resmi.	Paspor
+Apakah anak bisa ikut umroh harus punya paspor sendiri?, paspor anak umroh, bayi umroh paspor, anak ikut haji paspor	👶 Ya, setiap individu wajib memiliki paspor masing-masing.	Paspor
+Apakah paspor harus sesuai dengan data di Kemenag?, data paspor harus sama kemenag, sinkron data haji paspor, data tidak cocok paspor	✅ Ya, data harus konsisten untuk menghindari kendala keberangkatan.	Paspor
+Paspor itu berlaku selamanya?, Pasport buat selamanya?, Paspor buat selamanya?	tidak, paspor memiliki masa berlaku yang terbatas, ada yang 5 tahun dan 10 tahun. tentu saja harganya juga berbeda	Biaya
+Berapa lama paspor jadi setelah foto?	Paspor selesai dalam waktu 4 hari kerja setelah foto, wawancara, dan pembayaran terkonfirmasi di sistem.	Biaya
+Bisakah ganti data di paspor?	Ganti data (nama/lahir) harus melampirkan penetapan pengadilan atau surat resmi Disdukcapil. Silakan konsultasi di bagian Informasi.	Paspor
+Ganti Paspor karena habis masa berlaku	Cukup bawa E-KTP (Asli) dan Paspor Lama (Asli) saja (terbitan 2009 ke atas dan data sesuai).	Paspor
+Syarat Paspor untuk Umroh	Syarat sama (E-KTP, KK, Akta Lahir/Buku Nikah). Disarankan bawa Surat Rekomendasi Travel Umroh resmi Kemenag.	Paspor
+Bisakah ambil paspor lewat Grab/Gojek?	Bisa jika ada Surat Kuasa bermaterai 10.000 dan fotokopi KTP pemberi & penerima kuasa.	Paspor
+Layanan Paspor Simpatik (Akhir Pekan)	Dibuka pada momen tertentu. Pantau Instagram @imigrasi.pangkalpinang untuk jadwalnya.	Lokasi & Jadwal
+Syarat Paspor untuk Pekerja Migran (PMI)	Syarat umum + Surat Rekomendasi dari Dinas Tenaga Kerja (Disnaker).	Paspor
+Ketentuan Foto Paspor (Baju & Rambut)	Pakai baju berkerah (bukan kaos) & tidak putih. Rambut rapi & telinga terlihat jelas (jika tidak berhijab).	Paspor
+Syarat Paspor bagi Lansia/Disabilitas	Lansia (60+) dan disabilitas dapat layanan prioritas tanpa antre lama. Syarat sama dengan umum.	Paspor
+Status paspor Ajudikasi artinya apa?	Menunggu verifikasi akhir oleh sistem pusat. Proses total biasanya 4 hari kerja.	Paspor

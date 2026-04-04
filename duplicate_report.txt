@@ -1,0 +1,12 @@
+﻿[dotenv@17.3.1] injecting env (11) from .env -- tip: ÔÜÖ´©Å  write to custom object with { processEnv: myObject }
+­ƒöì Membaca data dari Spreadsheet...
+Ô£à Successfully fetched 130 entries from Google Sheets.
+­ƒôè Total Data: 130 entri.
+
+ÔÜá´©Å  DITEMUKAN 1 DATA DUPLIKAT (Eksak):
+
+- Baris 111 duplikat dari Baris 110
+  Tanya: hrg pasportt ank?
+  Jawab: harga paspor anak dan dewasa itu sama, yang beda i...
+
+­ƒöì Mengecek pertanyaan yang mirip tapi jawaban beda...

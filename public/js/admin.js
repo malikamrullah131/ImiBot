@@ -225,9 +225,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Pertanyaan Baru</label>
                             <h4 class="text-lg font-bold text-slate-800 font-outfit leading-relaxed">${item.query}</h4>
                         </div>
-                        <div class="border-l border-slate-100 pl-0 lg:pl-8">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Saran Jawaban (Draf)</label>
-                            <textarea id="tg-ans-${i}" class="w-full text-sm bg-slate-50 border border-slate-100 rounded-2xl p-4 focus:ring-2 focus:ring-sky-500/10 focus:border-sky-500 outline-none h-32 leading-relaxed transition-all">${item.suggestedAnswer}</textarea>
+                        <div class="border-l border-slate-100 pl-0 lg:pl-8 flex flex-col gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Kategori Topik (AI Suggestion)</label>
+                                <input id="tg-cat-${i}" type="text" value="${item.suggestedCategory || 'Lainnya'}" class="w-full text-xs font-bold bg-sky-50 border border-sky-100 text-sky-700 rounded-xl p-3 focus:ring-2 focus:ring-sky-500/10 focus:border-sky-500 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Saran Jawaban (Draf)</label>
+                                <textarea id="tg-ans-${i}" class="w-full text-sm bg-slate-50 border border-slate-100 rounded-2xl p-4 focus:ring-2 focus:ring-sky-500/10 focus:border-sky-500 outline-none h-32 leading-relaxed transition-all">${item.suggestedAnswer}</textarea>
+                            </div>
                             <div class="flex gap-3 mt-4">
                                 <button id="btn-approve-${i}" onclick="approveTraining('${i}', '${encodeURIComponent(item.query)}')" class="flex-1 bg-emerald-500 text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-100">
                                     <i data-lucide="check" class="w-4 h-4"></i>
@@ -250,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.approveTraining = async (idx, queryEncoded) => {
         const query = decodeURIComponent(queryEncoded);
+        const category = document.getElementById(`tg-cat-${idx}`).value;
         const answer = document.getElementById(`tg-ans-${idx}`).value;
         const btn = document.getElementById(`btn-approve-${idx}`);
         
@@ -262,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('/api/approve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question: query, answer })
+                body: JSON.stringify({ question: query, answer, category })
             });
 
             if (res.ok) {
@@ -529,15 +536,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             container.innerHTML = data.recipients.map(id => {
                 const phone = id.split('@')[0];
-                const displayNum = phone.startsWith('62') ? '+' + phone : phone;
+                // Only show real phone numbers (starting with 62, 10-15 digits)
+                const isRealPhone = /^62\d{8,13}$/.test(phone);
+                if (!isRealPhone) return ''; // Skip group/device IDs
+                
+                const localNum = '0' + phone.slice(2); // e.g. 62812... → 0812...
+                const displayNum = '+' + phone;        // e.g. +62812...
                 return `
                 <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl cursor-pointer hover:bg-sky-50 hover:border-sky-200 transition-all group">
                     <input type="checkbox" name="recipient" value="${id}" class="w-4 h-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
                     <div class="flex-1">
                         <div class="text-sm font-bold text-slate-700 font-outfit">${displayNum}</div>
-                        <div class="text-[10px] text-slate-400 font-semibold tracking-wide flex items-center gap-1">
-                            <i data-lucide="smartphone" class="w-3 h-3"></i> WHATSAPP / HP
-                        </div>
+                        <div class="text-[10px] text-slate-400 font-semibold tracking-wide">${localNum}</div>
                     </div>
                     <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all"></i>
                 </label>

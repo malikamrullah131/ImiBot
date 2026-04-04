@@ -182,6 +182,37 @@ async function generateSuggestedAnswer(query, existingContext) {
 }
 
 /**
+ * Suggests the most appropriate category for a given query based on predefined categories.
+ */
+async function suggestCategory(query) {
+    const categories = ["Paspor", "M-Paspor", "Lokasi & Jadwal", "Biaya", "SOP & Prosedur", "Lainnya"];
+    const promptText = `
+        Kategorikan pertanyaan warga berikut ke dalam salah satu kategori ini: ${categories.join(', ')}.
+        Pertanyaan: "${query}"
+        
+        Berikan HANYA nama kategorinya saja tanpa penjelasan apapun.
+    `;
+
+    const rawKeys = process.env.GEMINI_API_KEY || "";
+    const keys = rawKeys.split(',').map(k => k.replace(/['"]/g, '').trim()).filter(Boolean);
+    if (keys.length === 0) return "Lainnya";
+
+    const selectedKey = keys[Math.floor(Math.random() * keys.length)];
+    try {
+        const genAI = new GoogleGenerativeAI(selectedKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(promptText);
+        let category = result.response.text().trim();
+        
+        // Match against whitelist
+        const match = categories.find(c => category.toLowerCase().includes(c.toLowerCase()));
+        return match || "Lainnya";
+    } catch (e) {
+        return "Lainnya";
+    }
+}
+
+/**
  * Analyzes unknown.txt to find high-frequency failed questions.
  */
 function getTopUnknowns() {
@@ -206,5 +237,6 @@ module.exports = {
     trackEvent,
     getInsights,
     generateSuggestedAnswer,
+    suggestCategory,
     getTopUnknowns
 };

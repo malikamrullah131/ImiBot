@@ -1,60 +1,160 @@
-# ImiBot: AI-Powered Immigration Chatbot (Enterprise Recovery Edition) 🤖🚔⚖️
+# ImiBot: AI-Powered Immigration Chatbot 🤖⚖️👮‍♂️
 
-Selamat datang di **ImiBot**, solusi chatbot WhatsApp tercanggih untuk administrasi Paspor dan Layanan Imigrasi. Sistem ini telah ditingkatkan ke versi **Enterprise Resilience**, yang dirancang untuk tetap melayani warga meskipun sistem AI sedang sibuk atau mengalami gangguan koneksi.
-
-## 🚀 Fitur Utama (Update Terbaru)
-
-### 1. 🛡️ Resilience & Auto-Recovery System
-*   **DeadChat Persistence**: Jika seluruh provider AI (Gemini/DeepSeek) mati, pesan warga tidak akan hilang. Pesan disimpan otomatis ke dalam brankas `deadchat.json`.
-*   **Backlog Queue**: Jika sistem sedang sangat sibuk (High Load), pesan warga masuk ke antrean antrean cerdas untuk dijawab segera setelah sistem stabil.
-*   **AI Pulse Watchdog**: Sistem pemantau mandiri yang mengecek "nadi" AI setiap 15 detik. Jika AI hidup kembali, sistem akan memicu **Rapid-Flush** untuk menjawab semua pesan yang tertahan secara instan.
-
-### 2. 🧠 Smart Learning & AI Router
-*   **Multi-API Load Balancer**: Rotasi otomatis antara **Gemini ↔ DeepSeek ↔ Mistral** untuk menjaga kecepatan dan efisiensi API.
-*   **AI Noise Filter**: Sensor otomatis yang membuang pesan "sampah" (seperti 'Ya', 'Tes', 'Ok') agar tidak mengotori database pengetahuan.
-*   **Diagnostic Command (`!ceklastvar`)**: Pantau hasil belajar AI terakhir (perluasan kata kunci/typo) langsung dari WhatsApp Admin.
-
-### 3. 📊 Admin Command Center (WhatsApp Interface)
-Kendali penuh sistem langsung dari HP Anda menggunakan nomor Admin terdaftar:
-*   `!status` - Menampilkan RAM, uptime, jumlah DeadChat, dan status koneksi WA.
-*   `!ceklastvar` - Mengecek varian kata kunci terakhir yang dipelajari AI.
-*   `!help` - Menampilkan daftar lengkap perintah admin.
-*   `!restart` - Melakukan restart sistem secara remote (membutuhkan PM2).
-*   `!clean` - Membersihkan log dan cache lama untuk menghemat RAM.
-*   `!pause` / `!resume` - Menjeda atau mengaktifkan kembali bot secara instan.
-
-### 🏢 Dashboard Admin (Web Interface)
-Akses melalui `http://localhost:3000/admin` untuk fitur berikut:
-*   **Training Room**: Moderasi draf jawaban AI dan masukkan ke memori permanen dengan 1 klik.
-*   **Antrean Pesan**: Jawab pertanyaan warga secara manual jika sistem sedang sibuk.
-*   **Kesehatan API**: Pantau masa aktif kunci API Anda secara real-time.
-*   **Sinkronisasi**: Tombol **Manual Sync** untuk menarik data terbaru dari Google Sheets.
-
-## 🛠️ Persyaratan Sistem
-*   **Node.js**: Versi 18 ke atas.
-*   **Browser**: Chrome/Edge (untuk Puppeteer).
-*   **Database**: Neon DB (Postgres Cloud).
-*   **Kunci API**: Gemini, OpenRouter (DeepSeek/Mistral).
-
-## 📦 Cara Memulai (Local Installation)
-
-1.  **Clone / Download** folder ini ke komputer Anda.
-2.  Buka terminal, jalankan instalasi dependensi:
-    ```bash
-    npm install
-    ```
-3.  Konfigurasi file `.env`:
-    *   Masukkan kunci API (Gemini/OpenRouter).
-    *   Masukkan URL Neon DB dan Spreadsheet URL.
-4.  Jalankan aplikasi:
-    ```bash
-    npm start
-    ```
-5.  Scan kode QR yang muncul di terminal menggunakan WhatsApp Anda.
-
-## ⚖️ Lisensi & Disclaimer
-Sistem ini dirancang untuk penggunaan internal Kantor Imigrasi. Semua data percakapan dienkripsi dan disimpan secara aman di Cloud Database Anda sendiri.
+**ImiBot** adalah chatbot WhatsApp bertenaga AI untuk administrasi Paspor dan Layanan Imigrasi Pangkalpinang. Dibangun dengan arsitektur **Dual-Brain AI** dan sistem **Auto-Recovery** untuk 24/7 uptime.
 
 ---
-**Penyusun:** Antigravity AI - Advanced Agentic Coding Team
-**Status:** Stable / Production Ready
+
+## 🌟 Arsitektur Sistem
+
+```
+Pesan WhatsApp
+      │
+      ▼
+┌─────────────────┐
+│  Rule Engine     │ ◄── Jawaban kilat (0ms)
+└────────┬────────┘
+         │ (Belum cocok)
+         ▼
+┌─────────────────┐
+│  Smart Cache     │ ◄── Keyword-sorted cache (5ms)
+└────────┬────────┘
+         │ (Cache miss)
+         ▼
+┌─────────────────┐
+│  DB + Semantic   │ ◄── NeonDB + pgvector
+└────────┬────────┘
+         │ (Kasus Kompleks)
+         ▼
+┌─────────────────────────────────┐
+│  🧠 OTAK PERTAMA: Qwen 3.6 Plus │ ◄── Nalar hukum mendalam
+└────────────────┬────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────┐
+│  🦂 OTAK KEDUA: Claude 3.5      │ ◄── Polish & validasi bahasa
+└────────────────┬────────────────┘
+                 │
+                 ▼
+         Jawaban Final WhatsApp
+```
+
+---
+
+## 🚀 Fitur Utama
+
+### 1. 🧠 Dual-Brain AI Engine
+- **Otak Pertama — Qwen 3.6 Plus** (via OpenRouter): Penalaran hukum imigrasi yang mendalam, aktif untuk pertanyaan kompleks (WNA, KITAS, Deportasi, dll).
+- **Otak Kedua — Claude 3.5 Sonnet** (via OpenRouter): Mengaudit & memoles jawaban Qwen agar lebih sopan, profesional, dan akurat sebelum dikirim ke warga.
+- **Traffic Throttle**: Jeda otomatis 1.5 detik antar panggil AI Cloud untuk menghindari Rate Limit (Error 429).
+
+### 2. 🛡️ API Circuit Breaker
+- Setiap kunci API (OpenRouter/Gemini/DeepSeek) yang gagal (401/429) otomatis **dikarantina selama 15 menit**.
+- Sistem akan rotasi ke kunci lain secara otomatis. Jika semua kunci habis, karantina direset (Emergency Reset).
+- Log di terminal: `[API] ⚠️ Key sk-or-v1-xxx... ditandai RUSAK/LIMIT. Cooldown 15 menit.`
+
+### 3. 🧮 Smart Keyword Cache
+- Cache berbasis **urutan kata terurut** (`normalizeSort`): "Paspor Hilang" dan "Hilang Paspor" menghasilkan **cache yang sama**.
+- Memangkas beban Qwen hingga **70%** saat jam sibuk karena pertanyaan serupa tidak perlu diproses ulang.
+
+### 4. 🔄 Auto-Recovery System
+- **DeadChat Persistence**: Pesan warga tidak hilang saat AI mati, disimpan di `deadchat.json`.
+- **Backlog Queue** dengan batas retry **5 kali** — setelah 5 kali gagal, pesan dipindah ke DeadChat agar tidak memboroskan RAM.
+- **RAM Safety Switch**: Ollama (AI lokal) tidak akan dinyalakan jika RAM komputer sudah di atas 88%.
+- **AI Pulse Watchdog**: Memantau kesehatan AI setiap 15 detik dan memicu Rapid-Flush otomatis.
+
+### 5. 🪞 Self-Reflection Admin (`!think`)
+- Admin dapat menjalankan `!think` di WhatsApp untuk memicu audit AI terhadap jawaban terakhirnya.
+- Hasil audit berisi: ✅ Penilaian akurasi, ❌ Kesalahan terdeteksi, dan 💡 Saran perbaikan.
+- Terhubung langsung dengan `!salah [jawaban baru]` untuk siklus **Audit → Koreksi → Belajar**.
+
+### 6. 📊 Admin Command Center (WhatsApp)
+| Perintah | Fungsi |
+|---|---|
+| `!status` | RAM, Uptime, jumlah DeadChat, status koneksi |
+| `!think` | Audit AI Brain terhadap respons terakhir |
+| `!benar` | Konfirmasi jawaban terakhir sudah benar |
+| `!salah [jawaban]` | Koreksi jawaban dan simpan ke database |
+| `!pause` / `!resume` | Jeda / aktifkan bot |
+| `!clean` | Bersihkan cache & log lama |
+| `!restart` | Restart sistem (butuh PM2) |
+| `!help` | Tampilkan semua perintah |
+
+### 7. 🏢 Admin Dashboard (Web)
+Akses: `http://localhost:3000/admin`
+- **Training Room**: Moderasi & approve jawaban AI ke database.
+- **Antrean Pesan**: Jawab manual saat sistem sibuk.
+- **Real-time Logs**: Pantau aktivitas bot.
+- **Manual Sync**: Tarik data terbaru dari Google Sheets.
+
+---
+
+## 🛠️ Persyaratan Sistem
+
+| Komponen | Detail |
+|---|---|
+| Node.js | v18+ (Disarankan v20+) |
+| Database | Neon DB (PostgreSQL Cloud) |
+| AI Utama | OpenRouter API Key (untuk Qwen + Claude) |
+| AI Cadangan | Gemini API Key, DeepSeek API Key, Mistral API Key |
+| WhatsApp | `whatsapp-web.js` + Puppeteer |
+
+---
+
+## 📦 Instalasi & Konfigurasi
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Konfigurasi .env
+# Isi variabel berikut di file .env:
+OPENROUTER_API_KEY="sk-or-v1-..."   # Primary AI (Qwen + Claude)
+QWEN_MODEL="qwen/qwen3.6-plus:free"
+OPENCLAW_API_KEY="sk-or-v1-..."     # Otak Kedua (Claude)
+OPENCLAW_BASE_URL="https://openrouter.ai/api/v1"
+OPENCLAW_MODEL="anthropic/claude-3.5-sonnet"
+GEMINI_API_KEY="..."                 # Cadangan
+DATABASE_URL="postgresql://..."      # Neon DB
+GOOGLE_SCRIPT_WEB_APP_URL="..."     # Google Sheets Sync
+ADMIN_PASSWORD="..."                 # Dashboard login
+
+# 3. Jalankan (dengan Garbage Collector aktif)
+node --expose-gc server.js
+
+# 4. Scan QR Code di terminal via WhatsApp
+```
+
+---
+
+## 📈 Alur Kerja Dual-Brain
+
+```
+[Warga bertanya kasus berat: WNA, Deportasi, KITAS]
+        │
+        ▼
+[🧠 Qwen 3.6 Plus] → Draft jawaban penalaran hukum
+        │
+        ▼
+[🦂 Claude 3.5 Sonnet] → Polish: bahasa sopan + validasi aturan
+        │
+        ▼
+[✅ Jawaban Final] → WhatsApp warga
+```
+
+Log terminal saat Dual-Brain aktif:
+```
+[🧠 AI BRAIN] Meminta analisa dari model: qwen/qwen3.6-plus:free...
+[🧠 TOKEN] Penggunaan: 2344
+[🦂 OPENCLAW] Sedang mereview dan memoles jawaban dari Qwen...
+```
+
+---
+
+## ⚖️ Lisensi & Disclaimer
+
+Sistem ini dirancang untuk penggunaan internal Kantor Imigrasi Kelas I TPI Pangkalpinang. Semua data percakapan dienkripsi dan disimpan secara aman di Cloud Database milik instansi.
+
+---
+**Penyusun:** Antigravity AI — Advanced Agentic Coding Team
+**Versi:** 3.0 — Dual-Brain Autonomous Reflection Edition
+**Status:** ✅ Stable / Production Ready

@@ -74,12 +74,13 @@ async function fetchSpreadsheetData(url) {
 /**
  * Adds a new entry to the knowledge base via POST request to Google Apps Script.
  */
-async function addKnowledgeBaseEntry(url, question, answer) {
+async function addKnowledgeBaseEntry(url, question, answer, category = "Umum") {
     if (!url) throw new Error("Google Script URL is missing.");
     try {
         const payload = {
             Question: question,
             Answer: answer,
+            Category: category,
             action: "add", // Optional hint for some scripts
             timestamp: new Date().toISOString()
         };

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { pool } = require('./db');
 
 const storePath = path.join(__dirname, 'vectors.json');
 
@@ -47,43 +48,42 @@ function loadVectors() {
 }
 
 /**
- * Sync logic: Only creates new embeddings if the text hasn't been embedded yet.
- * Call this dynamically when spreadsheet is updated.
+ * Sync logic: Detects rows in Neon DB missing embeddings, generates them via Gemini,
+ * and updates the database. Eliminates dependence on vectors.json.
  */
-async function syncVectors(rawData) {
-    console.log("[Vector Store] Syncing embeddings...");
-    let existingVectors = loadVectors();
-    let updated = false;
-
-    for (const row of rawData) {
-        const text = `${row.Question || row.Pertanyaan || ''} ${row.Answer || row.Jawaban || ''}`.trim();
-        if (!text) continue;
-
-        // Check if we already have this text embedded
-        const exists = existingVectors.find(v => v.text === text);
+async function syncVectors() {
+    console.log("[Vector Store] Syncing embeddings to Neon DB...");
+    
+    try {
+        // 1. Get rows that need embeddings
+        const res = await pool.query('SELECT id, question, answer FROM knowledge_base WHERE embedding IS NOT NULL LIMIT 0'); // Template for schema check
+        const rowsToEmbed = await pool.query('SELECT id, question, answer FROM knowledge_base WHERE embedding IS NULL');
         
-        if (!exists) {
-            console.log(`[Vector Store] Indexing new entry: ${text.substring(0, 30)}...`);
+        if (rowsToEmbed.rows.length === 0) {
+            console.log("[Vector Store] Database vector store is up to date.");
+            return;
+        }
+
+        console.log(`[Vector Store] Found ${rowsToEmbed.rows.length} entries missing embeddings. Processing...`);
+
+        for (const row of rowsToEmbed.rows) {
+            const text = `${row.question} ${row.answer}`.trim();
+            if (!text) continue;
+
+            console.log(`[Vector Store] Indexing: ${row.question.substring(0, 30)}...`);
             const embedding = await createEmbedding(text);
+            
             if (embedding && embedding.length > 0) {
-                existingVectors.push({
-                    text,
-                    answer: row.Answer || row.Jawaban || text,
-                    embedding
-                });
-                updated = true;
-                // Incremental save so we don't lose progress if it crashes
-                saveVectors(existingVectors);
-                // Wait briefly to avoid hitting rate limits
+                const vectorStr = `[${embedding.join(',')}]`;
+                await pool.query('UPDATE knowledge_base SET embedding = $1 WHERE id = $2', [vectorStr, row.id]);
+                
+                // Rate limit protection
                 await new Promise(r => setTimeout(r, 800));
             }
         }
-    }
-
-    if (updated) {
-        console.log("[Vector Store] Indexing complete.");
-    } else {
-        console.log("[Vector Store] Database is up to date, no new vectors.");
+        console.log("[Vector Store] Database indexing complete.");
+    } catch (e) {
+        console.error("[Vector Store] Sync Error:", e.message);
     }
 }
 
@@ -107,11 +107,42 @@ async function vectorSearch(query) {
     return scored.slice(0, 3); // top 3
 }
 
+/**
+ * Semantic Vector Search directly via Neon Database (pgvector)
+ */
+async function semanticSearchDB(query) {
+    const queryEmbedding = await createEmbedding(query);
+    if (!queryEmbedding || queryEmbedding.length === 0) return [];
+
+    const vectorStr = `[${queryEmbedding.join(',')}]`;
+    const sql = `
+        SELECT question as "Question", answer as "Answer", category as "Category",
+               (embedding <=> $1) as distance
+        FROM knowledge_base
+        WHERE embedding IS NOT NULL
+        ORDER BY distance ASC
+        LIMIT 3;
+    `;
+
+    try {
+        const res = await pool.query(sql, [vectorStr]);
+        return res.rows.map(r => ({
+            answer: r.Answer,
+            category: r.Category,
+            score: 1 - r.distance // convert distance to a similarity score
+        }));
+    } catch (e) {
+        console.error("[Vector Store] Semantic Search Error:", e.message);
+        return [];
+    }
+}
+
 module.exports = {
     createEmbedding,
     similarity,
     saveVectors,
     loadVectors,
     syncVectors,
-    vectorSearch
+    vectorSearch,
+    semanticSearchDB
 };
