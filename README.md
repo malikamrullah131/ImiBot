@@ -71,4 +71,4 @@ Sistem ini dibuat agar **100% Gratis** dan **Tetap Ringan** meskipun dijalankan 
 > Jika Anda adalah seorang teknisi atau programmer yang ingin mempelajari "daleman" sistem ini, silakan baca [ReadMeForDevs.md](./ReadMeForDevs.md).
 
 **Versi:** 3.0 — Edisi Stabil & Ringan
-**Dibuat Oleh:** Tim Inovasi Imigrasi PKP & Antigravity AI
+**Dibuat Oleh:** Tim Inovasi Imigrasi PKP
