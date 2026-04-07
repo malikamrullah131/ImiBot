@@ -1,0 +1,47 @@
+﻿node : C:\Users\IMIGRASI PK
+P\Downloads\chatbot_new\ser
+ver.js:1178
+At line:1 char:1
++ node server.js > 
+temp_err.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: (C:\  
+  Users\IMIGRA...\server   
+ .js:1178:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+});
+^
+
+SyntaxError: Unexpected 
+token '}'
+    at wrapSafe (node:inter
+nal/modules/cjs/loader:1743
+:18)
+    at Module._compile (nod
+e:internal/modules/cjs/load
+er:1786:20)
+    at Object..js (node:int
+ernal/modules/cjs/loader:19
+43:10)
+    at Module.load (node:in
+ternal/modules/cjs/loader:1
+533:32)
+    at Module._load (node:i
+nternal/modules/cjs/loader:
+1335:12)
+    at wrapModuleLoad (node
+:internal/modules/cjs/loade
+r:255:19)
+    at Module.executeUserEn
+tryPoint [as runMain] (node
+:internal/modules/run_main:
+154:5)
+    at node:internal/main/r
+un_main_module:33:47
+
+Node.js v24.14.1

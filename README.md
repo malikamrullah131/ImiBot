@@ -1,158 +1,74 @@
-# ImmiCare — Inovasi Media Informasi Pelayanan Paspor dengan Chatbot Ramah Edukatif 🤖⚖️👮‍♂️
+# ImmiCare — Asisten Pintar Paspor Kantor Imigrasi Pangkalpinang 🤖👮‍♂️ Indonesia
 
-**ImmiCare** adalah chatbot WhatsApp bertenaga AI untuk administrasi Paspor dan Layanan Imigrasi Pangkalpinang. Dibangun dengan arsitektur **Resilient AI Dispatcher** dan sistem **Auto-Recovery** untuk 24/7 uptime.
-
----
-
-## 🌟 Arsitektur Sistem (Cyber-Resilient v3.5)
-
-```
- Pesan WhatsApp
-      │
-      ▼
-┌─────────────────┐
-│ ⚡ FAST PATH     │ ◄── Rule Engine + Keyword Cache (0-5ms)
-└────────┬────────┘
-         │ (Cache Miss)
-         ▼
-┌─────────────────┐
-│ 🔍 SEMANTIC DB   │ ◄── NeonDB + pgvector (Embedding Search)
-└────────┬────────┘
-         │ (Complex Query)
-         ▼
-┌───────────────────────────────────────┐
-│ 🏠 LOCAL AI MASTER (Ollama Switching) │ ◄── Llama 3.3 / Mistral / Qwen 2.5
-└───────────────────┬───────────────────┘
-                    │ (Ollama Off / RAM FULL)
-                    ▼
-┌───────────────────────────────────────┐
-│ 🧠 AI DISPATCHER (Cloud Logic)        │ ◄── Multi-Key API Rotation
-│ (Qwen 3.6 / Claude / DeepSeek)        │
-└───────────────────┬───────────────────┘
-                    │ (API Fail/Limit 429)
-                    ▼
-┌───────────────────────────────────────┐
-│ 🛡️ ULTIMATE FALLBACK (SDK DIRECT)     │ ◄── Gemini 2.0 Flash ➔ 1.5 Pro
-└───────────────────┬───────────────────┘
-                    │
-                    ▼
-         ✅ JAWABAN FINAL WHATSAPP
-```
+**ImmiCare** adalah chatbot WhatsApp pintar yang dirancang khusus untuk membantu warga mendapatkan informasi layanan paspor secara cepat, akurat, dan ramah. 
 
 ---
 
-## 🚀 Fitur Unggulan (Elite Edition)
+## 🌟 Apa yang Bisa Dilakukan ImmiCare?
 
-### 1. 🌐 Cloud Deployment & Remote Access
-- **Remote QR Web**: Menampilkan QR code login WhatsApp langsung di Dashboard Admin untuk kemudahan koneksi jarak jauh (Cloud Ready).
-- **Mobile-First Dashboard**: Navigasi bot yang dioptimalkan untuk perangkat mobile dengan **Bottom Navigation Bar** yang intuitif.
-
-### 2. 🛡️ Kecahanan API & System Guardian
-- **Ultimate Fallback (Direct-to-Silicon)**: Jalur darurat langsung ke Google Generative AI SDK, melewati perantara (OpenRouter) saat terjadi gangguan massal.
-- **Multi-Key API Rotation**: Rotasi otomatis antara beberapa kunci API untuk memaksimalkan kuota harian (Free Tier Bypass).
-- **Guardian Pulse Watchdog**: Monitor 24/7 yang secara otomatis merestart sistem, membersihkan sampah cache, dan memulihkan sesi WhatsApp jika terdeteksi kegagalan.
-
-### 3. 🎨 Visual Experience (Aero Glass)
-- **Glassmorphism Design**: Dashboard admin futuristik dengan latar belakang blur transparan yang elegan.
-- **AI Thinking Pulse**: Indikator visual real-time yang menyala saat AI sedang memproses nalar hukum untuk warga.
-- **Performance Analytics**: Grafik resolusi pertanyaan (RAG) dan statistik performa sistem secara visual.
-
-### 4. 🧠 Intelligence & Learning System
-- **Training Room 2.0**: Moderasi pintar dengan saran varian pertanyaan dari AI untuk memperkaya pangkalan data.
-- **Google Sheets Automated Sync**: Sinkronisasi dua arah antara database lokal, Neon DB, dan Google Spreadsheet pusat.
-- **Smart Intention (!benar / !salah)**: Bot belajar langsung dari koreksi Admin via WhatsApp untuk meningkatkan akurasi secara permanen.
-
-### 5. 📢 Broadcast & Moderation Pro
-- **Smart Broadcast**: Kirim pesan pengumuman massal ke ribuan warga dengan jeda acak (anti-ban) dan filter waktu (aktif 24 jam, 7 hari, dsb).
-- **Emergency Backlog**: Antrean khusus untuk pesan yang gagal terjawab AI, memungkinkan Admin menjawab secara manual tanpa kehilangan konteks.
-
-### 6. 🏠 Local AI Master (Optimalisasi 8GB RAM 2025)
-- **Intelligent Model Switching**: Bot memilih model terbaik secara otomatis (`phi4` untuk nalar hukum, `mistral` untuk respon cepat, dan `qwen2.5:1.5b` untuk dukungan multibahasa).
-- **RAM Guard Protection**: Memonitor penggunaan memori sistem secara real-time dan secara otomatis beralih ke Cloud AI jika RAM lokal kritis (>85%).
-- **Zero Cost Inference**: Menjalankan AI kelas dunia secara gratis selamanya di server lokal menggunakan model open-source terkuantivikasi.
+Chatbot ini bukan sekadar robot biasa. Dia punya "otak" buatan (AI) yang memungkinkannya untuk:
+- 🕒 **Menjawab 24 Jam**: Tidak perlu menunggu jam kerja kantor untuk bertanya syarat paspor.
+- 💡 **Paham Bahasa Santai**: Anda bisa bertanya dengan bahasa sehari-hari, tidak harus kaku.
+- 📚 **Selalu Belajar**: Jika ada pertanyaan yang dia tidak tahu, Admin kantor akan memberitahu jawabannya, dan chatbot akan langsung ingat selamanya.
+- 🚀 **Sangat Cepat**: Jawaban biasanya dikirim dalam hitungan detik.
 
 ---
 
-## 📊 Admin Command Center (WhatsApp)
-Kelola bot Anda secara remote langsung dari aplikasi WhatsApp dengan perintah berikut:
+## 📲 Cara Menggunakan (Untuk Warga)
 
-| Perintah | Fungsi Utama | Detail Teknis |
-|---|---|---|
-| `!status` | **Cek Kesehatan** | Menampilkan RAM, Uptime, Sesi WA, & jumlah Antrean. |
-| `!sync` | **Sync Darurat** | Ambil data dari Google Sheets & sinkron ke Neon DB. |
-| `!logs` | **Audit Cepat** | Menampilkan 10 baris aktivitas/error terbaru di server. |
-| `!pause` / `!stop` | **Jeda Bot** | Menghentikan bot menjawab warga sementara waktu. |
-| `!resume` / `!start` | **Aktifkan Bot** | Menyalakan kembali bot setelah dijeda. |
-| `!restart` / `!reboot`| **Reboot Sistem** | Mematikan proses Node.js (Auto-restart via Guardian). |
-| `!reindex` | **Upgrade Vektor** | Menghitung ulang embedding memori dengan model terbaru. |
-| `!expand` | **AI Keyword** | Panggil AI untuk mencari variasi kata kunci baru secara cerdas. |
-| `!clean` | **Cleanup** | Menghapus log lama & cache untuk mengosongkan RAM. |
-| `!ceklastvar` | **Review Belajar** | Melihat varian kata kunci terakhir yang dipelajari AI. |
-| `!cek [nomor]` | **Intip Chat** | Melihat pertanyaan & jawaban terakhir dari user tertentu. |
-| `!think [nomor]` | **AI Reflection** | Minta AI mengaudit logikanya sendiri terhadap chat terakhir. |
-| `!benar [nomor]` | **Verify Correct** | Konfirmasi jawaban AI benar & simpan permanen ke Memori. |
-| `!salah [teks]` | **Quick Fix** | Koreksi jawaban salah & simpan sebagai pengetahuan baru. |
-| `!help` | **Manual Book** | Menampilkan daftar lengkap perintah yang tersedia. |
+Cukup kirim pesan WhatsApp ke nomor resmi Kantor Imigrasi PKP. Anda bisa bertanya tentang:
+- "Apa syarat bikin paspor baru?"
+- "Berapa biaya paspor elektronik?"
+- "Jadwal pelayanan hari ini?"
+- "Paspor saya hilang, bagaimana solusinya?"
 
 ---
 
-## 🛠️ Persyaratan & Instalasi
+## 👮‍♂️ Panduan Untuk Admin (Petugas Imigrasi)
 
-```bash
-# 1. Install dependencies
-npm install
+Sangat mudah untuk mengelola chatbot ini tanpa perlu jago komputer:
 
-# 2. Konfigurasi .env
-# Isi variabel berikut di file .env:
-OPENROUTER_API_KEY="sk-or-v1-..."   # Primary AI (Dispatcher)
-GEMINI_API_KEY="..."                 # Cadangan / Fallback Direct
-DATABASE_URL="postgresql://..."      # Neon DB (pgvector)
-GOOGLE_SCRIPT_WEB_APP_URL="..."     # Google Sheets Sync
-ADMIN_PASSWORD="..."                 # Dashboard login
+### 1. Mengisi Data Jawaban
+Anda hanya perlu mengisi **Google Sheets** (Excel Online) yang sudah kami siapkan. Chatbot akan otomatis mengambil data dari sana.
+- Masukkan pertanyaan di kolom "Pertanyaan".
+- Masukkan jawaban di kolom "Jawaban".
 
-# 3. Setup Local AI (Optimasi 8GB RAM)
-# Install Ollama dari ollama.com, lalu jalankan:
-ollama pull phi4
-ollama pull mistral
-ollama pull qwen2.5
+### 2. Dashboard Admin
+Kami menyediakan halaman web cantik (Dashboard) untuk memantau:
+- Siapa saja yang sedang bertanya.
+- Pertanyaan apa yang chatbot belum tahu jawabannya.
+- Status kesehatan sistem (apakah robot sedang aktif atau tidak).
 
-# 4. Jalankan Bot (Guardian Mode)
-npm start
-
-# 5. Scan QR Code di dashboard atau terminal via WhatsApp
-```
+### 3. Perintah Lewat WhatsApp
+Admin bisa mengatur robot langsung dari chat WhatsApp dengan perintah simpel:
+- `!status` : Cek apakah robot sedang sehat atau butuh istirahat.
+- `!pause` : Matikan jawaban otomatis sementara (jika ingin membalas manual).
+- `!resume` : Nyalakan kembali jawaban otomatis.
+- `!sync` : Paksa robot mengambil data terbaru dari Google Sheets.
 
 ---
 
-## 📈 Alur Kerja Dual-Brain
+## 🛠️ Cara Menjalankan Pertama Kali (Sangat Mudah)
 
-```
-[Warga bertanya kasus berat: WNA, Deportasi, KITAS]
-        │
-        ▼
-[🧠 Qwen 3.6 Plus] → Draft jawaban penalaran hukum
-        │
-        ▼
-[🦂 Claude 3.5 Sonnet] → Polish: bahasa sopan + validasi aturan
-        │
-        ▼
-[✅ Jawaban Final] → WhatsApp warga
-```
-
-Log terminal saat Dual-Brain aktif:
-```
-[🧠 AI BRAIN] Meminta analisa dari model: qwen/qwen3.6-plus:free...
-[🧠 TOKEN] Penggunaan: 2344
-[🦂 OPENCLAW] Sedang mereview dan memoles jawaban dari Qwen...
-```
+1. **Pasang Node.js**: Download dan instal Node.js dari situs resminya.
+2. **Download File Ini**: Simpan folder `chatbot_new` di komputer Anda.
+3. **Buka Terminal/CMD**: Ketik perintah berikut:
+   ```bash
+   npm install
+   npm start
+   ```
+4. **Scan QR Code**: Ambil HP kantor, buka WhatsApp > Perangkat Tertaut > Tautkan Perangkat. Scan kode yang muncul di layar komputer. **Selesai!**
 
 ---
 
-## ⚖️ Lisensi & Disclaimer
+## 💎 Kenapa ImmiCare Spesial?
 
-Sistem ini dirancang untuk penggunaan internal Kantor Imigrasi Kelas I TPI Pangkalpinang. Semua data percakapan dienkripsi dan disimpan secara aman di Cloud Database milik instansi.
+Sistem ini dibuat agar **100% Gratis** dan **Tetap Ringan** meskipun dijalankan di komputer kantor biasa (RAM 8GB). Robot ini dirancang untuk tidak pernah tidur, menjaga pelayanan publik tetap prima setiap saat.
 
 ---
-**Penyusun:** Antigravity AI — Advanced Agentic Coding Team
-**Versi:** 3.0 — Dual-Brain Autonomous Reflection Edition
-**Status:** ✅ Stable / Production Ready
+
+> [!NOTE]
+> Jika Anda adalah seorang teknisi atau programmer yang ingin mempelajari "daleman" sistem ini, silakan baca [ReadMeForDevs.md](./ReadMeForDevs.md).
+
+**Versi:** 3.0 — Edisi Stabil & Ringan
+**Dibuat Oleh:** Tim Inovasi Imigrasi PKP & Antigravity AI

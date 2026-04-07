@@ -4,9 +4,34 @@ const path = require('path');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { semanticSearchDB } = require('./vectorStore');
 const { getUserProfile, updateUserProfile } = require('./db');
+const config = require('./config');
 
 // --- DATABASE & CACHE ---
+const cachePath = path.join(__dirname, 'data', 'local_cache.json');
 let localCache = new Map();
+try {
+    if (fs.existsSync(cachePath)) {
+        const fileCache = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+        localCache = new Map(fileCache);
+    }
+} catch (e) { console.error("[CACHE] Failed to load local cache", e.message); }
+
+function saveCacheToDisk() {
+    try {
+        fs.writeFileSync(cachePath, JSON.stringify(Array.from(localCache.entries())), 'utf8');
+    } catch (e) { console.error("[CACHE] Disk Save Error", e); }
+}
+
+function setCache(key, val) { 
+    localCache.set(key, val);
+    if (localCache.size > config.cache.maxEntries) {
+        const firstKey = localCache.keys().next().value;
+        localCache.delete(firstKey);
+    }
+    saveCacheToDisk();
+}
+
+function getCache(key) { return localCache.get(key); }
 let chatHistory = {}; // { [remoteId]: [{role: 'user'|'model', text: string}, ...] }
 const MAX_HISTORY = 3; // DIPANGKAS: Hanya ingat 1.5 percakapan terakhir untuk hemat RAM/Token
 const BAD_KEYS = new Set(); // Circuit Breaker
@@ -17,8 +42,7 @@ const MIN_AI_GAP = 1500; // Minimal jeda 1.5 detik antar request AI Cloud
 const CONFIRMATION_SUFFIX = "\n\nAda lagi yang bisa kami bantu? 😊";
 const NUDGE_MESSAGE = "Maaf, kami tidak mengerti apa yang Anda maksud. Apakah maksud Anda salah satu dari kategori berikut?\n\n1. *Paspor* (Syarat, Hilang, Rusak)\n2. *M-Paspor* (Daftar Online, Antrean)\n3. *Lokasi & Jadwal* (Alamat, Jam Kerja)\n4. *Biaya* (Tarif Non-Elektronik & Elektronik)\n\nSilakan berikan pertanyaan Anda kembali dengan menyebutkan salah satu kategori di atas agar kami bisa membantu lebih baik.";
 
-function getCache(key) { return localCache.get(key); }
-function setCache(key, val) { localCache.set(key, val); }
+
 
 /**
  * Clears all cache entries that match or are similar to a given question.
@@ -36,14 +60,16 @@ function clearCacheForQuestion(question) {
         }
     }
     console.log(`[CACHE] Cleared ${cleared} stale cache entries for: "${question}"`);
-}
+    saveCacheToDisk();
+} // clearCacheForQuestion
 
 /** Clears the entire response cache. Use after bulk corrections. */
 function clearAllCache() {
     const size = localCache.size;
     localCache.clear();
     console.log(`[CACHE] Full cache cleared (${size} entries removed).`);
-}
+    saveCacheToDisk();
+} // clearAllCache
 
 // Step 1: Normalize Input
 function normalize(text) {
@@ -126,36 +152,44 @@ function ruleCheck(input) {
 async function searchDB(input, rawKB) {
     if (!rawKB || rawKB.length === 0) return null;
 
-    // Exact match (highest priority)
     const normalizedInput = normalize(input);
-    const match = rawKB.find(row => normalize(row.Question) === normalizedInput);
-    if (match) return { answer: match.Answer, category: match.Category || "Umum" };
+    
+    // 1. Exact Match (Highest Priority)
+    const exactMatch = rawKB.find(row => row.Question && row.Question.toLowerCase().trim() === input.toLowerCase().trim());
+    if (exactMatch) return { answer: exactMatch.Answer, category: exactMatch.Category || "Umum", method: 'exact' };
 
-    // Advanced Keyword matching
+    // 2. Normalized Match
+    const normalizedMatch = rawKB.find(row => normalize(row.Question) === normalizedInput);
+    if (normalizedMatch) return { answer: normalizedMatch.Answer, category: normalizedMatch.Category || "Umum", method: 'normalized' };
+
+    // 3. Keyword Overlap (Advanced Keyword matching)
     const keywords = normalizedInput.split(/\s+/).filter(w => w.length > 2);
     if (keywords.length > 0) {
         let bestMatch = null;
-        let maxCount = 0;
+        let maxScore = 0;
 
         rawKB.forEach(row => {
-            let count = 0;
+            let score = 0;
             const q = normalize(row.Question);
+            const rowKeywords = q.split(/\s+/);
+            
             keywords.forEach(kw => {
-                // Check for whole word or significant substring
                 if (q.includes(kw)) {
-                    count++;
-                    // Bonus for exact word match
-                    if (q.split(/\s+/).includes(kw)) count += 0.5;
+                    score += 1;
+                    if (rowKeywords.includes(kw)) score += 0.5; // Bonus for whole word
                 }
             });
-            if (count > maxCount) {
-                maxCount = count;
-                bestMatch = { answer: row.Answer, category: row.Category || "Umum" };
+
+            // Normalize score by input keyword count to prevent long questions from winning purely by length
+            const finalScore = score / keywords.length;
+            if (finalScore > maxScore) {
+                maxScore = finalScore;
+                bestMatch = { answer: row.Answer, category: row.Category || "Umum", method: 'keyword', score: finalScore };
             }
         });
 
-        // Threshold for keyword confidence
-        if (maxCount >= 1.5 || (keywords.length === 1 && maxCount >= 1)) return bestMatch;
+        // Threshold for keyword confidence (e.g., 60% overlap)
+        if (maxScore >= 0.6) return bestMatch;
     }
     return null;
 }
@@ -449,8 +483,8 @@ function detectLocalModel(prompt, isComplex) {
     const isID = isProbablyIndonesian(prompt);
 
     // 💡 8GB RAM OPTIMIZED: Using lightweight models (<4B) (Q4_K_M/GGUF)
-    if (!isID) return "qwen2.5:1.5b"; // Light Multilingual
-    return "phi3:mini"; // Fast Indonesian & Reasoning (3.8B - Sangat hemat RAM)
+    if (!isID) return config.localModels.fallback;
+    return config.localModels.primary; // Fast Indonesian & Reasoning (3.8B - Sangat hemat RAM)
 }
 
 async function ollama(prompt, modelName = "phi3:mini") {
@@ -459,7 +493,7 @@ async function ollama(prompt, modelName = "phi3:mini") {
             model: modelName,
             prompt: prompt,
             stream: false,
-            options: { num_ctx: 2048 } // Batasi konteks 2K token saja (~50MB RAM usage)
+            options: { num_ctx: config.performance.localContextLimit } // Batasi konteks 2K token saja (~50MB RAM usage)
         }, { timeout: 25000 });
         return res.data.response;
     } catch (e) {
@@ -469,51 +503,43 @@ async function ollama(prompt, modelName = "phi3:mini") {
 
 // Helper: Fast AI response prioritizing Local Ollama if available
 async function fastAI(prompt, isComplex = false) {
-    // 💡 OPTIMASI LOKAL: Pertanyaan kompleks menggunakan Cloud API (OpenRouter/Gemini) 
-    // agar sistem tetap ringan dan menghindari OOM (Out of Memory). Panggilan API = Bebas RAM.
-    if (isComplex) {
-        console.log(`[ROUTER] Pertanyaan kompleks terdeteksi. Bypass Local AI -> Lempar ke Cloud API.`);
-    } else {
-        // 1. PRIORITAS LOKAL: Ollama (Hanya untuk Simple Query & RAM aman)
-        const os = require('os');
-        const ramUsage = (1 - os.freemem() / os.totalmem()) * 100;
+    const os = require('os');
+    const ramUsage = (1 - os.freemem() / os.totalmem()) * 100;
 
-        // 💡 OPTIMASI: Toleransi RAM dinaikkan ke 96% agar Ollama TETAP menyala walau PC hanya 8GB 
-        if (ramUsage < 96) {
-            try {
-                // Memastikan hanya satu sesi load model dengan context rendah
-                const modelToUse = detectLocalModel(prompt, isComplex);
-                console.log(`[LOCAL-AI] ⚡ Menggunakan Ollama (${modelToUse}) sebagai pemroses utama (Context 2K)...`);
+    // 💡 LITE MODE RESTRICTION
+    if (config.botMode === 'lite' && isComplex && ramUsage > 85) {
+        console.warn("[ROUTER] Lite Mode hit high RAM barrier. Bypassing LLM for complex query.");
+        return "Pertanyaan Anda cukup kompleks. Saya sarankan untuk menghubungi admin atau datang langsung ke kantor untuk informasi lebih lanjut. (Hemat RAM)";
+    }
 
-                const localRes = await ollama(prompt, modelToUse);
-
-                if (localRes) {
-                    console.log(`[LOCAL-AI] ✅ Sukses diproses lokal via ${modelToUse}.`);
-                    return localRes;
-                }
-            } catch (e) {
-                console.warn(`[LOCAL-AI] ⚠️ Ollama (${e.message}) gagal/belum jalan (Skip -> Cloud).`);
+    if (config.botMode !== 'cloud-backup' && ramUsage < config.performance.maxRamTolerance) {
+        try {
+            // 1. PRIMARY LOCAL: Phi-3 Mini (Fastest/Lightest)
+            let modelToUse = config.localModels.primary;
+            
+            // 2. SECONDARY LOCAL: Llama 3.2 (If complex / RAM enough)
+            if (isComplex || ramUsage < 70) {
+                modelToUse = config.localModels.secondary;
             }
-        } else {
-            console.warn(`[LOCAL-AI] ⛔ Ram kritis (${ramUsage.toFixed(1)}%). Langsung ke Cloud.`);
+
+            console.log(`[LOCAL-AI] ⚡ Using Ollama (${modelToUse}) for processing...`);
+            const localRes = await ollama(prompt, modelToUse);
+            if (localRes) return localRes;
+
+        } catch (e) {
+            console.warn(`[LOCAL-AI] ⚠️ Local model failed, trying fallback... ${e.message}`);
         }
     }
 
-    // 2. FALLBACK 1: Cloud AI (Gemini/Llama via OpenRouter)
+    // 3. CLOUD FALLBACK
     try {
         return await gemini(prompt, isComplex);
     } catch (e) {
-        console.warn("[CLOUD-AI] OpenRouter failed, using Direct Gemini SDK...");
+        console.warn("[CLOUD-AI] OpenRouter failed, trying direct SDK...");
         try {
             return await googleDirect(prompt);
         } catch (e2) {
-            console.warn("[ULTIMATE-FALLBACK] Gemini SDK failed, using DeepSeek...");
-            try {
-                return await deepseek(prompt);
-            } catch (e3) {
-                console.warn("[LAST-RESORT] All AI layers failed. Returning emergency response.");
-                return "Maaf, sistem AI kami sedang dalam pemeliharaan darurat atau kuota harian habis. Silakan hubungi admin kami melalui link di bio untuk bantuan manual. 🙏";
-            }
+            return "Maaf, sistem AI sedang dalam pemeliharaan atau limit harian habis. Silakan hubungi admin kami. 🙏";
         }
     }
 }
@@ -602,37 +628,42 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
     const history = chatHistory[remoteId] || [];
     const historySummary = history.map(h => `${h.role === 'user' ? 'User' : 'AI'}: ${h.text}`).join('\n');
 
-    // 2. Rule Check
+    // 1. Rule Check (Fastest)
     const rule = ruleCheck(input);
     if (rule) return rule;
 
-    // 3. Cache Check (Smart Search)
+    // 2. Cache Check (Smart Search)
     const smartInput = normalizeSort(input);
     const cached = getCache(smartInput);
     if (cached) return cached;
 
-    // 4. Database Similarity Search (Raw)
+    // 3. Database Search Pipeline (Exact -> Normalized -> Keyword)
     let dbMatchObj = await searchDB(input, rawKB);
 
-    // --- SEMANTIC SEARCH FALLBACK (Phase: pgvector) ---
-    if (!dbMatchObj) {
-        console.log(`[AI] No keyword match for "${input}". Trying Semantic Search...`);
+    // 4. Vector Match Fallback (Phase: pgvector or local-vector)
+    if (!dbMatchObj && config.features.useVectorDB && config.vectorMode !== 'off') {
+        const isLite = config.vectorMode === 'lite' || config.botMode === 'lite';
+        const topK = isLite ? config.performance.vectorLiteK : config.performance.vectorFullK;
+        const threshold = isLite ? 0.75 : 0.45; // Stricter in lite mode
+
+        console.log(`[AI] No keyword match. Trying Vector-${isLite ? 'Lite' : 'Full'} Match...`);
         const semanticMatches = await semanticSearchDB(input);
-        if (semanticMatches && semanticMatches.length > 0 && semanticMatches[0].score > 0.45) { // Match threshold
-            console.log(`[AI] Semantic Match found: ${semanticMatches[0].score.toFixed(3)} confidence.`);
+        
+        if (semanticMatches && semanticMatches.length > 0 && semanticMatches[0].score >= threshold) {
+            console.log(`[AI] Vector Match found: ${semanticMatches[0].score.toFixed(3)} confidence.`);
             dbMatchObj = {
                 answer: semanticMatches[0].answer,
-                category: semanticMatches[0].category || "Umum"
+                category: semanticMatches[0].category || "Umum",
+                method: 'vector'
             };
         }
     }
-    let curatedIntent = null;
 
-    // 4b. AI Curator (Only if raw search lacks confidence)
-    if (!dbMatchObj) {
-        console.log(`[AI CURATOR] No direct DB match. Asking Gemini to interpret...`);
+    // 5. AI Curator Fallback (If still no match)
+    let curatedIntent = null;
+    if (!dbMatchObj && !isComplex && config.botMode !== 'lite') {
+        console.log(`[AI CURATOR] No direct/vector match. Asking AI to interpret...`);
         curatedIntent = await intentCurator(msgBody);
-        console.log(`[AI CURATOR] Interpreted intent: "${curatedIntent}"`);
         dbMatchObj = await searchDB(normalize(curatedIntent), rawKB);
     }
 
@@ -650,20 +681,20 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
 
             return dbMatchObj.answer + CONFIRMATION_SUFFIX;
         } else {
-            console.log(`[AI] Pertanyaan KOMPLEKS terdeteksi! RAG dikumpulkan, meneruskan ke Qwen AI Brain...`);
+            console.log(`[AI] Pertanyaan KOMPLEKS terdeteksi! RAG dikumpulkan, meneruskan ke AI Brain...`);
             dbContextForComplex = `REFERENSI ATURAN (RAG): ${dbMatchObj.answer}`;
         }
     }
 
-    // 5. AI Multi-Router with History (Last Resort or Complex Brain Analyzer)
+    // 6. AI Multi-Router with History (Last Resort or Complex Brain Analyzer)
     console.log(`[AI] Processing query via AI Brain untuk ${remoteId}`);
 
     // OPTIMASI: Kumpulkan lebih banyak konteks dari RAG (Semantic Search) jika belum ada
     let ragContext = dbContextForComplex;
-    if (!ragContext) {
+    if (!ragContext && config.features.useVectorDB) {
         const semanticHits = await semanticSearchDB(msgBody);
         if (semanticHits.length > 0) {
-            ragContext = "REFERENSI DATA (RAG):\n" + semanticHits.map((h, i) => `${i + 1}. [${h.category}] ${h.answer}`).join("\n");
+            ragContext = "REFERENSI DATA (RAG):\n" + semanticHits.slice(0, 3).map((h, i) => `${i + 1}. [${h.category}] ${h.answer}`).join("\n");
         }
     }
 

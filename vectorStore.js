@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { pool } = require('./db');
+const config = require('./config');
 const os = require('os'); // DIAKTIFKAN: Untuk monitoring RAM jika diperlukan
 
 const storePath = path.join(__dirname, 'vectors.json');
@@ -63,6 +64,10 @@ async function createBatchEmbeddings(texts, apiKey) {
  * Ini 50x lebih hemat kuota harian dibanding metode satuan.
  */
 async function syncVectors() {
+    if (!config.features.useVectorDB || !process.env.DATABASE_URL) {
+        console.log("[Vector Store] Vector Lite mode active (or DB Offline). Skipping vector sync.");
+        return;
+    }
     try {
         const apiKeys = (process.env.GEMINI_API_KEY || "").split(',').map(k => k.trim()).filter(k => k);
         if (apiKeys.length === 0) {
@@ -134,7 +139,7 @@ async function syncVectors() {
  * Melakukan pencarian semantik (kemiripan makna) menggunakan PGVector di database.
  */
 async function vectorSearch(queryText, limit = 3) {
-    if (!queryText) return [];
+    if (!queryText || !config.features.useVectorDB || !process.env.DATABASE_URL) return [];
     
     try {
         const queryVector = await createEmbedding(queryText, 0, 2); // Izinkan retry singkat untuk pencarian live
@@ -158,6 +163,7 @@ async function vectorSearch(queryText, limit = 3) {
 }
 
 async function forceReindexDB() {
+    if (!config.features.useVectorDB || !process.env.DATABASE_URL) return false;
     try {
         console.log("[Vector Store] Purging all embeddings for re-index...");
         await pool.query('UPDATE knowledge_base SET embedding = NULL');
@@ -169,4 +175,37 @@ async function forceReindexDB() {
     }
 }
 
-module.exports = { syncVectors, vectorSearch, forceReindexDB };
+/**
+ * 🧠 SEMANTIC SEARCH DB (Universal Entry Point)
+ * Memilih strategi pencarian berdasarkan config.vectorMode.
+ */
+async function semanticSearchDB(query, rawKB = []) {
+    if (config.vectorMode === 'off') return [];
+
+    if (config.vectorMode === 'lite' && rawKB.length > 0) {
+        console.log(`[Vector] Lite Mode: Filtering KB for FAQ/High-Quality subset...`);
+        // Filter subset: FAQ or validated answers
+        const subset = rawKB.filter(item => 
+            (item.Category && item.Category.toLowerCase().includes('faq')) || 
+            (item.Question && item.Question.length < 50) // Typical of FAQ style
+        ).slice(0, 50); // Hard limit for RAM safety in lite mode
+        
+        // Return those from the subset that contain keywords from the query as a quick semantic approximation
+        // OR if DB is available, perform actual vector search but limited
+        if (process.env.DATABASE_URL) {
+            return await vectorSearch(query, config.performance.vectorLiteK);
+        }
+        
+        // Manual Keyword fallback if DB offline
+        const keywords = query.toLowerCase().split(' ').filter(k => k.length > 3);
+        return subset.filter(item => {
+            const q = item.Question.toLowerCase();
+            return keywords.some(kw => q.includes(kw));
+        }).slice(0, 3);
+    }
+
+    // Default: Full Vector Search
+    return await vectorSearch(query, config.performance.vectorFullK);
+}
+
+module.exports = { syncVectors, vectorSearch, forceReindexDB, semanticSearchDB };

@@ -3,6 +3,29 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = path.join(__dirname, 'data');
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+
+const LOCAL_KB_PATH = path.join(DATA_DIR, 'local_kb.json');
+const USER_PROFILES_PATH = path.join(DATA_DIR, 'user_profiles.json');
+
+function readLocalJSON(filePath) {
+    try {
+        if (fs.existsSync(filePath)) return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    } catch (e) {
+        console.error(`Failed reading local JSON: ${filePath}`, e.message);
+    }
+    return null;
+}
+
+function writeLocalJSON(filePath, data) {
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    } catch (e) {
+        console.error(`Failed writing local JSON: ${filePath}`, e.message);
+    }
+}
+
 function logStatus(msg) {
     const timestamp = new Date().toLocaleString();
     fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), `[${timestamp}] [DB] ${msg}\n`);
@@ -29,17 +52,6 @@ async function initDb() {
       last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       source TEXT DEFAULT 'spreadsheet'
     );
-    ALTER TABLE knowledge_base ADD COLUMN IF NOT EXISTS category TEXT;
-    -- Drop and recreate because dimension change requires it
-    DO $$ 
-    BEGIN 
-        IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='knowledge_base' AND column_name='embedding' AND (udt_name='vector' AND character_maximum_length != 3072)) THEN
-            ALTER TABLE knowledge_base DROP COLUMN embedding;
-        END IF;
-    END $$;
-    ALTER TABLE knowledge_base ADD COLUMN IF NOT EXISTS embedding vector(3072);
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_question ON knowledge_base (question);
-    
     CREATE TABLE IF NOT EXISTS chatbot_logs (
       id SERIAL PRIMARY KEY,
       user_id TEXT,
@@ -48,7 +60,6 @@ async function initDb() {
       log_type TEXT DEFAULT 'chat',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-
     CREATE TABLE IF NOT EXISTS system_status (
       id SERIAL PRIMARY KEY,
       bot_status TEXT,
@@ -57,10 +68,7 @@ async function initDb() {
       ram_usage TEXT,
       last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-    -- Ensure only one row for current status
     INSERT INTO system_status (id, bot_status) VALUES (1, 'OFFLINE') ON CONFLICT (id) DO NOTHING;
-
-    -- STEP 4: Long-term Memory (User Profiling)
     CREATE TABLE IF NOT EXISTS user_profiles (
       phone_number TEXT PRIMARY KEY,
       name TEXT,
@@ -71,6 +79,7 @@ async function initDb() {
     );
   `;
   try {
+    if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL missing");
     const client = await pool.connect();
     await client.query('CREATE EXTENSION IF NOT EXISTS vector;');
     await client.query(query);
@@ -78,18 +87,20 @@ async function initDb() {
     console.log('✅ Neon Database initialized successfully.');
     logStatus('Neon Database initialized successfully.');
   } catch (err) {
-    console.error('❌ Failed to initialize Neon DB:', err.message);
-    logStatus(`Failed to initialize Neon DB: ${err.message}`);
+    console.warn('⚠️ Neon DB Unavailable. Switching to LOCAL-ONLY mode.', err.message);
+    logStatus(`Database Fallback Active: ${err.message}`);
+    if (!fs.existsSync(LOCAL_KB_PATH)) writeLocalJSON(LOCAL_KB_PATH, []);
+    if (!fs.existsSync(USER_PROFILES_PATH)) writeLocalJSON(USER_PROFILES_PATH, {});
   }
 }
 
 /**
  * Syncs spreadsheet data to the Neon database.
- * @param {Array} data - Array of objects from the spreadsheet.
  */
 async function syncToNeon(data) {
   if (!process.env.DATABASE_URL) {
-    console.warn('⚠️ DATABASE_URL not found in .env. Skipping Neon sync.');
+    console.warn('⚠️ DATABASE_URL not found in .env. Saving to local cache.');
+    writeLocalJSON(LOCAL_KB_PATH, data);
     return;
   }
 
@@ -103,9 +114,7 @@ async function syncToNeon(data) {
       const embedding = row.embedding || row.Embedding || null;
       
       if (question && answer) {
-        // PGVector expects [val1, val2, ...] format as a string
         const vectorStr = embedding ? `[${embedding.join(',')}]` : null;
-
         const query = `
           INSERT INTO knowledge_base (question, answer, category, embedding, source)
           VALUES ($1, $2, $3, $4, 'spreadsheet')
@@ -118,6 +127,7 @@ async function syncToNeon(data) {
     await client.query('COMMIT');
     console.log(`✅ Successfully synced ${data.length} entries to Neon DB.`);
     logStatus(`Successfully synced ${data.length} entries to Neon DB.`);
+    writeLocalJSON(LOCAL_KB_PATH, data);
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('❌ Neon Sync Error:', err.message);
@@ -131,13 +141,14 @@ async function syncToNeon(data) {
  * Fetches all Knowledge Base entries from Neon DB.
  */
 async function fetchFromNeon() {
-  if (!process.env.DATABASE_URL) return null;
   try {
+    if (!process.env.DATABASE_URL) throw new Error("No DB URL");
     const res = await pool.query('SELECT question as "Question", answer as "Answer", category as "Category" FROM knowledge_base ORDER BY last_updated DESC');
+    if (res.rows.length > 0) writeLocalJSON(LOCAL_KB_PATH, res.rows);
     return res.rows;
   } catch (err) {
-    console.error('❌ Failed to fetch from Neon:', err.message);
-    return null;
+    console.warn('📦 DB Fail: Loading from local_kb.json...');
+    return readLocalJSON(LOCAL_KB_PATH) || [];
   }
 }
 
@@ -145,13 +156,13 @@ async function fetchFromNeon() {
  * Retrieves a user's memory profile.
  */
 async function getUserProfile(phoneNumber) {
-  if (!process.env.DATABASE_URL) return null;
   try {
+    if (!process.env.DATABASE_URL) throw new Error("No DB");
     const res = await pool.query('SELECT * FROM user_profiles WHERE phone_number = $1', [phoneNumber]);
     return res.rows.length > 0 ? res.rows[0] : null;
   } catch (err) {
-    console.warn(`[DB] Failed to get user profile for ${phoneNumber}:`, err.message);
-    return null;
+    const localProfiles = readLocalJSON(USER_PROFILES_PATH) || {};
+    return localProfiles[phoneNumber] || null;
   }
 }
 
@@ -159,22 +170,25 @@ async function getUserProfile(phoneNumber) {
  * Updates a user's memory profile.
  */
 async function updateUserProfile(phoneNumber, data) {
-  if (!process.env.DATABASE_URL) return null;
   const { name = '', state = 'active', last_topic = '', history_summary = '' } = data;
   try {
+    if (!process.env.DATABASE_URL) throw new Error("No DB");
     const query = `
       INSERT INTO user_profiles (phone_number, name, state, last_topic, history_summary, updated_at)
       VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
       ON CONFLICT (phone_number) DO UPDATE 
       SET name = COALESCE(NULLIF($2, ''), user_profiles.name),
-          state = $3,
-          last_topic = $4,
-          history_summary = $5,
-          updated_at = CURRENT_TIMESTAMP;
+          state = $3, last_topic = $4, history_summary = $5, updated_at = CURRENT_TIMESTAMP;
     `;
     await pool.query(query, [phoneNumber, name, state, last_topic, history_summary]);
   } catch (err) {
-    console.warn(`[DB] Failed to update user profile for ${phoneNumber}:`, err.message);
+    const localProfiles = readLocalJSON(USER_PROFILES_PATH) || {};
+    localProfiles[phoneNumber] = { 
+        ...localProfiles[phoneNumber], 
+        phone_number: phoneNumber, name, state, last_topic, history_summary, 
+        updated_at: new Date().toISOString() 
+    };
+    writeLocalJSON(USER_PROFILES_PATH, localProfiles);
   }
 }
 
