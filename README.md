@@ -1,13 +1,13 @@
-# ImiBot: AI-Powered Immigration Chatbot 🤖⚖️👮‍♂️
+# ImmiCare — Inovasi Media Informasi Pelayanan Paspor dengan Chatbot Ramah Edukatif 🤖⚖️👮‍♂️
 
-**ImiBot** adalah chatbot WhatsApp bertenaga AI untuk administrasi Paspor dan Layanan Imigrasi Pangkalpinang. Dibangun dengan arsitektur **Resilient AI Dispatcher** dan sistem **Auto-Recovery** untuk 24/7 uptime.
+**ImmiCare** adalah chatbot WhatsApp bertenaga AI untuk administrasi Paspor dan Layanan Imigrasi Pangkalpinang. Dibangun dengan arsitektur **Resilient AI Dispatcher** dan sistem **Auto-Recovery** untuk 24/7 uptime.
 
 ---
 
 ## 🌟 Arsitektur Sistem (Cyber-Resilient v3.5)
 
 ```
-Pesan WhatsApp
+ Pesan WhatsApp
       │
       ▼
 ┌─────────────────┐
@@ -21,13 +21,18 @@ Pesan WhatsApp
          │ (Complex Query)
          ▼
 ┌───────────────────────────────────────┐
-│ 🧠 AI DISPATCHER (Load Balanced)      │ ◄── Multi-Key API Rotation
-│ (Llama 3.3 / Qwen / Claude / DeepSeek)│
+│ 🏠 LOCAL AI MASTER (Ollama Switching) │ ◄── Llama 3.3 / Mistral / Qwen 2.5
+└───────────────────┬───────────────────┘
+                    │ (Ollama Off / RAM FULL)
+                    ▼
+┌───────────────────────────────────────┐
+│ 🧠 AI DISPATCHER (Cloud Logic)        │ ◄── Multi-Key API Rotation
+│ (Qwen 3.6 / Claude / DeepSeek)        │
 └───────────────────┬───────────────────┘
                     │ (API Fail/Limit 429)
                     ▼
 ┌───────────────────────────────────────┐
-│ 🛡️ ULTIMATE FALLBACK (SDK DIRECT)     │ ◄── Gemini 1.5 Flash ➔ Pro
+│ 🛡️ ULTIMATE FALLBACK (SDK DIRECT)     │ ◄── Gemini 2.0 Flash ➔ 1.5 Pro
 └───────────────────┬───────────────────┘
                     │
                     ▼
@@ -60,6 +65,11 @@ Pesan WhatsApp
 ### 5. 📢 Broadcast & Moderation Pro
 - **Smart Broadcast**: Kirim pesan pengumuman massal ke ribuan warga dengan jeda acak (anti-ban) dan filter waktu (aktif 24 jam, 7 hari, dsb).
 - **Emergency Backlog**: Antrean khusus untuk pesan yang gagal terjawab AI, memungkinkan Admin menjawab secara manual tanpa kehilangan konteks.
+
+### 6. 🏠 Local AI Master (Optimalisasi 8GB RAM 2025)
+- **Intelligent Model Switching**: Bot memilih model terbaik secara otomatis (`phi4` untuk nalar hukum, `mistral` untuk respon cepat, dan `qwen2.5:1.5b` untuk dukungan multibahasa).
+- **RAM Guard Protection**: Memonitor penggunaan memori sistem secara real-time dan secara otomatis beralih ke Cloud AI jika RAM lokal kritis (>85%).
+- **Zero Cost Inference**: Menjalankan AI kelas dunia secara gratis selamanya di server lokal menggunakan model open-source terkuantivikasi.
 
 ---
 
@@ -100,10 +110,16 @@ DATABASE_URL="postgresql://..."      # Neon DB (pgvector)
 GOOGLE_SCRIPT_WEB_APP_URL="..."     # Google Sheets Sync
 ADMIN_PASSWORD="..."                 # Dashboard login
 
-# 3. Jalankan Bot (Guardian Mode)
+# 3. Setup Local AI (Optimasi 8GB RAM)
+# Install Ollama dari ollama.com, lalu jalankan:
+ollama pull phi4
+ollama pull mistral
+ollama pull qwen2.5
+
+# 4. Jalankan Bot (Guardian Mode)
 npm start
 
-# 4. Scan QR Code di dashboard atau terminal via WhatsApp
+# 5. Scan QR Code di dashboard atau terminal via WhatsApp
 ```
 
 ---

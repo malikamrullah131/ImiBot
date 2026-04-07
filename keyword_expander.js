@@ -31,7 +31,7 @@ async function expandKeywords() {
 
             console.info(`[PROCESS] #${entry.id}: ${originalQ}...`);
 
-            // Minta bantuan AI (Pangkalpinang ImiBot Context)
+            // Minta bantuan AI (Pangkalpinang ImmiCare Context)
             const prompt = `
             Diberikan pertanyaan utama tentang imigrasi: "${originalQ}"
             Tolong buatkan 5-7 variasi pertanyaan lain dengan MAKNA dan KONTEKS yang identik, tetapi dengan kata-kata berbeda (Bahasa Indonesia santai, formal, atau typo umum).

@@ -6,7 +6,31 @@ const os = require('os');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const http = require('http');
+const { Server } = require('socket.io');
 require('dotenv').config();
+const chalk = require('chalk');
+function appendLog(type, sender, msg) {
+    const timestamp = new Date().toLocaleString();
+    const strLog = `[${timestamp}] [${type}] ${sender}: ${msg}\n`;
+    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), strLog);
+    
+    if (type === 'Message Received') {
+        console.log(chalk.blue(`[📩 USER] ${sender}: `) + chalk.white(msg));
+    } else if (type === 'AI Response') {
+        let snippet = msg.length > 80 ? msg.substring(0, 80) + '...' : msg;
+        console.log(chalk.green(`[🤖 AI TO] ${sender}: `) + chalk.gray(snippet));
+    } else if (type === 'ERROR') {
+        console.log(chalk.red(`[❌ ERROR] ${sender}: `) + chalk.redBright(msg));
+    } else if (type === 'STATUS') {
+        console.log(chalk.yellow(`[⚡ STATUS] `) + chalk.yellowBright(msg));
+    } else if (type === 'BROADCAST') {
+        console.log(chalk.magenta(`[📢 BROADCAST] `) + chalk.magentaBright(msg));
+    } else {
+        console.log(chalk.cyan(`[${type}] ${sender}: `) + msg);
+    }
+}
+
 
 const { fetchSpreadsheetData, addKnowledgeBaseEntry } = require('./sheets');
 const { askAIProtocol, getAIStatus, logUnknown, getBotHealth, clearCacheForQuestion, clearAllCache, reflectOnInteraction, markBadKey } = require('./ai');
@@ -17,15 +41,15 @@ const { initDb, syncToNeon, fetchFromNeon } = require('./db');
 
 // --- 💎 PREMIUM STARTUP BRANDING 💎 ---
 console.log("\x1b[36m%s\x1b[0m", `
-██╗███╗   ███╗██╗██████╗  ██████╗ ████████╗
-██║████╗ ████║██║██╔══██╗██╔═══██╗╚══██╔══╝
-██║██╔████╔██║██║██████╔╝██║   ██║   ██║   
-██║██║╚██╔╝██║██║██╔══██╗██║   ██║   ██║   
-██║██║ ╚═╝ ██║██║██████╔╝╚██████╔╝   ██║   
-╚═╝╚═╝     ╚═╝╚═╝╚═════╝  ╚═════╝    ╚═╝   
+██╗███╗   ███╗███╗   ███╗██╗ ██████╗ █████╗ ██████╗ ███████╗
+██║████╗ ████║████╗ ████║██║██╔════╝██╔══██╗██╔══██╗██╔════╝
+██║██╔████╔██║██╔████╔██║██║██║     ███████║██████╔╝█████╗  
+██║██║╚██╔╝██║██║╚██╔╝██║██║██║     ██╔══██║██╔══██╗██╔══╝  
+██║██║ ╚═╝ ██║██║ ╚═╝ ██║██║╚██████╗██║  ██║██║  ██║███████╗
+╚═╝╚═╝     ╚═╝╚═╝     ╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
 `);
 console.log("\x1b[32m%s\x1b[0m", "====================================================");
-console.log("\x1b[32m%s\x1b[0m", "🚀 IMIBOT ADVISOR - KANTOR IMIGRASI PKP IS ONLINE");
+console.log("\x1b[32m%s\x1b[0m", "🚀 IMMICARE ADVISOR - KANTOR IMIGRASI PKP IS ONLINE");
 console.log("\x1b[32m%s\x1b[0m", "====================================================");
 console.log(`📡 Platform      : ${os.platform()} (${os.arch()})`);
 console.log(`🧠 AI Dispatcher  : Multi-Model Ready (Gemini/Llama/DeepSeek)`);
@@ -95,7 +119,7 @@ const ADMIN_WA_NUMBER = "6287729391757@c.us"; // Your Admin Number
 async function sendGuardianAlert(message) {
     try {
         const timestamp = new Date().toLocaleString();
-        const alertMsg = `📢 *GUARDIAN ALERT (ImiBot)*\n\n⚠️ *Aktivitas Sistem:* ${message}\n📅 *Waktu:* ${timestamp}\n\n_Segera cek Dashboard Admin untuk detail lebih lanjut._`;
+        const alertMsg = `📢 *GUARDIAN ALERT (ImmiCare)*\n\n⚠️ *Aktivitas Sistem:* ${message}\n📅 *Waktu:* ${timestamp}\n\n_Segera cek Dashboard Admin untuk detail lebih lanjut._`;
         await client.sendMessage(ADMIN_WA_NUMBER, alertMsg);
         console.log(`[Guardian] 🚨 Alert sent to admin: ${message}`);
     } catch (e) {
@@ -126,7 +150,7 @@ async function startBot() {
     // WELCOME MESSAGE TO ADMIN
     setTimeout(async () => {
         try {
-            await sendGuardianAlert("🌟 *Halo Admin!* ImiBot Advisor sudah Online.\n\nSistem siap melayani warga Kantor Imigrasi PKP. Semua jalur AI (Local/Cloud) dalam status siaga. 🚀");
+            await sendGuardianAlert("🌟 *Halo Admin!* ImmiCare Advisor sudah Online.\n\nSistem siap melayani warga Kantor Imigrasi PKP. Semua jalur AI (Local/Cloud) dalam status siaga. 🚀");
         } catch (e) {}
     }, 10000);
 }
@@ -205,17 +229,13 @@ client.on('qr', (qr) => {
 
 client.on('authenticated', () => {
     const timestamp = new Date().toLocaleString();
-    const logMsg = `[${timestamp}] [STATUS] WhatsApp authenticated!`;
-    console.log(logMsg);
-    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
+    appendLog('STATUS', 'System', 'WhatsApp authenticated!');
     global.waStatus = "AUTHENTICATED";
 });
 
 client.on('ready', async () => {
     const timestamp = new Date().toLocaleString();
-    const logMsg = `[${timestamp}] [STATUS] WhatsApp Bot is ready and connected!`;
-    console.log(logMsg);
-    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
+    appendLog('STATUS', 'System', 'WhatsApp Bot is ready and connected!');
     global.waStatus = "READY";
     
     // Initialize Database
@@ -225,9 +245,7 @@ client.on('ready', async () => {
 
 client.on('disconnected', (reason) => {
     const timestamp = new Date().toLocaleString();
-    const logMsg = `[${timestamp}] [STATUS] WhatsApp disconnected: ${reason}`;
-    console.log(logMsg);
-    fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logMsg + "\n");
+    appendLog('STATUS', 'System', `WhatsApp disconnected: ${reason}`);
     global.waStatus = "DISCONNECTED";
 });
 
@@ -496,8 +514,7 @@ async function handleIncomingMessage(from, body, timestamp) {
         await client.sendMessage(from, reply);
         
         // 4. Update Logs & History
-        const aiLogEntry = `[${timestamp}] [AI Response] to ${from}: ${reply}\n\n`;
-        fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), aiLogEntry);
+        appendLog('AI Response', from, reply);
         await logToNeon(from, body, reply, 'chat_recovered');
         
         lastInteractions[from] = { question: body, answer: reply, timestamp: new Date().toLocaleString() };
@@ -519,7 +536,7 @@ async function handleIncomingMessage(from, body, timestamp) {
                 `❓ *Pertanyaan Warga:*`,
                 previewQ,
                 ``,
-                `🤖 *Jawaban ImiBot:*`,
+                `🤖 *Jawaban ImmiCare:*`,
                 previewA,
                 ``,
                 `━━━━━━━━━━━━━━━━`,
@@ -663,7 +680,7 @@ client.on('message', async (msg) => {
                 const uptimeMin = Math.floor(process.uptime() / 60);
                 const waState = global.waStatus || 'UNKNOWN';
                 const statusMsg = [
-                    `📊 *STATUS BOT IMIGRASI*`,
+                    `📊 *STATUS IMMICARE*`,
                     ``,
                     `🖥️ *RAM Terpakai:* ${usedMemPct}%`,
                     `⏳ *Uptime:* ${uptimeMin} menit`,
@@ -784,7 +801,7 @@ client.on('message', async (msg) => {
 
             if (cmd === '!help') {
                 const helpMsg = [
-                    `🛡️ *IMIBOT ADMIN COMMANDS*`,
+                    `🛡️ *IMMICARE ADMIN COMMANDS*`,
                     ``,
                     `• \`!status\` - Laporan RAM, uptime & koneksi`,
                     `• \`!sync\` - Paksa sinkronisasi Google Sheets`,
@@ -909,9 +926,7 @@ Jawaban sekarang: "${correction}"
     if (botPaused) return; // SKIP IF PAUSED
     if (msg.body) {
         const timestamp = new Date().toLocaleString();
-        const logEntry = `[${timestamp}] [Message Received] ${msg.from}: ${msg.body}\n`;
-        console.log(`[Message Received] ${msg.from}: ${msg.body}`);
-        fs.appendFileSync(path.join(__dirname, 'chatbot_logs.txt'), logEntry);
+        appendLog('Message Received', msg.from, msg.body);
         
         let queue = loadQueue();
         queue.push({ from: msg.from, body: msg.body, timestamp });
@@ -927,6 +942,10 @@ client.initialize().catch(err => {
 
 // --- EXPRESS SERVER & ADMIN DASHBOARD ---
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: "*" } });
+global.io = io;
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
@@ -1222,6 +1241,7 @@ app.post('/api/broadcast', requireAuth, async (req, res) => {
             await new Promise(resolve => setTimeout(resolve, delay));
         }
         console.log('[ADMIN] Broadcast sequence completed.');
+        if (global.io) global.io.emit('notification', { message: 'Siaran telah selesai', playSound: true });
     })();
 });
 
@@ -1396,7 +1416,7 @@ app.post('/api/system/maintenance/clean', requireAuth, (req, res) => {
 app.get('/api/system/logs/export', requireAuth, (req, res) => {
     const logFile = path.join(__dirname, 'chatbot_logs.txt');
     if (fs.existsSync(logFile)) {
-        res.download(logFile, `ImiBot_Logs_${new Date().toISOString().split('T')[0]}.txt`);
+        res.download(logFile, `ImmiCare_Logs_${new Date().toISOString().split('T')[0]}.txt`);
     } else {
         res.status(404).send("File log belum tersedia.");
     }
@@ -1405,7 +1425,7 @@ app.get('/api/system/logs/export', requireAuth, (req, res) => {
 // Internal API: Notify Admin (For system push notifications)
 app.post('/api/internal/notify-admin', express.json(), async (req, res) => {
     const { secret, message } = req.body;
-    if (secret === "imibot-sys-99") {
+    if (secret === "immicare-sys-99") {
         try {
             await client.sendMessage(ADMIN_WA_NUMBER, message);
             res.json({ success: true });
@@ -1550,7 +1570,7 @@ setInterval(() => {
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Admin Dashboard running at http://localhost:${PORT}/admin`);
 });
 

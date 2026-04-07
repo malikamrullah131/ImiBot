@@ -6,6 +6,69 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastProcessedTimestamp = null;
     let lastAIReady = true;
 
+    // --- PWA SERVICE WORKER REGISTRATION ---
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(registration => {
+                console.log('SW registered: ', registration);
+            }).catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+        });
+    }
+
+    // --- DARK MODE LOGIC ---
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+    let isDark = localStorage.getItem('theme') === 'dark';
+
+    window.toggleDarkMode = () => {
+        isDark = !isDark;
+        if (isDark) {
+            htmlElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            document.getElementById('dark-icon')?.setAttribute('data-lucide', 'sun');
+        } else {
+            htmlElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            document.getElementById('dark-icon')?.setAttribute('data-lucide', 'moon');
+        }
+        if (window.lucide) lucide.createIcons();
+    };
+
+    // Initialize Theme
+    if (isDark) {
+        htmlElement.classList.add('dark');
+        setTimeout(() => document.getElementById('dark-icon')?.setAttribute('data-lucide', 'sun'), 100);
+    } else {
+        htmlElement.classList.remove('dark');
+    }
+
+    // --- GLOBAL PROGRESS LOGIC ---
+    window.showGlobalProgress = (show, title = 'Memproses...', desc = 'Sistem sedang bekerja.') => {
+        const overlay = document.getElementById('global-progress');
+        if (!overlay) return;
+        if (show) {
+            document.getElementById('progress-title').innerText = title;
+            document.getElementById('progress-desc').innerText = desc;
+            overlay.classList.remove('hidden');
+            setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+        } else {
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }
+    };
+
+    // --- SOCKET.IO REAL-TIME NOTIFICATIONS ---
+    if (typeof io !== 'undefined') {
+        const socket = io();
+        socket.on('notification', (data) => {
+            showNotification(data.message, data.type || 'success');
+            if(data.playSound) playNotification();
+        });
+        socket.on('backlog_update', () => fetchBacklog());
+    }
+
     // --- NAVIGATION ---
     window.switchTab = (tabId, el) => {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
@@ -651,6 +714,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('sync-btn');
         btn.innerHTML = '<span class="animate-spin inline-block">⏳</span> Syncing...';
         btn.disabled = true;
+        showGlobalProgress(true, 'Sinkronisasi Spreadsheet', 'Sedang mengambil data terbaru dari Google Sheets...');
 
         try {
             const res = await fetch('/api/sync', { method: 'POST' });
@@ -668,6 +732,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             btn.innerHTML = '🔄 Sync Spreadsheet';
             btn.disabled = false;
+            showGlobalProgress(false);
         }
     };
 

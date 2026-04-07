@@ -59,12 +59,12 @@ function normalizeSort(text) {
 // Step 2: Rule-Based Logic (Fastest)
 const GREETINGS_MAP = {
     'paling-pendek': {
-        keywords: ['halo', 'hi', 'hai', 'helo', 'assalamualaikum', 'asalamuallaikum', 'p', 'tes', 'test', 'halo imibot'],
-        response: 'Halo! Saya ImiBot, asisten AI Kantor Imigrasi PKP. Ada yang bisa saya bantu terkait layanan paspor?'
+        keywords: ['halo', 'hi', 'hai', 'helo', 'assalamualaikum', 'asalamuallaikum', 'p', 'tes', 'test', 'halo immicare'],
+        response: 'Halo! Saya ImmiCare, asisten AI Kantor Imigrasi PKP. Ada yang bisa saya bantu terkait layanan paspor?'
     },
     'waktu': {
         keywords: ['pagi', 'siang', 'sore', 'malam', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam'],
-        response: 'Saya ImiBot dari Kantor Imigrasi PKP. Ada yang bisa saya bantu hari ini?'
+        response: 'Saya ImmiCare dari Kantor Imigrasi PKP. Ada yang bisa saya bantu hari ini?'
     },
     'terima-kasih': {
         keywords: ['terima kasih', 'makasih', 'suwun', 'thanks', 'thx', 'atur nuhun', 'sip', 'oke', 'ok'],
@@ -72,7 +72,7 @@ const GREETINGS_MAP = {
     },
     'siapa': {
         keywords: ['siapa kamu', 'nama kamu', 'identitas', 'siapa ini', 'bot apa'],
-        response: 'Saya adalah ImiBot, asisten AI cerdas Kantor Imigrasi PKP. Saya di sini untuk membantu Anda dengan informasi seputar layanan keimigrasian.'
+        response: 'Saya adalah ImmiCare, asisten AI cerdas Kantor Imigrasi PKP. Saya di sini untuk membantu Anda dengan informasi seputar layanan keimigrasian.'
     },
     'jadwal-layanan': {
         keywords: ['jam buka', 'jam operasional', 'hari apa buka', 'jadwal kantor', 'hari kerja'],
@@ -100,7 +100,7 @@ const GREETINGS_MAP = {
     },
     'kontak': {
         keywords: ['nomor wa', 'admin', 'customer service', 'hubungi imigrasi', 'telepon'],
-        response: '📞 *Kontak Kami:*\n- WhatsApp (ImiBot): Nomor ini\n- Instagram: @imigrasi.pangkalpinang\n- Email: kanim.pangkalpinang@imigrasi.go.id\n\nJika ada kendala mendesak, silakan ketik pesan Anda dan tunggu admin kami merespon pada jam kerja.'
+        response: '📞 *Kontak Kami:*\n- WhatsApp (ImmiCare): Nomor ini\n- Instagram: @imigrasi.pangkalpinang\n- Email: kanim.pangkalpinang@imigrasi.go.id\n\nJika ada kendala mendesak, silakan ketik pesan Anda dan tunggu admin kami merespon pada jam kerja.'
     },
     'cek-status': {
         keywords: ['cek status', 'nomor permohonan', 'sudah jadi belum', 'sampai mana', 'monitoring'],
@@ -176,7 +176,7 @@ function markBadKey(key) {
     if (!key || BAD_KEYS.has(key)) return;
     BAD_KEYS.add(key);
     console.warn(`[API] ⚠️ Key ${key.substring(0, 10)}... ditandai RUSAK/LIMIT. Cooldown 3 menit.`);
-    
+
     // Auto-recovery cleanup
     setTimeout(() => {
         if (BAD_KEYS.has(key)) {
@@ -194,7 +194,7 @@ async function deepseek(prompt) {
     try {
         const res = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
             // Updated to DeepSeek R1 (Better Reasoning)
-            model: "deepseek/deepseek-r1:free", 
+            model: "deepseek/deepseek-r1:free",
             messages: [{ role: "user", content: prompt }]
         }, { headers: { Authorization: `Bearer ${key}` }, timeout: 25000 });
         return res.data.choices[0].message.content;
@@ -213,20 +213,20 @@ async function gemini(prompt, isComplex = false, retryCount = 0) {
     if (!key) throw new Error("No Key OpenRouter/Gemini found in env");
 
     // DAFTAR MODEL ALTERNATIF (URUT DARI TERBAIK HINGGA TERSTABIL)
-    const models = isComplex 
+    const models = isComplex
         ? [
-            "meta-llama/llama-3.3-70b-instruct:free", 
-            "deepseek/deepseek-r1:free", 
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "deepseek/deepseek-r1:free",
             "google/gemini-2.0-flash-lite-preview-02-05:free",
             "qwen/qwen-2.5-72b-instruct:free"
-          ]
+        ]
         : [
-            "google/gemini-2.0-flash-lite-preview-02-05:free", 
+            "google/gemini-2.0-flash-lite-preview-02-05:free",
             "google/gemini-flash-1.5:free",
             "mistralai/mistral-7b-instruct:free",
             "meta-llama/llama-3.1-8b-instruct:free"
-          ];
-    
+        ];
+
     // Pilih model berdasarkan level retry (Otomatis geser ke model yang lebih stabil jika gagal)
     const modelName = models[retryCount % models.length];
 
@@ -235,12 +235,12 @@ async function gemini(prompt, isComplex = false, retryCount = 0) {
     LAST_REQ_TIME.brain = Date.now();
 
     console.log(`[🧠 AI BRAIN] #${retryCount + 1} Menganalisa via ${modelName}...`);
-    
+
     try {
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
             model: modelName,
             messages: [
-                { role: "system", content: "Anda adalah ImiBot, Asisten AI resmi Kantor Imigrasi PKP. Gunakan database yang diberikan secara ketat. Jika informasi tidak ada, arahkan untuk bertanya ke Admin. Jangan berimajinasi tentang harga atau tanggal libur." },
+                { role: "system", content: "Anda adalah ImmiCare (Sistem AI yang menjawab pertanyaan mengenai Keimigrasian dengan mencari sumber jawaban melalui internet dan berikan saran jawaban ini kepada admin), Asisten AI resmi Kantor Imigrasi PKP. Gunakan database yang diberikan secara ketat. Jika informasi tidak ada, arahkan untuk bertanya ke Admin. Jangan berimajinasi tentang harga atau tanggal libur." },
                 { role: "user", content: prompt }
             ],
             temperature: 0.5
@@ -251,16 +251,19 @@ async function gemini(prompt, isComplex = false, retryCount = 0) {
 
         return response.data.choices[0].message.content || "Maaf, AI Brain mengalami kendala pengembalian teks.";
     } catch (err) {
-        if (err.response && (err.response.status === 401 || err.response.status === 429)) markBadKey(key);
-        
+        if (err.message.includes('429') && retryCount < models.length - 1) {
+            console.warn(`[AI BRAIN] Rate limit (429) hit. Waiting 5s before fallback...`);
+            await new Promise(r => setTimeout(r, 5000));
+        }
+
         // AUTO-SWITCH: Jika gagal (429/500/404), coba model berikutnya di daftar
         if (retryCount < models.length - 1) {
             console.warn(`[AI BRAIN] Model ${modelName} gagal, Mencoba model alternatif...`);
             return gemini(prompt, isComplex, retryCount + 1);
         }
-        
+
         console.error(`[AI BRAIN] Fatal Error after all retries: ${err.message}`);
-        
+
         // ULTIMATE FALLBACK: Jika OpenRouter total failure, coba SDK Google langsung
         console.warn(`[AI BRAIN] 🚨 OpenRouter TOTAL FAILURE. Mencoba jalur darurat (Direct Google SDK)...`);
         return await googleDirect(prompt);
@@ -278,24 +281,37 @@ async function googleDirect(prompt) {
 
         const { GoogleGenerativeAI } = require("@google/generative-ai");
         const genAI = new GoogleGenerativeAI(apiKey);
-        
-        // 🧪 TIERED DIRECT SYSTEM: Mencoba Flash, jika gagal coba Pro
+
+        // 🧪 TIERED DIRECT SYSTEM: Mencoba 2.0 Flash -> 1.5 Flash -> 1.5 Pro
         let model;
         try {
-            // Flash is free and fast
-            model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            // TIER 1: Gemini 2.0 Flash (Fastest, High Quota)
+            try {
+                model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                const result = await model.generateContent(prompt);
+                const text = result.response.text();
+                if (text) return text;
+            } catch (e) {
+                console.warn(`[DIRECT-SDK] 2.0 Flash failed: ${e.message}`);
+                // Smart Retry: If it tells us to wait 7s, let's wait 8s and try the next tier!
+                if (e.message && e.message.includes('retryDelay')) {
+                    console.warn(`[DIRECT-SDK] Delay diminta oleh Google. Menunggu 8 detik...`);
+                    await new Promise(r => setTimeout(r, 8000));
+                }
+            }
+
+            // TIER 2: Gemini 2.5 Flash (Most Reliable Fallback)
+            model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
             const result = await model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const text = result.response.text();
             if (text) return text;
-            throw new Error("Empty response from Flash");
+            throw new Error("Empty response from 2.5 Flash");
         } catch (e) {
-            console.warn(`[DIRECT-SDK] Flash failed, trying Pro fallback... ${e.message}`);
-            // Pro is the most stable
-            model = genAI.getGenerativeModel({ model: "gemini-pro" });
+            console.warn(`[DIRECT-SDK] Flash tiers failed, trying Pro fallback... ${e.message}`);
+            // TIER 3: Gemini 2.5 Pro (Brain Fallback)
+            model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" }); // Fixed from legacy 'gemini-1.5-pro'
             const result = await model.generateContent(prompt);
-            const response = await result.response;
-            return response.text();
+            return result.response.text();
         }
     } catch (e) {
         console.error(`[ULTIMATE-FALLBACK] Failed: ${e.message}`);
@@ -309,7 +325,7 @@ async function googleDirect(prompt) {
 async function reflectOnInteraction(question, answer) {
     const prompt = `
 SISTEM ANALISIS MANDIRI (Self-Reflection):
-Anda adalah Pengawas Kualitas AI Imigrasi (ImiBot Guardian). 
+Anda adalah Pengawas Kualitas AI Imigrasi (ImmiCare Guardian). 
 
 Tinjau interaksi berikut:
 PENGGUNA: "${question}"
@@ -332,7 +348,7 @@ Ketik \`!salah [tempel jawaban baru di sini]\` untuk mengajari saya secara perma
 `;
 
     // Kita gunakan model reasoning (qwen3.6-plus) untuk tugas audit ini
-    return await gemini(prompt, true); 
+    return await gemini(prompt, true);
 }
 
 /**
@@ -341,10 +357,10 @@ Ketik \`!salah [tempel jawaban baru di sini]\` untuk mengajari saya secara perma
  */
 async function openClawBridge(draft, originalQuery) {
     const apiKey = process.env.OPENCLAW_API_KEY;
-    const baseUrl = process.env.OPENCLAW_BASE_URL || "https://openrouter.ai/api/v1"; 
+    const baseUrl = process.env.OPENCLAW_BASE_URL || "https://openrouter.ai/api/v1";
     const model = process.env.OPENCLAW_MODEL || "anthropic/claude-3.5-sonnet"; // Perbaiki Fallback Model
-    
-    if (!apiKey || apiKey.includes("ISI_DENGAN")) return draft; 
+
+    if (!apiKey || apiKey.includes("ISI_DENGAN")) return draft;
 
     console.log(`[🦂 OPENCLAW] Sedang mereview dan memoles jawaban dari Qwen...`);
     try {
@@ -357,7 +373,7 @@ async function openClawBridge(draft, originalQuery) {
             temperature: 0.3
         }, {
             headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-            timeout: 15000 
+            timeout: 15000
         });
 
         return response.data.choices[0].message.content || draft;
@@ -374,8 +390,8 @@ async function openClawBridge(draft, originalQuery) {
  */
 function detectComplexity(query) {
     const complexKeywords = [
-        'wna', 'asing', 'kitas', 'kitap', 'hukum', 'pidana', 'deportasi', 'cekal', 'ganda', 
-        'kewarganegaraan', 'hilang di luar negeri', 'suaka', 'sponsor', 'penjamin', 
+        'wna', 'asing', 'kitas', 'kitap', 'hukum', 'pidana', 'deportasi', 'cekal', 'ganda',
+        'kewarganegaraan', 'hilang di luar negeri', 'suaka', 'sponsor', 'penjamin',
         'subjek', 'dwi', 'investasi', 'golden visa', 'perkawinan campur', 'pindah kewarganegaraan'
     ];
     const q = query.toLowerCase();
@@ -405,40 +421,82 @@ async function mistral(prompt) {
     return res.data.choices[0].message.content;
 }
 
-async function ollama(prompt) {
-    const res = await axios.post('http://localhost:11434/api/generate', {
-        model: "llama3",
-        prompt: prompt,
-        stream: false
-    });
-    return res.data.response;
+/**
+ * 🕵️‍♂️ LINGUISTIC DETECTOR
+ * Menganalisis apakah pertanyaan dalam Bahasa Indonesia yang 'jelas'
+ * atau bahasa asing/campuran untuk pemilihan model AI.
+ */
+function isProbablyIndonesian(text) {
+    const idMarkers = [
+        ' yang ', ' dan ', ' di ', ' ke ', ' dari ', ' adalah ', ' apakah ',
+        ' mau ', ' saya ', ' anda ', ' kamu ', ' kita ', ' mereka ',
+        ' bagaimana ', ' kapan ', ' kenapa ', ' mengapa ', ' dimana '
+    ];
+    const formalMarkers = ['paspor', 'kantor', 'imigrasi', 'layanan', 'syarat', 'biaya'];
+    const lower = (` ${text.toLowerCase()} `);
+
+    if (idMarkers.some(marker => lower.includes(marker))) return true;
+    if (formalMarkers.some(m => lower.includes(m))) return true;
+
+    return false;
+}
+
+/**
+ * 🤖 LOCAL MODEL SELECTOR (Ollama Master 2025)
+ * Memilih model terbaik berdasarkan jenis pertanyaan dan bahasa.
+ */
+function detectLocalModel(prompt, isComplex) {
+    const isID = isProbablyIndonesian(prompt);
+
+    // 💡 8GB RAM OPTIMIZED: Using lightweight models (<4B) (Q4_K_M/GGUF)
+    if (!isID) return "qwen2.5:1.5b"; // Light Multilingual
+    return "phi3:mini"; // Fast Indonesian & Reasoning (3.8B - Sangat hemat RAM)
+}
+
+async function ollama(prompt, modelName = "phi3:mini") {
+    try {
+        const res = await axios.post('http://localhost:11434/api/generate', {
+            model: modelName,
+            prompt: prompt,
+            stream: false,
+            options: { num_ctx: 2048 } // Batasi konteks 2K token saja (~50MB RAM usage)
+        }, { timeout: 25000 });
+        return res.data.response;
+    } catch (e) {
+        throw new Error(`Ollama Error (${modelName}): ${e.message}`);
+    }
 }
 
 // Helper: Fast AI response prioritizing Local Ollama if available
 async function fastAI(prompt, isComplex = false) {
-    // 1. PRIORITAS: Cek Ollama Lokal (Hemat Biaya/Gratis Selamanya)
-    // Syarat: Ollama menyala dan RAM aman (<88%)
-    const os = require('os');
-    const ramUsage = (1 - os.freemem() / os.totalmem()) * 100;
-    
-    if (ramUsage < 88) {
-        try {
-            console.log(`[LOCAL-AI] ⚡ Mecoba Ollama (Llama 3) sebagai pemroses utama...`);
-            const localRes = await axios.post('http://localhost:11434/api/generate', {
-                model: isComplex ? "llama3:8b" : "llama3", // Gunakan 8b jika kompleks
-                prompt: prompt,
-                stream: false
-            }, { timeout: 15000 }); // Sumbu pendek (15 detik) jika hang
-            
-            if (localRes.data && localRes.data.response) {
-                console.log(`[LOCAL-AI] ✅ Sukses diproses lokal.`);
-                return localRes.data.response;
-            }
-        } catch (e) {
-            console.warn(`[LOCAL-AI] ⚠️ Ollama tidak merespon atau belum jalan (Skip): ${e.message}`);
-        }
+    // 💡 OPTIMASI LOKAL: Pertanyaan kompleks menggunakan Cloud API (OpenRouter/Gemini) 
+    // agar sistem tetap ringan dan menghindari OOM (Out of Memory). Panggilan API = Bebas RAM.
+    if (isComplex) {
+        console.log(`[ROUTER] Pertanyaan kompleks terdeteksi. Bypass Local AI -> Lempar ke Cloud API.`);
     } else {
-        console.warn(`[LOCAL-AI] ⛔ Ram kritis (${ramUsage.toFixed(1)}%). Langsung ke Cloud.`);
+        // 1. PRIORITAS LOKAL: Ollama (Hanya untuk Simple Query & RAM aman)
+        const os = require('os');
+        const ramUsage = (1 - os.freemem() / os.totalmem()) * 100;
+
+        // 💡 OPTIMASI: Toleransi RAM dinaikkan ke 96% agar Ollama TETAP menyala walau PC hanya 8GB 
+        if (ramUsage < 96) {
+            try {
+                // Memastikan hanya satu sesi load model dengan context rendah
+                const modelToUse = detectLocalModel(prompt, isComplex);
+                console.log(`[LOCAL-AI] ⚡ Menggunakan Ollama (${modelToUse}) sebagai pemroses utama (Context 2K)...`);
+
+                const localRes = await ollama(prompt, modelToUse);
+
+                if (localRes) {
+                    console.log(`[LOCAL-AI] ✅ Sukses diproses lokal via ${modelToUse}.`);
+                    return localRes;
+                }
+            } catch (e) {
+                console.warn(`[LOCAL-AI] ⚠️ Ollama (${e.message}) gagal/belum jalan (Skip -> Cloud).`);
+            }
+        } else {
+            console.warn(`[LOCAL-AI] ⛔ Ram kritis (${ramUsage.toFixed(1)}%). Langsung ke Cloud.`);
+        }
     }
 
     // 2. FALLBACK 1: Cloud AI (Gemini/Llama via OpenRouter)
@@ -500,7 +558,7 @@ async function aiRouter(input, isComplex = false) {
             answer
         };
     } catch (err) {
-        markBadKey(getRandomKey('OPENROUTER_API_KEY')); 
+        markBadKey(getRandomKey('OPENROUTER_API_KEY'));
         console.error("[AI ROUTER] Total AI Failure! Sistem sedang kritis.");
         return { intent: "System Busy", rephrase: input, answer: "Maaf, sistem AI sedang melayani banyak warga. Tunggu sejenak ya." };
     }
@@ -605,7 +663,7 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
     if (!ragContext) {
         const semanticHits = await semanticSearchDB(msgBody);
         if (semanticHits.length > 0) {
-            ragContext = "REFERENSI DATA (RAG):\n" + semanticHits.map((h, i) => `${i+1}. [${h.category}] ${h.answer}`).join("\n");
+            ragContext = "REFERENSI DATA (RAG):\n" + semanticHits.map((h, i) => `${i + 1}. [${h.category}] ${h.answer}`).join("\n");
         }
     }
 

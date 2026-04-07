@@ -1,0 +1,10 @@
+{
+  "gemini-embedding-001": {
+    "embedContent": "SUCCESS",
+    "batchEmbedContents": "SUCCESS"
+  },
+  "gemini-embedding-2-preview": {
+    "embedContent": "SUCCESS",
+    "batchEmbedContents": "SUCCESS"
+  }
+}

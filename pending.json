@@ -203,5 +203,15 @@
     "intent": "Auto-Resolved",
     "timestamp": "2026-04-04T11:35:00.276Z",
     "status": "pending"
+  },
+  {
+    "id": 1775454217525,
+    "question": "Halo Imibot, saya ini WNA asal Malaysia pemegang Kitas. Tapi kemarin pas lagi di pantai Pangkalpinang dompet saya dicuri, ada paspor dan kitas saya hilang. Sebagai WNA, saya takut kena deportasi dan masalah hukum pidana kalau tidak ada identitas. Saya harus jalan ke mana dulu untuk amannya?",
+    "normalized": "halo imibot saya ini wna asal malaysia pemegang kitas tapi kemarin pas lagi di pantai pangkalpinang dompet saya dicuri ada paspor dan kitas saya hilang sebagai wna saya takut kena deportasi dan masalah hukum pidana kalau tidak ada identitas saya harus jalan ke mana dulu untuk amannya",
+    "suggestion": "Maaf, sistem AI kami sedang dalam pemeliharaan darurat atau kuota harian habis. Silakan hubungi admin kami melalui link di bio untuk bantuan manual. 🙏",
+    "rephrase": "\n\"KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelu...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-06T05:43:37.525Z",
+    "status": "pending"
   }
 ]

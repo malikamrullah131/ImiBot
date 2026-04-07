@@ -1,5 +1,5 @@
 # ============================================================
-#  ImiBot Anti-Sleep Launcher
+#  ImmiCare Anti-Sleep Launcher
 #  Jalankan file ini dengan klik kanan -> "Run with PowerShell"
 #  Bot akan tetap aktif selama script ini berjalan
 # ============================================================
@@ -19,7 +19,7 @@ $null = $type::SetThreadExecutionState($ES_CONTINUOUS -bor $ES_SYSTEM_REQUIRED)
 
 Write-Host ""
 Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host "   *** ImiBot Anti-Sleep Launcher ***" -ForegroundColor Yellow
+Write-Host "   *** ImmiCare Anti-Sleep Launcher ***" -ForegroundColor Yellow
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host "  [OK] Mode Sleep Windows: DINONAKTIFKAN" -ForegroundColor Green
 Write-Host "  [OK] Bot akan tetap berjalan walau layar mati" -ForegroundColor Green

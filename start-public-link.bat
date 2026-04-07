@@ -1,7 +1,7 @@
 @echo off
-title ImiBot Cloudflare Remote Tunnel
+title ImmiCare Cloudflare Remote Tunnel
 echo ==========================================
-echo    IMIBOT PUBLIC ACCESS LAUNCHER (CLOUDFLARE)
+echo    IMMICARE PUBLIC ACCESS LAUNCHER (CLOUDFLARE)
 echo ==========================================
 echo 1. Membuat jalur data yang sangat aman...
 echo 2. Menunggu Link Resmi Cloudflare...

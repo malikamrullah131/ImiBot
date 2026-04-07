@@ -16,16 +16,15 @@ async function createEmbedding(text, retryCount = 0, maxRetries = 3) {
     const apiKeys = (process.env.GEMINI_API_KEY || "").split(',').map(k => k.trim()).filter(k => k);
     if (apiKeys.length === 0) return null;
     
-    // Rotasi Kunci: Pilih kunci berdasarkan upaya percobaan
+    // Rotasi Kunci
     const apiKey = apiKeys[retryCount % apiKeys.length];
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "models/gemini-embedding-001" });
+    const model = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
 
     try {
         const result = await model.embedContent(text);
         return result && result.embedding ? result.embedding.values : null;
     } catch (e) {
-        // Jika limit 429 dan masih ada jatah retry
         if (e.message.includes('429') && retryCount < maxRetries) {
             const waitTime = (retryCount + 1) * 35000;
             console.warn(`[Vector Store] ⏳ Limit 429. Menunggu ${waitTime/1000}s (Upaya ${retryCount + 1}/${maxRetries})...`);
@@ -38,42 +37,95 @@ async function createEmbedding(text, retryCount = 0, maxRetries = 3) {
 }
 
 /**
- * 🔄 SYNC VECTORS
- * Menyisir database Neon dan menghitung embedding untuk data yang belum memilikinya.
+ * 🚀 CREATE BATCH EMBEDDINGS
+ * Memproses banyak teks sekaligus dalam satu request untuk menghemat jatah kuota harian.
+ * Limit Batch Gemini: 100 per request.
+ */
+async function createBatchEmbeddings(texts, apiKey) {
+    if (!texts || texts.length === 0) return [];
+    
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
+
+    try {
+        const result = await model.batchEmbedContents({
+            requests: texts.map(t => ({ content: { parts: [{ text: t }] } }))
+        });
+        return result.embeddings ? result.embeddings.map(e => e.values) : [];
+    } catch (e) {
+        throw e; // Biarkan pemanggil menangani retry/rotate
+    }
+}
+
+/**
+ * 🔄 SYNC VECTORS (Optimized V2: Batching Mode)
+ * Menyisir database Neon dan menghitung embedding menggunakan metode BATCH (50 per hit).
+ * Ini 50x lebih hemat kuota harian dibanding metode satuan.
  */
 async function syncVectors() {
     try {
-        const rowsToEmbed = await pool.query('SELECT id, question, answer FROM knowledge_base WHERE embedding IS NULL');
+        const apiKeys = (process.env.GEMINI_API_KEY || "").split(',').map(k => k.trim()).filter(k => k);
+        if (apiKeys.length === 0) {
+            console.error("[Vector Store] No GEMINI_API_KEY found. Vector Sync ABORTED.");
+            return;
+        }
+
+        const limitPerRow = 50; // Batch size per request (Max Gemini: 100)
+        const rowsToEmbed = await pool.query('SELECT id, question, answer FROM knowledge_base WHERE embedding IS NULL LIMIT 1000'); // Batasi 1000 per sync cycle
         
         if (rowsToEmbed.rows.length === 0) {
             console.log("[Vector Store] Database vector store is up to date.");
             return;
         }
 
-        console.log(`[Vector Store] Found ${rowsToEmbed.rows.length} entries missing embeddings. Processing...`);
+        console.log(`[Vector Store] Found ${rowsToEmbed.rows.length} entries missing embeddings. [BATCHING MODE ACTIVE]...`);
 
-        for (const row of rowsToEmbed.rows) {
-            const text = `${row.question} ${row.answer}`.trim();
-            if (!text) continue;
+        let currentKeyIdx = 0;
+        let consecutiveErrors = 0;
 
-            console.log(`[Vector Store] Indexing: ${row.question.substring(0, 30)}...`);
-            
-            // PERFORMANCE: Gunakan maxRetries=0 agar saat startup tidak macet jika kena limit
-            const embedding = await createEmbedding(text, 0, 0); 
-            
-            if (embedding && embedding.length > 0) {
-                const vectorStr = `[${embedding.join(',')}]`;
-                await pool.query('UPDATE knowledge_base SET embedding = $1 WHERE id = $2', [vectorStr, row.id]);
+        for (let i = 0; i < rowsToEmbed.rows.length; i += limitPerRow) {
+            const chunk = rowsToEmbed.rows.slice(i, i + limitPerRow);
+            const texts = chunk.map(r => `${r.question} ${r.answer}`.trim());
+            const apiKey = apiKeys[currentKeyIdx % apiKeys.length];
+
+            try {
+                console.log(`[Vector Store] Processing batch ${Math.floor(i/limitPerRow) + 1}... (${chunk.length} items)`);
+                const embeddings = await createBatchEmbeddings(texts, apiKey);
+
+                if (embeddings && embeddings.length === chunk.length) {
+                    // Update database per batch
+                    for (let j = 0; j < chunk.length; j++) {
+                        const vectorStr = `[${embeddings[j].join(',')}]`;
+                        await pool.query('UPDATE knowledge_base SET embedding = $1 WHERE id = $2', [vectorStr, chunk[j].id]);
+                    }
+                    consecutiveErrors = 0;
+                    console.log(`✅ [Vector Store] Batch ${Math.floor(i/limitPerRow) + 1} saved.`);
+                }
                 
-                // DELAY: Memberikan jeda 5 detik agar ramah bagi Free Tier
-                await new Promise(resolve => setTimeout(resolve, 5000));
-            } else {
-                console.warn(`[Vector Store] Skipping row #${row.id} (Limit/Error). Akan dicoba lagi otomatis nanti.`);
+                // JEDA: Berikan jeda antar batch agar stabil
+                await new Promise(r => setTimeout(r, 10000)); 
+
+            } catch (e) {
+                consecutiveErrors++;
+                if (e.message.includes('429')) {
+                    console.warn(`[Vector Store] ⚠️ API Key #${currentKeyIdx + 1} hit quota limit (429). Rotating...`);
+                    currentKeyIdx++;
+                    
+                    if (currentKeyIdx >= apiKeys.length) {
+                        console.error("[Vector Store] 🚨 ALL API KEYS EXHAUSTED. Saving progress and stopping sync for now.");
+                        break; // Berhenti jika semua key habis
+                    }
+                    i -= limitPerRow; // Retry chunk yang sama dengan key baru
+                    await new Promise(r => setTimeout(r, 5000));
+                } else {
+                    console.error(`[Vector Store] Batch Error: ${e.message}`);
+                    if (consecutiveErrors > 3) break; // Berhenti jika error terus menerus
+                }
             }
         }
-        console.log("[Vector Store] Database indexing complete.");
+        console.log("[Vector Store] Sync session finished.");
     } catch (e) {
-        console.error("[Vector Store] Sync Error:", e.message);
+        console.error("[Vector Store] Global Sync Error:", e.message);
     }
 }
 
@@ -98,7 +150,7 @@ async function vectorSearch(queryText, limit = 3) {
         );
 
         // Hanya kembalikan yang cukup mirip (threshold < 0.25)
-        return res.rows.filter(r => r.distance < 0.25);
+        return res.rows.filter(r => r.distance < 0.35); // Relaxed threshold slightly
     } catch (e) {
         console.error("[Vector Store] Search Error:", e.message);
         return [];

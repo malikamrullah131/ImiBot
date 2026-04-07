@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 const path = require('path');
 
 /**
- * 🛡️ IMIBOT GUARDIAN - Sistem Self-Recovery Mandiri
+ * 🛡️ IMMICARE GUARDIAN - Sistem Self-Recovery Mandiri
  * Berfungsi memantau server utama (server.js) dan menghidupkan kembali otomatis jika crash/mati.
  */
 
@@ -13,7 +13,7 @@ const WINDOW_TIME = 1000 * 60 * 10; // 10 menit
 let lastRestartWindow = Date.now();
 
 function startServer() {
-    console.log(`[GUARDIAN] 🛡️ Memulai ImiBot (server.js)...`);
+    console.log(`[GUARDIAN] 🛡️ Memulai ImmiCare (server.js)...`);
     
     // Memberikan batas RAM 768MB agar lebih stabil di PC
     // PERBAIKAN: Melepas shell: true agar Node.js menangani spasi di Windows secara native
@@ -52,7 +52,7 @@ function startServer() {
 
 // Inisialisasi Pertama
 console.log("=========================================");
-console.log("🛡️ IMIBOT SELF-RECOVERY GUARDIAN ACTIVE");
+console.log("🛡️ IMMICARE SELF-RECOVERY GUARDIAN ACTIVE");
 console.log("Sistem memantau bot 24/7 dan akan auto-restart!");
 console.log("=========================================");
 
