@@ -610,21 +610,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             container.innerHTML = data.recipients.map(id => {
-                const phone = id.split('@')[0];
-                // Only show real phone numbers (starting with 62, 10-15 digits)
-                const isRealPhone = /^62\d{8,13}$/.test(phone);
-                if (!isRealPhone) return ''; // Skip group/device IDs
+                const parts = id.split('@');
+                const phone = parts[0];
+                const type = parts[1]; // c.us or lid
                 
-                const localNum = '0' + phone.slice(2); // e.g. 62812... → 0812...
-                const displayNum = '+' + phone;        // e.g. +62812...
+                // Allow Indonesian 62... or newer long numeric IDs
+                const isPossibleUser = /^\d{10,20}$/.test(phone);
+                if (!isPossibleUser) return '';
+
+                const isPhone = phone.startsWith('62') && phone.length < 15;
+                const localNum = isPhone ? '0' + phone.slice(2) : '-';
+                const displayNum = type === 'lid' ? `User ID: ${phone.substring(0, 8)}...` : `+${phone}`;
+                
                 return `
-                <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl cursor-pointer hover:bg-sky-50 hover:border-sky-200 transition-all group">
+                <label class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-sky-50 dark:hover:bg-slate-700 hover:border-sky-200 transition-all group">
                     <input type="checkbox" name="recipient" value="${id}" class="w-4 h-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
                     <div class="flex-1">
-                        <div class="text-sm font-bold text-slate-700 font-outfit">${displayNum}</div>
-                        <div class="text-[10px] text-slate-400 font-semibold tracking-wide">${localNum}</div>
+                        <div class="text-sm font-bold text-slate-700 dark:text-white font-outfit">${displayNum}</div>
+                        <div class="text-[10px] text-slate-400 font-semibold tracking-wide">${localNum} — ${type.toUpperCase()}</div>
                     </div>
-                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all"></i>
+                    <i data-lucide="${type === 'lid' ? 'user-check' : 'phone-forwarded'}" class="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all"></i>
                 </label>
             `; }).join('');
             

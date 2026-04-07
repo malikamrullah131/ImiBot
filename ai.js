@@ -252,13 +252,17 @@ async function gemini(prompt, isComplex = false, retryCount = 0) {
             "meta-llama/llama-3.3-70b-instruct:free",
             "deepseek/deepseek-r1:free",
             "google/gemini-2.0-flash-lite-preview-02-05:free",
-            "qwen/qwen-2.5-72b-instruct:free"
+            "qwen/qwen-2.5-72b-instruct:free",
+            "nvidia/llama-3.1-nemotron-70b-instruct:free",
+            "microsoft/phi-3-medium-128k-instruct:free"
         ]
         : [
             "google/gemini-2.0-flash-lite-preview-02-05:free",
             "google/gemini-flash-1.5:free",
             "mistralai/mistral-7b-instruct:free",
-            "meta-llama/llama-3.1-8b-instruct:free"
+            "meta-llama/llama-3.1-8b-instruct:free",
+            "google/gemini-2.0-pro-exp-02-05:free",
+            "gryphe/mythomax-l2-13b:free"
         ];
 
     // Pilih model berdasarkan level retry (Otomatis geser ke model yang lebih stabil jika gagal)
@@ -300,7 +304,18 @@ async function gemini(prompt, isComplex = false, retryCount = 0) {
 
         // ULTIMATE FALLBACK: Jika OpenRouter total failure, coba SDK Google langsung
         console.warn(`[AI BRAIN] 🚨 OpenRouter TOTAL FAILURE. Mencoba jalur darurat (Direct Google SDK)...`);
-        return await googleDirect(prompt);
+        try {
+            return await googleDirect(prompt);
+        } catch (e2) {
+            console.error(`[AI BRAIN] 💀 Semua jalur Cloud gagal! Mencoba LOCAL OLLAMA sebagai benteng terakhir...`);
+            try {
+                // Gunakan model local fallback yang paling ringan (qwen/phi3)
+                const localRes = await ollama(prompt, config.localModels.fallback || "phi3:mini");
+                return localRes + "\n\n_(Respon via Local AI — Cloud Limit)_";
+            } catch (e3) {
+                return "Maaf, semua sistem AI (Cloud & Local) sedang tidak tersedia karena limit atau beban server tinggi. 🙏";
+            }
+        }
     }
 }
 
@@ -308,47 +323,34 @@ async function gemini(prompt, isComplex = false, retryCount = 0) {
  * ⚡ JALUR DARURAT: Google SDK Direct
  * Digunakan jika OpenRouter (perantara) sedang bermasalah/limit/bayar.
  */
-async function googleDirect(prompt) {
+async function googleDirect(prompt, retryCount = 0) {
     try {
-        const apiKey = (process.env.GEMINI_API_KEY || "").split(',')[0].trim();
+        const apiKey = getRandomKey('GEMINI_API_KEY');
         if (!apiKey) throw new Error("No Gemini API Key for Direct Fallback");
 
         const { GoogleGenerativeAI } = require("@google/generative-ai");
         const genAI = new GoogleGenerativeAI(apiKey);
 
-        // 🧪 TIERED DIRECT SYSTEM: Mencoba 2.0 Flash -> 1.5 Flash -> 1.5 Pro
-        let model;
-        try {
-            // TIER 1: Gemini 2.0 Flash (Fastest, High Quota)
+        // 🧪 TIERED DIRECT SYSTEM: Menggunakan model -latest untuk menghindari 404
+        const targetModels = ["gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro-latest"];
+        
+        for (const modelName of targetModels) {
             try {
-                model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                console.log(`[DIRECT-SDK] Mencoba model: ${modelName}...`);
+                const model = genAI.getGenerativeModel({ model: modelName });
                 const result = await model.generateContent(prompt);
                 const text = result.response.text();
                 if (text) return text;
             } catch (e) {
-                console.warn(`[DIRECT-SDK] 2.0 Flash failed: ${e.message}`);
-                // Smart Retry: If it tells us to wait 7s, let's wait 8s and try the next tier!
-                if (e.message && e.message.includes('retryDelay')) {
-                    console.warn(`[DIRECT-SDK] Delay diminta oleh Google. Menunggu 8 detik...`);
-                    await new Promise(r => setTimeout(r, 8000));
+                console.warn(`[DIRECT-SDK] ${modelName} failed: ${e.message}`);
+                if (e.message?.includes('429')) {
+                    markBadKey(apiKey);
+                    if (retryCount < 2) return googleDirect(prompt, retryCount + 1);
                 }
             }
-
-            // TIER 2: Gemini 2.5 Flash (Most Reliable Fallback)
-            model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-            const result = await model.generateContent(prompt);
-            const text = result.response.text();
-            if (text) return text;
-            throw new Error("Empty response from 2.5 Flash");
-        } catch (e) {
-            console.warn(`[DIRECT-SDK] Flash tiers failed, trying Pro fallback... ${e.message}`);
-            // TIER 3: Gemini 2.5 Pro (Brain Fallback)
-            model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" }); // Fixed from legacy 'gemini-1.5-pro'
-            const result = await model.generateContent(prompt);
-            return result.response.text();
         }
+        throw new Error("All Direct SDK models (2.0, 1.5 Flash, 1.5 Pro) returned 429 or 404.");
     } catch (e) {
-        console.error(`[ULTIMATE-FALLBACK] Failed: ${e.message}`);
         throw e;
     }
 }
@@ -382,7 +384,12 @@ Ketik \`!salah [tempel jawaban baru di sini]\` untuk mengajari saya secara perma
 `;
 
     // Kita gunakan model reasoning (qwen3.6-plus) untuk tugas audit ini
-    return await gemini(prompt, true);
+    try {
+        return await gemini(prompt, true);
+    } catch (e) {
+        console.error("[AUDIT] Reflection failed:", e.message);
+        return "⚠️ Maaf, gagal menganalisis interaksi ini secara mendalam karena semua layanan AI sedang sibuk/limit.";
+    }
 }
 
 /**
@@ -614,7 +621,7 @@ function savePending(data) {
 }
 
 // Step 10: ALUR KERJA UTAMA (Final Lifecycle with History)
-async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
+async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = null) {
     const input = normalize(msgBody);
     const isComplex = detectComplexity(msgBody);
 
@@ -630,12 +637,12 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
 
     // 1. Rule Check (Fastest)
     const rule = ruleCheck(input);
-    if (rule) return rule;
+    if (rule) return { answer: rule, wasAIGenerated: false, confidence: 'high' };
 
     // 2. Cache Check (Smart Search)
     const smartInput = normalizeSort(input);
     const cached = getCache(smartInput);
-    if (cached) return cached;
+    if (cached) return { answer: cached, wasAIGenerated: false, confidence: 'high' };
 
     // 3. Database Search Pipeline (Exact -> Normalized -> Keyword)
     let dbMatchObj = await searchDB(input, rawKB);
@@ -662,6 +669,7 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
     // 5. AI Curator Fallback (If still no match)
     let curatedIntent = null;
     if (!dbMatchObj && !isComplex && config.botMode !== 'lite') {
+        if (onThinking) onThinking();
         console.log(`[AI CURATOR] No direct/vector match. Asking AI to interpret...`);
         curatedIntent = await intentCurator(msgBody);
         dbMatchObj = await searchDB(normalize(curatedIntent), rawKB);
@@ -676,10 +684,11 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
             // If found through curation, add the "Menerka" prefix using the Category
             if (curatedIntent) {
                 const topic = dbMatchObj.category || curatedIntent;
-                return `Apa maksud Anda mengenai *${topic}*?\n\n${dbMatchObj.answer}\n\nApakah jawaban ini sesuai dengan yang Anda cari?` + CONFIRMATION_SUFFIX;
+                const intentReply = `Apa maksud Anda mengenai *${topic}*?\n\n${dbMatchObj.answer}\n\nApakah jawaban ini sesuai dengan yang Anda cari?` + CONFIRMATION_SUFFIX;
+                return { answer: intentReply, wasAIGenerated: false, confidence: 'high' };
             }
 
-            return dbMatchObj.answer + CONFIRMATION_SUFFIX;
+            return { answer: dbMatchObj.answer + CONFIRMATION_SUFFIX, wasAIGenerated: false, confidence: 'high' };
         } else {
             console.log(`[AI] Pertanyaan KOMPLEKS terdeteksi! RAG dikumpulkan, meneruskan ke AI Brain...`);
             dbContextForComplex = `REFERENSI ATURAN (RAG): ${dbMatchObj.answer}`;
@@ -687,6 +696,7 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default') {
     }
 
     // 6. AI Multi-Router with History (Last Resort or Complex Brain Analyzer)
+    if (onThinking) onThinking();
     console.log(`[AI] Processing query via AI Brain untuk ${remoteId}`);
 
     // OPTIMASI: Kumpulkan lebih banyak konteks dari RAG (Semantic Search) jika belum ada
@@ -756,15 +766,19 @@ INSTRUKSI KHUSUS:
 
     // 8. Final Output
     if (finalAnswer.includes('sangat sibuk') || finalAnswer.includes('Maaf, sistem AI')) {
-        return finalAnswer;
+        return { answer: finalAnswer, wasAIGenerated: true, confidence: 'low' };
     }
 
     // If it's a very generic AI failure or too short, give the NUDGE
-    if (finalAnswer.length < 20 && !rule && !dbMatchView) {
-        return NUDGE_MESSAGE;
+    if (finalAnswer.length < 20 && !rule) {
+        return { answer: NUDGE_MESSAGE, wasAIGenerated: true, confidence: 'low' };
     }
 
-    return finalAnswer + CONFIRMATION_SUFFIX;
+    return {
+        answer: finalAnswer + CONFIRMATION_SUFFIX,
+        wasAIGenerated: !dbMatchObj && !rule,
+        confidence: isComplex ? 'high' : (dbMatchObj ? 'high' : 'low')
+    };
 }
 
 // Check if any AI service is configured
@@ -796,6 +810,7 @@ function getBotHealth() {
 
 module.exports = {
     askAIProtocol,
+    detectComplexity,
     askGemini: askAIProtocol, // Backward compatibility
     geminiAgent: gemini, // Exporting Agent
     getCache,

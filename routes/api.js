@@ -173,5 +173,51 @@ module.exports = function(context) {
         res.json({ message: "Cache cleaned." });
     });
 
+    // --- BROADCAST & RECIPIENTS (New implementation) ---
+    router.get('/recipients', requireAuth, (req, res) => {
+        const logPath = path.join(__dirname, '../chatbot_logs.txt');
+        if (!fs.existsSync(logPath)) return res.json({ recipients: [] });
+        
+        try {
+            const logs = fs.readFileSync(logPath, 'utf8');
+            // Extract IDs like 628xxx@c.us or 628xxx@lid (limited to @lid as per logs)
+            const matches = logs.match(/\d+@(lid|c\.us)/g) || [];
+            const uniqueRecipients = [...new Set(matches)];
+            res.json({ recipients: uniqueRecipients });
+        } catch (e) { res.status(500).json({ error: e.message }); }
+    });
+
+    router.post('/broadcast', requireAuth, async (req, res) => {
+        const { message, recipients } = req.body;
+        const zapclient = context.client; // Passed from server.js
+        if (!zapclient) return res.status(500).json({ error: "WA Client not ready" });
+
+        // Run in background to avoid timeout
+        res.json({ status: "success", message: "Broadcast started" });
+
+        for (const target of recipients) {
+            try {
+                await zapclient.sendMessage(target, message);
+                // Delay 3-5 seconds to prevent ban
+                await new Promise(r => setTimeout(r, 3000 + Math.random() * 2000));
+            } catch (e) {
+                console.error(`Broadcast failed to ${target}: ${e.message}`);
+            }
+        }
+    });
+
+    // --- SYNC ENGINE ---
+    router.post('/sync', requireAuth, async (req, res) => {
+        try {
+            const { raw: data } = await fetchSpreadsheetData(process.env.GOOGLE_SCRIPT_WEB_APP_URL);
+            if (!data || data.length === 0) throw new Error("No data from Spreadsheet");
+            
+            await syncToNeon(data);
+            await syncVectors();
+            clearAllCache();
+            res.json({ status: "success", count: data.length });
+        } catch (e) { res.status(500).json({ error: e.message }); }
+    });
+
     return router;
 };

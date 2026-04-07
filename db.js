@@ -45,7 +45,7 @@ async function initDb() {
   const query = `
     CREATE TABLE IF NOT EXISTS knowledge_base (
       id SERIAL PRIMARY KEY,
-      question TEXT NOT NULL,
+      question TEXT UNIQUE NOT NULL,
       answer TEXT NOT NULL,
       category TEXT,
       embedding vector(3072),
@@ -83,6 +83,8 @@ async function initDb() {
     const client = await pool.connect();
     await client.query('CREATE EXTENSION IF NOT EXISTS vector;');
     await client.query(query);
+    // Ensure UNIQUE constraint for existing tables
+    await client.query('ALTER TABLE knowledge_base ADD CONSTRAINT knowledge_base_question_key UNIQUE (question);').catch(() => {});
     client.release();
     console.log('✅ Neon Database initialized successfully.');
     logStatus('Neon Database initialized successfully.');

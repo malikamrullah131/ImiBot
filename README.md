@@ -42,9 +42,31 @@ Kami menyediakan halaman web cantik (Dashboard) untuk memantau:
 ### 3. Perintah Lewat WhatsApp
 Admin bisa mengatur robot langsung dari chat WhatsApp dengan perintah simpel:
 - `!status` : Cek apakah robot sedang sehat atau butuh istirahat.
-- `!pause` : Matikan jawaban otomatis sementara (jika ingin membalas manual).
-- `!resume` : Nyalakan kembali jawaban otomatis.
+- `!audit` : Minta robot menganalisa sendiri jawabannya (untuk memastikan akurasi).
+- `!gas` : Langsung kirim jawaban terbaik hasil analisa robot ke pengguna + simpan otomatis.
+- `!benar` / `!salah` : Beri tahu robot secara instan jika jawabannya tepat atau perlu diperbaiki.
+- `!pause` / `!resume` : Matikan atau nyalakan kembali jawaban otomatis.
 - `!sync` : Paksa robot mengambil data terbaru dari Google Sheets.
+
+### 4. Sistem Guardian Nudge 🛡️
+Robot akan otomatis mengirimkan pesan khusus ("Nudge") ke WhatsApp Admin jika dia merasa kurang yakin dengan jawabannya atau jika dia terpaksa menggunakan nalar AI (bukan dari database). Ini membantu Admin memantau kualitas tanpa harus membaca semua chat satu per satu.
+
+```mermaid
+graph TD
+    A[Pesan WhatsApp] --> B{Step 1: Rule Engine}
+    B -- Match --> C[Kirim Jawaban]
+    B -- No Match --> D{Step 2: Smart Cache}
+    D -- Hit --> C
+    D -- Miss --> E{Step 3: Normalized Search}
+    E -- Match --> C
+    E -- No Match --> F{Step 4: Vector-Lite Search}
+    F -- Score > 0.8 --> C
+    F -- Low Score --> G{Step 5: LLM Dispatcher}
+    G -- OpenRouter --> C
+    G -- Limit/Fail --> H{Google SDK Direct}
+    H -- Success --> C
+    H -- Fail --> I[Ultimate Fallback: Ollama Local] --> C
+```
 
 ---
 
@@ -70,5 +92,5 @@ Sistem ini dibuat agar **100% Gratis** dan **Tetap Ringan** meskipun dijalankan 
 > [!NOTE]
 > Jika Anda adalah seorang teknisi atau programmer yang ingin mempelajari "daleman" sistem ini, silakan baca [ReadMeForDevs.md](./ReadMeForDevs.md).
 
-**Versi:** 3.0 — Edisi Stabil & Ringan
+**Versi:** 3.8 — Edisi Anti-Crash & Auto-Learning
 **Dibuat Oleh:** Tim Inovasi Imigrasi PKP

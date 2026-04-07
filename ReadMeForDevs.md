@@ -13,7 +13,7 @@ Sistem ini menggunakan arsitektur bertingkat (**Tiered Pipeline**) untuk memasti
 ```mermaid
 graph TD
     A[Pesan WhatsApp] --> B{Step 1: Rule Engine}
-    B -- Match --> C[Kirim Kirim Jawaban]
+    B -- Match --> C[Kirim Jawaban]
     B -- No Match --> D{Step 2: Smart Cache}
     D -- Hit --> C
     D -- Miss --> E{Step 3: Normalized Search}
@@ -21,8 +21,10 @@ graph TD
     E -- No Match --> F{Step 4: Vector-Lite Search}
     F -- Score > 0.8 --> C
     F -- Low Score --> G{Step 5: LLM Dispatcher}
-    G -- Local Master --> C
-    G -- Local Fail --> H[Cloud Fallback] --> C
+    G -- OpenRouter --> C
+    G -- Limit/Fail --> H{Google SDK Direct}
+    H -- Success --> C
+    H -- Fail --> I[Ultimate Fallback: Ollama Local] --> C
 ```
 
 ---
@@ -92,10 +94,13 @@ PORT=3000
 | Perintah | Deskripsi Teknis |
 |---|---|
 | `!status` | Laporan RAM, Uptime, Koneksi, dan Statistik Antrean. |
-| `!sync-local` | Paksa pembaruan cache JSON lokal dari Cloud DB. |
-| `!reindex` | Rekulasi ulang seluruh embedding vektor (Padat & Akurat). |
+| `!audit` | Deep-analysis interaksi terakhir dengan model reasoning (Self-Correction). |
+| `!gas` | Mengirim suggested answer ke user + update Sheets & DB dengan Auto-Category. |
+| `!benar` | Simpan interaksi ke database sebagai validasi manual (Admin Confirmed). |
+| `!salah` | Koreksi jawaban terakhir & update database secara permanen. |
+| `!sync` | Sinkronisasi penuh dari Google Sheets -> Neon DB -> Vector Store. |
+| `!sync-local` | Backup cache database ke file JSON lokal (Offline Security). |
 | `!pause` / `!resume` | Jeda atau aktifkan kembali loop penangan pesan WhatsApp. |
-| `!reboot` | Restart proses Node.js (Aman, via Guardian Watchdog). |
 
 ---
 
@@ -103,4 +108,4 @@ PORT=3000
 Sistem ini bersifat **Open Enhancement** untuk internal Kantor Imigrasi PKP. Pengembang dapat melakukan modifikasi pada `config.js` untuk menyesuaikan ambang batas (*threshold*) akurasi AI.
 
 **Penyusun:** Antigravity AI Team
-**Status:** ✅ Stable for Producion (Local-First Refactored)
+**Status:** ✅ Stable for Production (v3.8 - Multi-Brain Resilient)

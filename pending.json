@@ -213,5 +213,85 @@
     "intent": "Auto-Resolved",
     "timestamp": "2026-04-06T05:43:37.525Z",
     "status": "pending"
+  },
+  {
+    "id": 1775534614697,
+    "question": "Ini bukan tentang paspor rusak, tapi apa saya bisa bikinin adek saya dengan wakilkan ke kantor imigrasi?",
+    "normalized": "ini bukan tentang paspor rusak tapi apa saya bisa bikinin adek saya dengan wakilkan ke kantor imigrasi",
+    "suggestion": "Halo Bapak/Ibu,\n\nTerkait pertanyaan Anda mengenai permohonan paspor untuk adik dengan diwakilkan, berikut penjelasannya:\n\n*   **Kehadiran Pemohon Wajib:**\n    Secara umum, setiap pemohon paspor diwajibkan untuk hadir secara langsung di Kantor Imigrasi. Kehadiran ini sangat penting untuk proses:\n    *   **Pengambilan Data Biometrik:** Meliputi sidik jari dan foto wajah.\n    *   **Wawancara:** Untuk verifikasi data dan tujuan pembuatan paspor.\n    Kedua tahapan ini merupakan prosedur krusial yang **tidak dapat diwakilkan** oleh orang lain, termasuk oleh anggota keluarga.\n\n*   **Prosedur untuk Pemohon Dewasa:**\n    Adik Anda, sebagai pemohon paspor, harus datang sendiri ke Kantor Imigrasi pada jadwal yang telah ditentukan untuk menyelesaikan tahapan-tahapan tersebut.\n\n*   **Prosedur untuk Pemohon Anak-anak:**\n    Meskipun permohonan diajukan oleh orang tua atau wali, anak-anak tetap wajib hadir untuk pengambilan foto dan proses lainnya sesuai ketentuan yang berlaku.\n\n*   **Saran Jika Ada Kondisi Khusus:**\n    Apabila terdapat kondisi khusus yang mendesak atau menghalangi kehadiran adik Anda (misalnya kondisi medis tertentu yang membutuhkan penanganan khusus), sangat disarankan untuk **menghubungi langsung Kantor Imigrasi** terdekat atau *Pusat Panggilan (Call Center) Direktorat Jenderal Imigrasi*. Mereka dapat memberikan informasi paling akurat mengenai kemungkinan prosedur khusus atau pengecualian yang mungkin berlaku dalam situasi tertentu.\n\nKami menyarankan agar adik Anda datang sendiri ke Kantor Imigrasi untuk kelancaran proses permohonan paspor.",
+    "rephrase": "\n\"KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelu...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:03:34.697Z",
+    "status": "pending"
+  },
+  {
+    "id": 1775534943071,
+    "question": "Paspor itu apaa saya gak tau apa itu, saya mau belajar tentang paspor dan imigrasi karna saya kuliah hukum",
+    "normalized": "paspor itu apaa saya gak tau apa itu saya mau belajar tentang paspor dan imigrasi karna saya kuliah hukum",
+    "suggestion": "Halo Bapak/Ibu, senang sekali Anda kembali berdiskusi dengan kami. Mengingat ketertarikan Anda sebelumnya terkait \"Pengajuan Paspor Perwakilan\", sangat baik jika kini Anda ingin mendalami dasar-dasar mengenai Paspor dan Imigrasi, apalagi untuk menunjang studi hukum Anda.\n\nBerikut adalah penjelasan mengenai Paspor dan Imigrasi:\n\n*   **Paspor**\n    Paspor adalah dokumen perjalanan resmi yang diterbitkan oleh pemerintah suatu negara kepada warga negaranya. Fungsi utamanya adalah sebagai **bukti identitas dan kewarganegaraan pemegangnya** saat berada di luar negeri. Paspor memungkinkan pemegangnya untuk masuk dan keluar dari negara lain sesuai dengan aturan dan persyaratan visa yang berlaku.\n    *   **Jenis-jenis Paspor di Indonesia:**\n        *   Paspor Biasa (untuk tujuan umum seperti wisata, bisnis, studi).\n        *   Paspor Diplomatik (untuk pejabat diplomatik).\n        *   Paspor Dinas (untuk pegawai pemerintah yang menjalankan tugas dinas).\n    *   **Informasi yang Terdapat dalam Paspor:**\n        *   Nama lengkap\n        *   Tempat dan tanggal lahir\n        *   Jenis kelamin\n        *   Kewarganegaraan\n        *   Nomor paspor\n        *   Tanggal penerbitan dan masa berlaku\n        *   Tanda tangan pemegang paspor\n        *   Foto pemegang paspor\n\n*   **Imigrasi**\n    Imigrasi adalah **urusan pemerintahan di bidang lalu lintas orang masuk dan keluar wilayah Indonesia serta pengawasannya dalam rangka menjaga tegaknya kedaulatan negara**. Lebih luas lagi, Imigrasi adalah proses pergerakan individu dari satu negara ke negara lain, baik untuk tinggal permanen maupun sementara. Dalam konteks hukum, Imigrasi mencakup:\n    *   **Pengaturan dan pengawasan** terhadap orang asing yang masuk, tinggal, dan keluar dari wilayah Indonesia.\n    *   **Pelayanan** penerbitan dokumen perjalanan (Paspor) bagi warga negara Indonesia.\n    *   **Penindakan hukum** terhadap pelanggaran keimigrasian.\n    *   **Aspek penting dalam Imigrasi:**\n        *   **Visa:** Izin masuk yang diberikan oleh suatu negara kepada orang asing.\n        *   **Izin Tinggal:** Izin yang diberikan kepada orang asing untuk tinggal di wilayah Indonesia.\n        *   **Pemeriksaan Keimigrasian:** Proses pemeriksaan dokumen perjalanan dan tujuan perjalanan oleh Petugas Imigrasi di Tempat Pemeriksaan Imigrasi (TPI).\n\nMemahami konsep Paspor dan Imigrasi sangat relevan bagi Anda yang kuliah hukum, karena keduanya terkait erat dengan **hukum tata negara, hukum internasional, hukum administrasi negara, serta hak asasi manusia**. Anda akan banyak menemui regulasi terkait keimigrasian dalam berbagai konteks hukum.\n\nJika ada topik spesifik lain yang ingin Anda pelajari lebih lanjut mengenai Paspor atau Imigrasi, jangan ragu untuk bertanya kembali.",
+    "rephrase": "\n\"KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelu...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:09:03.071Z",
+    "status": "pending"
+  },
+  {
+    "id": 1775535244921,
+    "question": "siapa orang ganteng di lantaskim",
+    "normalized": "siapa orang ganteng di lantaskim",
+    "suggestion": "Mohon maaf, sebagai Kantor Imigrasi, kami tidak memiliki data atau informasi mengenai preferensi pribadi atau penilaian subjektif terhadap penampilan fisik staf di lingkungan kami, termasuk di layanan lalu lintas keimigrasian (Lantaskim).\n\nFokus pelayanan kami adalah pada proses keimigrasian dan administrasi dokumen perjalanan.\n\nJika Bapak/Ibu memiliki pertanyaan terkait layanan keimigrasian atau memerlukan bantuan, mohon sampaikan pertanyaan yang relevan dengan tugas dan fungsi Kantor Imigrasi.\n\nUntuk informasi lebih lanjut mengenai layanan kami, Bapak/Ibu dapat:\n*   Menghubungi layanan pelanggan resmi kami.\n*   Mengunjungi kantor imigrasi terdekat pada jam operasional.",
+    "rephrase": "\n\"\"\n\nRIWAYAT PERCAKAPAN (Terbaru):\n(Percakapan bar...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:14:04.921Z",
+    "status": "pending"
+  },
+  {
+    "id": 1775535337876,
+    "question": "uu tentang penolakan",
+    "normalized": "uu tentang penolakan",
+    "suggestion": "Selamat siang Bapak/Ibu.\n\nTerkait pertanyaan Bapak/Ibu mengenai Undang-Undang tentang penolakan, dalam konteks keimigrasian, terdapat beberapa dasar hukum yang mengatur mengenai penolakan permohonan keimigrasian atau penolakan masuk ke wilayah Indonesia. Hal ini relevan dengan pembahasan kita sebelumnya mengenai data individu keimigrasian, yang tentunya menjadi salah satu dasar pertimbangan dalam setiap permohonan.\n\nPokok-pokok aturan utama dapat ditemukan dalam:\n\n*   **Undang-Undang Nomor 6 Tahun 2011 tentang Keimigrasian**\n*   **Peraturan Pemerintah Nomor 31 Tahun 2013 tentang Peraturan Pelaksanaan Undang-Undang Nomor 6 Tahun 2011 tentang Keimigrasian**\n\nSecara umum, penolakan dapat terjadi dalam berbagai konteks, antara lain:\n\n*   **Penolakan Masuk Wilayah Indonesia (Pasal 9 dan Pasal 10 UU No. 6 Tahun 2011):**\n    *   Tidak memiliki dokumen perjalanan yang sah dan masih berlaku.\n    *   Tidak memiliki visa (bagi yang dipersyaratkan).\n    *   Nama tercantum dalam daftar Pencegahan dan Penangkalan.\n    *   Diduga melakukan pelanggaran peraturan perundang-undangan.\n    *   Membahayakan keamanan dan ketertiban umum, atau kesehatan masyarakat.\n    *   Tidak mempunyai daya penunjang hidup selama di Indonesia.\n\n*   **Penolakan Permohonan Visa (Pasal 14 UU No. 6 Tahun 2011):**\n    *   Tidak memenuhi persyaratan visa.\n    *   Nama tercantum dalam daftar Pencegahan dan Penangkalan.\n    *   Terdapat kekhawatiran yang beralasan untuk menolak.\n\n*   **Penolakan Permohonan Izin Tinggal:**\n    *   Tidak memenuhi persyaratan administrasi atau substansi.\n    *   Telah melakukan pelanggaran keimigrasian atau peraturan perundang-undangan lainnya.\n    *   Data yang diberikan tidak benar atau palsu.\n\n**Penting untuk diingat:**\n\n*   Setiap keputusan penolakan didasarkan pada pemeriksaan dan evaluasi oleh Pejabat Imigrasi sesuai dengan ketentuan perundang-undangan yang berlaku.\n*   Alasan penolakan dapat bervariasi tergantung pada jenis permohonan dan kondisi individu pemohon.\n\nMengingat tidak adanya data spesifik mengenai kasus atau jenis penolakan yang Bapak/Ibu maksud dalam database kami, informasi di atas bersifat umum.\n\nUntuk informasi lebih lanjut mengenai kasus spesifik atau jika Bapak/Ibu memerlukan penjelasan lebih detail terkait permohonan tertentu, kami sarankan Bapak/Ibu untuk:\n\n*   **Menghubungi layanan pelanggan resmi Kantor Imigrasi melalui saluran komunikasi yang tersedia.**\n*   **Mengunjungi Kantor Imigrasi terdekat pada jam operasional dengan membawa dokumen terkait untuk konsultasi langsung.**\n\nTerima kasih atas perhatian Bapak/Ibu.",
+    "rephrase": "\n\"KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelu...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:15:37.876Z",
+    "status": "pending"
+  },
+  {
+    "id": 1775535374073,
+    "question": "kenapa di cs judes?",
+    "normalized": "kenapa di cs judes",
+    "suggestion": "Mohon maaf atas pengalaman kurang menyenangkan yang Anda alami.\n\nTerkait keluhan mengenai sikap atau pelayanan petugas customer service, kami sangat prihatin mendengar hal tersebut. Perlu kami sampaikan bahwa basis data pengetahuan yang kami miliki saat ini berfokus pada informasi mengenai kebijakan dan fitur teknis seperti E-Paspor.\n\nUntuk menyampaikan masukan atau keluhan mengenai kualitas layanan dan perilaku petugas secara langsung, kami sarankan Anda untuk:\n\n*   Menghubungi layanan pengaduan atau customer service melalui saluran resmi kami yang lain.\n*   Mengisi formulir survei kepuasan pelanggan yang tersedia.\n*   Datang langsung ke kantor Imigrasi terdekat untuk menyampaikan keluhan kepada pejabat yang berwenang.\n\nKami berkomitmen untuk terus meningkatkan kualitas pelayanan kami demi kenyamanan masyarakat. Terima kasih atas perhatian dan masukan Anda.",
+    "rephrase": "\n\"\"\n\nRIWAYAT PERCAKAPAN (Terbaru):\n(Percakapan bar...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:16:14.073Z",
+    "status": "pending"
+  },
+  {
+    "id": 1775535530566,
+    "question": "kenapa csnya judes banget",
+    "normalized": "kenapa csnya judes banget",
+    "suggestion": "Selamat siang Bapak/Ibu,\n\nKami memahami bahwa interaksi dengan petugas layanan kami dapat sangat memengaruhi pengalaman Bapak/Ibu. Feedback yang Bapak/Ibu sampaikan terkait dengan demeanor staf pelayanan (CS) merupakan masukan yang penting bagi kami.\n\nKantor Imigrasi senantiasa berkomitmen untuk memberikan pelayanan yang profesional, ramah, dan sesuai dengan standar operasional yang berlaku kepada seluruh pemohon. Setiap Pejabat Imigrasi, termasuk yang bertugas di bagian layanan pelanggan, diharapkan untuk menjalankan tugasnya dengan menjunjung tinggi etika dan integritas pelayanan.\n\nJika Bapak/Ibu memiliki pengalaman spesifik atau ingin menyampaikan keluhan resmi terkait kualitas pelayanan atau sikap petugas, kami sangat menganjurkan Bapak/Ibu untuk menyampaikannya melalui saluran pengaduan resmi kami. Hal ini penting agar kami dapat melakukan investigasi lebih lanjut dan mengambil tindakan yang diperlukan.\n\nMohon sampaikan detail kejadian, seperti waktu, lokasi, dan jika memungkinkan, identitas petugas yang bersangkutan, melalui:\n*   **Layanan pelanggan resmi kami** (telepon, email, atau media sosial resmi Kantor Imigrasi).\n*   **Mengunjungi Kantor Imigrasi terdekat** pada jam operasional untuk berbicara langsung dengan Pejabat yang berwenang.\n\nDengan menyampaikan keluhan melalui jalur resmi, kami dapat menindaklanjuti secara akurat dan memastikan standar pelayanan yang optimal.\n\nTerima kasih atas perhatian dan masukan Bapak/Ibu. Kami selalu berusaha untuk meningkatkan kualitas pelayanan kami.",
+    "rephrase": "\n\"KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelu...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:18:50.566Z",
+    "status": "pending"
+  },
+  {
+    "id": 1775536226955,
+    "question": "Kenapa csnya judes banget",
+    "normalized": "kenapa csnya judes banget",
+    "suggestion": "Halo Bapak/Ibu,\n\nKami turut prihatin mendengar pengalaman Anda yang kurang menyenangkan terkait pelayanan dari petugas kami.\n\nSebagai Pakar Imigrasi, fokus informasi kami adalah pada *prosedur dan ketentuan keimigrasian*, seperti yang tercantum dalam panduan wawancara keimigrasian yang krusial untuk verifikasi informasi, klarifikasi, dan penilaian kredibilitas. Informasi mengenai alasan di balik sikap individu petugas tidak termasuk dalam data prosedural ini.\n\nNamun, kami sangat menghargai setiap masukan untuk peningkatan kualitas pelayanan. Jika Anda mengalami pengalaman yang tidak memuaskan dan ingin menyampaikan keluhan atau masukan terkait sikap petugas, kami sarankan Anda untuk:\n\n*   **Menghubungi layanan pengaduan atau humas Kantor Imigrasi terkait.**\n*   **Menyampaikan detail kejadian secara langsung** agar dapat ditindaklanjuti dengan baik dan menjadi bahan evaluasi untuk perbaikan pelayanan.\n\nKomitmen kami adalah memberikan pelayanan terbaik bagi masyarakat.",
+    "rephrase": "\n\"KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelu...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:30:26.955Z",
+    "status": "pending"
+  },
+  {
+    "id": 1775536312009,
+    "question": "Kenapa csnya judes banget",
+    "normalized": "kenapa csnya judes banget",
+    "suggestion": "Halo Bapak/Ibu,\n\nKami memahami bahwa Anda kembali menyampaikan kekecewaan terkait sikap petugas.\n\nSebagai Pakar Imigrasi, fokus informasi kami tetap pada **prosedur dan ketentuan keimigrasian** yang berlaku, sebagaimana yang tercantum dalam pedoman wawancara keimigrasian yang krusial untuk verifikasi, klarifikasi, dan penilaian kredibilitas pemohon. Informasi mengenai alasan di balik sikap individu petugas tidak termasuk dalam data prosedural ini.\n\nUntuk menyampaikan keluhan atau masukan terkait sikap petugas secara spesifik, kami sangat menyarankan Anda untuk:\n\n*   **Menghubungi layanan pengaduan atau humas Kantor Imigrasi terkait secara langsung.**\n*   **Menyampaikan detail kejadian** agar dapat ditindaklanjuti dan menjadi bahan evaluasi yang konstruktif untuk peningkatan kualitas pelayanan.\n\nKami menghargai setiap masukan Anda demi perbaikan pelayanan publik.",
+    "rephrase": "\n\"KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelu...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-07T04:31:52.009Z",
+    "status": "pending"
   }
 ]
