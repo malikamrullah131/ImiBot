@@ -16,11 +16,21 @@ const config = {
     // off = Tidak menggunakan vector search (hanya Rule/Keyword).
     vectorMode: process.env.VECTOR_MODE || 'lite',
 
-    // Model Lokal (Ollama) - Prioritas Ringan (8GB RAM)
+    // Model Lokal (Ollama/LM Studio/Jan) - Prioritas Ringan (8GB RAM)
     localModels: {
-        primary: "phi3:mini",    // Sangat ringan (3.8B, Context 2K = ~50MB)
-        secondary: "llama3.2:3b", // Pilihan cerdas jika RAM lega
-        fallback: "qwen2.5:1.5b"  // Sangat kecil untuk kondisi darurat
+        provider: "ollama",       // Pilihan: 'ollama' atau 'openai-local' (Jan, LM Studio, GPT4All)
+        localUrl: "http://localhost:11434/v1", // URL server lokal Anda
+        primary: "phi3:mini",     // 💡 LEBIH RINGAN (3.8B) untuk 8GB RAM
+        secondary: "phi3:mini",   // Konsistensi performa
+        fallback: "phi3:mini"     // Ultimate fallback ke model lokal yang ada
+    },
+
+    // 🌍 Community/Free AI Aggregators (No-Key)
+    communityAI: {
+        pollinationsUrl: "https://text.pollinations.ai/",
+        g4fUrl: "https://api.g4f.dev/v1/chat/completions",
+        hfSpaceUrl: "https://umint-ai.hf.space/api/predict",
+        timeoutMs: 30000
     },
 
     // Cache TTL (Sistem Memory)
@@ -43,7 +53,8 @@ const config = {
     features: {
         useVectorDB: true,      // Matikan jika ingin full Keyword Only / DB Offline
         useOpenClaw: false,     // Poles bahasa (Butuh API berbayar)
-        autoLearn: true         // AI belajar dari interaksi baru
+        autoLearn: true,        // AI belajar dari interaksi baru
+        enableCommunityAI: true // Aktifkan jalur cadangan komunitas gratis
     }
 };
 

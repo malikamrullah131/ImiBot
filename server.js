@@ -13,10 +13,10 @@ const chalk = require('chalk');
 
 const config = require('./config');
 const { fetchSpreadsheetData, addKnowledgeBaseEntry } = require('./sheets');
-const { askAIProtocol, detectComplexity, getAIStatus, logUnknown, getBotHealth, clearCacheForQuestion, clearAllCache, reflectOnInteraction, markBadKey } = require('./ai');
-const { syncVectors, forceReindexDB, vectorSearch } = require('./vectorStore');
+const { askAIProtocol, detectComplexity, getAIStatus, logUnknown, getBotHealth, clearCacheForQuestion, clearAllCache, reflectOnInteraction, markBadKey, checkOpenRouterBalance } = require('./ai');
+const { syncVectors, forceReindexDB, vectorSearch, syncPDFs } = require('./vectorStore');
 const { initDb, syncToNeon, fetchFromNeon, pool } = require('./db');
-const { trackEvent, getInsights, generateSuggestedAnswer, getTopUnknowns, suggestCategory } = require('./analytics');
+const { trackEvent, getInsights, generateSuggestedAnswer, getTopUnknowns, suggestCategory, triggerWebhook } = require('./analytics');
 
 // --- 💎 PREMIUM LOGGING & BRANDING 💎 ---
 function appendLog(type, sender, msg) {
@@ -71,7 +71,8 @@ let lastInteractions = {};
 let globalLastUser = null;
 let botPaused = false;
 let rawKnowledgeBase = [];
-const ADMIN_WA_NUMBER = "6287729391757@c.us";
+const ADMIN_WA_NUMBER = process.env.ADMIN_PHONE ? `${process.env.ADMIN_PHONE}@c.us` : "6287729391757@c.us";
+let messageCounter = 0; // Untuk auto-check saldo per 30 pesan meminimalisir API call
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'MalikGanteng';
 
 const client = new Client({
@@ -133,16 +134,22 @@ client.on('message', async (msg) => {
             const usedPct = ((1 - freeMem/totalMem)*100).toFixed(1);
             return msg.reply(`📊 *STATUS*\nRAM: ${usedPct}%\nMode: ${config.botMode}\nVector: ${config.vectorMode}\nKB: ${rawKnowledgeBase.length}\nPaused: ${botPaused}`);
         }
+        if (cmd === '!sync-pdf') {
+            msg.reply("📚 *Menganalisa dokumen PDF...* Mohon tunggu sebentar.");
+            syncPDFs().then(() => msg.reply("✅ *PDF Knowledge Base diperbarui!* Bot kini telah mempelajari isi dokumen Anda."));
+            return;
+        }
         if (cmd === '!sync') {
-            await msg.reply("🔄 *SINKRONISASI CLOUD...*");
+            msg.reply("⏳ *Sedang mensinkronisasi data...* (Spreadsheet + Cloud + PDF)");
             try {
                 const { raw: data } = await fetchSpreadsheetData(process.env.GOOGLE_SCRIPT_WEB_APP_URL);
                 if (data && data.length > 0) {
                     rawKnowledgeBase = data;
                     await syncToNeon(data);
                     await syncVectors();
+                    await syncPDFs();
                     clearAllCache();
-                    return msg.reply(`✅ *SYNC BERHASIL!* ${data.length} records updated.`);
+                    return msg.reply(`✅ *SYNC BERHASIL!* ${data.length} records updated.\n• Google Sheets & Neon DB sinkron.\n• Vektor database diperbarui.\n• Dokumen PDF dianalisa.`);
                 }
                 return msg.reply("⚠️ Gagal mengambil data dari Spreadsheet.");
             } catch (e) { return msg.reply(`❌ Gagal: ${e.message}`); }
@@ -219,10 +226,20 @@ client.on('message', async (msg) => {
                 clearCacheForQuestion(data.question);
                 await syncVectors();
                 
+                // 5. Trigger Automation (Zapier)
+                triggerWebhook({
+                    event: "admin_verified_answer",
+                    user: targetUser,
+                    question: data.question,
+                    answer: newAnswer,
+                    category: category
+                });
+                
                 return msg.reply(`✅ *BERHASIL!*
 • Jawaban sudah dikirim ke pengguna.
 • Data diarsipkan ke Spreadsheet & Cloud.
-• Kategori: *${category}*`);
+• Kategori: *${category}*
+• Automasi: Terkirim ke Zapier.`);
             } catch (e) { return msg.reply(`❌ Masalah teknis: ${e.message}`); }
         }
         if (cmd === '!pause') { botPaused = true; return msg.reply("⏸️ Bot dijeda."); }
@@ -238,9 +255,18 @@ client.on('message', async (msg) => {
                 return msg.reply(`✅ *SYNC LOCAL BERHASIL!* ${rawKnowledgeBase.length} records secured.`);
             } catch (e) { return msg.reply(`❌ Gagal: ${e.message}`); }
         }
+        if (cmd === '!saldo') {
+            await msg.reply("💰 *Mengecek saldo OpenRouter...*");
+            const remains = await checkOpenRouterBalance();
+            if (remains !== null) {
+                return msg.reply(`💵 *SALDO AI ANDA*\nSisa: *$${remains}*\n\nStatus: ${remains < 0.5 ? '🔴 SEGERA ISI ULANG' : '🟢 AMAN'}`);
+            }
+            return msg.reply("❌ Gagal mengambil data saldo. Pastikan API Key OpenRouter valid.");
+        }
         if (cmd === '!help') {
             return msg.reply(`🛡️ *ADMIN COMMANDS*
 • !status - Cek status bot
+• !saldo - Cek sisa saldo API
 • !sync - Sinkronisasi dari Spreadsheet
 • !sync-local - Backup data ke lokal
 • !benar - Simpan jawaban terakhir ke DB
@@ -270,6 +296,16 @@ client.on('message', async (msg) => {
             appendLog('AI Response', msg.from, answer);
             lastInteractions[msg.from] = { question: msg.body, answer: answer };
             globalLastUser = msg.from;
+
+            // --- 💰 AUTO BALANCE MONITOR (Every 30 messages) ---
+            messageCounter++;
+            if (messageCounter >= 30) {
+                messageCounter = 0;
+                const remains = await checkOpenRouterBalance();
+                if (remains !== null && parseFloat(remains) < 0.5) {
+                    await client.sendMessage(ADMIN_WA_NUMBER, `⚠️ *PERINGATAN SALDO TIPIS*\n\nSaldo AI OpenRouter Anda tinggal *$${remains}*. Segera isi ulang di openrouter.ai agar bot tidak berhenti melayani.`);
+                }
+            }
 
             // --- 🛡️ GUARDIAN SELECTIVE AUDIT 🛡️ ---
             // Hanya beri tahu admin jika bot terpaksa berimajinasi (AI Brain) atau ragu (Low Confidence)
@@ -327,6 +363,41 @@ app.post('/api/login', (req, res) => {
     res.status(401).json({ success: false });
 });
 
+// --- 🌐 SAAS INTEGRATION ENDPOINT (Botpress/Typebot/Web) ---
+app.post('/api/external/chat', async (req, res) => {
+    const { message, remoteId, apiKey } = req.body;
+    const incomingKey = apiKey || req.headers['x-api-key'];
+
+    // 1. Security Check
+    const secretKey = process.env.EXTERNAL_API_KEY || 'imigrasi_default_key';
+    if (incomingKey !== secretKey) {
+        return res.status(401).json({ error: "Unauthorized: Invalid API Key" });
+    }
+
+    if (!message) return res.status(400).json({ error: "Message is required" });
+
+    try {
+        console.log(`[🌐 SAAS] Request received from ${remoteId || 'External App'}`);
+        
+        // 2. Logic: Gunakan protokol AI yang sama dengan WhatsApp
+        const result = await askAIProtocol(message, rawKnowledgeBase, remoteId || 'external_user', null);
+
+        // 3. Response JSON (Sesuai standar Botpress/Typebot)
+        res.json({
+            success: true,
+            answer: result.answer,
+            metadata: {
+                confidence: result.confidence,
+                wasAIGenerated: result.wasAIGenerated,
+                source: "ImiBot Multi-Tier Engine"
+            }
+        });
+    } catch (err) {
+        console.error("[SAAS Error]", err.message);
+        res.status(500).json({ error: "Internal Server Error", details: err.message });
+    }
+});
+
 // Mount modular API
 const apiRoutes = require('./routes/api')({
     requireAuth,
@@ -338,6 +409,18 @@ const apiRoutes = require('./routes/api')({
 app.use('/api', apiRoutes);
 
 const server = http.createServer(app);
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        const port = process.env.PORT || 3000;
+        console.error(`\n❌ [SERVER ERROR] Port ${port} sudah dipakai proses lain!`);
+        console.error(`💡 Solusi: Jalankan perintah ini di terminal, lalu coba lagi:\n`);
+        console.error(`   taskkill /F /IM node.exe\n`);
+        console.error(`   Kemudian: npm run bot\n`);
+        process.exit(1);
+    } else {
+        throw err;
+    }
+});
 server.listen(process.env.PORT || 3000, () => {
     appendLog('STATUS', 'System', `Server running on port ${process.env.PORT || 3000}`);
 });

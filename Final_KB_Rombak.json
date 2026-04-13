@@ -423,5 +423,125 @@
     "No": 85,
     "Question": "Status paspor Ajudikasi artinya apa?",
     "Answer": "Menunggu verifikasi akhir oleh sistem pusat. Proses total biasanya 4 hari kerja."
+  },
+  {
+    "No": 1001,
+    "Question": "paspor hilang, paspor rusak, lapor paspor hilang, prosedur kehilangan paspor, paspor kena air, paspor terbakar, ganti paspor rusak",
+    "Answer": "🔴 *Paspor Hilang/Rusak — Prosedur Resmi 2026:*\n\n1️⃣ *Buat Surat Laporan Kehilangan* — Datang ke Kantor Polisi terdekat, minta Surat Tanda Laporan (STL) kehilangan paspor.\n2️⃣ *Kunjungi Kantor Imigrasi* — Bawa STL, E-KTP, KK, dan Akta Lahir.\n3️⃣ *Pengajuan Penggantian* — Pengajuan dilakukan langsung (tanpa M-Paspor) karena termasuk kategori khusus/darurat.\n\n⚠️ *Biaya Tambahan:*\n- Paspor hilang: Dikenakan biaya penggantian PLUS *denda administratif Rp 1.000.000*\n- Paspor rusak karena kelalaian: Dikenakan *denda Rp 500.000*\n- Paspor rusak bukan kelalaian (bencana/banjir): Tidak kena denda, cukup bawa surat keterangan.\n\n💡 *Tips:* Foto semua halaman paspor Anda sebagai cadangan digital. Simpan foto di cloud.",
+    "Category": "Paspor - Darurat"
+  },
+  {
+    "No": 1002,
+    "Question": "paspor expired, paspor mati, masa berlaku habis, perpanjang paspor expired, paspor sudah mati mau perpanjang",
+    "Answer": "⏰ *Paspor Kadaluarsa — Cara Perpanjang 2026:*\n\nPaspor yang sudah mati masa berlakunya bisa diperpanjang dengan prosedur *Penggantian Paspor* (bukan perpanjangan biasa). Prosedurnya **sama** dengan membuat paspor baru.\n\n*Syarat:*\n✅ E-KTP (asli)\n✅ KK (asli)\n✅ Paspor Lama (yg sudah expired) — wajib dibawa!\n✅ Akta Lahir (jika nama di paspor berbeda dengan e-KTP)\n\n*Biaya:*\n- E-Paspor 5 Tahun: Rp 650.000\n- E-Paspor 10 Tahun: Rp 950.000\n\n⚠️ Paspor lama akan diambil/dilubangi oleh petugas saat penyerahan paspor baru.",
+    "Category": "Paspor - Perpanjang"
+  },
+  {
+    "No": 1003,
+    "Question": "ganti paspor sebelum habis, perpanjang paspor masih berlaku, paspor masih berlaku boleh ganti, kapan sebaiknya perpanjang paspor",
+    "Answer": "✅ *Ganti Paspor Sebelum Kadaluarsa:*\n\nAnda *boleh dan disarankan* mengganti paspor sebelum masa berlakunya habis, terutama jika:\n- Sisa masa berlaku kurang dari **6 bulan** (banyak negara mensyaratkan ini)\n- Halaman paspor penuh visa/cap\n- Data diri berubah (nama, dll)\n\n*Prosedur:* Sama dengan penggantian biasa via M-Paspor.\n*Biaya:* Sama (Rp 650.000 / Rp 950.000)\n\n💡 *Rekomendasi:* Perpanjang paspor saat masih tersisa 6-12 bulan masa berlaku untuk menghindari penolakan di bandara negara tujuan.",
+    "Category": "Paspor - Perpanjang"
+  },
+  {
+    "No": 1004,
+    "Question": "paspor untuk umrah, paspor umrah haji, syarat paspor ibadah haji, paspor untuk keluar negeri pertama kali, paspor turis",
+    "Answer": "🕋 *Paspor untuk Ibadah Umrah/Haji 2026:*\n\nTidak ada paspor khusus untuk umrah atau haji. Anda menggunakan **E-Paspor biasa**.\n\n*Catatan Penting dari Kemenag & Imigrasi:*\n- Masa berlaku paspor **minimal 6 bulan** dari tanggal keberangkatan\n- Arab Saudi mensyaratkan paspor berlaku minimal **1 tahun** untuk jamaah haji\n- Nama di paspor harus *konsisten* dengan nama di dokumen lainnya (tiket, visa)\n\n*Tips keberangkatan cepat:*\nJika jadwal keberangkatan sudah dekat, informasikan kepada petugas saat datang ke kantor imigrasi agar bisa diprioritaskan.",
+    "Category": "Paspor - Perjalanan Ibadah"
+  },
+  {
+    "No": 1005,
+    "Question": "anak cerai, paspor anak orang tua bercerai, hak asuh anak paspor, paspor anak single parent, orang tua tunggal bikin paspor anak",
+    "Answer": "⚖️ *Paspor Anak untuk Orang Tua yang Bercerai:*\n\nIni kasus yang sering ditanyakan. Prosedurnya:\n\n*Jika memiliki Hak Asuh (dari Pengadilan):*\n✅ Bawa Akta Cerai\n✅ Bawa Surat Penetapan Hak Asuh dari Pengadilan\n✅ E-KTP orang tua pemegang hak asuh\n✅ KK (yang memuat nama anak)\n✅ Akta Lahir anak\n→ Cukup **satu orang tua** yang hadir (pemegang hak asuh)\n\n*Jika TIDAK ada surat hak asuh:*\n→ Kedua orang tua wajib hadir\n→ Atau bawa Surat Izin dari orang tua yang tidak hadir (bermaterai Rp 10.000, dilegalisir)\n\n⚠️ Setiap kasus bisa berbeda tergantung penilaian petugas. Hubungi kantor kami terlebih dahulu.",
+    "Category": "Paspor - Kasus Khusus"
+  },
+  {
+    "No": 1006,
+    "Question": "paspor cepat, paspor kilat, paspor darurat, urgent paspor, keberangkatan besok paspor belum jadi, layanan percepatan paspor",
+    "Answer": "🚨 *Layanan Paspor Darurat/Percepatan 2026:*\n\nKantor Imigrasi memiliki layanan percepatan untuk kondisi mendesak. Namanya **Layanan Percepatan Paspor**.\n\n*Kondisi yang memenuhi syarat:*\n- Keberangkatan dalam 3 hari kerja ke depan (wajib tunjukkan tiket)\n- Keperluan medis darurat di luar negeri\n- Keperluan kedinasan/tugas negara\n\n*Biaya Tambahan:*\nSelain biaya paspor normal, dikenakan biaya percepatan *Rp 1.000.000* per permohonan.\n\n*Cara mengajukan:*\nDatang langsung ke Kantor Imigrasi, minta antrian prioritas, dan tunjukkan bukti keberangkatan (tiket/surat tugas).\n\n💡 Tidak bisa dilakukan via M-Paspor untuk kasus darurat.",
+    "Category": "Paspor - Percepatan"
+  },
+  {
+    "No": 1007,
+    "Question": "paspor WNA, paspor orang asing, ITAS ITAP, wna bikin paspor indonesia, paspor naturalisasi, ganti kewarganegaraan paspor",
+    "Answer": "🌏 *Paspor untuk WNA / Kasus Naturalisasi:*\n\nWarga Negara Asing (WNA) *tidak bisa membuat Paspor Indonesia*. Paspor Indonesia hanya untuk WNI.\n\n*Untuk WNA di Indonesia:*\n- WNA menggunakan paspor negara asal mereka\n- Izin tinggal WNA diatur melalui: ITAS (Izin Tinggal Terbatas) atau ITAP (Izin Tinggal Tetap)\n- Proses ITAS/ITAP berbeda dengan pembuatan paspor\n\n*Untuk WNI yang baru naturalisasi:*\n- Wajib menunjukkan Surat Keputusan Menteri Hukum & HAM tentang naturalisasi\n- Bawa dokumen pelepasan kewarganegaraan asal\n- Proses pembuatan paspor pertama dibantu langsung oleh petugas\n\n➡️ Hubungi kantor imigrasi untuk konsultasi kasus naturalisasi secara langsung.",
+    "Category": "Paspor - WNA & Naturalisasi"
+  },
+  {
+    "No": 1008,
+    "Question": "paspor beda nama, nama paspor salah, typo nama paspor, nama di paspor berbeda dengan ktp, koreksi nama paspor, nama tengah tidak ada di ktp",
+    "Answer": "✏️ *Koreksi / Perbedaan Nama di Paspor 2026:*\n\nIni masalah yang sering terjadi. Berikut panduan penanganannya:\n\n*Jika nama di paspor salah ketik (typo petugas):*\n→ Laporkan segera ke kantor imigrasi, koreksi tidak dikenakan biaya tambahan jika kesalahan dari petugas.\n\n*Jika nama di paspor berbeda dengan E-KTP (karena perubahan data):*\n→ Lakukan perubahan data E-KTP terlebih dahulu di Disdukcapil\n→ Baru ajukan penggantian paspor dengan data baru\n→ Biaya penggantian normal berlaku\n\n*Jika paspor memiliki nama lengkap (3 kata) tapi KTP hanya 2 kata:*\n→ Bawa Akta Lahir / Ijazah yang mencantumkan nama lengkap 3 kata\n→ Bisa diproses dengan surat keterangan pendukung\n\n⚠️ *Jangan* coba perjalanan dengan paspor yang namanya berbeda dengan tiket, bisa ditolak di bandara.",
+    "Category": "Paspor - Koreksi Data"
+  },
+  {
+    "No": 1009,
+    "Question": "berapa lama paspor jadi, estimasi waktu paspor selesai, paspor kapan bisa diambil, proses paspor berapa hari, lama buat paspor",
+    "Answer": "⏳ *Estimasi Waktu Selesai Paspor 2026:*\n\n📋 *Alur Normal (M-Paspor):*\n- Pendaftaran M-Paspor hingga jadwal verifikasi: 1-7 hari (tergantung ketersediaan slot)\n- Proses setelah verifikasi di kantor: **3-5 hari kerja**\n- Total dari pendaftaran hingga paspor di tangan: **± 5-10 hari kerja**\n\n⚡ *Layanan Percepatan:*\n- Bisa selesai dalam **1 hari kerja** (dengan biaya percepatan Rp 1.000.000)\n\n📬 *Pengambilan:*\n- Bisa diambil langsung di kantor (bawa resi pembayaran)\n- Atau via POS Indonesia / kurir (dikenakan biaya pengiriman)\n\n⚠️ Durasi bisa berubah saat high season (menjelang lebaran, liburan panjang).",
+    "Category": "Paspor - Informasi Umum"
+  },
+  {
+    "No": 1010,
+    "Question": "antrian paspor penuh, slot m-paspor habis, tidak ada jadwal paspor, kuota penuh terus, cara dapat slot paspor, jadwal paspor susah dapat",
+    "Answer": "📅 *Slot M-Paspor Sering Penuh — Solusi 2026:*\n\nIni masalah umum di seluruh Indonesia. Beberapa tips:\n\n🎯 *Tips Mendapat Slot:*\n1. Buka aplikasi M-Paspor tepat pukul **00.00 WIB** atau **07.00 WIB** — slot baru biasanya dirilis di jam-jam ini\n2. Coba semua kantor imigrasi terdekat, bukan hanya satu\n3. Cek secara rutin setiap 30 menit karena ada pembatalan dari pengguna lain\n4. Pastikan aplikasi M-Paspor sudah versi terbaru\n\n📌 *Alternatif:*\n- Pantau pengumuman di Instagram @imigrasi_pangkalpinang untuk info kuota tambahan\n- Kantor imigrasi terkadang membuka kuota walk-in terbatas di hari tertentu\n\n💡 Jangan percaya calo/jasa pembuatan paspor yang menawarkan slot — itu tidak resmi dan berisiko.",
+    "Category": "Paspor - M-Paspor"
+  },
+  {
+    "No": 1011,
+    "Question": "foto paspor, syarat foto paspor, baju foto paspor, warna baju foto paspor, bawa foto sendiri, ukuran foto paspor",
+    "Answer": "📸 *Foto untuk Paspor — Panduan 2026:*\n\n✅ Foto dilakukan **langsung di kantor imigrasi** oleh petugas (biometrik). Anda **tidak perlu membawa foto**.\n\n*Tips agar foto biometrik berhasil sekali jalan:*\n- 👔 **Warna baju**: Hindari putih (background foto paspor adalah putih). Gunakan warna gelap/cerah selain putih\n- 😐 **Ekspresi**: Netral, tidak senyum, mata terbuka sempurna\n- 👓 **Kacamata**: Harus dilepas\n- 🧕 **Jilbab**: Diperbolehkan, asalkan wajah terlihat penuh dari dahi hingga dagu\n- 💄 **Makeup**: Boleh tapi tidak berlebihan\n- 💡 Datang dengan penampilan rapi dan segar, hindari datang setelah baru berolahraga\n\n⚠️ Jika foto gagal/buram, petugas akan mencoba ulang di tempat.",
+    "Category": "Paspor - Informasi Umum"
+  },
+  {
+    "No": 1012,
+    "Question": "paspor untuk anak sekolah ke luar negeri, pertukaran pelajar paspor, beasiswa luar negeri paspor, paspor untuk studi",
+    "Answer": "🎓 *Paspor untuk Pelajar/Mahasiswa Studi ke Luar Negeri 2026:*\n\nTidak ada perbedaan jenis paspor untuk tujuan studi. Anda menggunakan E-Paspor biasa.\n\n*Rekomendasi untuk pelajar:*\n- Ambil paspor **10 tahun** jika usia sudah 17+ — lebih hemat jangka panjang\n- Pastikan masa berlaku paspor melebihi masa studi Anda ditambah 6 bulan\n- Setelah paspor jadi, segera proses *Student Visa* ke negara tujuan\n\n*Layanan Prioritas Pelajar:*\nJika program beasiswa memiliki batas waktu pendaftaran visa yang mendesak, bawa surat undangan/Letter of Acceptance (LoA) dari universitas — bisa jadi pertimbangan layanan percepatan.\n\n*Proses paspor anak di bawah 17 tahun:*\n- Wajib didampingi orang tua dan bawa dokumen lengkap (Akta Lahir, KK, KTP Ortu, Buku Nikah Ortu)",
+    "Category": "Paspor - Studi & Beasiswa"
+  },
+  {
+    "No": 1013,
+    "Question": "cara bayar paspor, pembayaran paspor, bayar paspor dimana, transfer paspor, bayar paspor bank apa, tagihan paspor kapan muncul",
+    "Answer": "💳 *Cara Pembayaran Paspor 2026:*\n\nPembayaran dilakukan **setelah proses verifikasi berkas dan biometrik** selesai di kantor.\n\n*Metode Pembayaran yang Diterima:*\n- 🏦 **Transfer Bank** — BNI, BRI, Mandiri, BCA, BTN\n- 📱 **M-Banking / Internet Banking**\n- 💵 **Tunai** di teller bank yang bekerja sama\n- 🔁 **PNBP (Penerimaan Negara Bukan Pajak)** via kode billing\n\n*Alur Pembayaran:*\n1. Petugas akan memberikan **kode billing** unik setelah verifikasi\n2. Bayar maksimal **3 hari kerja** setelah kode billing diterima\n3. Tunjukkan bukti bayar saat pengambilan paspor\n\n⚠️ Jika melewati batas waktu pembayaran, permohonan dianggap batal dan harus daftar ulang via M-Paspor.",
+    "Category": "Paspor - Pembayaran"
+  },
+  {
+    "No": 1014,
+    "Question": "beda paspor biasa dengan e-paspor, keunggulan e-paspor, chip paspor apa fungsinya, autogate bandara paspor elektronik",
+    "Answer": "💡 *Perbedaan Paspor Biasa vs E-Paspor (2026):*\n\n| Fitur | Paspor Biasa | E-Paspor |\n|-------|-------------|----------|\n| Chip Biometrik | ❌ Tidak ada | ✅ Ada |\n| Autogate Bandara | ❌ Antrean manual | ✅ Bisa pakai autogate |\n| Keamanan Data | Standar | Lebih tinggi |\n| Bebas Visa Jepang | ❌ | ✅ Potensi Visa Waiver |\n| Biaya | Lebih murah | Sedikit lebih mahal |\n\n*Kantor Imigrasi Pangkalpinang* saat ini **hanya melayani E-Paspor**.\n\n✅ E-Paspor sangat disarankan untuk:\n- Perjalanan rutin ke Jepang (bisa daftar bebas visa/visa waiver)\n- Mempercepat proses imigrasi di bandara internasional\n- Keamanan data biometrik yang lebih tinggi",
+    "Category": "Paspor - Jenis"
+  },
+  {
+    "No": 1015,
+    "Question": "denda paspor, keterlambatan perpanjang paspor, sanksi paspor, apakah ada denda kalau telat perpanjang paspor",
+    "Answer": "⚠️ *Denda dan Sanksi Paspor 2026:*\n\n✅ *Tidak ada denda* jika paspor kadaluarsa dan tidak segera diperpanjang — tidak ada sanksi hukum karena lambat memperpanjang.\n\nNamun ada denda khusus untuk kasus:\n\n🔴 *Paspor Hilang:* Denda administratif **Rp 1.000.000**\n🟡 *Paspor Rusak karena Kelalaian:* Denda **Rp 500.000**\n🟢 *Paspor Rusak bukan Kelalaian:* Tidak ada denda (banjir, bencana, dll)\n\n*Catatan Perjalanan:*\n- Meski tidak ada denda keterlambatan perpanjang, jika paspor sudah kadaluarsa Anda **tidak bisa bepergian ke luar negeri**\n- Negara tujuan umumnya mensyaratkan paspor berlaku **minimal 6 bulan** dari tanggal kepulangan\n\n💡 Selalu pantau masa berlaku paspor Anda!",
+    "Category": "Paspor - Sanksi & Denda"
+  },
+  {
+    "No": 1016,
+    "Question": "paspor lansia, paspor orang tua, paspor jompo, paspor untuk orang sakit, paspor bagi penyandang disabilitas, paspor kursi roda",
+    "Answer": "♿ *Layanan Paspor untuk Lansia & Disabilitas 2026:*\n\n*Imigrasi memiliki layanan prioritas untuk:*\n- 👴 Lansia (usia 60 tahun ke atas)\n- ♿ Penyandang disabilitas\n- 🤰 Ibu hamil\n- 🤒 Orang sakit yang membutuhkan pelayanan duduk\n\n*Keistimewaan Layanan Prioritas:*\n✅ Antrian didahulukan\n✅ Petugas akan mendatangi tempat duduk (tidak perlu berdiri lama)\n✅ Biometrik bisa dilakukan di kursi khusus\n\n*Cara mengakses:*\nSaat tiba di kantor imigrasi, informasikan ke petugas keamanan/resepsionis bahwa Anda membutuhkan layanan prioritas. Tunjukkan KTP dan bukti kebutuhan khusus jika ada.\n\n*Untuk yang tidak bisa datang sama sekali:*\nHubungi kantor imigrasi untuk konsultasi kemungkinan layanan jemput bola (home visit) yang tersedia di beberapa kondisi medis tertentu.",
+    "Category": "Paspor - Layanan Khusus"
+  },
+  {
+    "No": 1017,
+    "Question": "paspor hilang di luar negeri, kehilangan paspor di negara lain, SPLP, Surat Perjalanan Laksana Paspor, terjebak luar negeri tanpa paspor",
+    "Answer": "🆘 *Paspor Hilang di Luar Negeri — Prosedur Darurat 2026:*\n\nJangan panik. Ikuti langkah berikut:\n\n1️⃣ *Lapor ke Polisi Setempat* — Minta surat laporan kehilangan (Police Report)\n\n2️⃣ *Hubungi KBRI/KJRI Terdekat* (Kedutaan Besar/Konsulat Jenderal RI)\n   - Mereka bisa menerbitkan **SPLP (Surat Perjalanan Laksana Paspor)**\n   - SPLP adalah dokumen darurat untuk kembali ke Indonesia\n\n3️⃣ *Dokumen yang biasanya diminta KBRI:*\n   - Surat laporan polisi\n   - Foto copy paspor (simpan di email!)\n   - Pas foto\n   - Kartu identitas lain (SIM, KTP foto)\n\n4️⃣ *Setelah kembali ke Indonesia:*\n   - Buat paspor baru di kantor imigrasi\n   - Bayar denda kehilangan Rp 1.000.000\n\n💡 *Tips Pencegahan:* Selalu foto semua halaman paspor dan simpan di Google Drive/email Anda sebelum bepergian.",
+    "Category": "Paspor - Darurat Internasional"
+  },
+  {
+    "No": 1018,
+    "Question": "perpanjang paspor bagi TKI, TKW, PMI, pekerja migran paspor, paspor untuk kerja di luar negeri, paspor TKI arab saudi",
+    "Answer": "✈️ *Paspor untuk Pekerja Migran Indonesia (PMI) 2026:*\n\n*PMI (TKI/TKW) mendapat perlakuan khusus dari imigrasi:*\n\n✅ *Layanan Prioritas PMI:*\n- Antrian diprioritaskan di loket khusus\n- Proses lebih cepat dengan koordinasi BP2MI\n\n*Syarat Tambahan PMI (Selain Syarat Umum):*\n- Surat keterangan bekerja di luar negeri / kontrak kerja\n- Buku Pelaut (untuk ABK)\n- Rekomendasi dari BP2MI jika diperlukan\n\n*Penting untuk PMI:*\n- Pastikan paspor berlaku minimal **1 tahun** saat keberangkatan (Saudi mensyaratkan ini)\n- Jangan percayakan paspor Anda kepada agen/majikan — ini hak Anda!\n- Jika paspor ditahan majikan di luar negeri, hubungi KBRI/KJRI setempat\n\n📞 *Hotline PMI Kementerian Ketenagakerjaan:* 1500-630",
+    "Category": "Paspor - PMI & TKI"
+  },
+  {
+    "No": 1019,
+    "Question": "paspor anak yatim, paspor tanpa orang tua, paspor anak wali, anak diasuh nenek kakek paspor, wali paspor anak",
+    "Answer": "🧒 *Paspor Anak Yatim / Diasuh Wali 2026:*\n\nUntuk anak yang kedua orang tuanya meninggal atau diasuh oleh wali:\n\n*Syarat yang Diperlukan:*\n✅ Akta Kematian orang tua (jika meninggal)\n✅ Surat Penetapan Perwalian dari Pengadilan\n✅ KTP wali yang terdaftar secara resmi\n✅ KK yang memuat nama anak dan wali\n✅ Akta Lahir anak\n\n*Jika diasuh tanpa surat resmi (kakek/nenek tanpa penetapan pengadilan):*\n→ Diperlukan Surat Keterangan dari Desa/Kelurahan\n→ Surat pernyataan bermaterai dari wali\n→ Proses mungkin memerlukan verifikasi tambahan\n\n⚠️ Setiap kasus diputuskan oleh Kepala Seksi berdasarkan dokumen yang ada. Hubungi kantor imigrasi terlebih dahulu untuk konsultasi.",
+    "Category": "Paspor - Kasus Khusus"
+  },
+  {
+    "No": 1020,
+    "Question": "pindah domisili paspor, buat paspor bukan di domisili, paspor di luar kota, bisa buat paspor di kantor imigrasi manapun",
+    "Answer": "📍 *Pembuatan Paspor di Luar Domisili 2026:*\n\n✅ *Bisa!* Sejak 2023, pembuatan paspor sudah bisa dilakukan di **kantor imigrasi mana pun** di seluruh Indonesia, tidak harus sesuai domisili KTP.\n\n*Cara Melakukannya:*\n1. Daftar di M-Paspor → pilih kantor imigrasi yang Anda inginkan\n2. Datang sesuai jadwal\n3. Proses sama seperti biasa\n\n*Catatan:*\n- Semua data tetap mengacu pada KTP domisili Anda\n- Paspor bisa diambil di kantor yang sama tempat Anda mendaftar\n- Jika ingin dikirim ke alamat lain, ada opsi pengiriman via POS\n\n💡 Manfaatkan ini jika Anda sedang merantau/bekerja di kota lain dan tidak sempat pulang ke kampung untuk buat paspor.",
+    "Category": "Paspor - Lokasi & Domisili"
   }
 ]

@@ -8,6 +8,7 @@
 
 Chatbot ini bukan sekadar robot biasa. Dia punya "otak" buatan (AI) yang memungkinkannya untuk:
 - 🕒 **Menjawab 24 Jam**: Tidak perlu menunggu jam kerja kantor untuk bertanya syarat paspor.
+- 🧠 **Memori Jangka Panjang (Baru!)**: ImmiCare kini bisa mengingat nama dan riwayat percakapan Anda. Jika Anda pernah bertanya tentang paspor hilang, dia akan ingat saat Anda kembali lagi.
 - 💡 **Paham Bahasa Santai**: Anda bisa bertanya dengan bahasa sehari-hari, tidak harus kaku.
 - 📚 **Selalu Belajar**: Jika ada pertanyaan yang dia tidak tahu, Admin kantor akan memberitahu jawabannya, dan chatbot akan langsung ingat selamanya.
 - 🚀 **Sangat Cepat**: Jawaban biasanya dikirim dalam hitungan detik.
@@ -33,11 +34,11 @@ Anda hanya perlu mengisi **Google Sheets** (Excel Online) yang sudah kami siapka
 - Masukkan pertanyaan di kolom "Pertanyaan".
 - Masukkan jawaban di kolom "Jawaban".
 
-### 2. Dashboard Admin
+### 2. Dashboard Admin & Broadcast (Baru!)
 Kami menyediakan halaman web cantik (Dashboard) untuk memantau:
-- Siapa saja yang sedang bertanya.
-- Pertanyaan apa yang chatbot belum tahu jawabannya.
-- Status kesehatan sistem (apakah robot sedang aktif atau tidak).
+- **Monitor Real-time**: Siapa saja yang sedang bertanya.
+- **Broadcast Engine**: Kirim pesan massal ke pemohon yang pernah menghubungi chatbot (misal: info gangguan sistem atau pengumuman penting).
+- **Statistik Kesehatan**: Status RAM, Uptime, dan performa AI.
 
 ### 3. Perintah Lewat WhatsApp
 Admin bisa mengatur robot langsung dari chat WhatsApp dengan perintah simpel:
@@ -45,27 +46,29 @@ Admin bisa mengatur robot langsung dari chat WhatsApp dengan perintah simpel:
 - `!audit` : Minta robot menganalisa sendiri jawabannya (untuk memastikan akurasi).
 - `!gas` : Langsung kirim jawaban terbaik hasil analisa robot ke pengguna + simpan otomatis.
 - `!benar` / `!salah` : Beri tahu robot secara instan jika jawabannya tepat atau perlu diperbaiki.
-- `!pause` / `!resume` : Matikan atau nyalakan kembali jawaban otomatis.
 - `!sync` : Paksa robot mengambil data terbaru dari Google Sheets.
+- `!sync-local` : Backup data ke penyimpanan lokal komputer (Offline Security).
 
 ### 4. Sistem Guardian Nudge 🛡️
 Robot akan otomatis mengirimkan pesan khusus ("Nudge") ke WhatsApp Admin jika dia merasa kurang yakin dengan jawabannya atau jika dia terpaksa menggunakan nalar AI (bukan dari database). Ini membantu Admin memantau kualitas tanpa harus membaca semua chat satu per satu.
 
 ```mermaid
 graph TD
-    A[Pesan WhatsApp] --> B{Step 1: Rule Engine}
-    B -- Match --> C[Kirim Jawaban]
-    B -- No Match --> D{Step 2: Smart Cache}
-    D -- Hit --> C
-    D -- Miss --> E{Step 3: Normalized Search}
-    E -- Match --> C
-    E -- No Match --> F{Step 4: Vector-Lite Search}
-    F -- Score > 0.8 --> C
-    F -- Low Score --> G{Step 5: LLM Dispatcher}
-    G -- OpenRouter --> C
-    G -- Limit/Fail --> H{Google SDK Direct}
-    H -- Success --> C
-    H -- Fail --> I[Ultimate Fallback: Ollama Local] --> C
+    A[Pesan WhatsApp] --> B{Step 0: Profile Memory}
+    B -- Found --> C{Step 1: Rule Engine}
+    B -- New User --> C
+    C -- Match --> D[Kirim Jawaban]
+    C -- No Match --> E{Step 2: Smart Cache}
+    E -- Hit --> D
+    E -- Miss --> F{Step 3: Normalized Search}
+    F -- Match --> D
+    F -- No Match --> G{Step 4: Vector-Lite Search}
+    G -- Score > 0.8 --> D
+    G -- Low Score --> H{Step 5: LLM Dispatcher}
+    H -- OpenRouter --> D
+    H -- Limit/Fail --> I{Google SDK Direct}
+    I -- Success --> D
+    I -- Fail --> J[Ultimate Fallback: Ollama Local] --> D
 ```
 
 ---
@@ -85,12 +88,12 @@ graph TD
 
 ## 💎 Kenapa ImmiCare Spesial?
 
-Sistem ini dibuat agar **100% Gratis** dan **Tetap Ringan** meskipun dijalankan di komputer kantor biasa (RAM 8GB). Robot ini dirancang untuk tidak pernah tidur, menjaga pelayanan publik tetap prima setiap saat.
+Sistem ini dibuat agar **100% Gratis** dan **Tetap Ringan** meskipun dijalankan di komputer kantor biasa (RAM 8GB). Dengan sistem memori baru, pelayanan publik terasa lebih personal dan manusiawi. Robot ini dirancang untuk tidak pernah tidur, menjaga pelayanan publik tetap prima setiap saat.
 
 ---
 
 > [!NOTE]
 > Jika Anda adalah seorang teknisi atau programmer yang ingin mempelajari "daleman" sistem ini, silakan baca [ReadMeForDevs.md](./ReadMeForDevs.md).
 
-**Versi:** 3.8 — Edisi Anti-Crash & Auto-Learning
+**Versi:** 4.0 — Edisi Long-Term Memory & Broadcast Pro
 **Dibuat Oleh:** Tim Inovasi Imigrasi PKP

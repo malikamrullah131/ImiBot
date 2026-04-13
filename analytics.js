@@ -233,10 +233,30 @@ function getTopUnknowns() {
         .map(([query, count]) => ({ query, count }));
 }
 
+/**
+ * Triggers a Webhook (Zapier/Make.com) for external automation.
+ */
+async function triggerWebhook(data) {
+    const webhookUrl = process.env.ZAPIER_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    try {
+        await axios.post(webhookUrl, {
+            ...data,
+            bot_name: "ImmiCare Bot",
+            timestamp: new Date().toISOString()
+        });
+        console.log("[Otomasi] Data terkirim ke Zapier.");
+    } catch (e) {
+        console.error("[Otomasi] Gagal mengirim ke Zapier:", e.message);
+    }
+}
+
 module.exports = {
     trackEvent,
     getInsights,
     generateSuggestedAnswer,
     suggestCategory,
-    getTopUnknowns
+    getTopUnknowns,
+    triggerWebhook
 };

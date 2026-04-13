@@ -1,4 +1,4 @@
-# ImmiCare Technical Reference Guide — Refactored Architecture (v3.5) 🛠️🤖⚖️
+# ImmiCare Technical Reference Guide — Advanced Memory Architecture (v4.0) 🛠️🤖⚖️
 
 Selamat datang di panduan teknis **ImmiCare**. Folder ini berisi kode sumber chatbot WhatsApp berbasis **Resilient AI Dispatcher** yang dirancang untuk berjalan stabil di komputer dengan spesifikasi terbatas (RAM 8GB).
 
@@ -8,23 +8,25 @@ Selamat datang di panduan teknis **ImmiCare**. Folder ini berisi kode sumber cha
 
 Sistem ini menggunakan arsitektur bertingkat (**Tiered Pipeline**) untuk memastikan kecepatan respon dan efisiensi memori (RAM). 
 
-### Alur Kerja Pesan (5-Step AI Pipeline)
+### Alur Kerja Pesan (Advanced 6-Step Pipeline)
 
 ```mermaid
 graph TD
-    A[Pesan WhatsApp] --> B{Step 1: Rule Engine}
-    B -- Match --> C[Kirim Jawaban]
-    B -- No Match --> D{Step 2: Smart Cache}
-    D -- Hit --> C
-    D -- Miss --> E{Step 3: Normalized Search}
-    E -- Match --> C
-    E -- No Match --> F{Step 4: Vector-Lite Search}
-    F -- Score > 0.8 --> C
-    F -- Low Score --> G{Step 5: LLM Dispatcher}
-    G -- OpenRouter --> C
-    G -- Limit/Fail --> H{Google SDK Direct}
-    H -- Success --> C
-    H -- Fail --> I[Ultimate Fallback: Ollama Local] --> C
+    A[Pesan WhatsApp] --> B{Step 0: Profile Memory}
+    B -- Context Found --> C{Step 1: Rule Engine}
+    B -- New User --> C
+    C -- Match --> D[Kirim Jawaban]
+    C -- No Match --> E{Step 2: Smart Cache}
+    E -- Hit --> D
+    E -- Miss --> F{Step 3: Normalized Search}
+    F -- Match --> D
+    F -- No Match --> G{Step 4: Vector-Lite Search}
+    G -- Score > 0.8 --> D
+    G -- Low Score --> H{Step 5: LLM Dispatcher}
+    H -- OpenRouter --> D
+    H -- Limit/Fail --> I{Google SDK Direct}
+    I -- Success --> D
+    I -- Fail --> J[Ultimate Fallback: Ollama Local] --> D
 ```
 
 ---
@@ -47,11 +49,17 @@ Alih-alih mencari di seluruh database yang besar, sistem ini menggunakan strateg
 - **Model Switching**: Otomatis beralih ke model yang lebih ringan jika penggunaan RAM sistem terdeteksi kritis (>85%).
 - **Circuit Breaker**: Jika kunci API Cloud (Gemini/Mistral/DeepSeek) bermasalah, sistem akan otomatis menjeda (cooldown) kunci tersebut selama 3 menit sebelum dicoba lagi.
 
-### 4. 📂 Modular Express Server
-`server.js` telah dimodifikasi menjadi lebih ringkas. Seluruh logika API Admin dipisahkan ke folder `routes/api.js`:
-- Pemisahan tanggung jawab (Separation of Concerns).
-- Memudahkan debugging pada dashboard admin.
-- Integrasi Socket.io untuk notifikasi *real-time*.
+### 4. 🧠 Long-Term Memory System (`db.js` & `ai.js`)
+Sistem kini dilengkapi dengan profil pengguna (*User Profiling*):
+- **Automated Summary**: AI secara otomatis meringkas riwayat percakapan untuk menghemat token konteks.
+- **Topical Memory**: Bot mengingat topik terakhir yang dibahas (misal: Paspor Hilang) untuk memberikan respon yang nyambung pada sesi berikutnya.
+- **Local Fallback**: Profil disimpan di `data/user_profiles.json` jika database cloud offline.
+
+### 5. 📂 Broadcast Engine & Modular Express
+`server.js` mengintegrasikan `Broadcast API` yang memungkinkan Admin mengirim pesan massal dengan jeda keamanan (*anti-ban delay*):
+- **Recipients Discovery**: Ekstraksi otomatis nomor telepon dari log aktivitas.
+- **Socket.io Integration**: Notifikasi real-time untuk dashboard admin.
+- **Separation of Concerns**: Seluruh logika API dipisahkan ke `routes/api.js`.
 
 ---
 
@@ -108,4 +116,4 @@ PORT=3000
 Sistem ini bersifat **Open Enhancement** untuk internal Kantor Imigrasi PKP. Pengembang dapat melakukan modifikasi pada `config.js` untuk menyesuaikan ambang batas (*threshold*) akurasi AI.
 
 **Penyusun:** Antigravity AI Team
-**Status:** ✅ Stable for Production (v3.8 - Multi-Brain Resilient)
+**Status:** ✅ Stable for Production (v4.0 - Memory & Broadcast Edition)

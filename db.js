@@ -42,52 +42,83 @@ const pool = new Pool({
  * Initializes the Neon database tables if they don't exist.
  */
 async function initDb() {
-  const query = `
-    CREATE TABLE IF NOT EXISTS knowledge_base (
-      id SERIAL PRIMARY KEY,
-      question TEXT UNIQUE NOT NULL,
-      answer TEXT NOT NULL,
-      category TEXT,
-      embedding vector(3072),
-      last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      source TEXT DEFAULT 'spreadsheet'
-    );
-    CREATE TABLE IF NOT EXISTS chatbot_logs (
-      id SERIAL PRIMARY KEY,
-      user_id TEXT,
-      question TEXT,
-      answer TEXT,
-      log_type TEXT DEFAULT 'chat',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    CREATE TABLE IF NOT EXISTS system_status (
-      id SERIAL PRIMARY KEY,
-      bot_status TEXT,
-      wa_status TEXT,
-      uptime INTEGER,
-      ram_usage TEXT,
-      last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    INSERT INTO system_status (id, bot_status) VALUES (1, 'OFFLINE') ON CONFLICT (id) DO NOTHING;
-    CREATE TABLE IF NOT EXISTS user_profiles (
-      phone_number TEXT PRIMARY KEY,
-      name TEXT,
-      state TEXT DEFAULT 'active',
-      last_topic TEXT,
-      history_summary TEXT,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  `;
   try {
     if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL missing");
     const client = await pool.connect();
+    
+    // Extensions
     await client.query('CREATE EXTENSION IF NOT EXISTS vector;');
-    await client.query(query);
-    // Ensure UNIQUE constraint for existing tables
+    await client.query('CREATE EXTENSION IF NOT EXISTS pg_trgm;');
+
+    // Tables
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS knowledge_base (
+        id SERIAL PRIMARY KEY,
+        question TEXT UNIQUE NOT NULL,
+        answer TEXT NOT NULL,
+        category TEXT,
+        embedding vector(3072),
+        tsvector_content tsvector,
+        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        source TEXT DEFAULT 'spreadsheet'
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS semantic_cache (
+        id SERIAL PRIMARY KEY,
+        query_text TEXT UNIQUE NOT NULL,
+        query_embedding vector(3072),
+        answer_text TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS chatbot_logs (
+        id SERIAL PRIMARY KEY,
+        user_id TEXT,
+        question TEXT,
+        answer TEXT,
+        log_type TEXT DEFAULT 'chat',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS system_status (
+        id SERIAL PRIMARY KEY,
+        bot_status TEXT,
+        wa_status TEXT,
+        uptime INTEGER,
+        ram_usage TEXT,
+        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS user_profiles (
+        phone_number TEXT PRIMARY KEY,
+        name TEXT,
+        state TEXT DEFAULT 'active',
+        last_topic TEXT,
+        history_summary TEXT,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Indices
+    console.log('[DB] Applying HNSW and FTS Indices...');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_kb_hnsw ON knowledge_base USING hnsw (embedding vector_cosine_ops);').catch(() => {});
+    await client.query('CREATE INDEX IF NOT EXISTS idx_kb_fts ON knowledge_base USING gin (tsvector_content);').catch(() => {});
+    await client.query('CREATE INDEX IF NOT EXISTS idx_cache_hnsw ON semantic_cache USING hnsw (query_embedding vector_cosine_ops);').catch(() => {});
+
+    await client.query('INSERT INTO system_status (id, bot_status) VALUES (1, \'OFFLINE\') ON CONFLICT (id) DO NOTHING;').catch(() => {});
     await client.query('ALTER TABLE knowledge_base ADD CONSTRAINT knowledge_base_question_key UNIQUE (question);').catch(() => {});
+    
     client.release();
-    console.log('✅ Neon Database initialized successfully.');
-    logStatus('Neon Database initialized successfully.');
+    console.log('✅ Neon Database initialized successfully with Advanced RAG support.');
+    logStatus('Neon Database initialized successfully with Advanced RAG support.');
   } catch (err) {
     console.warn('⚠️ Neon DB Unavailable. Switching to LOCAL-ONLY mode.', err.message);
     logStatus(`Database Fallback Active: ${err.message}`);
