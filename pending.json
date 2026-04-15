@@ -401,5 +401,13 @@
     "intent": "Auto-Resolved",
     "timestamp": "2026-04-13T05:34:54.325Z",
     "status": "pending"
+  },
+  {
+    "id": 1776070084765,
+    "question": "Bagaimana cara membuat paspor",
+    "normalized": "bagaimana cara membuat paspor",
+    "suggestion": "**Analisis:**  \nJAWABAN AI sudah **akurat dan sesuai** dengan konteks resmi yang diberikan (prosedur pendaftaran via aplikasi M-Paspor). Tidak ada informasi yang bertentangan atau kesalahan fakta yang perlu diperbaiki.  \n\n**Kesimpulan:**  \nJAWABAN AI dapat digunakan sebagaimana adanya.  \n\n---  \n**JAWABAN AI (Tidak Ada Perubahan):**  \n\n\"**📋 Prosedur Pembuatan Paspor (2026):**  \n\n### **1. Persiapkan Dokumen**  \n- **Dewasa:**  \n  ✅ E-KTP (asli)  \n  ✅ KK (asli)  \n  ✅ Akta Lahir/Ijazah/Buku Nikah (asli)  \n  ✅ Paspor lama (jika ada)  \n\n- **Anak (<17 tahun):**  \n  ✅ E-KTP kedua orang tua  \n  ✅ KK  \n  ✅ Akta Lahir anak  \n  ✅ Buku Nikah orang tua  \n  ✅ Paspor lama anak (jika ada)  \n\n### **2. Daftar via Aplikasi M-Paspor**  \n- Download **M-Paspor** (Play Store/App Store).  \n- Buat akun → Pilih kantor imigrasi & jadwal.  \n- *Catatan:* Slot terbatas, coba buka aplikasi **pukul 00.00 atau 07.00 WIB**.  \n\n### **3. Datang ke Kantor Imigrasi**  \n- Bawa **dokumen asli** dan **materai Rp10.000**.  \n- Proses:  \n  - Verifikasi berkas  \n  - Foto & biometrik  \n  - Wawancara singkat (5-10 menit)  \n  - Pembayaran (via kode billing)  \n\n### **4. Pembayaran**  \n- Biaya:  \n  - **E-Paspor 5 tahun:** Rp650.000  \n  - **E-Paspor 10 tahun:** Rp950.000  \n- Metode: Transfer bank/ATM/M-Banking (batas waktu: 2 jam setelah billing terbit).  \n\n### **5. Pengambilan Paspor**  \n- Selesai dalam **4 hari kerja** (status \"Ajudikasi\" = verifikasi akhir).  \n- Ambil di kantor imigrasi dengan bukti bayar + KTP.  \n- *Bisa diwakilkan* dengan surat kuasa bermaterai Rp10.000.  \n\n### **⚠️ Catatan Penting:**  \n- **Paspor rusak/hilang?** Ada denda (Rp500.000 untuk rusak, Rp1.000.000 untuk hilang).  \n- **Percepatan:** Biaya tambahan Rp1.000.000 (syarat: datang sebelum jam 10.00 WIB).  \n- **Umroh/Haji?** Butuh **endorsement** (tambahan nama) tanpa biaya.  \n\n🔗 *Formulir terkait:*  \n- [Formulir Surat Pernyataan Ortu](https://docs.google.com/document/d/13HAgAqMdHSYEoytE2HR7Zd6uw-Oz83m2/edit)  \n- [Formulir Endorsement](https://docs.google.com/document/d/1MnIb5c7kHhkfusIkQZLV992sxDqjI7ZX/edit)  \n\n**💡 Tips:**  \n- Pastikan data di dokumen konsisten (KTP/KK/Akta Lahir).  \n- Hindari pakaian putih saat foto biometrik.  \n- Simpan foto digital paspor sebagai cadangan.  \n\nUntuk pertanyaan lebih lanjut, hubungi kantor imigrasi terdekat atau cek Instagram resmi @imigrasi.pangkalpinang.\"",
+    "timestamp": "2026-04-13T08:48:04.765Z",
+    "status": "pending"
   }
 ]

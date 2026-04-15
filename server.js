@@ -75,6 +75,90 @@ const ADMIN_WA_NUMBER = process.env.ADMIN_PHONE ? `${process.env.ADMIN_PHONE}@c.
 let messageCounter = 0; // Untuk auto-check saldo per 30 pesan meminimalisir API call
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'MalikGanteng';
 
+// --- 🛡️ ANTI-SPAM RATE LIMITER ---
+// State: { [userId]: { count, firstMsgTime, lastReplyTime, silentUntil, warned } }
+const rateLimiter = new Map();
+const RL_WINDOW_MS     = 10_000;  // Window: 10 detik
+const RL_MAX_MSGS      = 5;       // Max pesan dalam window
+const RL_SILENCE_MS    = 30_000;  // Hukuman diam: 30 detik
+const RL_REPLY_GAP_MS  = 1_500;   // Min jeda antar balasan: 1.5 detik
+
+// Valid short keywords that should bypass the noise filter
+const SHORT_VALID_KEYWORDS = new Set(['p', 'hi', 'oi', 'ok', 'ya', 'yo']);
+
+/**
+ * Returns: { allow: boolean, action: 'ok'|'noise'|'flood'|'cooldown', warningMsg?: string }
+ */
+function checkRateLimit(userId, msgBody) {
+    const now   = Date.now();
+    const body  = msgBody.trim();
+
+    // --- LAYER 1: Noise Filter (single/double char, not a real word) ---
+    if (body.length <= 2 && !SHORT_VALID_KEYWORDS.has(body.toLowerCase())) {
+        return { allow: false, action: 'noise' };
+    }
+
+    let state = rateLimiter.get(userId) || {
+        count: 0, firstMsgTime: now, lastReplyTime: 0, silentUntil: 0, warned: false
+    };
+
+    // --- LAYER 2: Silence Period (after flood warning) ---
+    if (state.silentUntil > now) {
+        return { allow: false, action: 'flood' };
+    }
+
+    // Reset window jika sudah lewat 10 detik
+    if (now - state.firstMsgTime > RL_WINDOW_MS) {
+        state.count        = 1;
+        state.firstMsgTime = now;
+        state.warned       = false;
+    } else {
+        state.count++;
+    }
+
+    // --- LAYER 3: Flood Detection ---
+    if (state.count > RL_MAX_MSGS) {
+        const wasAlreadyWarned = state.warned;
+        state.silentUntil = now + RL_SILENCE_MS;
+        state.warned      = true;
+        rateLimiter.set(userId, state);
+        if (!wasAlreadyWarned) {
+            return {
+                allow: false,
+                action: 'flood',
+                warningMsg: `⚠️ *Terlalu banyak pesan!*\nMohon kirim satu pertanyaan dan tunggu jawaban kami sebelum mengirim pesan berikutnya. Bot akan aktif kembali dalam 30 detik. 🙏`
+            };
+        }
+        return { allow: false, action: 'flood' };
+    }
+
+    // --- LAYER 4: Reply Cooldown ---
+    if (now - state.lastReplyTime < RL_REPLY_GAP_MS) {
+        rateLimiter.set(userId, state);
+        return { allow: false, action: 'cooldown' };
+    }
+
+    rateLimiter.set(userId, state);
+    return { allow: true, action: 'ok' };
+}
+
+/** Catat waktu balasan terakhir (dipanggil setelah bot berhasil balas) */
+function recordReply(userId) {
+    const state = rateLimiter.get(userId) || {};
+    state.lastReplyTime = Date.now();
+    rateLimiter.set(userId, state);
+}
+
+// Bersihkan state lama setiap 10 menit agar tidak makan RAM terus-menerus
+setInterval(() => {
+    const cutoff = Date.now() - 600_000; // 10 menit
+    for (const [userId, state] of rateLimiter) {
+        if (state.firstMsgTime < cutoff && state.silentUntil < Date.now()) {
+            rateLimiter.delete(userId);
+        }
+    }
+}, 600_000);
+
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
@@ -279,8 +363,27 @@ client.on('message', async (msg) => {
 
     if (botPaused) return;
 
-    // --- USER PIPELINE (Logic inside handleIncomingMessage equivalent) ---
+    // --- USER PIPELINE ---
     if (msg.body && !msg.from.includes('@g.us')) {
+
+        // 🛡️ ANTI-SPAM CHECK (Bypass untuk Admin)
+        if (!isFromAdmin) {
+            const rl = checkRateLimit(msg.from, msg.body);
+            if (!rl.allow) {
+                if (rl.action === 'noise') {
+                    console.log(`[🛡️ SPAM] Noise ignored from ${msg.from}: "${msg.body}"`);
+                    return; // Abaikan diam-diam
+                }
+                if (rl.action === 'flood' && rl.warningMsg) {
+                    appendLog('STATUS', msg.from, '[SPAM] Flood warning sent.');
+                    await client.sendMessage(msg.from, rl.warningMsg);
+                    return;
+                }
+                // Cooldown atau flood tanpa warning → abaikan diam-diam
+                return;
+            }
+        }
+
         appendLog('Message Received', msg.from, msg.body);
         
         let thinkingSent = false;
@@ -293,6 +396,7 @@ client.on('message', async (msg) => {
         try {
             const { answer, wasAIGenerated, confidence } = await askAIProtocol(msg.body, rawKnowledgeBase, msg.from, onThinking);
             await client.sendMessage(msg.from, answer);
+            recordReply(msg.from); // ✅ Catat waktu balasan untuk cooldown
             appendLog('AI Response', msg.from, answer);
             lastInteractions[msg.from] = { question: msg.body, answer: answer };
             globalLastUser = msg.from;
@@ -308,7 +412,6 @@ client.on('message', async (msg) => {
             }
 
             // --- 🛡️ GUARDIAN SELECTIVE AUDIT 🛡️ ---
-            // Hanya beri tahu admin jika bot terpaksa berimajinasi (AI Brain) atau ragu (Low Confidence)
             const isAdminQuery = isFromAdmin && msg.body.startsWith('!');
             if (!isAdminQuery && (wasAIGenerated || confidence === 'low')) {
                  const nudge = `🛡️ *GUARDIAN NUDGE*\n\nBot menjawab menggunakan AI Brain (Nalar Mandiri).\nQ: "${msg.body.substring(0, 100)}"\n\nKetik *!audit* untuk meninjau secara mendalam atau ketik *!salah [jawaban]* untuk langsung memperbaiki.`;
@@ -402,6 +505,7 @@ app.post('/api/external/chat', async (req, res) => {
 const apiRoutes = require('./routes/api')({
     requireAuth,
     getBotHealth,
+    getKBCount: () => rawKnowledgeBase.length,
     botSettings: { aiMode: config.botMode },
     saveSettings: () => {},
     client: client

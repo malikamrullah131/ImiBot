@@ -279,6 +279,73 @@ async function deepseek(prompt, modelName = "deepseek-chat") {
 }
 
 /**
+ * 🚀 NEW MODELS: GPT-5 & DEEPSEEK V3.2
+ */
+async function openaiGPT(prompt, modelName = process.env.GPT5_MINI_MODEL) {
+    const key = getRandomKey('OPENAI_API_KEY');
+    if (!key || key.includes("PROYEK_ISI_DI_SINI")) throw new Error("No OpenAI Key");
+
+    try {
+        const resp = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: modelName,
+            messages: [{ role: "user", content: prompt }]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${key}`,
+                'Content-Type': 'application/json'
+            },
+            timeout: 25000
+        });
+        return resp.data.choices[0].message?.content;
+    } catch (err) {
+        if (err.response && (err.response.status === 401 || err.response.status === 429)) markBadKey(key);
+        throw err;
+    }
+}
+
+async function openrouterGPT(prompt, modelName = process.env.GPT5_MINI_MODEL) {
+    const apiKey = getRandomKey('OPENROUTER_API_KEY');
+    if (!apiKey) throw new Error("No OpenRouter Key");
+    
+    try {
+        const resp = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
+            model: modelName,
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.3
+        }, {
+            headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+            timeout: 25000
+        });
+        return resp.data.choices[0].message?.content;
+    } catch (err) {
+        if (err.response && (err.response.status === 401 || err.response.status === 429)) markBadKey(apiKey);
+        throw err;
+    }
+}
+
+async function deepseekV32(prompt) {
+    const key = getRandomKey('DEEPSEEK_API_KEY');
+    if (!key) throw new Error("No DeepSeek Key");
+
+    try {
+        const resp = await axios.post('https://api.deepseek.com/v1/chat/completions', {
+            model: process.env.DEEPSEEK_MODEL || "deepseek-chat",
+            messages: [{ role: "user", content: prompt }]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${key}`,
+                'Content-Type': 'application/json'
+            },
+            timeout: 25000
+        });
+        return resp.data.choices[0].message?.content;
+    } catch (err) {
+        if (err.response && (err.response.status === 429)) markBadKey(key);
+        throw err;
+    }
+}
+
+/**
  * 🌍 COMMUNITY FREE AI (No-Key / Unlimited Tier)
  */
 async function pollinationsFreeAI(prompt) {
@@ -384,14 +451,25 @@ async function gemini(prompt, isComplex = false) {
             "google/gemini-2.0-flash-lite-preview-02-05:free"
         ];
 
-    // --- TIER 0: DEEPSEEK DIRECT (PAID/STABLE) ---
+    // --- TIER 0: PREMIUM MODELS (GPT-5 & DEEPSEEK V3.2) ---
+    const openaiKey = getRandomKey('OPENAI_API_KEY');
+    if (openaiKey && !openaiKey.includes("PROYEK_ISI_DI_SINI")) {
+        try {
+            const modelToUse = isComplex ? process.env.GPT5_MINI_MODEL : process.env.GPT5_NANO_MODEL;
+            console.log(`[🚀 GPT-5] Menggunakan ${modelToUse} sebagai Otak Premium...`);
+            return await openaiGPT(prompt, modelToUse);
+        } catch (e) {
+            console.warn(`[GPT-5] Gagal/Limit, mencoba fallback...`);
+        }
+    }
+
     const directDSKey = getRandomKey('DEEPSEEK_API_KEY');
     if (directDSKey) {
         try {
-            console.log(`[🚀 DEEPSEEK-PAID] Menggunakan DeepSeek V3 sebagai Otak Utama...`);
-            return await deepseek(prompt, "deepseek-chat");
+            console.log(`[🚀 DEEPSEEK-V3] Menggunakan DeepSeek V3.2 sebagai Mesin Kompleks...`);
+            return await deepseekV32(prompt);
         } catch (e) {
-            console.warn(`[DEEPSEEK-PAID] Gagal/Limit, beralih ke jalur cadangan...`);
+            console.warn(`[DEEPSEEK-V3] Gagal/Limit, beralih ke jalur cadangan...`);
         }
     }
 
@@ -691,17 +769,6 @@ function calculateConfidence(searchResults, voteAgreement = 1) {
     if (searchResults[0].Category === 'PDF-DOC') score += 10; // Bonus jika dari regulasi resmi
 
     return Math.min(Math.round(score), 100);
-}
-
-async function mistral(prompt) {
-    const key = getRandomKey('OPENROUTER_API_KEY') || getRandomKey('MISTRAL_API_KEY');
-    if (!key) throw new Error("No Mistral Key");
-
-    const res = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-        model: "mistralai/mistral-7b-instruct:free",
-        messages: [{ role: "user", content: prompt }]
-    }, { headers: { Authorization: `Bearer ${key}` } });
-    return res.data.choices[0].message.content;
 }
 
 /**
@@ -1271,7 +1338,8 @@ TUGAS ANDA:
 
 // Check if any AI service is configured
 function getAIStatus() {
-    return !!(getRandomKey('GEMINI_API_KEY') ||
+    return !!(getRandomKey('OPENAI_API_KEY') ||
+        getRandomKey('GEMINI_API_KEY') ||
         getRandomKey('OPENROUTER_API_KEY') ||
         getRandomKey('DEEPSEEK_API_KEY') ||
         getRandomKey('MISTRAL_API_KEY'));
@@ -1313,11 +1381,12 @@ async function checkOpenRouterBalance() {
 
 function getBotHealth() {
     return {
+        gpt5Ready: !!getRandomKey('OPENAI_API_KEY'),
         deepseekReady: !!(getRandomKey('OPENROUTER_API_KEY') || getRandomKey('DEEPSEEK_API_KEY')),
         geminiReady: !!getRandomKey('GEMINI_API_KEY'),
         mistralReady: !!(getRandomKey('OPENROUTER_API_KEY') || getRandomKey('MISTRAL_API_KEY')),
         ollamaReady: true,
-        modelUsed: "Agentic AI (Gemini + Local Tools)",
+        modelUsed: "Agentic AI (GPT-5 + DeepSeek + Local)",
         agentEngine: "Online"
     };
 }

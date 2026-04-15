@@ -11,7 +11,7 @@ const config = require('../config');
 
 module.exports = function(context) {
     const router = express.Router();
-    const { requireAuth, getBotHealth, botSettings, saveSettings } = context;
+    const { requireAuth, getBotHealth, getKBCount, botSettings, saveSettings } = context;
 
     // --- REUSABLE UTILS (Moved from server.js) ---
     const backlogPath = path.join(__dirname, '../backlog.json');
@@ -52,7 +52,7 @@ module.exports = function(context) {
         const freeMem = os.freemem();
         res.json({
             status: "Connected",
-            kb_entries: 0, // Placeholder
+            kb_entries: getKBCount ? getKBCount() : 0,
             last_sync: new Date().toLocaleTimeString(),
             uptime: Math.round(process.uptime()),
             ram_usage: ((1 - freeMem / totalMem) * 100).toFixed(1),

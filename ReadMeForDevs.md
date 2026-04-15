@@ -25,8 +25,9 @@ graph TD
     G -- No Match --> H{Step 4: Vector-Lite Search}
     H -- Score > 0.8 --> E
     H -- Low Score --> I{Step 5: LLM Dispatcher}
-    I -- OpenRouter --> E
-    I -- Limit/Fail --> J{Google SDK Direct}
+    H -- GPT-5 / DeepSeek V3.2 --> E
+    H -- OpenRouter Ensemble --> E
+    I -- Google SDK Direct --> E
     J -- Success --> E
     J -- Fail --> K[Ultimate Fallback: Ollama Local] --> E
 ```
@@ -58,7 +59,8 @@ Alih-alih mencari di seluruh database yang besar, sistem ini menggunakan strateg
 ### 4. 🧠 Smart AI Dispatcher (`ai.js`)
 - **Reasoning Model**: Menggunakan `phi3:mini` (3.8B) sebagai mesin otak utama di komputer lokal via **Ollama**.
 - **Model Switching**: Otomatis beralih ke model yang lebih ringan jika penggunaan RAM sistem terdeteksi kritis (>96%).
-- **Circuit Breaker**: Jika kunci API Cloud (Gemini/OpenRouter) bermasalah, sistem akan otomatis menjeda (cooldown) kunci tersebut sebelum dicoba lagi.
+- **Circuit Breaker**: Jika kunci API Cloud (GPT-5/Gemini/OpenRouter) bermasalah, sistem akan otomatis menjeda (cooldown) kunci tersebut sebelum dicoba lagi.
+- **Premium Model Tiering**: Menggunakan GPT-5 Nano untuk pertanyaan ringan, GPT-5 Mini untuk pertanyaan sedang, dan DeepSeek V3.2 untuk pemrosesan kompleks sebelum fallback ke model gratis.
 - **Community AI Fallback**: Fallback ke layanan AI komunitas gratis (Pollinations, G4F) sebelum Ollama lokal.
 
 ### 5. 🧠 Long-Term Memory System (`db.js` & `ai.js`)
@@ -101,10 +103,16 @@ Setiap **30 pesan** yang diproses, sistem secara otomatis memeriksa saldo OpenRo
 Salin `.env.example` menjadi `.env` dan isi dengan nilai Anda:
 ```env
 # AI API Keys (Semua opsional, tapi minimal salah satu harus diisi)
+OPENAI_API_KEY="sk-..."                 # Untuk GPT-5 Nano/Mini
 OPENROUTER_API_KEY="sk-or-v1-..."
 GEMINI_API_KEY="..."
-DEEPSEEK_API_KEY="..."
+DEEPSEEK_API_KEY="..."                  # Untuk DeepSeek V3.2
 MISTRAL_API_KEY="..."
+
+# Model Selection
+GPT5_MINI_MODEL="gpt-5-mini"
+GPT5_NANO_MODEL="gpt-5-nano"
+DEEPSEEK_MODEL="deepseek-chat-v3-2"
 
 # Database
 DATABASE_URL="postgresql://..."         # Neon DB dengan pgvector

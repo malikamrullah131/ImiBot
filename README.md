@@ -87,8 +87,9 @@ graph TD
     G -- No Match --> H{Step 4: Vector-Lite Search}
     H -- Score > 0.8 --> E
     H -- Low Score --> I{Step 5: LLM Dispatcher}
-    I -- OpenRouter --> E
-    I -- Limit/Fail --> J{Google SDK Direct}
+    I -- GPT-5 / DeepSeek V3.2 --> E
+    I -- OpenRouter Ensemble --> E
+    J -- Google SDK Direct --> E
     J -- Success --> E
     J -- Fail --> K[Ultimate Fallback: Ollama Local] --> E
 ```
@@ -121,5 +122,5 @@ Sistem ini dibuat agar **100% Gratis** dan **Tetap Ringan** meskipun dijalankan 
 > [!NOTE]
 > Jika Anda adalah seorang teknisi atau programmer yang ingin mempelajari "daleman" sistem ini, silakan baca [ReadMeForDevs.md](./ReadMeForDevs.md).
 
-**Versi:** 4.1 — Edisi Anti-Spam, SaaS API & PDF Knowledge  
+**Versi:** 4.2 — Edisi GPT-5 Nano/Mini & DeepSeek V3.2  
 **Dibuat Oleh:** Tim Inovasi Imigrasi PKP
