@@ -1,88 +1,28 @@
 [
   {
-    "Question": "Apa itu SPLP (Surat Perjalanan Laksana Paspor)?, Apa itu SPLP (Surat Perjalanan Laksana Paspor)?, SPLP, splp,Splp",
-    "Answer": "SPLP adalah dokumen darurat pengganti paspor yang dikeluarkan Imigrasi/KBRI untuk WNI yang paspornya hilang/habis di luar negeri. Biaya SPLP untuk WNI: Rp 100.000.",
+    "Question": "Apakah ada pemeriksaan khusus untuk paspor hilang?",
+    "Answer": "Ya, pemohon harus melalui proses BAP (Berita Acara Pemeriksaan) oleh petugas Inteldakim (Intelijen dan Penindakan Keimigrasian).",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Apakah ada perbedaan paspor untuk dewasa dan anak?",
+    "Answer": "Tidak ada perbedaan jenis, keduanya menggunakan E-Paspor. Perbedaannya pada masa berlaku: anak di bawah 17 tahun umumnya mendapat paspor 5 tahun, dewasa bisa memilih 5 atau 10 tahun.",
     "Category": "Umum"
   },
   {
-    "Question": "e-paspor, paspor elektronik, biaya e-paspor, biaya paspor elektronik, apa itu e-paspor, keunggulan e-paspor, chip paspor, beda paspor biasa vs elektronik, e-paspor 5 tahun 10 tahun",
-    "Answer": "Kantor Imigrasi Pangkalpinang saat ini hanya melayani E-Paspor (memiliki chip biometrik, lebih aman, bisa autogate, & potensi bebas visa ke Jepang). Biaya: 5 Tahun (Rp 650.000), 10 Tahun (Rp 950.000).",
-    "Category": "E-Paspor & Teknologi"
+    "Question": "Apakah ada program paspor gratis untuk PMI?",
+    "Answer": "Tidak ada program paspor gratis. Namun beberapa daerah mungkin memiliki program bantuan biaya paspor PMI melalui APBD daerah. Tanyakan ke Disnaker setempat.",
+    "Category": "PMI & Khusus"
   },
   {
-    "Question": "Apakah WNI di luar negeri bisa membuat paspor?",
-    "Answer": "Ya, WNI yang berada di luar negeri dapat mengajukan paspor melalui KBRI atau KJRI (Konsulat Jenderal RI) di negara tempat tinggal.",
-    "Category": "Umum"
+    "Question": "Apakah bisa membuat paspor untuk lansia?",
+    "Answer": "👴 Bisa. Lansia termasuk kategori prioritas pelayanan.",
+    "Category": "PMI & Khusus"
   },
   {
-    "Question": "FORMULIR SURAT KUASA PENGAMBILAN PASPOR",
-    "Answer": "https://docs.google.com/document/d/1EoGsdxNYAyJ9ufmYW0o1pfXWGCB-7_25/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
-    "Category": "Formulir & Link"
-  },
-  {
-    "Question": "Apakah bisa buat paspor untuk anak yang orang tuanya bercerai?",
-    "Answer": "Bisa, namun harus menyertakan dokumen putusan pengadilan perceraian dan dokumen yang menetapkan hak asuh anak. Konsultasikan ke bagian informasi imigrasi.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Apakah bisa membuat paspor untuk bayi baru lahir?, Untuk layanan Paspor Anak, silakan siapkan dokumen berikut (Asli & Fotokopi A4):, paspor anak, bayi, anak, balita, dibawah umur, di bawah umur?",
-    "Answer": "👶 Bisa, selama dokumen persyaratan lengkap.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Apakah foto anak di paspor harus tampak wajah penuh?",
-    "Answer": "Ya, sama seperti dewasa. Wajah anak harus terlihat jelas menghadap kamera, mata terbuka, dan tidak ada benda menutupi wajah.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Apakah foto di paspor anak bisa tersenyum?",
-    "Answer": "Tidak. Foto paspor (termasuk anak) harus dengan ekspresi netral, mulut tertutup, dan mata terbuka sesuai standar biometrik internasional.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Apakah orang tua tunggal (single parent) bisa buat paspor anak?",
-    "Answer": "Bisa, namun harus disertai dokumen pendukung seperti surat kematian pasangan atau putusan pengadilan yang menetapkan hak asuh. Konsultasikan ke bagian informasi kantor imigrasi.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Apakah paspor anak 5 tahun bisa langsung diganti ke 10 tahun saat anak berusia 17?",
-    "Answer": "Ya, saat mengganti paspor yang sudah habis masa berlakunya dan anak sudah 17 tahun atau menikah, bisa memilih masa berlaku 10 tahun.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "apakah bisa bikin paspor tanpa ktp, tidak punya ktp, ktp hilang bikin paspor",
-    "Answer": "❌ Tidak bisa. KTP adalah dokumen wajib untuk pembuatan paspor. Silakan urus KTP terlebih dahulu di Disdukcapil",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "paspor hilang, syarat paspor hilang, denda paspor hilang, lapor polisi paspor hilang, kehilangan paspor di luar negeri",
-    "Answer": "Jika hilang, wajib lapor polisi untuk Surat Keterangan Hilang. Syarat: Surat Polisi, E-KTP, KK. Denda Kehilangan Rp 1.000.000. Jika di luar negeri, hubungi KBRI/KJRI terdekat untuk mendapatkan SPLP.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "paspor lama hilang tapi ada fotokopi",
-    "Answer": "📄 Tetap dianggap hilang. Harus mengikuti prosedur paspor hilang dan tetap dikenakan denda.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Apakah paspor anak otomatis tidak berlaku saat anak berusia 17 tahun?",
-    "Answer": "Tidak. Paspor tetap berlaku sampai tanggal kadaluwarsa tertera. Namun saat perpanjangan/penggantian, anak yang sudah 17 tahun bisa memilih masa berlaku 5 atau 10 tahun.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "paspor rusak, syarat paspor rusak, denda paspor rusak, kondisi paspor rusak, paspor basah, paspor kena air, paspor sobek",
-    "Answer": "Paspor basah, sobek, atau tercoret dianggap rusak. Syarat: Paspor lama, E-KTP, KK. Denda Kerusakan Rp 500.000. Pemohon harus melalui proses pemeriksaan (BAP) oleh petugas Inteldakim.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Apakah Kantor Imigrasi Pangkalpinang punya website resmi?",
-    "Answer": "Ya, informasi tersedia di website resmi imigrasi dan Instagram @imigrasi.pangkalpinang untuk update layanan terkini.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Bagaimana jika orang tua anak tidak menikah secara resmi?",
-    "Answer": "Harus melampirkan dokumen yang membuktikan status hukum anak dan orang tua. Konsultasikan langsung ke kantor imigrasi atau bagian informasi.",
-    "Category": "Paspor Anak"
+    "Question": "Apakah ibu hamil mendapat layanan prioritas di imigrasi?",
+    "Answer": "Ya, ibu hamil termasuk kategori yang mendapat kemudahan layanan. Informasikan kondisi saat tiba di kantor imigrasi agar mendapat pelayanan prioritas.",
+    "Category": "PMI & Khusus"
   },
   {
     "Question": "harga paspor anak, biaya paspor anak, paspor balita brp, paspor bayi, paspor anak brp, harga paspor dewasa sama",
@@ -105,9 +45,64 @@
     "Category": "Paspor Hilang/Rusak"
   },
   {
+    "Question": "Apakah lansia (60 tahun ke atas) mendapat layanan prioritas?",
+    "Answer": "Ya. Lansia (60+) mendapat layanan prioritas tanpa antre lama di kantor imigrasi. Syarat paspor sama dengan pemohon umum.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah paspor untuk keperluan dinas PNS/TNI/Polri berbeda?",
+    "Answer": "Ada paspor dinas khusus untuk perjalanan dinas pemerintah. Untuk perjalanan pribadi, PNS/TNI/Polri menggunakan paspor biasa dengan prosedur yang sama.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Bagaimana cara mengetahui jadwal Paspor Simpatik atau layanan khusus?",
+    "Answer": "Pantau Instagram resmi @imigrasi.pangkalpinang atau website resmi kantor imigrasi untuk informasi jadwal layanan khusus.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "FORMULIR LAPORAN KEJADIAN UNTUK BAP PADA KASUS PASPOR HILANG DAN PASPOR RUSAK",
+    "Answer": "https://docs.google.com/document/d/1NGHpDMenwMos8wxRFuEdkU2th43_WZzm/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
+    "Category": "Formulir & Link"
+  },
+  {
+    "Question": "FORMULIR PERSYARATAN PEMBUATAN PASPOR (in general)",
+    "Answer": "https://drive.google.com/drive/folders/1neE7ndKq6HvCNP9iZiUIpx8jzZtdaDlp",
+    "Category": "Formulir & Link"
+  },
+  {
+    "Question": "FORMULIR PERSYARATAN PENGAMBILAN PASPOR LAMA",
+    "Answer": "https://docs.google.com/document/d/1WTBcwU5k4sW9wMjv3pe0p4OFZhf1YH6R/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
+    "Category": "Formulir & Link"
+  },
+  {
     "Question": "Bagaimana jika paspor lama hilang tapi masih ada fotokopinya?",
     "Answer": "Tetap dianggap hilang. Harus mengikuti prosedur paspor hilang lengkap dengan surat polisi dan membayar denda Rp 1.000.000.",
     "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "FORMULIR SURAT KUASA PENGAMBILAN PASPOR",
+    "Answer": "https://docs.google.com/document/d/1EoGsdxNYAyJ9ufmYW0o1pfXWGCB-7_25/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
+    "Category": "Formulir & Link"
+  },
+  {
+    "Question": "FORMULIR SURAT PERNYATAAN ORTU PERSYARATAN UNTUK PASPOR ANAK",
+    "Answer": "https://docs.google.com/document/d/13HAgAqMdHSYEoytE2HR7Zd6uw-Oz83m2/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
+    "Category": "Formulir & Link"
+  },
+  {
+    "Question": "Splp",
+    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Splp?",
+    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "berapa denda kalau paspor hilang",
+    "Answer": "Denda paspor hilang adalah Rp 1.000.000.-",
+    "Category": "Umum"
   },
   {
     "Question": "Apakah ada batasan usia minimum untuk umroh?",
@@ -160,6 +155,31 @@
     "Category": "Haji & Umroh"
   },
   {
+    "Question": "Paspor keinjek gimana?",
+    "Answer": "paspor yang terinjak selama masih bersih, bagian data diri masih terlihat jelas tidak kotor/basah dan robek.\nmaka paspor aman digunakan, jika anda ragu, anda bisa melakukan konfirmasi untuk _passport scanning_ oleh petugas imigrasi",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Hi hi",
+    "Answer": "Halo! Saya ImiBot, asisten AI Kantor Imigrasi PKP. Ada yang bisa saya bantu terkait layanan paspor?",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Aloha",
+    "Answer": "halo! saya imibot, asisten ai kantor imigrasi pkp. ada yang bisa saya bantu terkait layanan paspor?",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Hai bro",
+    "Answer": "Halo! Saya ImiBot, asisten AI Kantor Imigrasi PKP. Ada yang bisa saya bantu terkait layanan paspor?",
+    "Category": "Umum"
+  },
+  {
+    "Question": "hey",
+    "Answer": "halo! saya imibot, asisten ai kantor imigrasi pkp. ada yang bisa saya bantu terkait layanan paspor?\n\nAda lagi yang bisa kami bantu? 😊",
+    "Category": "Umum"
+  },
+  {
     "Question": "SYARAT TAMBAHAN BERKAS PEMBUATAN PASPOR DENGAN TUJUAN UNTUK UMROH ADALAH",
     "Answer": "SURAT REKOMENDASI KEMENAG/TRAVEL UMROH DAN SURAT PENAMBAHAN NAMA: DENGAN MENAMBAH NAMA MENJADI 2 SUKU KATA (MISAL: Malik Amrullah)",
     "Category": "Haji & Umroh"
@@ -200,9 +220,14 @@
     "Category": "E-Paspor & Teknologi"
   },
   {
-    "Question": "Apakah semua kantor imigrasi di Indonesia sudah 100% E-Paspor?",
-    "Answer": "Peralihan 100% E-Paspor dimulai 1 Desember 2024 di 13 kantor imigrasi besar, dan secara bertahap diterapkan ke seluruh Indonesia sepanjang 2025.",
-    "Category": "E-Paspor & Teknologi"
+    "Question": "Halo imibot, saya ingin cek kalau apakah paspor saya rusak atau gak, gimana caranya ya? Apakah saya perlu dateng ke kantor?",
+    "Answer": "Halo! Senang bisa menyapa Anda kembali. Mengingat diskusi kita sebelumnya seputaran topik keimigrasian secara umum, berikut informasi yang dapat membantu pertanyaan Anda:\n\nUntuk mengecek apakah paspor rusak, Anda bisa melakukan pemeriksaan mandiri terlebih dahulu. Paspor umumnya dinyatakan rusak jika:\n• Halaman biodata, visa, atau stempel imigrasi sobek, terkelupas, atau terkena air/luntur\n• Foto atau data pribadi pudar, terhapus, atau tidak terbaca jelas\n• Chip elektronik (biasanya ditandai dengan logo chip di halaman biodata) tidak terbaca saat discan\n• Jilidan atau cover paspor lepas, robek parah, atau ada perubahan fisik yang tidak wajar\n\nJika Anda menemukan tanda-tanda tersebut atau masih ragu, **ya, sangat disarankan untuk datang langsung ke Kantor Imigrasi terdekat**. Petugas akan melakukan verifikasi resmi karena hanya mereka yang berwenang menyatakan status kerusakan paspor. Paspor yang dinyatakan rusak tidak dapat digunakan untuk perjalanan dan wajib diganti.\n\nSebagai informasi tambahan sesuai ketentuan, penggantian paspor karena rusak biayanya sama dengan pembuatan paspor baru, yaitu:\n• Masa berlaku 5 tahun: Rp650.000\n• Masa berlaku 10 tahun: Rp950.000\n\nSemoga penjelasan ini membantu! Jangan ragu untuk bertanya lagi jika ada hal lain yang perlu diklarifikasi. 😊\n\nAda lagi yang bisa kami bantu? 😊",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Paspor saya rusak, gimana cara ceknya buat bisa atau gaknya dipake?",
+    "Answer": "Halo! Senang bisa menyapa Anda kembali. Mengingat diskusi kita sebelumnya seputaran topik keimigrasian secara umum, berikut informasi yang dapat membantu pertanyaan Anda:\n\nUntuk mengecek apakah paspor rusak, Anda bisa melakukan pemeriksaan mandiri terlebih dahulu. Paspor umumnya dinyatakan rusak jika:\n• Halaman biodata, visa, atau stempel imigrasi sobek, terkelupas, atau terkena air/luntur\n• Foto atau data pribadi pudar, terhapus, atau tidak terbaca jelas\n• Chip elektronik (biasanya ditandai dengan logo chip di halaman biodata) tidak terbaca saat discan\n• Jilidan atau cover paspor lepas, robek parah, atau ada perubahan fisik yang tidak wajar\n\nJika Anda menemukan tanda-tanda tersebut atau masih ragu, **ya, sangat disarankan untuk datang langsung ke Kantor Imigrasi terdekat**. Petugas akan melakukan verifikasi resmi karena hanya mereka yang berwenang menyatakan status kerusakan paspor. Paspor yang dinyatakan rusak tidak dapat digunakan untuk perjalanan dan wajib diganti.\n\nSebagai informasi tambahan sesuai ketentuan, penggantian paspor karena rusak biayanya sama dengan pembuatan paspor baru, yaitu:\n• Masa berlaku 5 tahun: Rp650.000\n• Masa berlaku 10 tahun: Rp950.000\n\nSemoga penjelasan ini membantu! Jangan ragu untuk bertanya lagi jika ada hal lain yang perlu diklarifikasi. 😊",
+    "Category": "Umum"
   },
   {
     "Question": "Apakah ada risiko E-Paspor diblokir sistem?",
@@ -217,6 +242,11 @@
   {
     "Question": "Apakah data di chip E-Paspor bisa diretas atau disalin?",
     "Answer": "Chip E-Paspor dilindungi enkripsi berlapis sesuai standar ICAO. Data tidak bisa dibaca tanpa perangkat resmi dan kode akses yang terenkripsi.",
+    "Category": "E-Paspor & Teknologi"
+  },
+  {
+    "Question": "Apakah semua kantor imigrasi di Indonesia sudah 100% E-Paspor?",
+    "Answer": "Peralihan 100% E-Paspor dimulai 1 Desember 2024 di 13 kantor imigrasi besar, dan secara bertahap diterapkan ke seluruh Indonesia sepanjang 2025.",
     "Category": "E-Paspor & Teknologi"
   },
   {
@@ -245,123 +275,13 @@
     "Category": "PMI & Khusus"
   },
   {
-    "Question": "FORMULIR SURAT PERNYATAAN ORTU PERSYARATAN UNTUK PASPOR ANAK",
-    "Answer": "https://docs.google.com/document/d/13HAgAqMdHSYEoytE2HR7Zd6uw-Oz83m2/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
-    "Category": "Formulir & Link"
-  },
-  {
     "Question": "Apa itu PMI (Pekerja Migran Indonesia)?",
     "Answer": "PMI adalah WNI yang bekerja di luar negeri secara legal berdasarkan perjanjian kerja. Memerlukan dokumen tambahan seperti rekomendasi Disnaker untuk pembuatan paspor.",
     "Category": "PMI & Khusus"
   },
   {
-    "Question": "Apakah penyandang disabilitas mendapat layanan khusus?",
-    "Answer": "Ya. Penyandang disabilitas mendapat layanan prioritas dan kemudahan akses di kantor imigrasi. Kantor Imigrasi sudah dilengkapi fasilitas ramah disabilitas.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Bagaimana cara mengurus paspor untuk pelajar yang akan studi ke luar negeri?",
-    "Answer": "Syarat umum paspor berlaku. Dokumen tambahan seperti surat penerimaan kampus atau beasiswa bisa dilampirkan sebagai keterangan tujuan.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "SPLP",
-    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "FORMULIR SURAT PERNYATAAN PENAMBAHAN NAMA UNTUK PEMOHON YANG INGIN PENAMBAHAN NAMA (ENDORSEMENT)",
-    "Answer": "https://docs.google.com/document/d/1MnIb5c7kHhkfusIkQZLV992sxDqjI7ZX/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
-    "Category": "Formulir & Link"
-  },
-  {
-    "Question": "splp",
-    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Splp",
-    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Splp?",
-    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "berapa denda kalau paspor hilang",
-    "Answer": "Denda paspor hilang adalah Rp 1.000.000.-",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Paspor keinjek gimana?",
-    "Answer": "paspor yang terinjak selama masih bersih, bagian data diri masih terlihat jelas tidak kotor/basah dan robek.\nmaka paspor aman digunakan, jika anda ragu, anda bisa melakukan konfirmasi untuk _passport scanning_ oleh petugas imigrasi",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Hi hi",
-    "Answer": "Halo! Saya ImiBot, asisten AI Kantor Imigrasi PKP. Ada yang bisa saya bantu terkait layanan paspor?",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Aloha",
-    "Answer": "halo! saya imibot, asisten ai kantor imigrasi pkp. ada yang bisa saya bantu terkait layanan paspor?",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Hai bro",
-    "Answer": "Halo! Saya ImiBot, asisten AI Kantor Imigrasi PKP. Ada yang bisa saya bantu terkait layanan paspor?",
-    "Category": "Umum"
-  },
-  {
-    "Question": "hey",
-    "Answer": "halo! saya imibot, asisten ai kantor imigrasi pkp. ada yang bisa saya bantu terkait layanan paspor?\n\nAda lagi yang bisa kami bantu? 😊",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Haiiiiiiiiiii",
-    "Answer": "halo! saya imibot, asisten ai kantor imigrasi pkp. ada yang bisa saya bantu terkait layanan paspor?",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Bisakah bapak saya yang sudah lansia pakai layanan jemput bola (Eazy Passport)?",
-    "Answer": "Bisa, layanan Eazy Passport melayani pemohon prioritas termasuk lansia agar petugas yang datang ke lokasi.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apa kabar?",
-    "Answer": "halo, kabar saya baik. terima kasih telah bertanya",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Saya udah kebelet mau ke luar negeri, lalu gimana caranya bikin paspor?",
-    "Answer": "📝 *Dokumen Persyaratan (Asli & Fotokopi)*\n1. KTP elektronik (masih berlaku)\n2. Kartu Keluarga (KK)\n3. Akta Kelahiran / Ijazah Terakhir / Surat Baptis / Buku Nikah (salah satu sebagai bukti kewarganegaraan & identitas)\n4. Surat Keterangan Ganti Nama (jika pernah mengubah nama)\n\n🌐 *Prosedur Pendaftaran & Pengurusan*\n1. *Buat Antrian Online: Kunjungi antrian.imigrasi.go.id(https://antrian.imigrasi.go.id) atau aplikasi *M-Paspor. Pilih Kantor Imigrasi terdekat & jadwal.\n2. *Datang Sesuai Jadwal*: Bawa dokumen asli & fotokopi. Lakukan wawancara ringkas, pengambilan foto, dan sidik jari.\n3. *Pembayaran PNBP*: Setelah verifikasi, bayar biaya paspor melalui bank/kanal resmi yang ditentukan.\n4. *Pengambilan Paspor*: Biasanya 4 hari kerja setelah pembayaran (reguler). Status dapat dipantau via aplikasi M-Paspor.\n\n⏱️ *Biaya & Layanan Percepatan*\n- *Reguler*: Rp650.000 (proses ±4 hari kerja)\n- *Ekspres/Percepatan*: Rp1.000.000 (proses ±2 hari kerja, tersedia di kantor imigrasi tertentu dengan kuota terbatas)\nCatatan: Tidak ada biaya tambahan resmi selain PNBP di atas. Hati-hati terhadap calo/jasa ilegal yang mengklaim \"jaminan cepat\" dengan biaya tidak wajar.\n\n🔍 *Tips untuk Kasus Mendesak*\n- Jika jadwal online penuh, coba cek refresh berkala atau kunjungi Kantor Imigrasi langsung untuk konsultasi layanan darurat (mis. kepentingan medis/pemerintahan).\n- Pastikan nama di dokumen identitas seragam untuk menghindari penolakan atau penundaan.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Halo imibot, saya ingin cek kalau apakah paspor saya rusak atau gak, gimana caranya ya? Apakah saya perlu dateng ke kantor?",
-    "Answer": "Halo! Senang bisa menyapa Anda kembali. Mengingat diskusi kita sebelumnya seputaran topik keimigrasian secara umum, berikut informasi yang dapat membantu pertanyaan Anda:\n\nUntuk mengecek apakah paspor rusak, Anda bisa melakukan pemeriksaan mandiri terlebih dahulu. Paspor umumnya dinyatakan rusak jika:\n• Halaman biodata, visa, atau stempel imigrasi sobek, terkelupas, atau terkena air/luntur\n• Foto atau data pribadi pudar, terhapus, atau tidak terbaca jelas\n• Chip elektronik (biasanya ditandai dengan logo chip di halaman biodata) tidak terbaca saat discan\n• Jilidan atau cover paspor lepas, robek parah, atau ada perubahan fisik yang tidak wajar\n\nJika Anda menemukan tanda-tanda tersebut atau masih ragu, **ya, sangat disarankan untuk datang langsung ke Kantor Imigrasi terdekat**. Petugas akan melakukan verifikasi resmi karena hanya mereka yang berwenang menyatakan status kerusakan paspor. Paspor yang dinyatakan rusak tidak dapat digunakan untuk perjalanan dan wajib diganti.\n\nSebagai informasi tambahan sesuai ketentuan, penggantian paspor karena rusak biayanya sama dengan pembuatan paspor baru, yaitu:\n• Masa berlaku 5 tahun: Rp650.000\n• Masa berlaku 10 tahun: Rp950.000\n\nSemoga penjelasan ini membantu! Jangan ragu untuk bertanya lagi jika ada hal lain yang perlu diklarifikasi. 😊\n\nAda lagi yang bisa kami bantu? 😊",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Paspor saya rusak, gimana cara ceknya buat bisa atau gaknya dipake?",
-    "Answer": "Halo! Senang bisa menyapa Anda kembali. Mengingat diskusi kita sebelumnya seputaran topik keimigrasian secara umum, berikut informasi yang dapat membantu pertanyaan Anda:\n\nUntuk mengecek apakah paspor rusak, Anda bisa melakukan pemeriksaan mandiri terlebih dahulu. Paspor umumnya dinyatakan rusak jika:\n• Halaman biodata, visa, atau stempel imigrasi sobek, terkelupas, atau terkena air/luntur\n• Foto atau data pribadi pudar, terhapus, atau tidak terbaca jelas\n• Chip elektronik (biasanya ditandai dengan logo chip di halaman biodata) tidak terbaca saat discan\n• Jilidan atau cover paspor lepas, robek parah, atau ada perubahan fisik yang tidak wajar\n\nJika Anda menemukan tanda-tanda tersebut atau masih ragu, **ya, sangat disarankan untuk datang langsung ke Kantor Imigrasi terdekat**. Petugas akan melakukan verifikasi resmi karena hanya mereka yang berwenang menyatakan status kerusakan paspor. Paspor yang dinyatakan rusak tidak dapat digunakan untuk perjalanan dan wajib diganti.\n\nSebagai informasi tambahan sesuai ketentuan, penggantian paspor karena rusak biayanya sama dengan pembuatan paspor baru, yaitu:\n• Masa berlaku 5 tahun: Rp650.000\n• Masa berlaku 10 tahun: Rp950.000\n\nSemoga penjelasan ini membantu! Jangan ragu untuk bertanya lagi jika ada hal lain yang perlu diklarifikasi. 😊",
-    "Category": "Umum"
-  },
-  {
     "Question": "Halo imibot, cara cek paspor rusak gimana?",
     "Answer": "Halo! Senang bisa menyapa Anda kembali. Mengingat diskusi kita sebelumnya seputaran topik keimigrasian secara umum, berikut informasi yang dapat membantu pertanyaan Anda:\n\nUntuk mengecek apakah paspor rusak, Anda bisa melakukan pemeriksaan mandiri terlebih dahulu. Paspor umumnya dinyatakan rusak jika:\n• Halaman biodata, visa, atau stempel imigrasi sobek, terkelupas, atau terkena air/luntur\n• Foto atau data pribadi pudar, terhapus, atau tidak terbaca jelas\n• Chip elektronik (biasanya ditandai dengan logo chip di halaman biodata) tidak terbaca saat discan\n• Jilidan atau cover paspor lepas, robek parah, atau ada perubahan fisik yang tidak wajar\n\nJika Anda menemukan tanda-tanda tersebut atau masih ragu, **ya, sangat disarankan untuk datang langsung ke Kantor Imigrasi terdekat**. Petugas akan melakukan verifikasi resmi karena hanya mereka yang berwenang menyatakan status kerusakan paspor. Paspor yang dinyatakan rusak tidak dapat digunakan untuk perjalanan dan wajib diganti.\n\nSebagai informasi tambahan sesuai ketentuan, penggantian paspor karena rusak biayanya sama dengan pembuatan paspor baru, yaitu:\n• Masa berlaku 5 tahun: Rp650.000\n• Masa berlaku 10 tahun: Rp950.000\n\nSemoga penjelasan ini membantu! Jangan ragu untuk bertanya lagi jika ada hal lain yang perlu diklarifikasi. 😊",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apakah paspor elektronik wajib untuk semua orang?",
-    "Answer": "Tidak wajib, tapi sangat disarankan karena fiturnya lebih aman dan memudahkan saat melewati auto-gate di bandara tertentu.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Bedanya paspor biasa dan elektronik selain harga?",
-    "Answer": "Paspor elektronik memiliki chip di dalamnya yang menyimpan data biometrik, sehingga sulit dipalsukan dan memberikan fasilitas bebas visa ke beberapa negara tertentu.",
     "Category": "Umum"
   },
   {
@@ -385,16 +305,6 @@
     "Category": "Umum"
   },
   {
-    "Question": "Kamu gila ya",
-    "Answer": "maaf, saya adalah artificial intelligent yang diprogram untuk mematuhi sistem saya. dan saya tidak bisa 'gila'.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apakah foto paspor boleh pakai kacamata atau softlens?",
-    "Answer": "Tidak diperbolehkan menggunakan kacamata, softlens, atau aksesoris wajah yang menutupi bagian wajah secara signifikan guna akurasi biometrik.",
-    "Category": "Umum"
-  },
-  {
     "Question": "Paspor saya terendam banjir tapi masih bisa kebuka, apa harus ganti?",
     "Answer": "Tetap harus ganti. Paspor yang terkena air dikategorikan rusak karena struktur kertas dan chip biometrik kemungkinan besar sudah cacat.",
     "Category": "Umum"
@@ -415,6 +325,21 @@
     "Category": "Umum"
   },
   {
+    "Question": "Apakah penyandang disabilitas mendapat layanan khusus?",
+    "Answer": "Ya. Penyandang disabilitas mendapat layanan prioritas dan kemudahan akses di kantor imigrasi. Kantor Imigrasi sudah dilengkapi fasilitas ramah disabilitas.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Bagaimana cara mengurus paspor untuk pelajar yang akan studi ke luar negeri?",
+    "Answer": "Syarat umum paspor berlaku. Dokumen tambahan seperti surat penerimaan kampus atau beasiswa bisa dilampirkan sebagai keterangan tujuan.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "SPLP",
+    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
+    "Category": "Umum"
+  },
+  {
     "Question": "Paspor dewasa, lansia dan anak anak apa bedanya ya Imibot?",
     "Answer": "Tidak ada perbedaan jenis, keduanya menggunakan E-Paspor. Perbedaannya pada masa berlaku: anak di bawah 17 tahun umumnya mendapat paspor 5 tahun, dewasa bisa memilih 5 atau 10 tahun.\n\nAda lagi yang bisa kami bantu? 😊",
     "Category": "Umum"
@@ -422,6 +347,21 @@
   {
     "Question": "Paspor itu apaa saya gak tau apa itu, saya mau belajar tentang paspor dan imigrasi karna saya kuliah hukum",
     "Answer": "Halo Bapak/Ibu, senang sekali Anda kembali berdiskusi dengan kami. Mengingat ketertarikan Anda sebelumnya terkait \"Pengajuan Paspor Perwakilan\", sangat baik jika kini Anda ingin mendalami dasar-dasar mengenai Paspor dan Imigrasi, apalagi untuk menunjang studi hukum Anda.\n\nBerikut adalah penjelasan mengenai Paspor dan Imigrasi:\n\n*   **Paspor**\n    Paspor adalah dokumen perjalanan resmi yang diterbitkan oleh pemerintah suatu negara kepada warga negaranya. Fungsi utamanya adalah sebagai **bukti identitas dan kewarganegaraan pemegangnya** saat berada di luar negeri. Paspor memungkinkan pemegangnya untuk masuk dan keluar dari negara lain sesuai dengan aturan dan persyaratan visa yang berlaku.\n    *   **Jenis-jenis Paspor di Indonesia:**\n        *   Paspor Biasa (untuk tujuan umum seperti wisata, bisnis, studi).\n        *   Paspor Diplomatik (untuk pejabat diplomatik).\n        *   Paspor Dinas (untuk pegawai pemerintah yang menjalankan tugas dinas).\n    *   **Informasi yang Terdapat dalam Paspor:**\n        *   Nama lengkap\n        *   Tempat dan tanggal lahir\n        *   Jenis kelamin\n        *   Kewarganegaraan\n        *   Nomor paspor\n        *   Tanggal penerbitan dan masa berlaku\n        *   Tanda tangan pemegang paspor\n        *   Foto pemegang paspor\n\n*   **Imigrasi**\n    Imigrasi adalah **urusan pemerintahan di bidang lalu lintas orang masuk dan keluar wilayah Indonesia serta pengawasannya dalam rangka menjaga tegaknya kedaulatan negara**. Lebih luas lagi, Imigrasi adalah proses pergerakan individu dari satu negara ke negara lain, baik untuk tinggal permanen maupun sementara. Dalam konteks hukum, Imigrasi mencakup:\n    *   **Pengaturan dan pengawasan** terhadap orang asing yang masuk, tinggal, dan keluar dari wilayah Indonesia.\n    *   **Pelayanan** penerbitan dokumen perjalanan (Paspor) bagi warga negara Indonesia.\n    *   **Penindakan hukum** terhadap pelanggaran keimigrasian.\n    *   **Aspek penting dalam Imigrasi:**\n        *   **Visa:** Izin masuk yang diberikan oleh suatu negara kepada orang asing.\n        *   **Izin Tinggal:** Izin yang diberikan kepada orang asing untuk tinggal di wilayah Indonesia.\n        *   **Pemeriksaan Keimigrasian:** Proses pemeriksaan dokumen perjalanan dan tujuan perjalanan oleh Petugas Imigrasi di Tempat Pemeriksaan Imigrasi (TPI).\n\nMemahami konsep Paspor dan Imigrasi sangat relevan bagi Anda yang kuliah hukum, karena keduanya terkait erat dengan **hukum tata negara, hukum internasional, hukum administrasi negara, serta hak asasi manusia**. Anda akan banyak menemui regulasi terkait keimigrasian dalam berbagai konteks hukum.\n\nJika ada topik spesifik lain yang ingin Anda pelajari lebih lanjut mengenai Paspor atau Imigrasi, jangan ragu untuk bertanya kembali.\n\nAda lagi yang bisa kami bantu? 😊",
+    "Category": "Umum"
+  },
+  {
+    "Question": "FORMULIR SURAT PERNYATAAN PENAMBAHAN NAMA UNTUK PEMOHON YANG INGIN PENAMBAHAN NAMA (ENDORSEMENT)",
+    "Answer": "https://docs.google.com/document/d/1MnIb5c7kHhkfusIkQZLV992sxDqjI7ZX/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
+    "Category": "Formulir & Link"
+  },
+  {
+    "Question": "splp",
+    "Answer": "splp adalah dokumen darurat pengganti paspor yang dikeluarkan imigrasi/kbri untuk wni yang paspornya hilang/habis di luar negeri. biaya splp untuk wni: rp 100.000.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Haiiiiiiiiiii",
+    "Answer": "halo! saya imibot, asisten ai kantor imigrasi pkp. ada yang bisa saya bantu terkait layanan paspor?",
     "Category": "Umum"
   },
   {
@@ -450,6 +390,16 @@
     "Category": "Umum"
   },
   {
+    "Question": "Bisakah bapak saya yang sudah lansia pakai layanan jemput bola (Eazy Passport)?",
+    "Answer": "Bisa, layanan Eazy Passport melayani pemohon prioritas termasuk lansia agar petugas yang datang ke lokasi.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apa kabar?",
+    "Answer": "halo, kabar saya baik. terima kasih telah bertanya",
+    "Category": "Umum"
+  },
+  {
     "Question": "rajin bener",
     "Answer": "Terima kasih atas pujianmu! 😄 Saya senang mendengar bahwa Anda merasa kami bekerja keras. Ada lagi yang bisa saya bantu terkait proses imigrasi?",
     "Category": "Umum"
@@ -475,8 +425,33 @@
     "Category": "Umum"
   },
   {
+    "Question": "Saya udah kebelet mau ke luar negeri, lalu gimana caranya bikin paspor?",
+    "Answer": "📝 *Dokumen Persyaratan (Asli & Fotokopi)*\n1. KTP elektronik (masih berlaku)\n2. Kartu Keluarga (KK)\n3. Akta Kelahiran / Ijazah Terakhir / Surat Baptis / Buku Nikah (salah satu sebagai bukti kewarganegaraan & identitas)\n4. Surat Keterangan Ganti Nama (jika pernah mengubah nama)\n\n🌐 *Prosedur Pendaftaran & Pengurusan*\n1. *Buat Antrian Online: Kunjungi antrian.imigrasi.go.id(https://antrian.imigrasi.go.id) atau aplikasi *M-Paspor. Pilih Kantor Imigrasi terdekat & jadwal.\n2. *Datang Sesuai Jadwal*: Bawa dokumen asli & fotokopi. Lakukan wawancara ringkas, pengambilan foto, dan sidik jari.\n3. *Pembayaran PNBP*: Setelah verifikasi, bayar biaya paspor melalui bank/kanal resmi yang ditentukan.\n4. *Pengambilan Paspor*: Biasanya 4 hari kerja setelah pembayaran (reguler). Status dapat dipantau via aplikasi M-Paspor.\n\n⏱️ *Biaya & Layanan Percepatan*\n- *Reguler*: Rp650.000 (proses ±4 hari kerja)\n- *Ekspres/Percepatan*: Rp1.000.000 (proses ±2 hari kerja, tersedia di kantor imigrasi tertentu dengan kuota terbatas)\nCatatan: Tidak ada biaya tambahan resmi selain PNBP di atas. Hati-hati terhadap calo/jasa ilegal yang mengklaim \"jaminan cepat\" dengan biaya tidak wajar.\n\n🔍 *Tips untuk Kasus Mendesak*\n- Jika jadwal online penuh, coba cek refresh berkala atau kunjungi Kantor Imigrasi langsung untuk konsultasi layanan darurat (mis. kepentingan medis/pemerintahan).\n- Pastikan nama di dokumen identitas seragam untuk menghindari penolakan atau penundaan.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apakah paspor elektronik wajib untuk semua orang?",
+    "Answer": "Tidak wajib, tapi sangat disarankan karena fiturnya lebih aman dan memudahkan saat melewati auto-gate di bandara tertentu.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Bedanya paspor biasa dan elektronik selain harga?",
+    "Answer": "Paspor elektronik memiliki chip di dalamnya yang menyimpan data biometrik, sehingga sulit dipalsukan dan memberikan fasilitas bebas visa ke beberapa negara tertentu.",
+    "Category": "Umum"
+  },
+  {
     "Question": "Denda kalau paspor hilang berapa?",
     "Answer": "**\"Berdasarkan Pasal 3 ayat (1) Permenkumham No. 22 Tahun 2023, biaya penerbitan paspor biasa 48 halaman adalah:**  \n- **Rp350.000** untuk masa berlaku **5 tahun**  \n- **Rp650.000** untuk masa berlaku **10 tahun**  \n\n*(Biaya sama berlaku untuk penerbitan baru maupun penggantian paspor)*  \n\n🔍 Sumber: Permenkumham No. 22 Tahun 2023(https://peraturan.bpk.go.id/Details/259229/permenkumham-no-22-tahun-2023) Pasal 3 ayat (1) huruf a  \n\nAda kebutuhan lain terkait imigrasi? 😊\"**",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Kamu gila ya",
+    "Answer": "maaf, saya adalah artificial intelligent yang diprogram untuk mematuhi sistem saya. dan saya tidak bisa 'gila'.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Prabowo",
+    "Answer": "Sistem kami tidak menemukan data imigrasi terkait 'Prabowo' dalam database Direktorat Jenderal Imigrasi. Sesuai Pasal 5 UU Keimigrasian, informasi personal hanya dapat diakses untuk kepentingan proses hukum yang sah. Mohon pastikan nama lengkap dan nomor dokumen imigrasi (jika ada).",
     "Category": "Umum"
   },
   {
@@ -485,19 +460,24 @@
     "Category": "Umum"
   },
   {
-    "Question": "Bagaimana prosedur paspor di luar negeri?",
-    "Answer": "**Prosedur Pembuatan/Penggantian Paspor di Luar Negeri (2026):**  \n\n1. **Lokasi Pelayanan:**  \n   - Hanya bisa dilakukan di **KBRI/KJRI** setempat.  \n\n2. **Dokumen untuk Kasus Orang Tua di Luar Negeri:**  \n   - **Surat kuasa/persetujuan** dari orang tua yang dilegalisir oleh KBRI/KJRI (jika anak diurus oleh pihak lain).  \n   - Dokumen lain (paspor lama, foto, formulir) tetap berlaku.  \n\n3. **Proses dan Biaya:**  \n   - Verifikasi dokumen → Pembayaran → Penerbitan (3-5 hari kerja).  \n   - Biaya sesuai tarif paspor RI (5 tahun: Rp 650.000; 10 tahun: Rp 950.000).  \n\n4. **Catatan:**  \n   - Konsultasi ke KBRI/KJRI untuk prosedur lengkap, termasuk legalisasi surat kuasa.  \n\n**Referensi:**  \n- UU No. 6 Tahun 2011 tentang Keimigrasian  \n- Kebijakan KBRI/KJRI setempat.",
+    "Question": "Info",
+    "Answer": "\"Untuk informasi keimigrasian resmi, silakan merujuk pada:\n1. Pasal 1 UU No. 6/2011 tentang definisi legal keimigrasian\n2. Peraturan Dirjen Imigrasi No. IMI-1482.UM.01.05 Tahun 2021 tentang pelayanan publik\n3. Kunjungi portal imigrasi.go.id bagian FAQ atau hubungi call center 1500-123\n\n🔎 Butuh info spesifik? Mohon sebutkan detail kebutuhan Anda:\n- Persyaratan dokumen\n- Prosedur perizinan\n- Status berkas\n- Layanan lainnya\"",
     "Category": "Umum"
   },
   {
-    "Question": "Apa bedanya E-Paspor 5 tahun dan 10 tahun?",
-    "Answer": "E-Paspor 5 tahun (Rp 650.000), E-Paspor 10 tahun (Rp 950.000). Keduanya memiliki chip elektronik yang sama.",
-    "Category": "E-Paspor & Teknologi"
+    "Question": "Syarat paspor",
+    "Answer": "*\"Berdasarkan Pasal 8 UU No. 6 Tahun 2011 tentang Keimigrasian dan Peraturan Dirjen Imigrasi No. IMI-1489.UM.01.05 Tahun 2021, syarat pembuatan paspor adalah:*  \n1. *KTP asli dan fotokopi,*  \n2. *Kartu keluarga asli dan fotokopi,*  \n3. *Akte kelahiran/nikah/ijazah (untuk verifikasi data),*  \n4. *Paspor lama (jika perpanjangan).*  \n*Proses dapat dilakukan di Kantor Imigrasi terdekat dengan membuat janji terlebih dahulu melalui aplikasi M-Paspor. Informasi lebih lanjut: link resmi imigrasi.go.id.\"*  ",
+    "Category": "Umum"
   },
   {
-    "Question": "Apa itu E-Paspor (paspor elektronik)?",
-    "Answer": "E-Paspor adalah paspor biasa yang dilengkapi chip elektronik berisi data biometrik pemegang paspor sesuai standar internasional ICAO.",
-    "Category": "E-Paspor & Teknologi"
+    "Question": "Apakah foto paspor boleh pakai kacamata atau softlens?",
+    "Answer": "Tidak diperbolehkan menggunakan kacamata, softlens, atau aksesoris wajah yang menutupi bagian wajah secara signifikan guna akurasi biometrik.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Bagaimana prosedur paspor di luar negeri?",
+    "Answer": "**Prosedur Pembuatan/Penggantian Paspor di Luar Negeri (2026):**  \n\n1. **Lokasi Pelayanan:**  \n   - Hanya bisa dilakukan di **KBRI/KJRI** setempat.  \n\n2. **Dokumen untuk Kasus Orang Tua di Luar Negeri:**  \n   - **Surat kuasa/persetujuan** dari orang tua yang dilegalisir oleh KBRI/KJRI (jika anak diurus oleh pihak lain).  \n   - Dokumen lain (paspor lama, foto, formulir) tetap berlaku.  \n\n3. **Proses dan Biaya:**  \n   - Verifikasi dokumen → Pembayaran → Penerbitan (3-5 hari kerja).  \n   - Biaya sesuai tarif paspor RI (5 tahun: Rp 650.000; 10 tahun: Rp 950.000).  \n\n4. **Catatan:**  \n   - Konsultasi ke KBRI/KJRI untuk prosedur lengkap, termasuk legalisasi surat kuasa.  \n\n**Referensi:**  \n- UU No. 6 Tahun 2011 tentang Keimigrasian  \n- Kebijakan KBRI/KJRI setempat.",
+    "Category": "Umum"
   },
   {
     "Question": "Nama apa yang ditambahkan dalam endorsement?",
@@ -518,6 +498,16 @@
     "Question": "paspor haji, paspor umroh, syarat paspor umroh, syarat paspor haji, rekomendasi travel, rekomendasi kemenag, endorsement nama, tambah nama paspor, nama 3 kata haji, nama 2 kata umroh",
     "Answer": "Untuk Haji/Umroh, syarat tambahan berupa Surat Rekomendasi Travel/Kemenag. Nama minimal 2 kata (Umroh) atau 3 kata (Haji). Jika nama di paspor masih 1 kata, bisa dilakukan penambahan nama (Endorsement) tanpa biaya tambahan.",
     "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apa bedanya E-Paspor 5 tahun dan 10 tahun?",
+    "Answer": "E-Paspor 5 tahun (Rp 650.000), E-Paspor 10 tahun (Rp 950.000). Keduanya memiliki chip elektronik yang sama.",
+    "Category": "E-Paspor & Teknologi"
+  },
+  {
+    "Question": "Apa itu E-Paspor (paspor elektronik)?",
+    "Answer": "E-Paspor adalah paspor biasa yang dilengkapi chip elektronik berisi data biometrik pemegang paspor sesuai standar internasional ICAO.",
+    "Category": "E-Paspor & Teknologi"
   },
   {
     "Question": "Siapa nama yang ditambahkan dalam endorsement?",
@@ -630,198 +620,8 @@
     "Category": "Umum"
   },
   {
-    "Question": "Apa itu paspor desain merah putih?",
-    "Answer": "Adalah rencana desain paspor baru yang sempat diumumkan pada 17 Agustus 2024, namun implementasinya ditunda oleh Ditjen Imigrasi sesuai Inpres No. 1 Tahun 2025 tentang efisiensi anggaran.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apa syarat umum pembuatan paspor?",
-    "Answer": "Membawa berkas asli; materai Rp10.000; dan data dukung lainnya jika diperlukan.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah pendaftaran M-Paspor bisa diwakilkan?",
-    "Answer": "Akun boleh dibantu buat, namun saat foto dan wawancara pemohon wajib hadir sendiri.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Apakah imigrasi buka di hari Minggu?",
-    "Answer": "Umumnya tutup. Namun ada layanan Paspor Simpatik di akhir pekan pada momen tertentu. Pantau informasi di @imigrasi.pangkalpinang untuk jadwalnya.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Jadwal pengambilan paspor",
-    "Answer": "Senin-Jumat mulai pukul 10.00 WIB s/d 15.30 WIB dengan membawa bukti setor dan KTP.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Apa yang dimaksud dengan dokumen yang 'nama orang tua harus tercantum'?",
-    "Answer": "Dokumen seperti akta lahir, ijazah, atau buku nikah harus secara eksplisit mencantumkan nama ayah dan/atau ibu pemohon sebagai syarat identifikasi.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah bisa buat paspor jika belum menikah?",
-    "Answer": "Ya, status pernikahan tidak mempengaruhi proses pembuatan paspor. WNI dewasa belum menikah tetap bisa buat paspor.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apa aplikasi untuk daftar paspor?",
-    "Answer": "Aplikasi M-Paspor yang tersedia di Google Play Store dan App Store.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Apakah NPWP diperlukan untuk membuat paspor?",
-    "Answer": "Tidak. NPWP tidak termasuk dalam syarat dokumen pembuatan paspor.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah bisa buat paspor tanpa KK (Kartu Keluarga)?",
-    "Answer": "Tidak bisa. KK merupakan salah satu dokumen wajib dalam pembuatan paspor.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah bisa membuat paspor untuk keperluan kerja di luar negeri?",
-    "Answer": "✅ Bisa, namun biasanya diperlukan dokumen tambahan sesuai ketentuan.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah pembuatan paspor harus sesuai domisili KTP?",
-    "Answer": "Tidak. Paspor bisa dibuat di kantor imigrasi manapun di seluruh Indonesia tanpa harus sesuai alamat KTP.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Apakah nama di paspor harus sesuai dengan nama di tiket pesawat?",
-    "Answer": "Ya, nama di paspor harus sama persis dengan nama di tiket pesawat internasional. Perbedaan nama bisa menyebabkan penolakan di bandara.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah perlu surat domisili untuk buat paspor di luar daerah KTP?",
-    "Answer": "Tidak perlu. Pembuatan paspor tidak harus di kantor imigrasi sesuai KTP, tidak perlu surat domisili tambahan.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah perlu surat keterangan sehat untuk buat paspor?",
-    "Answer": "Tidak diperlukan surat keterangan sehat untuk pembuatan paspor biasa.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Bagaimana cara membuat akun M-Paspor?",
-    "Answer": "Download aplikasi M-Paspor → Pilih 'Daftar' → Masukkan NIK dan data diri → Verifikasi email → Akun siap digunakan untuk pemesanan jadwal.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "beda domisili, paspor luar daerah, bikin paspor beda ktp, paspor tanpa domisili",
-    "Answer": "Bisa. Pembuatan paspor tidak harus sesuai domisili KTP. Anda bisa mengajukan di kantor imigrasi manapun di Indonesia.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Layanan Paspor Simpatik (Akhir Pekan)",
-    "Answer": "Dibuka pada momen tertentu. Pantau Instagram @imigrasi.pangkalpinang untuk jadwalnya.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Bagaimana cara upload dokumen di M-Paspor?",
-    "Answer": "Di aplikasi M-Paspor, setelah memilih jadwal, ada menu upload dokumen. Foto dokumen dalam format JPG/JPEG/PNG dengan ukuran file yang sesuai ketentuan aplikasi.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Disarankan datang jam berapa ke kantor imigrasi?",
-    "Answer": "Datang sesuai jadwal yang dipilih di M-Paspor. Untuk layanan percepatan, harus datang sebelum pukul 10.00 WIB.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Apa syarat paspor bagi WNI yang memperoleh kewarganegaraan Indonesia?",
-    "Answer": "Harus menyertakan Surat Pewarganegaraan Indonesia sebagai bukti status WNI yang sah.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah ada biaya endorsement (penambahan nama)?",
-    "Answer": "Tidak ada biaya tambahan untuk layanan endorsement/penambahan nama.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah ada hotline atau nomor telepon pengaduan imigrasi?",
-    "Answer": "Dapat menghubungi melalui email humas@imigrasi.go.id atau fitur live chat di website resmi imigrasi.go.id untuk pengaduan atau pertanyaan layanan.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apakah ada layanan informasi online Kantor Imigrasi Pangkalpinang?",
-    "Answer": "Ya, informasi tersedia melalui Instagram resmi @imigrasi.pangkalpinang dan website resmi imigrasi.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apakah paspor expired kena denda?",
-    "Answer": "Tidak. Paspor yang kedaluwarsa tidak dikenakan denda. Pemohon cukup mendaftar melalui M-Paspor dan mengajukan penggantian paspor baru.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Bagaimana cara mengecek status paspor?",
-    "Answer": "Bisa dicek melalui aplikasi M-Paspor di menu status permohonan menggunakan nomor permohonan yang diperoleh saat pendaftaran.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apa itu pelayanan walk-in?",
-    "Answer": "Layanan pembuatan paspor tanpa aplikasi untuk kondisi tertentu sesuai SOP.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Prabowo",
-    "Answer": "Sistem kami tidak menemukan data imigrasi terkait 'Prabowo' dalam database Direktorat Jenderal Imigrasi. Sesuai Pasal 5 UU Keimigrasian, informasi personal hanya dapat diakses untuk kepentingan proses hukum yang sah. Mohon pastikan nama lengkap dan nomor dokumen imigrasi (jika ada).",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Berapa halaman paspor Indonesia?",
-    "Answer": "Paspor Indonesia memiliki 48 halaman.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apakah bisa menggunakan M-Paspor tanpa koneksi internet?",
-    "Answer": "Tidak. Aplikasi M-Paspor memerlukan koneksi internet aktif untuk pendaftaran, pemilihan jadwal, dan upload dokumen.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Info",
-    "Answer": "\"Untuk informasi keimigrasian resmi, silakan merujuk pada:\n1. Pasal 1 UU No. 6/2011 tentang definisi legal keimigrasian\n2. Peraturan Dirjen Imigrasi No. IMI-1482.UM.01.05 Tahun 2021 tentang pelayanan publik\n3. Kunjungi portal imigrasi.go.id bagian FAQ atau hubungi call center 1500-123\n\n🔎 Butuh info spesifik? Mohon sebutkan detail kebutuhan Anda:\n- Persyaratan dokumen\n- Prosedur perizinan\n- Status berkas\n- Layanan lainnya\"",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Syarat paspor",
-    "Answer": "*\"Berdasarkan Pasal 8 UU No. 6 Tahun 2011 tentang Keimigrasian dan Peraturan Dirjen Imigrasi No. IMI-1489.UM.01.05 Tahun 2021, syarat pembuatan paspor adalah:*  \n1. *KTP asli dan fotokopi,*  \n2. *Kartu keluarga asli dan fotokopi,*  \n3. *Akte kelahiran/nikah/ijazah (untuk verifikasi data),*  \n4. *Paspor lama (jika perpanjangan).*  \n*Proses dapat dilakukan di Kantor Imigrasi terdekat dengan membuat janji terlebih dahulu melalui aplikasi M-Paspor. Informasi lebih lanjut: link resmi imigrasi.go.id.\"*  ",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apa yang dilakukan jika M-Paspor error?",
-    "Answer": "Coba hapus cache aplikasi, update ke versi terbaru, restart HP, atau login ulang pada malam hari saat trafik lebih rendah.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Bagaimana jika nomor HP yang terdaftar di M-Paspor sudah tidak aktif?",
-    "Answer": "Gunakan fitur ubah nomor HP di pengaturan akun M-Paspor. Jika tidak bisa diakses, hubungi dukungan teknis M-Paspor atau kunjungi kantor imigrasi.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Berapa lama batas waktu bayar setelah dapat jadwal M-Paspor?",
-    "Answer": "Batas pembayaran adalah 2 jam setelah kode billing diterbitkan. Jika terlewat, permohonan kadaluarsa dan harus daftar ulang.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Apa perbedaan paspor biasa dan paspor dinas?",
-    "Answer": "Paspor biasa (warna hijau) untuk perjalanan pribadi WNI umum. Paspor dinas (warna biru) untuk perjalanan dinas PNS/ASN/TNI/Polri atas perintah negara. Paspor diplomatik (warna hitam) untuk diplomat.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apa perbedaan perpanjangan paspor dan penggantian paspor?",
-    "Answer": "Secara resmi tidak ada istilah 'perpanjangan paspor'. Paspor yang habis masa berlaku, penuh, hilang, atau rusak diganti dengan paspor baru (sesuai Permenkumham No. 8 Tahun 2014).",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apakah ada layanan paspor khusus untuk WNI di daerah terpencil?",
-    "Answer": "Ya, beberapa kantor imigrasi menyelenggarakan layanan imigrasi di pulau terluar atau daerah terpencil secara berkala. Pantau informasi di website resmi Ditjen Imigrasi.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "Apakah ada perbedaan paspor untuk dewasa dan anak?",
-    "Answer": "Tidak ada perbedaan jenis, keduanya menggunakan E-Paspor. Perbedaannya pada masa berlaku: anak di bawah 17 tahun umumnya mendapat paspor 5 tahun, dewasa bisa memilih 5 atau 10 tahun.",
+    "Question": "Apa itu SPLP (Surat Perjalanan Laksana Paspor)?, Apa itu SPLP (Surat Perjalanan Laksana Paspor)?, SPLP, splp,Splp",
+    "Answer": "SPLP adalah dokumen darurat pengganti paspor yang dikeluarkan Imigrasi/KBRI untuk WNI yang paspornya hilang/habis di luar negeri. Biaya SPLP untuk WNI: Rp 100.000.",
     "Category": "Umum"
   },
   {
@@ -837,6 +637,11 @@
   {
     "Question": "Apakah paspor bisa hangus jika tidak diambil?",
     "Answer": "Ya. Paspor yang tidak diambil dalam jangka waktu tertentu dapat dibatalkan sesuai kebijakan kantor imigrasi setempat.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apa itu paspor desain merah putih?",
+    "Answer": "Adalah rencana desain paspor baru yang sempat diumumkan pada 17 Agustus 2024, namun implementasinya ditunda oleh Ditjen Imigrasi sesuai Inpres No. 1 Tahun 2025 tentang efisiensi anggaran.",
     "Category": "Umum"
   },
   {
@@ -880,28 +685,23 @@
     "Category": "Aplikasi & Pendaftaran"
   },
   {
-    "Question": "Apakah materai diperlukan saat buat paspor?",
-    "Answer": "Ya, materai Rp 10.000 diperlukan untuk beberapa formulir pernyataan yang ditandatangani pemohon.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Bisakah mendaftar paspor untuk orang lain di M-Paspor?",
-    "Answer": "Bisa membuat akun M-Paspor untuk orang lain (misalnya anak/orang tua), namun pemohon tetap wajib hadir langsung saat sesi biometrik dan wawancara.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
     "Question": "bayar paspor, kode billing, cara bayar billing, transfer paspor, masa berlaku billing, bayar di imigrasi tidak bisa",
     "Answer": "Pembayaran via Bank, ATM, M-Banking, Kantor Pos, atau Minimarket menggunakan kode billing M-Paspor. Batas bayar adalah 2 jam setelah billing terbit. Kantor Imigrasi tidak melayani pembayaran tunai.",
     "Category": "Aplikasi & Pendaftaran"
   },
   {
-    "Question": "bisa daftar langsung ke kantor imigrasi, tanpa aplikasi, offline daftar paspor",
-    "Answer": "❌ Tidak bisa (umumnya). Pendaftaran wajib melalui aplikasi M-Paspor, kecuali kondisi khusus (prioritas/walk-in tertentu).",
+    "Question": "Apa syarat umum pembuatan paspor?",
+    "Answer": "Membawa berkas asli; materai Rp10.000; dan data dukung lainnya jika diperlukan.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah pendaftaran M-Paspor bisa diwakilkan?",
+    "Answer": "Akun boleh dibantu buat, namun saat foto dan wawancara pemohon wajib hadir sendiri.",
     "Category": "Aplikasi & Pendaftaran"
   },
   {
-    "Question": "bisa datang lebih cepat dari jadwal, datang sebelum jam, antrian lebih awal",
-    "Answer": "📌 Disarankan datang sesuai jadwal. Datang terlalu awal belum tentu langsung dilayani.",
+    "Question": "bisa daftar langsung ke kantor imigrasi, tanpa aplikasi, offline daftar paspor",
+    "Answer": "❌ Tidak bisa (umumnya). Pendaftaran wajib melalui aplikasi M-Paspor, kecuali kondisi khusus (prioritas/walk-in tertentu).",
     "Category": "Aplikasi & Pendaftaran"
   },
   {
@@ -920,23 +720,8 @@
     "Category": "Syarat Dokumen"
   },
   {
-    "Question": "Apa syarat penggantian paspor terbitan sebelum tahun 2009?",
-    "Answer": "KTP, KK, Akta Lahir/Buku Nikah/Ijazah (asli), dan Paspor Lama. Syarat lebih lengkap karena sistem lama berbeda dengan yang sekarang.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apa syarat penggantian paspor yang sudah habis masa berlaku (terbitan 2009 ke atas)?",
-    "Answer": "Cukup membawa E-KTP (asli) dan Paspor Lama (asli). Tidak perlu membawa dokumen tambahan jika data sudah sesuai.",
-    "Category": "Syarat Dokumen"
-  },
-  {
     "Question": "Apa syarat umum pembuatan paspor baru (dewasa)?",
     "Answer": "E-KTP (asli), Kartu Keluarga (asli), Akta Lahir / Buku Nikah / Ijazah (asli). Semua dokumen wajib dibawa aslinya. Fotokopi hanya sebagai pelengkap.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Apakah WNI yang ganti nama perlu dokumen tambahan?",
-    "Answer": "Ya, harus melampirkan Surat Penetapan Ganti Nama dari pejabat yang berwenang (Pengadilan atau Disdukcapil).",
     "Category": "Syarat Dokumen"
   },
   {
@@ -950,6 +735,21 @@
     "Category": "Syarat Dokumen"
   },
   {
+    "Question": "Apakah imigrasi buka di hari Minggu?",
+    "Answer": "Umumnya tutup. Namun ada layanan Paspor Simpatik di akhir pekan pada momen tertentu. Pantau informasi di @imigrasi.pangkalpinang untuk jadwalnya.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Jadwal pengambilan paspor",
+    "Answer": "Senin-Jumat mulai pukul 10.00 WIB s/d 15.30 WIB dengan membawa bukti setor dan KTP.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Apa yang dimaksud dengan dokumen yang 'nama orang tua harus tercantum'?",
+    "Answer": "Dokumen seperti akta lahir, ijazah, atau buku nikah harus secara eksplisit mencantumkan nama ayah dan/atau ibu pemohon sebagai syarat identifikasi.",
+    "Category": "Syarat Dokumen"
+  },
+  {
     "Question": "Apakah boleh menggunakan SIM sebagai pengganti KTP?",
     "Answer": "Tidak. E-KTP adalah satu-satunya dokumen identitas utama yang diterima. SIM tidak dapat menggantikan KTP dalam proses pembuatan paspor.",
     "Category": "Syarat Dokumen"
@@ -957,6 +757,31 @@
   {
     "Question": "Apakah buku nikah bisa digunakan sebagai pengganti akta lahir?",
     "Answer": "Ya, buku nikah dapat digunakan jika mencantumkan nama, tempat/tanggal lahir, dan nama orang tua pemohon.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apa aplikasi untuk daftar paspor?",
+    "Answer": "Aplikasi M-Paspor yang tersedia di Google Play Store dan App Store.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Apakah NPWP diperlukan untuk membuat paspor?",
+    "Answer": "Tidak. NPWP tidak termasuk dalam syarat dokumen pembuatan paspor.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah bisa buat paspor jika belum menikah?",
+    "Answer": "Ya, status pernikahan tidak mempengaruhi proses pembuatan paspor. WNI dewasa belum menikah tetap bisa buat paspor.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah bisa buat paspor tanpa KK (Kartu Keluarga)?",
+    "Answer": "Tidak bisa. KK merupakan salah satu dokumen wajib dalam pembuatan paspor.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah bisa membuat paspor untuk keperluan kerja di luar negeri?",
+    "Answer": "✅ Bisa, namun biasanya diperlukan dokumen tambahan sesuai ketentuan.",
     "Category": "Syarat Dokumen"
   },
   {
@@ -968,6 +793,11 @@
     "Question": "Apakah foto copy KTP harus dilegalisir?",
     "Answer": "Tidak perlu dilegalisir. Fotokopi KTP cukup fotokopi biasa sebagai pelengkap, yang terpenting adalah membawa KTP asli.",
     "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah pembuatan paspor harus sesuai domisili KTP?",
+    "Answer": "Tidak. Paspor bisa dibuat di kantor imigrasi manapun di seluruh Indonesia tanpa harus sesuai alamat KTP.",
+    "Category": "Aplikasi & Pendaftaran"
   },
   {
     "Question": "Apakah fotokopi dokumen sudah cukup tanpa asli?",
@@ -990,6 +820,21 @@
     "Category": "Syarat Dokumen"
   },
   {
+    "Question": "Apakah nama di paspor harus sesuai dengan nama di tiket pesawat?",
+    "Answer": "Ya, nama di paspor harus sama persis dengan nama di tiket pesawat internasional. Perbedaan nama bisa menyebabkan penolakan di bandara.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah perlu surat domisili untuk buat paspor di luar daerah KTP?",
+    "Answer": "Tidak perlu. Pembuatan paspor tidak harus di kantor imigrasi sesuai KTP, tidak perlu surat domisili tambahan.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah perlu surat keterangan sehat untuk buat paspor?",
+    "Answer": "Tidak diperlukan surat keterangan sehat untuk pembuatan paspor biasa.",
+    "Category": "Syarat Dokumen"
+  },
+  {
     "Question": "Bagaimana jika nama di KTP dan KK berbeda?",
     "Answer": "Harus diselesaikan terlebih dahulu di Disdukcapil agar data konsisten, sebelum mengajukan permohonan paspor.",
     "Category": "Syarat Dokumen"
@@ -1000,9 +845,294 @@
     "Category": "Syarat Dokumen"
   },
   {
+    "Question": "Bagaimana cara membuat akun M-Paspor?",
+    "Answer": "Download aplikasi M-Paspor → Pilih 'Daftar' → Masukkan NIK dan data diri → Verifikasi email → Akun siap digunakan untuk pemesanan jadwal.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Syarat Paspor bagi Lansia/Disabilitas",
+    "Answer": "Lansia (60+) dan disabilitas dapat layanan prioritas tanpa antre lama. Syarat sama dengan umum.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "beda domisili, paspor luar daerah, bikin paspor beda ktp, paspor tanpa domisili",
+    "Answer": "Bisa. Pembuatan paspor tidak harus sesuai domisili KTP. Anda bisa mengajukan di kantor imigrasi manapun di Indonesia.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Bagaimana cara upload dokumen di M-Paspor?",
+    "Answer": "Di aplikasi M-Paspor, setelah memilih jadwal, ada menu upload dokumen. Foto dokumen dalam format JPG/JPEG/PNG dengan ukuran file yang sesuai ketentuan aplikasi.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Disarankan datang jam berapa ke kantor imigrasi?",
+    "Answer": "Datang sesuai jadwal yang dipilih di M-Paspor. Untuk layanan percepatan, harus datang sebelum pukul 10.00 WIB.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Layanan Paspor Simpatik (Akhir Pekan)",
+    "Answer": "Dibuka pada momen tertentu. Pantau Instagram @imigrasi.pangkalpinang untuk jadwalnya.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Apa syarat paspor bagi WNI yang memperoleh kewarganegaraan Indonesia?",
+    "Answer": "Harus menyertakan Surat Pewarganegaraan Indonesia sebagai bukti status WNI yang sah.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "syarat umum paspor, berkas paspor, dokumen apa saja, syarat pembuatan paspor, bawa apa saja, apa saja persyaratannya, fotokopi atau asli, dokumen asli wajib",
+    "Answer": "Syarat umum: E-KTP, KK, Akta Lahir/Buku Nikah/Ijazah (Asli). Wajib membawa dokumen asli untuk verifikasi; fotokopi hanya pelengkap. Untuk penggantian (setelah 2009), cukup bawa E-KTP dan Paspor Lama.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah ada biaya endorsement (penambahan nama)?",
+    "Answer": "Tidak ada biaya tambahan untuk layanan endorsement/penambahan nama.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah ada subsidi biaya paspor untuk masyarakat kurang mampu?",
+    "Answer": "Saat ini tidak ada subsidi khusus untuk biaya paspor. Biaya berlaku sama untuk semua pemohon sesuai PP No. 45 Tahun 2024.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah biaya paspor anak sama dengan dewasa?",
+    "Answer": "Ya, biaya paspor anak sama dengan dewasa: E-Paspor 5 tahun Rp 650.000, E-Paspor 10 tahun Rp 950.000.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah ada hotline atau nomor telepon pengaduan imigrasi?",
+    "Answer": "Dapat menghubungi melalui email humas@imigrasi.go.id atau fitur live chat di website resmi imigrasi.go.id untuk pengaduan atau pertanyaan layanan.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apakah ada layanan informasi online Kantor Imigrasi Pangkalpinang?",
+    "Answer": "Ya, informasi tersedia melalui Instagram resmi @imigrasi.pangkalpinang dan website resmi imigrasi.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apakah biaya paspor bisa dicicil atau diangsur?",
+    "Answer": "Tidak. Biaya paspor harus dibayar penuh sesuai kode billing yang diterbitkan sistem.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah biaya paspor bisa dikembalikan jika permohonan ditolak?",
+    "Answer": "Biaya PNBP yang sudah dibayar umumnya tidak dapat dikembalikan meskipun permohonan ditolak. Konsultasikan langsung ke kantor imigrasi jika ada kondisi khusus.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah paspor expired kena denda?",
+    "Answer": "Tidak. Paspor yang kedaluwarsa tidak dikenakan denda. Pemohon cukup mendaftar melalui M-Paspor dan mengajukan penggantian paspor baru.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Bagaimana cara mengecek status paspor?",
+    "Answer": "Bisa dicek melalui aplikasi M-Paspor di menu status permohonan menggunakan nomor permohonan yang diperoleh saat pendaftaran.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apa itu pelayanan walk-in?",
+    "Answer": "Layanan pembuatan paspor tanpa aplikasi untuk kondisi tertentu sesuai SOP.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Apakah biaya paspor sama di seluruh Indonesia?",
+    "Answer": "Ya, tarif paspor seragam di seluruh Indonesia sesuai PP No. 45 Tahun 2024, tidak ada perbedaan tarif antar daerah.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah biaya paspor sudah termasuk biaya materai?",
+    "Answer": "Tidak. Biaya materai Rp 10.000 terpisah dari biaya paspor dan harus disiapkan sendiri oleh pemohon.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah bisa bayar tunai langsung di kantor imigrasi?",
+    "Answer": "Tidak. Kantor Imigrasi tidak melayani pembayaran tunai. Semua pembayaran wajib menggunakan kode billing melalui kanal resmi.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah bisa mempercepat proses tanpa antrian?",
+    "Answer": "❌ Tidak bisa, kecuali menggunakan layanan percepatan resmi.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Berapa biaya SPLP (Surat Perjalanan Laksana Paspor) untuk WNI?",
+    "Answer": "Rp 100.000 per permohonan.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Berapa biaya layanan percepatan paspor (selesai hari yang sama)?",
+    "Answer": "Rp 1.000.000 (di luar biaya paspor). Total biaya: biaya paspor + Rp 1.000.000.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Paspor itu berlaku selamanya?",
+    "Answer": "tidak, paspor memiliki masa berlaku yang terbatas, ada yang 5 tahun dan 10 tahun. tentu saja harganya juga berbeda",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apa itu layanan Paspor Simpatik?",
+    "Answer": "Layanan pembuatan paspor di akhir pekan (Sabtu-Minggu) yang dibuka pada momen tertentu. Pantau Instagram @imigrasi.pangkalpinang untuk jadwalnya.",
+    "Category": "Proses & Waktu"
+  },
+  {
+    "Question": "Berapa halaman paspor Indonesia?",
+    "Answer": "Paspor Indonesia memiliki 48 halaman.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apakah bisa menggunakan M-Paspor tanpa koneksi internet?",
+    "Answer": "Tidak. Aplikasi M-Paspor memerlukan koneksi internet aktif untuk pendaftaran, pemilihan jadwal, dan upload dokumen.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
     "Question": "Status paspor Ajudikasi artinya apa?",
     "Answer": "Menunggu verifikasi akhir oleh sistem pusat. Proses total biasanya 4 hari kerja.",
     "Category": "Proses & Waktu"
+  },
+  {
+    "Question": "Apa yang harus dibawa saat ambil paspor?",
+    "Answer": "Bukti pembayaran (kode billing / bukti setor) dan KTP asli pemohon.",
+    "Category": "Pengambilan"
+  },
+  {
+    "Question": "Apakah bisa ambil paspor di hari yang sama dengan hari selesai?",
+    "Answer": "Bisa, jika kantor imigrasi sudah menerbitkan paspor dan masih dalam jam pengambilan (10.00–15.30 WIB di hari kerja).",
+    "Category": "Pengambilan"
+  },
+  {
+    "Question": "Kapan jadwal pengambilan paspor di Kantor Imigrasi Pangkalpinang?",
+    "Answer": "Senin–Jumat pukul 10.00–15.30 WIB (hari kerja). Bawa bukti setor pembayaran dan KTP asli.",
+    "Category": "Pengambilan"
+  },
+  {
+    "Question": "Apa itu Surat Pernyataan Orang Tua untuk paspor anak?",
+    "Answer": "Formulir resmi yang ditandatangani orang tua menyatakan persetujuan pembuatan paspor anak. Dapat diunduh di: https://docs.google.com/document/d/13HAgAqMdHSYEoytE2HR7Zd6uw-Oz83m2/edit",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Apa yang dilakukan jika M-Paspor error?",
+    "Answer": "Coba hapus cache aplikasi, update ke versi terbaru, restart HP, atau login ulang pada malam hari saat trafik lebih rendah.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Bagaimana jika nomor HP yang terdaftar di M-Paspor sudah tidak aktif?",
+    "Answer": "Gunakan fitur ubah nomor HP di pengaturan akun M-Paspor. Jika tidak bisa diakses, hubungi dukungan teknis M-Paspor atau kunjungi kantor imigrasi.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Berapa lama batas waktu bayar setelah dapat jadwal M-Paspor?",
+    "Answer": "Batas pembayaran adalah 2 jam setelah kode billing diterbitkan. Jika terlewat, permohonan kadaluarsa dan harus daftar ulang.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Bagaimana buat paspor anak jika salah satu orang tua di luar negeri?",
+    "Answer": "Orang tua yang berada di luar negeri bisa memberikan surat kuasa/persetujuan yang dilegalisir oleh KBRI/KJRI setempat. Konsultasikan ke kantor imigrasi untuk prosedur lengkapnya.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Apa perbedaan paspor biasa dan paspor dinas?",
+    "Answer": "Paspor biasa (warna hijau) untuk perjalanan pribadi WNI umum. Paspor dinas (warna biru) untuk perjalanan dinas PNS/ASN/TNI/Polri atas perintah negara. Paspor diplomatik (warna hitam) untuk diplomat.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apa perbedaan perpanjangan paspor dan penggantian paspor?",
+    "Answer": "Secara resmi tidak ada istilah 'perpanjangan paspor'. Paspor yang habis masa berlaku, penuh, hilang, atau rusak diganti dengan paspor baru (sesuai Permenkumham No. 8 Tahun 2014).",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Apakah ada layanan paspor khusus untuk WNI di daerah terpencil?",
+    "Answer": "Ya, beberapa kantor imigrasi menyelenggarakan layanan imigrasi di pulau terluar atau daerah terpencil secara berkala. Pantau informasi di website resmi Ditjen Imigrasi.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Berapa biaya paspor bayi atau anak?",
+    "Answer": "Sama dengan dewasa: E-Paspor 5 tahun Rp 650.000, E-Paspor 10 tahun Rp 950.000.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Harga paspor anak",
+    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Hrga paspor anak?, Hrg pasport ank?, Hrg pasport ank?, Hrga paspor anak?, Hrga paspor anak?, Hrga paspor anak?, Hrg pasport ank?, Hrga paspor ank2?, Hrga pasport ank?, Hrga pasport ank?",
+    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Paspor anak berapa?",
+    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Paspor anak berlaku berapa tahun?",
+    "Answer": "Paspor anak di bawah 17 tahun umumnya diterbitkan dengan masa berlaku 5 tahun. Anak berusia 17 tahun ke atas atau sudah menikah bisa memilih masa berlaku 10 tahun.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Paspor buat ank brp?",
+    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Apakah materai diperlukan saat buat paspor?",
+    "Answer": "Ya, materai Rp 10.000 diperlukan untuk beberapa formulir pernyataan yang ditandatangani pemohon.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Pasport ank brp?",
+    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "paspor anak, bayi, anak, balita, dibawah umur, di bawah umur?",
+    "Answer": "👶 *Paspor untuk Anak (di bawah 17 tahun):*\\n✅ KTP kedua orang tua.\\n✅ Kartu Keluarga.\\n✅ Akta Kelahiran anak.\\n✅ Buku Nikah orang tua.\\n✅ Paspor orang tua (jika ada).\\n\\n*Penting:* Kedua orang tua wajib hadir saat wawancara. Informasi ini berdasarkan UU No. 6 Tahun 2011 tentang Keimigrasian & Peraturan Pemerintah No. 28 Tahun 2019. Data dapat berubah sewaktu-waktu sesuai kebijakan terbaru.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "syarat paspor anak, paspor anak di bawah umur, pendampingan orang tua, paspor anak hadir, bayi hadir foto",
+    "Answer": "Syarat paspor anak (<17 thn): E-KTP ayah & ibu, KK, Akta Lahir, Buku Nikah Ortu, & Paspor Lama anak (jika ada). Wajib didampingi kedua orang tua dan anak harus hadir untuk foto biometrik.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Apa yang harus dilakukan jika paspor hilang?",
+    "Answer": "1. Lapor ke kantor polisi untuk mendapatkan Surat Keterangan Hilang. 2. Bawa Surat Polisi + E-KTP + KK ke kantor imigrasi. 3. Bayar denda kehilangan Rp 1.000.000.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Apakah ada batas waktu lapor kehilangan paspor ke polisi?",
+    "Answer": "Tidak ada batas waktu resmi, namun disarankan segera melapor setelah paspor diketahui hilang untuk mempermudah proses penggantian.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Apakah WNI di luar negeri bisa membuat paspor?",
+    "Answer": "Ya, WNI yang berada di luar negeri dapat mengajukan paspor melalui KBRI atau KJRI (Konsulat Jenderal RI) di negara tempat tinggal.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "Bisakah mendaftar paspor untuk orang lain di M-Paspor?",
+    "Answer": "Bisa membuat akun M-Paspor untuk orang lain (misalnya anak/orang tua), namun pemohon tetap wajib hadir langsung saat sesi biometrik dan wawancara.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "bisa datang lebih cepat dari jadwal, datang sebelum jam, antrian lebih awal",
+    "Answer": "📌 Disarankan datang sesuai jadwal. Datang terlalu awal belum tentu langsung dilayani.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Apa syarat penggantian paspor terbitan sebelum tahun 2009?",
+    "Answer": "KTP, KK, Akta Lahir/Buku Nikah/Ijazah (asli), dan Paspor Lama. Syarat lebih lengkap karena sistem lama berbeda dengan yang sekarang.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apa syarat penggantian paspor yang sudah habis masa berlaku (terbitan 2009 ke atas)?",
+    "Answer": "Cukup membawa E-KTP (asli) dan Paspor Lama (asli). Tidak perlu membawa dokumen tambahan jika data sudah sesuai.",
+    "Category": "Syarat Dokumen"
+  },
+  {
+    "Question": "Apakah WNI yang ganti nama perlu dokumen tambahan?",
+    "Answer": "Ya, harus melampirkan Surat Penetapan Ganti Nama dari pejabat yang berwenang (Pengadilan atau Disdukcapil).",
+    "Category": "Syarat Dokumen"
   },
   {
     "Question": "Apa yang dimaksud dengan kode Virtual Account (VA) di M-Paspor?",
@@ -1017,16 +1147,6 @@
   {
     "Question": "Ganti Paspor karena habis masa berlaku",
     "Answer": "Cukup bawa E-KTP (Asli) dan Paspor Lama (Asli) saja (terbitan 2009 ke atas dan data sesuai).",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "Syarat Paspor bagi Lansia/Disabilitas",
-    "Answer": "Lansia (60+) dan disabilitas dapat layanan prioritas tanpa antre lama. Syarat sama dengan umum.",
-    "Category": "Syarat Dokumen"
-  },
-  {
-    "Question": "syarat umum paspor, berkas paspor, dokumen apa saja, syarat pembuatan paspor, bawa apa saja, apa saja persyaratannya, fotokopi atau asli, dokumen asli wajib",
-    "Answer": "Syarat umum: E-KTP, KK, Akta Lahir/Buku Nikah/Ijazah (Asli). Wajib membawa dokumen asli untuk verifikasi; fotokopi hanya pelengkap. Untuk penggantian (setelah 2009), cukup bawa E-KTP dan Paspor Lama.",
     "Category": "Syarat Dokumen"
   },
   {
@@ -1045,6 +1165,31 @@
     "Category": "Umum"
   },
   {
+    "Question": "Apakah chip E-Paspor yang rusak termasuk kategori paspor rusak?",
+    "Answer": "Ya, jika chip E-Paspor tidak dapat dibaca akibat kerusakan fisik, paspor dianggap rusak dan harus diganti dengan membayar denda Rp 500.000.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Apakah denda paspor hilang bisa dibebaskan?",
+    "Answer": "Bisa, jika hilang karena musibah (banjir, kebakaran, dll) dengan melampirkan Surat Keterangan Musibah dari Kelurahan/Kecamatan setempat.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Apakah paspor expired yang hilang tetap kena denda?",
+    "Answer": "Ya, tetap kena denda karena kehilangan dokumen negara, meskipun paspor tersebut sudah tidak berlaku.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Berapa lama proses BAP untuk paspor hilang atau rusak?",
+    "Answer": "Proses BAP oleh petugas Inteldakim biasanya diselesaikan pada hari yang sama jika dokumen lengkap, sebelum permohonan paspor baru diproses.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Berapa lama setelah lapor polisi bisa langsung ke imigrasi?",
+    "Answer": "Bisa langsung setelah mendapatkan Surat Keterangan Hilang dari polisi, tidak ada jeda waktu yang diwajibkan.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
     "Question": "Apakah ada perbedaan warna paspor Indonesia berdasarkan jenisnya?",
     "Answer": "Ya. Paspor biasa berwarna hijau, paspor dinas berwarna biru, dan paspor diplomatik berwarna hitam.",
     "Category": "Umum"
@@ -1060,6 +1205,21 @@
     "Category": "Umum"
   },
   {
+    "Question": "Biaya Paspor Hilang karena musibah",
+    "Answer": "Bisa mengajukan pembebasan denda dengan melampirkan Surat Keterangan Musibah dari Kelurahan/Kecamatan.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Paspor hilang di luar negeri, apa yang harus dilakukan?",
+    "Answer": "Hubungi KBRI atau KJRI terdekat untuk mendapatkan SPLP (Surat Perjalanan Laksana Paspor) sebagai dokumen darurat untuk bisa kembali ke Indonesia.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Syarat Paspor Hilang",
+    "Answer": "Lapor polisi untuk Surat Keterangan Hilang. Bawa: 1. E-KTP, 2. KK, 3. Surat Kehilangan Polisi ke kantor. Ada Denda Kehilangan Rp 1.000.000.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
     "Question": "Apakah paspor yang sudah penuh halaman harus diganti?",
     "Answer": "Ya. Paspor yang halaman cap/stempel sudah penuh harus diganti dengan paspor baru. Ini tidak dikenai denda dan cukup mengajukan penggantian biasa.",
     "Category": "Umum"
@@ -1068,6 +1228,51 @@
     "Question": "Apa yang terjadi jika tidak datang sesuai jadwal M-Paspor?",
     "Answer": "Permohonan dianggap batal dan harus mendaftar ulang melalui M-Paspor dari awal.",
     "Category": "Aplikasi & Pendaftaran"
+  },
+  {
+    "Question": "Syarat Paspor Rusak",
+    "Answer": "Bawa: 1. Paspor rusak, 2. E-KTP, 3. KK. Ada Denda Kerusakan Rp 500.000. Petugas akan melakukan pemeriksaan (BAP) terlebih dahulu.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Apa bedanya Surat Rekomendasi Travel dan BPIH?",
+    "Answer": "Surat Rekomendasi Travel adalah dari agen perjalanan umroh, digunakan untuk syarat paspor umroh. BPIH (Biaya Penyelenggaraan Ibadah Haji) adalah bukti pelunasan biaya haji dari Kemenag, digunakan untuk syarat paspor haji.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apa itu endorsement (penambahan nama) paspor?",
+    "Answer": "Penambahan kata pada nama di paspor, biasanya dengan menambahkan nama ayah. Diperlukan untuk memenuhi ketentuan haji/umroh.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apa syarat endorsement?",
+    "Answer": "Dokumen pendukung seperti surat travel atau bukti pelunasan haji (BPIH).",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apa syarat mengajukan endorsement?",
+    "Answer": "Dokumen pendukung seperti Surat Rekomendasi dari Travel Umroh atau bukti pelunasan BPIH (Biaya Penyelenggaraan Ibadah Haji).",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apa syarat tambahan paspor untuk haji?",
+    "Answer": "Syarat umum + Surat BPIH (Biaya Penyelenggaraan Ibadah Haji) dari Kemenag. Nama di paspor minimal 3 kata (jika kurang, perlu endorsement).",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apa syarat tambahan paspor untuk umroh?",
+    "Answer": "Syarat umum + Surat Rekomendasi dari Travel Umroh resmi/Kemenag. Nama di paspor minimal 2 kata (jika masih 1 kata, perlu penambahan nama/endorsement).",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apakah bisa ibadah haji menggunakan paspor atas nama orang lain?",
+    "Answer": "Tidak. Paspor adalah dokumen identitas pribadi dan tidak dapat digunakan atas nama orang lain. Hal ini melanggar hukum keimigrasian.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apakah bisa membuat paspor tanpa travel umroh?, paspor tanpa travel umroh, bikin paspor sendiri umroh, paspor tanpa agen",
+    "Answer": "✅ Bisa, namun untuk keberangkatan tetap memerlukan travel resmi.",
+    "Category": "Haji & Umroh"
   },
   {
     "Question": "Berapa lama biasanya antrian jadwal paspor di M-Paspor?",
@@ -1100,6 +1305,16 @@
     "Category": "Syarat Dokumen"
   },
   {
+    "Question": "Apakah bisa mendaftar haji tanpa paspor?",
+    "Answer": "Untuk pendaftaran haji di Kemenag, paspor diperlukan. Namun pastikan data di paspor sudah sesuai dengan data di sistem Kemenag.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apakah bisa umroh dengan paspor yang baru jadi?",
+    "Answer": "Bisa, selama paspor sudah aktif (sudah diambil dan berlaku) dan visa umroh sudah disetujui oleh Kedubes Arab Saudi.",
+    "Category": "Haji & Umroh"
+  },
+  {
     "Question": "Syarat Paspor untuk Pekerja Migran (PMI)",
     "Answer": "Syarat umum + Surat Rekomendasi dari Dinas Tenaga Kerja (Disnaker).",
     "Category": "Syarat Dokumen"
@@ -1125,6 +1340,31 @@
     "Category": "Biaya & Tarif"
   },
   {
+    "Question": "Apakah paspor harus sesuai dengan data di Kemenag?, data paspor harus sama kemenag, sinkron data haji paspor, data tidak cocok paspor",
+    "Answer": "✅ Ya, data harus konsisten untuk menghindari kendala keberangkatan.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apakah penambahan nama endorsement berlaku selamanya?",
+    "Answer": "Endorsement berlaku selama paspor tersebut masih berlaku. Jika paspor diganti, endorsement perlu dilakukan lagi pada paspor baru jika diperlukan.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apakah perlu visa untuk umroh ke Arab Saudi?",
+    "Answer": "Ya, visa umroh dari Kedutaan Besar Arab Saudi di Indonesia tetap diperlukan. Pengurusannya biasanya dilakukan melalui travel umroh resmi yang terdaftar Kemenag.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Apakah travel umroh bisa mengurus paspor atas nama jamaah?",
+    "Answer": "Travel umroh bisa membantu proses pendaftaran di M-Paspor, namun pemohon tetap wajib hadir sendiri ke kantor imigrasi untuk biometrik dan wawancara.",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Contoh nama setelah endorsement untuk haji (dari 1 kata jadi 3 kata)?",
+    "Answer": "Contoh: 'Malik' menjadi 'Malik Amrullah Ambo' (ditambah nama ayah dan kakek/nama keluarga).",
+    "Category": "Haji & Umroh"
+  },
+  {
     "Question": "Apa yang terjadi jika billing tidak dibayar?",
     "Answer": "Permohonan kadaluarsa dan harus mengajukan ulang.",
     "Category": "Biaya & Tarif"
@@ -1140,9 +1380,19 @@
     "Category": "Biaya & Tarif"
   },
   {
-    "Question": "Apakah bisa bayar paspor menggunakan QRIS?",
-    "Answer": "Tergantung bank/channel yang tersedia. Beberapa layanan M-Banking atau marketplace yang memiliki opsi QRIS dapat digunakan untuk pembayaran kode billing paspor.",
-    "Category": "Biaya & Tarif"
+    "Question": "Contoh nama setelah endorsement untuk umroh (dari 1 kata jadi 2 kata)?",
+    "Answer": "Contoh: 'Malik' menjadi 'Malik Amrullah' (ditambah nama ayah).",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "Di mana mengunduh formulir surat pernyataan endorsement?",
+    "Answer": "https://docs.google.com/document/d/1MnIb5c7kHhkfusIkQZLV992sxDqjI7ZX/edit",
+    "Category": "Haji & Umroh"
+  },
+  {
+    "Question": "SYARAT TAMBAHAN BERKAS PEMBUATAN PASPOR DENGAN TUJUAN UNTUK HAJI ADALAH",
+    "Answer": "SURAT Biaya Penyelenggaraan Ibadah Haji (BPIH) DAN SURAT PENAMBAHAN NAMA: DENGAN MENAMBAH NAMA MENJADI 3 SUKU KATA (MISAL: Malik Amrullah Ambo)",
+    "Category": "Haji & Umroh"
   },
   {
     "Question": "Apakah ada biaya materai?",
@@ -1160,13 +1410,18 @@
     "Category": "Biaya & Tarif"
   },
   {
-    "Question": "Apakah bisa bayar paspor menggunakan kartu kredit?",
-    "Answer": "Tergantung kanal pembayaran. Beberapa marketplace (Tokopedia/Bukalapak) dan M-Banking memungkinkan pembayaran menggunakan kartu kredit.",
+    "Question": "Apakah ada biaya tambahan saat mengambil paspor?",
+    "Answer": "Tidak ada biaya tambahan saat pengambilan paspor. Cukup menunjukkan bukti pembayaran dan KTP.",
     "Category": "Biaya & Tarif"
   },
   {
-    "Question": "Apakah ada biaya tambahan saat mengambil paspor?",
-    "Answer": "Tidak ada biaya tambahan saat pengambilan paspor. Cukup menunjukkan bukti pembayaran dan KTP.",
+    "Question": "Apakah bisa bayar paspor menggunakan QRIS?",
+    "Answer": "Tergantung bank/channel yang tersedia. Beberapa layanan M-Banking atau marketplace yang memiliki opsi QRIS dapat digunakan untuk pembayaran kode billing paspor.",
+    "Category": "Biaya & Tarif"
+  },
+  {
+    "Question": "Apakah bisa bayar paspor menggunakan kartu kredit?",
+    "Answer": "Tergantung kanal pembayaran. Beberapa marketplace (Tokopedia/Bukalapak) dan M-Banking memungkinkan pembayaran menggunakan kartu kredit.",
     "Category": "Biaya & Tarif"
   },
   {
@@ -1182,46 +1437,6 @@
   {
     "Question": "Apakah ada biaya untuk mengubah jadwal (reschedule) di M-Paspor?",
     "Answer": "Tidak ada biaya khusus untuk reschedule jadwal di M-Paspor, selama dilakukan maksimal 1 kali sebelum H-1 kedatangan.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah ada subsidi biaya paspor untuk masyarakat kurang mampu?",
-    "Answer": "Saat ini tidak ada subsidi khusus untuk biaya paspor. Biaya berlaku sama untuk semua pemohon sesuai PP No. 45 Tahun 2024.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah biaya paspor anak sama dengan dewasa?",
-    "Answer": "Ya, biaya paspor anak sama dengan dewasa: E-Paspor 5 tahun Rp 650.000, E-Paspor 10 tahun Rp 950.000.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah biaya paspor bisa dicicil atau diangsur?",
-    "Answer": "Tidak. Biaya paspor harus dibayar penuh sesuai kode billing yang diterbitkan sistem.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah biaya paspor bisa dikembalikan jika permohonan ditolak?",
-    "Answer": "Biaya PNBP yang sudah dibayar umumnya tidak dapat dikembalikan meskipun permohonan ditolak. Konsultasikan langsung ke kantor imigrasi jika ada kondisi khusus.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah biaya paspor sama di seluruh Indonesia?",
-    "Answer": "Ya, tarif paspor seragam di seluruh Indonesia sesuai PP No. 45 Tahun 2024, tidak ada perbedaan tarif antar daerah.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah biaya paspor sudah termasuk biaya materai?",
-    "Answer": "Tidak. Biaya materai Rp 10.000 terpisah dari biaya paspor dan harus disiapkan sendiri oleh pemohon.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah bisa bayar tunai langsung di kantor imigrasi?",
-    "Answer": "Tidak. Kantor Imigrasi tidak melayani pembayaran tunai. Semua pembayaran wajib menggunakan kode billing melalui kanal resmi.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Apakah bisa mempercepat proses tanpa antrian?",
-    "Answer": "❌ Tidak bisa, kecuali menggunakan layanan percepatan resmi.",
     "Category": "Biaya & Tarif"
   },
   {
@@ -1265,11 +1480,6 @@
     "Category": "Biaya & Tarif"
   },
   {
-    "Question": "Paspor itu berlaku selamanya?",
-    "Answer": "tidak, paspor memiliki masa berlaku yang terbatas, ada yang 5 tahun dan 10 tahun. tentu saja harganya juga berbeda",
-    "Category": "Biaya & Tarif"
-  },
-  {
     "Question": "Apa syarat penting sebelum datang ke kantor imigrasi?",
     "Answer": "Harus mendaftar terlebih dahulu melalui aplikasi M-Paspor.",
     "Category": "Aplikasi & Pendaftaran"
@@ -1297,16 +1507,6 @@
   {
     "Question": "Berapa biaya E-Paspor 5 tahun?",
     "Answer": "Rp 650.000 per permohonan (sesuai PP No. 45 Tahun 2024, berlaku mulai 17 Desember 2024).",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Berapa biaya SPLP (Surat Perjalanan Laksana Paspor) untuk WNI?",
-    "Answer": "Rp 100.000 per permohonan.",
-    "Category": "Biaya & Tarif"
-  },
-  {
-    "Question": "Berapa biaya layanan percepatan paspor (selesai hari yang sama)?",
-    "Answer": "Rp 1.000.000 (di luar biaya paspor). Total biaya: biaya paspor + Rp 1.000.000.",
     "Category": "Biaya & Tarif"
   },
   {
@@ -1340,16 +1540,6 @@
     "Category": "Biaya & Tarif"
   },
   {
-    "Question": "Apa itu layanan Paspor Simpatik?",
-    "Answer": "Layanan pembuatan paspor di akhir pekan (Sabtu-Minggu) yang dibuka pada momen tertentu. Pantau Instagram @imigrasi.pangkalpinang untuk jadwalnya.",
-    "Category": "Proses & Waktu"
-  },
-  {
-    "Question": "Apa yang harus dibawa saat ambil paspor?",
-    "Answer": "Bukti pembayaran (kode billing / bukti setor) dan KTP asli pemohon.",
-    "Category": "Pengambilan"
-  },
-  {
     "Question": "Apa itu layanan percepatan paspor?",
     "Answer": "Layanan paspor selesai di hari yang sama (one day service). Pemohon harus datang sebelum pukul 10.00 WIB dengan biaya tambahan Rp 1.000.000.",
     "Category": "Proses & Waktu"
@@ -1358,51 +1548,6 @@
     "Question": "Apa itu status 'Ajudikasi' pada paspor?",
     "Answer": "Status 'Ajudikasi' berarti paspor sedang dalam proses verifikasi akhir oleh sistem pusat Ditjen Imigrasi. Ini adalah tahap normal sebelum paspor dicetak.",
     "Category": "Proses & Waktu"
-  },
-  {
-    "Question": "Apakah bisa ambil paspor di hari yang sama dengan hari selesai?",
-    "Answer": "Bisa, jika kantor imigrasi sudah menerbitkan paspor dan masih dalam jam pengambilan (10.00–15.30 WIB di hari kerja).",
-    "Category": "Pengambilan"
-  },
-  {
-    "Question": "Kapan jadwal pengambilan paspor di Kantor Imigrasi Pangkalpinang?",
-    "Answer": "Senin–Jumat pukul 10.00–15.30 WIB (hari kerja). Bawa bukti setor pembayaran dan KTP asli.",
-    "Category": "Pengambilan"
-  },
-  {
-    "Question": "Apa itu Surat Pernyataan Orang Tua untuk paspor anak?",
-    "Answer": "Formulir resmi yang ditandatangani orang tua menyatakan persetujuan pembuatan paspor anak. Dapat diunduh di: https://docs.google.com/document/d/13HAgAqMdHSYEoytE2HR7Zd6uw-Oz83m2/edit",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Bagaimana buat paspor anak jika salah satu orang tua di luar negeri?",
-    "Answer": "Orang tua yang berada di luar negeri bisa memberikan surat kuasa/persetujuan yang dilegalisir oleh KBRI/KJRI setempat. Konsultasikan ke kantor imigrasi untuk prosedur lengkapnya.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Berapa biaya paspor bayi atau anak?",
-    "Answer": "Sama dengan dewasa: E-Paspor 5 tahun Rp 650.000, E-Paspor 10 tahun Rp 950.000.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Harga paspor anak",
-    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Hrga paspor anak?, Hrg pasport ank?, Hrg pasport ank?, Hrga paspor anak?, Hrga paspor anak?, Hrga paspor anak?, Hrg pasport ank?, Hrga paspor ank2?, Hrga pasport ank?, Hrga pasport ank?",
-    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Paspor anak berapa?",
-    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Paspor anak berlaku berapa tahun?",
-    "Answer": "Paspor anak di bawah 17 tahun umumnya diterbitkan dengan masa berlaku 5 tahun. Anak berusia 17 tahun ke atas atau sudah menikah bisa memilih masa berlaku 10 tahun.",
-    "Category": "Paspor Anak"
   },
   {
     "Question": "Apa yang dimaksud prioritas dalam layanan imigrasi?",
@@ -1425,26 +1570,6 @@
     "Category": "Paspor Anak"
   },
   {
-    "Question": "Paspor buat ank brp?",
-    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Pasport ank brp?",
-    "Answer": "Harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n • 5 tahun: Rp650.000\n • 10 tahun: Rp950.000",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "paspor anak, bayi, anak, balita, dibawah umur, di bawah umur?",
-    "Answer": "👶 *Paspor untuk Anak (di bawah 17 tahun):*\\n✅ KTP kedua orang tua.\\n✅ Kartu Keluarga.\\n✅ Akta Kelahiran anak.\\n✅ Buku Nikah orang tua.\\n✅ Paspor orang tua (jika ada).\\n\\n*Penting:* Kedua orang tua wajib hadir saat wawancara. Informasi ini berdasarkan UU No. 6 Tahun 2011 tentang Keimigrasian & Peraturan Pemerintah No. 28 Tahun 2019. Data dapat berubah sewaktu-waktu sesuai kebijakan terbaru.",
-    "Category": "Paspor Anak"
-  },
-  {
-    "Question": "syarat paspor anak, paspor anak di bawah umur, pendampingan orang tua, paspor anak hadir, bayi hadir foto",
-    "Answer": "Syarat paspor anak (<17 thn): E-KTP ayah & ibu, KK, Akta Lahir, Buku Nikah Ortu, & Paspor Lama anak (jika ada). Wajib didampingi kedua orang tua dan anak harus hadir untuk foto biometrik.",
-    "Category": "Paspor Anak"
-  },
-  {
     "Question": "Berapa biaya paspor non-elektronik 10 tahun?",
     "Answer": "Rp 650.000 per permohonan. Namun di Kantor Imigrasi Pangkalpinang saat ini hanya tersedia E-Paspor.",
     "Category": "Biaya & Tarif"
@@ -1453,51 +1578,6 @@
     "Question": "Apakah anak harus hadir saat membuat paspor?",
     "Answer": "Ya, anak wajib hadir untuk foto biometrik dan wawancara. Tidak bisa diwakilkan.",
     "Category": "Paspor Anak"
-  },
-  {
-    "Question": "Apa yang harus dilakukan jika paspor hilang?",
-    "Answer": "1. Lapor ke kantor polisi untuk mendapatkan Surat Keterangan Hilang. 2. Bawa Surat Polisi + E-KTP + KK ke kantor imigrasi. 3. Bayar denda kehilangan Rp 1.000.000.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Apakah ada batas waktu lapor kehilangan paspor ke polisi?",
-    "Answer": "Tidak ada batas waktu resmi, namun disarankan segera melapor setelah paspor diketahui hilang untuk mempermudah proses penggantian.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Apakah ada pemeriksaan khusus untuk paspor hilang?",
-    "Answer": "Ya, pemohon harus melalui proses BAP (Berita Acara Pemeriksaan) oleh petugas Inteldakim (Intelijen dan Penindakan Keimigrasian).",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Apakah chip E-Paspor yang rusak termasuk kategori paspor rusak?",
-    "Answer": "Ya, jika chip E-Paspor tidak dapat dibaca akibat kerusakan fisik, paspor dianggap rusak dan harus diganti dengan membayar denda Rp 500.000.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Apakah denda paspor hilang bisa dibebaskan?",
-    "Answer": "Bisa, jika hilang karena musibah (banjir, kebakaran, dll) dengan melampirkan Surat Keterangan Musibah dari Kelurahan/Kecamatan setempat.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Apakah paspor expired yang hilang tetap kena denda?",
-    "Answer": "Ya, tetap kena denda karena kehilangan dokumen negara, meskipun paspor tersebut sudah tidak berlaku.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Berapa lama proses BAP untuk paspor hilang atau rusak?",
-    "Answer": "Proses BAP oleh petugas Inteldakim biasanya diselesaikan pada hari yang sama jika dokumen lengkap, sebelum permohonan paspor baru diproses.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Berapa lama setelah lapor polisi bisa langsung ke imigrasi?",
-    "Answer": "Bisa langsung setelah mendapatkan Surat Keterangan Hilang dari polisi, tidak ada jeda waktu yang diwajibkan.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Biaya Paspor Hilang karena musibah",
-    "Answer": "Bisa mengajukan pembebasan denda dengan melampirkan Surat Keterangan Musibah dari Kelurahan/Kecamatan.",
-    "Category": "Paspor Hilang/Rusak"
   },
   {
     "Question": "Apakah ada garansi paspor jika ada kesalahan cetak dari imigrasi?",
@@ -1525,21 +1605,6 @@
     "Category": "Paspor Hilang/Rusak"
   },
   {
-    "Question": "Paspor hilang di luar negeri, apa yang harus dilakukan?",
-    "Answer": "Hubungi KBRI atau KJRI terdekat untuk mendapatkan SPLP (Surat Perjalanan Laksana Paspor) sebagai dokumen darurat untuk bisa kembali ke Indonesia.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Syarat Paspor Hilang",
-    "Answer": "Lapor polisi untuk Surat Keterangan Hilang. Bawa: 1. E-KTP, 2. KK, 3. Surat Kehilangan Polisi ke kantor. Ada Denda Kehilangan Rp 1.000.000.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
-    "Question": "Syarat Paspor Rusak",
-    "Answer": "Bawa: 1. Paspor rusak, 2. E-KTP, 3. KK. Ada Denda Kerusakan Rp 500.000. Petugas akan melakukan pemeriksaan (BAP) terlebih dahulu.",
-    "Category": "Paspor Hilang/Rusak"
-  },
-  {
     "Question": "Apakah bisa minta paspor diselesaikan lebih dari 4 hari karena belum siap bayar?",
     "Answer": "Tidak. Sistem pembayaran memiliki batas waktu 2 jam. Jika tidak bayar dalam waktu tersebut, permohonan hangus dan harus daftar ulang.",
     "Category": "Proses & Waktu"
@@ -1560,36 +1625,6 @@
     "Category": "Proses & Waktu"
   },
   {
-    "Question": "Apa bedanya Surat Rekomendasi Travel dan BPIH?",
-    "Answer": "Surat Rekomendasi Travel adalah dari agen perjalanan umroh, digunakan untuk syarat paspor umroh. BPIH (Biaya Penyelenggaraan Ibadah Haji) adalah bukti pelunasan biaya haji dari Kemenag, digunakan untuk syarat paspor haji.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apa itu endorsement (penambahan nama) paspor?",
-    "Answer": "Penambahan kata pada nama di paspor, biasanya dengan menambahkan nama ayah. Diperlukan untuk memenuhi ketentuan haji/umroh.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apa syarat endorsement?",
-    "Answer": "Dokumen pendukung seperti surat travel atau bukti pelunasan haji (BPIH).",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apa syarat mengajukan endorsement?",
-    "Answer": "Dokumen pendukung seperti Surat Rekomendasi dari Travel Umroh atau bukti pelunasan BPIH (Biaya Penyelenggaraan Ibadah Haji).",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apa syarat tambahan paspor untuk haji?",
-    "Answer": "Syarat umum + Surat BPIH (Biaya Penyelenggaraan Ibadah Haji) dari Kemenag. Nama di paspor minimal 3 kata (jika kurang, perlu endorsement).",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apa syarat tambahan paspor untuk umroh?",
-    "Answer": "Syarat umum + Surat Rekomendasi dari Travel Umroh resmi/Kemenag. Nama di paspor minimal 2 kata (jika masih 1 kata, perlu penambahan nama/endorsement).",
-    "Category": "Haji & Umroh"
-  },
-  {
     "Question": "Apakah hari libur nasional mempengaruhi proses paspor?",
     "Answer": "Ya. Hari libur nasional tidak termasuk hari kerja, sehingga waktu penyelesaian 4 hari kerja dihitung dari hari kerja efektif.",
     "Category": "Proses & Waktu"
@@ -1598,46 +1633,6 @@
     "Question": "Apakah pemohon bisa diwakilkan saat foto dan wawancara?",
     "Answer": "Tidak bisa. Pemohon wajib hadir sendiri untuk sesi biometrik (sidik jari & foto) dan wawancara.",
     "Category": "Proses & Waktu"
-  },
-  {
-    "Question": "Apakah bisa ibadah haji menggunakan paspor atas nama orang lain?",
-    "Answer": "Tidak. Paspor adalah dokumen identitas pribadi dan tidak dapat digunakan atas nama orang lain. Hal ini melanggar hukum keimigrasian.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apakah bisa membuat paspor tanpa travel umroh?, paspor tanpa travel umroh, bikin paspor sendiri umroh, paspor tanpa agen",
-    "Answer": "✅ Bisa, namun untuk keberangkatan tetap memerlukan travel resmi.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apakah bisa mendaftar haji tanpa paspor?",
-    "Answer": "Untuk pendaftaran haji di Kemenag, paspor diperlukan. Namun pastikan data di paspor sudah sesuai dengan data di sistem Kemenag.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apakah bisa umroh dengan paspor yang baru jadi?",
-    "Answer": "Bisa, selama paspor sudah aktif (sudah diambil dan berlaku) dan visa umroh sudah disetujui oleh Kedubes Arab Saudi.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apakah paspor harus sesuai dengan data di Kemenag?, data paspor harus sama kemenag, sinkron data haji paspor, data tidak cocok paspor",
-    "Answer": "✅ Ya, data harus konsisten untuk menghindari kendala keberangkatan.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apakah penambahan nama endorsement berlaku selamanya?",
-    "Answer": "Endorsement berlaku selama paspor tersebut masih berlaku. Jika paspor diganti, endorsement perlu dilakukan lagi pada paspor baru jika diperlukan.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apakah perlu visa untuk umroh ke Arab Saudi?",
-    "Answer": "Ya, visa umroh dari Kedutaan Besar Arab Saudi di Indonesia tetap diperlukan. Pengurusannya biasanya dilakukan melalui travel umroh resmi yang terdaftar Kemenag.",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Apakah travel umroh bisa mengurus paspor atas nama jamaah?",
-    "Answer": "Travel umroh bisa membantu proses pendaftaran di M-Paspor, namun pemohon tetap wajib hadir sendiri ke kantor imigrasi untuk biometrik dan wawancara.",
-    "Category": "Haji & Umroh"
   },
   {
     "Question": "Apakah ada formulir yang harus diisi saat membuat paspor?",
@@ -1660,38 +1655,18 @@
     "Category": "Haji & Umroh"
   },
   {
-    "Question": "Contoh nama setelah endorsement untuk haji (dari 1 kata jadi 3 kata)?",
-    "Answer": "Contoh: 'Malik' menjadi 'Malik Amrullah Ambo' (ditambah nama ayah dan kakek/nama keluarga).",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Contoh nama setelah endorsement untuk umroh (dari 1 kata jadi 2 kata)?",
-    "Answer": "Contoh: 'Malik' menjadi 'Malik Amrullah' (ditambah nama ayah).",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "Di mana mengunduh formulir surat pernyataan endorsement?",
-    "Answer": "https://docs.google.com/document/d/1MnIb5c7kHhkfusIkQZLV992sxDqjI7ZX/edit",
-    "Category": "Haji & Umroh"
-  },
-  {
-    "Question": "SYARAT TAMBAHAN BERKAS PEMBUATAN PASPOR DENGAN TUJUAN UNTUK HAJI ADALAH",
-    "Answer": "SURAT Biaya Penyelenggaraan Ibadah Haji (BPIH) DAN SURAT PENAMBAHAN NAMA: DENGAN MENAMBAH NAMA MENJADI 3 SUKU KATA (MISAL: Malik Amrullah Ambo)",
-    "Category": "Haji & Umroh"
-  },
-  {
     "Question": "Apakah proses paspor bisa lebih cepat dari 4 hari kerja?",
     "Answer": "Bisa melalui layanan percepatan (selesai hari yang sama) dengan biaya tambahan Rp 1.000.000.",
     "Category": "Proses & Waktu"
   },
   {
-    "Question": "Apakah E-Paspor aman dari pemindaian jarak jauh (RFID skimming)?",
-    "Answer": "E-Paspor Indonesia menggunakan Basic Access Control (BAC) yang mencegah pembacaan chip tanpa membuka paspor secara fisik. Namun disarankan menggunakan cover paspor anti-RFID untuk keamanan tambahan.",
+    "Question": "Apakah E-Paspor bisa digunakan di mesin autogate Bandara Soekarno-Hatta?",
+    "Answer": "Ya. E-Paspor Indonesia dapat digunakan di autogate Terminal 3 Bandara Internasional Soekarno-Hatta untuk keberangkatan dan kedatangan.",
     "Category": "E-Paspor & Teknologi"
   },
   {
-    "Question": "Apakah E-Paspor bisa digunakan di mesin autogate Bandara Soekarno-Hatta?",
-    "Answer": "Ya. E-Paspor Indonesia dapat digunakan di autogate Terminal 3 Bandara Internasional Soekarno-Hatta untuk keberangkatan dan kedatangan.",
+    "Question": "Apakah E-Paspor aman dari pemindaian jarak jauh (RFID skimming)?",
+    "Answer": "E-Paspor Indonesia menggunakan Basic Access Control (BAC) yang mencegah pembacaan chip tanpa membuka paspor secara fisik. Namun disarankan menggunakan cover paspor anti-RFID untuk keamanan tambahan.",
     "Category": "E-Paspor & Teknologi"
   },
   {
@@ -1702,36 +1677,6 @@
   {
     "Question": "Apakah E-Paspor perlu didaftarkan sebelum digunakan?",
     "Answer": "Untuk perjalanan biasa tidak perlu pendaftaran khusus. Namun untuk visa waiver Jepang, E-Paspor harus didaftarkan terlebih dahulu di sistem JAVES online.",
-    "Category": "E-Paspor & Teknologi"
-  },
-  {
-    "Question": "Apakah Kantor Imigrasi Pangkalpinang hanya melayani E-Paspor?",
-    "Answer": "Ya, Kantor Imigrasi Pangkalpinang saat ini hanya melayani penerbitan E-Paspor (paspor elektronik). Sesuai kebijakan peralihan bertahap nasional.",
-    "Category": "E-Paspor & Teknologi"
-  },
-  {
-    "Question": "Apakah ada cara untuk memverifikasi E-Paspor palsu?",
-    "Answer": "Petugas imigrasi menggunakan perangkat resmi yang dapat membaca dan memverifikasi chip E-Paspor. Masyarakat umum tidak memiliki alat ini, sehingga tidak perlu khawatir memverifikasi sendiri.",
-    "Category": "E-Paspor & Teknologi"
-  },
-  {
-    "Question": "Apakah ada perbedaan fisik antara E-Paspor dan paspor biasa?",
-    "Answer": "Ya. E-Paspor memiliki simbol chip (logo persegi dengan garis) di sampul depan. Chip tertanam di dalam halaman belakang sampul paspor.",
-    "Category": "E-Paspor & Teknologi"
-  },
-  {
-    "Question": "Apakah semua negara bisa membaca chip E-Paspor Indonesia?",
-    "Answer": "Negara yang memiliki perangkat e-gate berstandar ICAO (mayoritas negara maju) dapat membaca chip E-Paspor Indonesia tanpa masalah.",
-    "Category": "E-Paspor & Teknologi"
-  },
-  {
-    "Question": "Bagaimana cara daftar visa waiver Jepang untuk E-Paspor Indonesia?",
-    "Answer": "Daftar secara online melalui sistem JAVES (Japan Visa Exemption System) di website resmi Kedutaan Besar Jepang sebelum keberangkatan.",
-    "Category": "E-Paspor & Teknologi"
-  },
-  {
-    "Question": "Bagaimana prosedur pembuatan paspor?",
-    "Answer": "Datang membawa antrian M-Paspor (Membawa berkas asli; materai Rp10.000; dan data dukung lainnya jika diperlukan); verifikasi berkas; ambil nomor antrian; tunggu; biometrik dan wawancara.",
     "Category": "E-Paspor & Teknologi"
   },
   {
@@ -1755,14 +1700,9 @@
     "Category": "Proses & Waktu"
   },
   {
-    "Question": "Kenapa di Pangkalpinang hanya ada E-Paspor?",
-    "Answer": "Kebijakan peningkatan keamanan dan kualitas layanan imigrasi. E-Paspor memiliki fitur keamanan berlapis dan memenuhi standar internasional yang lebih tinggi.",
+    "Question": "Apakah Kantor Imigrasi Pangkalpinang hanya melayani E-Paspor?",
+    "Answer": "Ya, Kantor Imigrasi Pangkalpinang saat ini hanya melayani penerbitan E-Paspor (paspor elektronik). Sesuai kebijakan peralihan bertahap nasional.",
     "Category": "E-Paspor & Teknologi"
-  },
-  {
-    "Question": "Apakah bisa membuat paspor untuk lansia?",
-    "Answer": "👴 Bisa. Lansia termasuk kategori prioritas pelayanan.",
-    "Category": "PMI & Khusus"
   },
   {
     "Question": "Ketentuan Foto Paspor (Baju & Rambut)",
@@ -1773,6 +1713,11 @@
     "Question": "berapa lama wawancara paspor, proses wawancara lama",
     "Answer": "⏳ Wawancara biasanya berlangsung sekitar 5–10 menit tergantung kondisi.",
     "Category": "Proses & Waktu"
+  },
+  {
+    "Question": "Apakah ada cara untuk memverifikasi E-Paspor palsu?",
+    "Answer": "Petugas imigrasi menggunakan perangkat resmi yang dapat membaca dan memverifikasi chip E-Paspor. Masyarakat umum tidak memiliki alat ini, sehingga tidak perlu khawatir memverifikasi sendiri.",
+    "Category": "E-Paspor & Teknologi"
   },
   {
     "Question": "pakaian foto paspor, baju foto paspor, hijab foto paspor, boleh pakai jilbab",
@@ -1790,59 +1735,9 @@
     "Category": "Paspor Anak"
   },
   {
-    "Question": "Apa syarat tambahan paspor untuk PMI?",
-    "Answer": "Syarat umum + Surat Rekomendasi dari Dinas Tenaga Kerja (Disnaker) setempat sebagai bukti legalitas keberangkatan untuk bekerja.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah PMI bisa dipermasalahkan jika paspornya ditahan majikan?",
-    "Answer": "Ya. Penahanan paspor oleh majikan adalah melanggar hukum. PMI dapat melapor ke KBRI/KJRI setempat atau Badan Pelindungan Pekerja Migran Indonesia (BP2MI).",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah WNA bisa membuat paspor Indonesia?",
-    "Answer": "Tidak, kecuali WNA yang telah resmi menjadi WNI melalui proses naturalisasi dan memiliki Surat Pewarganegaraan Indonesia yang sah.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah ada layanan bantuan pemulangan PMI bermasalah?",
-    "Answer": "Ya, Pemerintah RI melalui KBRI/KJRI dan BP2MI memiliki program pemulangan PMI bermasalah atau terlantar di luar negeri, termasuk pengurusan SPLP darurat.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah ada layanan imigrasi di luar kantor (mobile/on the spot)?",
-    "Answer": "Ada. Beberapa kantor imigrasi menyediakan layanan Immigration on the Spot di pusat perbelanjaan, event publik, atau lokasi tertentu. Pantau media sosial kantor imigrasi untuk jadwalnya.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah ada layanan paspor khusus untuk calon TKI/PMI?",
-    "Answer": "Beberapa kantor imigrasi memiliki loket atau jadwal khusus untuk PMI. Konfirmasi ke kantor imigrasi setempat untuk informasi layanan PMI.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah ada layanan pengaduan/komplain pelayanan imigrasi?",
-    "Answer": "Ya, keluhan dapat disampaikan melalui fitur live chat atau email humas@imigrasi.go.id dengan melampirkan data lengkap pemohon.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah ada perlindungan khusus untuk paspor PMI dari penipuan?",
-    "Answer": "Imigrasi mengimbau PMI untuk menyimpan dokumen sendiri dan tidak menyerahkan paspor kepada pihak ketiga. Jika ada indikasi penahanan paspor secara ilegal, lapor ke imigrasi atau Disnaker.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah ada program paspor gratis untuk PMI?",
-    "Answer": "Tidak ada program paspor gratis. Namun beberapa daerah mungkin memiliki program bantuan biaya paspor PMI melalui APBD daerah. Tanyakan ke Disnaker setempat.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah ibu hamil mendapat layanan prioritas di imigrasi?",
-    "Answer": "Ya, ibu hamil termasuk kategori yang mendapat kemudahan layanan. Informasikan kondisi saat tiba di kantor imigrasi agar mendapat pelayanan prioritas.",
-    "Category": "PMI & Khusus"
-  },
-  {
-    "Question": "Apakah lansia (60 tahun ke atas) mendapat layanan prioritas?",
-    "Answer": "Ya. Lansia (60+) mendapat layanan prioritas tanpa antre lama di kantor imigrasi. Syarat paspor sama dengan pemohon umum.",
-    "Category": "PMI & Khusus"
+    "Question": "Apakah ada perbedaan fisik antara E-Paspor dan paspor biasa?",
+    "Answer": "Ya. E-Paspor memiliki simbol chip (logo persegi dengan garis) di sampul depan. Chip tertanam di dalam halaman belakang sampul paspor.",
+    "Category": "E-Paspor & Teknologi"
   },
   {
     "Question": "Apakah bisa cek keaslian paspor secara online?",
@@ -1855,11 +1750,6 @@
     "Category": "Umum"
   },
   {
-    "Question": "Bagaimana jika M-Paspor error?",
-    "Answer": "Coba hapus cache aplikasi, update versi terbaru, atau login kembali di malam hari saat trafik rendah.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
     "Question": "Apakah bisa ganti data di paspor (nama/tanggal lahir)?",
     "Answer": "Bisa, namun harus melampirkan penetapan pengadilan atau surat resmi dari Disdukcapil sebagai dasar perubahan data.",
     "Category": "Umum"
@@ -1868,11 +1758,6 @@
     "Question": "Apakah bisa membuat paspor bagi WNI yang tinggal di luar negeri?",
     "Answer": "Ya, bisa melalui KBRI/KJRI terdekat di negara tempat tinggal dengan membawa dokumen persyaratan yang sama.",
     "Category": "Umum"
-  },
-  {
-    "Question": "Apakah paspor untuk keperluan dinas PNS/TNI/Polri berbeda?",
-    "Answer": "Ada paspor dinas khusus untuk perjalanan dinas pemerintah. Untuk perjalanan pribadi, PNS/TNI/Polri menggunakan paspor biasa dengan prosedur yang sama.",
-    "Category": "PMI & Khusus"
   },
   {
     "Question": "Apakah bisa membuat paspor jika belum menikah?",
@@ -1885,9 +1770,9 @@
     "Category": "Umum"
   },
   {
-    "Question": "Apakah bisa memilih atau mengganti foto paspor sendiri?",
-    "Answer": "Tidak. Foto diambil langsung oleh petugas imigrasi menggunakan kamera resmi saat sesi biometrik di kantor.",
-    "Category": "Proses & Waktu"
+    "Question": "Bagaimana jika M-Paspor error?",
+    "Answer": "Coba hapus cache aplikasi, update versi terbaru, atau login kembali di malam hari saat trafik rendah.",
+    "Category": "Aplikasi & Pendaftaran"
   },
   {
     "Question": "Apakah ada jaminan paspor selesai tepat waktu dalam 4 hari kerja?",
@@ -1900,6 +1785,11 @@
     "Category": "Proses & Waktu"
   },
   {
+    "Question": "Apakah bisa memilih atau mengganti foto paspor sendiri?",
+    "Answer": "Tidak. Foto diambil langsung oleh petugas imigrasi menggunakan kamera resmi saat sesi biometrik di kantor.",
+    "Category": "Proses & Waktu"
+  },
+  {
     "Question": "Apakah bisa memilih waktu pengambilan sidik jari/foto?",
     "Answer": "Tidak. Waktu biometrik mengikuti jadwal yang telah ditetapkan di M-Paspor saat pendaftaran.",
     "Category": "Proses & Waktu"
@@ -1908,6 +1798,11 @@
     "Question": "Apakah bisa mempercepat proses tanpa membayar biaya percepatan?",
     "Answer": "Tidak bisa, kecuali menggunakan layanan percepatan resmi dengan biaya tambahan Rp 1.000.000.",
     "Category": "Proses & Waktu"
+  },
+  {
+    "Question": "Apakah semua negara bisa membaca chip E-Paspor Indonesia?",
+    "Answer": "Negara yang memiliki perangkat e-gate berstandar ICAO (mayoritas negara maju) dapat membaca chip E-Paspor Indonesia tanpa masalah.",
+    "Category": "E-Paspor & Teknologi"
   },
   {
     "Question": "Apakah bisa ambil paspor di kantor imigrasi yang berbeda dari tempat daftar?",
@@ -1940,6 +1835,11 @@
     "Category": "Haji & Umroh"
   },
   {
+    "Question": "Bagaimana cara daftar visa waiver Jepang untuk E-Paspor Indonesia?",
+    "Answer": "Daftar secara online melalui sistem JAVES (Japan Visa Exemption System) di website resmi Kedutaan Besar Jepang sebelum keberangkatan.",
+    "Category": "E-Paspor & Teknologi"
+  },
+  {
     "Question": "Apakah paspor bisa dikirim ke rumah?",
     "Answer": "Tergantung kebijakan kantor imigrasi. Beberapa kantor menyediakan pengiriman via Pos Indonesia. Tanyakan langsung ke kantor imigrasi setempat.",
     "Category": "Pengambilan"
@@ -1963,11 +1863,6 @@
     "Question": "Di mana mengunduh formulir surat kuasa pengambilan paspor?",
     "Answer": "https://docs.google.com/document/d/1EoGsdxNYAyJ9ufmYW0o1pfXWGCB-7_25/edit",
     "Category": "Pengambilan"
-  },
-  {
-    "Question": "Bagaimana cara mengetahui jadwal Paspor Simpatik atau layanan khusus?",
-    "Answer": "Pantau Instagram resmi @imigrasi.pangkalpinang atau website resmi kantor imigrasi untuk informasi jadwal layanan khusus.",
-    "Category": "PMI & Khusus"
   },
   {
     "Question": "Pasport buat anak brp",
@@ -2000,18 +1895,13 @@
     "Category": "Paspor Anak"
   },
   {
-    "Question": "FORMULIR LAPORAN KEJADIAN UNTUK BAP PADA KASUS PASPOR HILANG DAN PASPOR RUSAK",
-    "Answer": "https://docs.google.com/document/d/1NGHpDMenwMos8wxRFuEdkU2th43_WZzm/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
-    "Category": "Formulir & Link"
+    "Question": "Bagaimana prosedur pembuatan paspor?",
+    "Answer": "Datang membawa antrian M-Paspor (Membawa berkas asli; materai Rp10.000; dan data dukung lainnya jika diperlukan); verifikasi berkas; ambil nomor antrian; tunggu; biometrik dan wawancara.",
+    "Category": "E-Paspor & Teknologi"
   },
   {
     "Question": "Apakah akun M-Paspor bisa dibantu orang lain?",
     "Answer": "Akun M-Paspor boleh dibantu dibuat oleh orang lain, namun saat foto dan wawancara pemohon wajib hadir sendiri.",
-    "Category": "Aplikasi & Pendaftaran"
-  },
-  {
-    "Question": "Apakah bisa melihat histori permohonan paspor di M-Paspor?",
-    "Answer": "Ya, aplikasi M-Paspor menyimpan histori permohonan yang pernah diajukan, termasuk status dan riwayat pembayaran.",
     "Category": "Aplikasi & Pendaftaran"
   },
   {
@@ -2020,9 +1910,24 @@
     "Category": "Aplikasi & Pendaftaran"
   },
   {
+    "Question": "Apakah bisa melihat histori permohonan paspor di M-Paspor?",
+    "Answer": "Ya, aplikasi M-Paspor menyimpan histori permohonan yang pernah diajukan, termasuk status dan riwayat pembayaran.",
+    "Category": "Aplikasi & Pendaftaran"
+  },
+  {
     "Question": "paspor bisa dikirim, kirim paspor ke rumah, delivery paspor",
     "Answer": "📦 Pengiriman paspor tergantung kebijakan kantor imigrasi. Biasanya paspor diambil langsung, namun beberapa kantor menyediakan layanan pengiriman via pos.",
     "Category": "Pengambilan"
+  },
+  {
+    "Question": "Kenapa di Pangkalpinang hanya ada E-Paspor?",
+    "Answer": "Kebijakan peningkatan keamanan dan kualitas layanan imigrasi. E-Paspor memiliki fitur keamanan berlapis dan memenuhi standar internasional yang lebih tinggi.",
+    "Category": "E-Paspor & Teknologi"
+  },
+  {
+    "Question": "e-paspor, paspor elektronik, biaya e-paspor, biaya paspor elektronik, apa itu e-paspor, keunggulan e-paspor, chip paspor, beda paspor biasa vs elektronik, e-paspor 5 tahun 10 tahun",
+    "Answer": "Kantor Imigrasi Pangkalpinang saat ini hanya melayani E-Paspor (memiliki chip biometrik, lebih aman, bisa autogate, & potensi bebas visa ke Jepang). Biaya: 5 Tahun (Rp 650.000), 10 Tahun (Rp 950.000).",
+    "Category": "E-Paspor & Teknologi"
   },
   {
     "Question": "Bisakah ganti data di paspor?",
@@ -2048,16 +1953,6 @@
     "Question": "Apa syarat paspor untuk anak di bawah 17 tahun?",
     "Answer": "E-KTP kedua orang tua (asli), KK (asli), Akta Lahir anak (asli), Buku Nikah orang tua (asli), Paspor lama anak (jika ada). Kedua orang tua wajib hadir mendampingi.",
     "Category": "Paspor Anak"
-  },
-  {
-    "Question": "FORMULIR PERSYARATAN PEMBUATAN PASPOR (in general)",
-    "Answer": "https://drive.google.com/drive/folders/1neE7ndKq6HvCNP9iZiUIpx8jzZtdaDlp",
-    "Category": "Formulir & Link"
-  },
-  {
-    "Question": "FORMULIR PERSYARATAN PENGAMBILAN PASPOR LAMA",
-    "Answer": "https://docs.google.com/document/d/1WTBcwU5k4sW9wMjv3pe0p4OFZhf1YH6R/edit?usp=drive_link&ouid=109020029954538867996&rtpof=true&sd=true",
-    "Category": "Formulir & Link"
   },
   {
     "Question": "Apa aplikasi resmi untuk daftar paspor?",
@@ -2095,34 +1990,109 @@
     "Category": "Paspor Anak"
   },
   {
-    "Question": "syarat paspor terbaru April 2026, dokumen wajib paspor 2026, apa saja yang dibawa ke imigrasi",
-    "Answer": "📂 *Syarat Wajib 2026:* \n1. E-KTP (Asli)\n2. Kartu Keluarga (Asli)\n3. Akta Lahir / Buku Nikah / Ijazah (Pilih salah satu yang asli).\nSemua data (nama/tanggal lahir) di dokumen tersebut harus konsisten (sama).",
-    "Category": "Syarat"
+    "Question": "Apakah bisa buat paspor untuk anak yang orang tuanya bercerai?",
+    "Answer": "Bisa, namun harus menyertakan dokumen putusan pengadilan perceraian dan dokumen yang menetapkan hak asuh anak. Konsultasikan ke bagian informasi imigrasi.",
+    "Category": "Paspor Anak"
   },
   {
-    "Question": "perpanjang paspor bagi TKI, TKW, PMI, pekerja migran paspor, paspor untuk kerja di luar negeri, paspor TKI arab saudi",
-    "Answer": "✈️ *Paspor untuk Pekerja Migran Indonesia (PMI) 2026:*\n\n*PMI (TKI/TKW) mendapat perlakuan khusus dari imigrasi:*\n\n✅ *Layanan Prioritas PMI:*\n- Antrian diprioritaskan di loket khusus\n- Proses lebih cepat dengan koordinasi BP2MI\n\n*Syarat Tambahan PMI (Selain Syarat Umum):*\n- Surat keterangan bekerja di luar negeri / kontrak kerja\n- Buku Pelaut (untuk ABK)\n- Rekomendasi dari BP2MI jika diperlukan\n\n*Penting untuk PMI:*\n- Pastikan paspor berlaku minimal **1 tahun** saat keberangkatan (Saudi mensyaratkan ini)\n- Jangan percayakan paspor Anda kepada agen/majikan — ini hak Anda!\n- Jika paspor ditahan majikan di luar negeri, hubungi KBRI/KJRI setempat\n\n📞 *Hotline PMI Kementerian Ketenagakerjaan:* 1500-630",
-    "Category": "Paspor - PMI & TKI"
+    "Question": "Apakah bisa membuat paspor untuk bayi baru lahir?, Untuk layanan Paspor Anak, silakan siapkan dokumen berikut (Asli & Fotokopi A4):, paspor anak, bayi, anak, balita, dibawah umur, di bawah umur?",
+    "Answer": "👶 Bisa, selama dokumen persyaratan lengkap.",
+    "Category": "Paspor Anak"
   },
   {
-    "Question": "paspor untuk umrah, paspor umrah haji, syarat paspor ibadah haji, paspor untuk keluar negeri pertama kali, paspor turis",
-    "Answer": "🕋 *Paspor untuk Ibadah Umrah/Haji 2026:*\n\nTidak ada paspor khusus untuk umrah atau haji. Anda menggunakan **E-Paspor biasa**.\n\n*Catatan Penting dari Kemenag & Imigrasi:*\n- Masa berlaku paspor **minimal 6 bulan** dari tanggal keberangkatan\n- Arab Saudi mensyaratkan paspor berlaku minimal **1 tahun** untuk jamaah haji\n- Nama di paspor harus *konsisten* dengan nama di dokumen lainnya (tiket, visa)\n\n*Tips keberangkatan cepat:*\nJika jadwal keberangkatan sudah dekat, informasikan kepada petugas saat datang ke kantor imigrasi agar bisa diprioritaskan.",
-    "Category": "Paspor - Perjalanan Ibadah"
+    "Question": "Apakah foto anak di paspor harus tampak wajah penuh?",
+    "Answer": "Ya, sama seperti dewasa. Wajah anak harus terlihat jelas menghadap kamera, mata terbuka, dan tidak ada benda menutupi wajah.",
+    "Category": "Paspor Anak"
   },
   {
-    "Question": "paspor lansia, paspor orang tua, paspor jompo, paspor untuk orang sakit, paspor bagi penyandang disabilitas, paspor kursi roda",
-    "Answer": "♿ *Layanan Paspor untuk Lansia & Disabilitas 2026:*\n\n*Imigrasi memiliki layanan prioritas untuk:*\n- 👴 Lansia (usia 60 tahun ke atas)\n- ♿ Penyandang disabilitas\n- 🤰 Ibu hamil\n- 🤒 Orang sakit yang membutuhkan pelayanan duduk\n\n*Keistimewaan Layanan Prioritas:*\n✅ Antrian didahulukan\n✅ Petugas akan mendatangi tempat duduk (tidak perlu berdiri lama)\n✅ Biometrik bisa dilakukan di kursi khusus\n\n*Cara mengakses:*\nSaat tiba di kantor imigrasi, informasikan ke petugas keamanan/resepsionis bahwa Anda membutuhkan layanan prioritas. Tunjukkan KTP dan bukti kebutuhan khusus jika ada.\n\n*Untuk yang tidak bisa datang sama sekali:*\nHubungi kantor imigrasi untuk konsultasi kemungkinan layanan jemput bola (home visit) yang tersedia di beberapa kondisi medis tertentu.",
-    "Category": "Paspor - Layanan Khusus"
+    "Question": "Apakah foto di paspor anak bisa tersenyum?",
+    "Answer": "Tidak. Foto paspor (termasuk anak) harus dengan ekspresi netral, mulut tertutup, dan mata terbuka sesuai standar biometrik internasional.",
+    "Category": "Paspor Anak"
   },
   {
-    "Question": "Jika nama, tempat lahir, atau tanggal lahir pada KTP, KK, dan Akta/Ijazah Anda tidak sama (meskipun hanya beda satu huruf atau spasi), harap perhatikan ketentuan berikut:",
-    "Answer": "Data yang Benar: Tentukan dokumen mana yang datanya paling benar dan ingin digunakan di paspor.\r\n\r\nSurat Keterangan: Anda WAJIB membawa Surat Keterangan dari instansi terkait (misal: Disdukcapil untuk beda nama di KTP/KK, atau Sekolah/Kampus untuk beda nama di Ijazah).\r\n\r\nPenetapan Pengadilan: Jika perbedaan data sangat signifikan (ganti nama total), Anda wajib membawa Salinan Penetapan Pengadilan.\r\n\r\nRisiko Penundaan: Petugas loket berhak menunda permohonan Anda untuk penelitian lebih lanjut jika perbedaan data dianggap meragukan.",
+    "Question": "Apakah orang tua tunggal (single parent) bisa buat paspor anak?",
+    "Answer": "Bisa, namun harus disertai dokumen pendukung seperti surat kematian pasangan atau putusan pengadilan yang menetapkan hak asuh. Konsultasikan ke bagian informasi kantor imigrasi.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Apakah paspor anak 5 tahun bisa langsung diganti ke 10 tahun saat anak berusia 17?",
+    "Answer": "Ya, saat mengganti paspor yang sudah habis masa berlakunya dan anak sudah 17 tahun atau menikah, bisa memilih masa berlaku 10 tahun.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Apakah paspor anak otomatis tidak berlaku saat anak berusia 17 tahun?",
+    "Answer": "Tidak. Paspor tetap berlaku sampai tanggal kadaluwarsa tertera. Namun saat perpanjangan/penggantian, anak yang sudah 17 tahun bisa memilih masa berlaku 5 atau 10 tahun.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "apakah bisa bikin paspor tanpa ktp, tidak punya ktp, ktp hilang bikin paspor",
+    "Answer": "❌ Tidak bisa. KTP adalah dokumen wajib untuk pembuatan paspor. Silakan urus KTP terlebih dahulu di Disdukcapil",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "paspor hilang, syarat paspor hilang, denda paspor hilang, lapor polisi paspor hilang, kehilangan paspor di luar negeri",
+    "Answer": "Jika hilang, wajib lapor polisi untuk Surat Keterangan Hilang. Syarat: Surat Polisi, E-KTP, KK. Denda Kehilangan Rp 1.000.000. Jika di luar negeri, hubungi KBRI/KJRI terdekat untuk mendapatkan SPLP.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "paspor lama hilang tapi ada fotokopi",
+    "Answer": "📄 Tetap dianggap hilang. Harus mengikuti prosedur paspor hilang dan tetap dikenakan denda.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "paspor rusak, syarat paspor rusak, denda paspor rusak, kondisi paspor rusak, paspor basah, paspor kena air, paspor sobek",
+    "Answer": "Paspor basah, sobek, atau tercoret dianggap rusak. Syarat: Paspor lama, E-KTP, KK. Denda Kerusakan Rp 500.000. Pemohon harus melalui proses pemeriksaan (BAP) oleh petugas Inteldakim.",
+    "Category": "Paspor Hilang/Rusak"
+  },
+  {
+    "Question": "Apa syarat tambahan paspor untuk PMI?",
+    "Answer": "Syarat umum + Surat Rekomendasi dari Dinas Tenaga Kerja (Disnaker) setempat sebagai bukti legalitas keberangkatan untuk bekerja.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah PMI bisa dipermasalahkan jika paspornya ditahan majikan?",
+    "Answer": "Ya. Penahanan paspor oleh majikan adalah melanggar hukum. PMI dapat melapor ke KBRI/KJRI setempat atau Badan Pelindungan Pekerja Migran Indonesia (BP2MI).",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah Kantor Imigrasi Pangkalpinang punya website resmi?",
+    "Answer": "Ya, informasi tersedia di website resmi imigrasi dan Instagram @imigrasi.pangkalpinang untuk update layanan terkini.",
     "Category": "Umum"
   },
   {
-    "Question": "foto paspor, syarat foto paspor, baju foto paspor, warna baju foto paspor, bawa foto sendiri, ukuran foto paspor",
-    "Answer": "📸 *Foto untuk Paspor — Panduan 2026:*\n\n✅ Foto dilakukan **langsung di kantor imigrasi** oleh petugas (biometrik). Anda **tidak perlu membawa foto**.\n\n*Tips agar foto biometrik berhasil sekali jalan:*\n- 👔 **Warna baju**: Hindari putih (background foto paspor adalah putih). Gunakan warna gelap/cerah selain putih\n- 😐 **Ekspresi**: Netral, tidak senyum, mata terbuka sempurna\n- 👓 **Kacamata**: Harus dilepas\n- 🧕 **Jilbab**: Diperbolehkan, asalkan wajah terlihat penuh dari dahi hingga dagu\n- 💄 **Makeup**: Boleh tapi tidak berlebihan\n- 💡 Datang dengan penampilan rapi dan segar, hindari datang setelah baru berolahraga\n\n⚠️ Jika foto gagal/buram, petugas akan mencoba ulang di tempat.",
-    "Category": "Paspor - Informasi Umum"
+    "Question": "Bagaimana jika orang tua anak tidak menikah secara resmi?",
+    "Answer": "Harus melampirkan dokumen yang membuktikan status hukum anak dan orang tua. Konsultasikan langsung ke kantor imigrasi atau bagian informasi.",
+    "Category": "Paspor Anak"
+  },
+  {
+    "Question": "Apakah WNA bisa membuat paspor Indonesia?",
+    "Answer": "Tidak, kecuali WNA yang telah resmi menjadi WNI melalui proses naturalisasi dan memiliki Surat Pewarganegaraan Indonesia yang sah.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah ada layanan bantuan pemulangan PMI bermasalah?",
+    "Answer": "Ya, Pemerintah RI melalui KBRI/KJRI dan BP2MI memiliki program pemulangan PMI bermasalah atau terlantar di luar negeri, termasuk pengurusan SPLP darurat.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah ada layanan imigrasi di luar kantor (mobile/on the spot)?",
+    "Answer": "Ada. Beberapa kantor imigrasi menyediakan layanan Immigration on the Spot di pusat perbelanjaan, event publik, atau lokasi tertentu. Pantau media sosial kantor imigrasi untuk jadwalnya.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah ada layanan paspor khusus untuk calon TKI/PMI?",
+    "Answer": "Beberapa kantor imigrasi memiliki loket atau jadwal khusus untuk PMI. Konfirmasi ke kantor imigrasi setempat untuk informasi layanan PMI.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah ada layanan pengaduan/komplain pelayanan imigrasi?",
+    "Answer": "Ya, keluhan dapat disampaikan melalui fitur live chat atau email humas@imigrasi.go.id dengan melampirkan data lengkap pemohon.",
+    "Category": "PMI & Khusus"
+  },
+  {
+    "Question": "Apakah ada perlindungan khusus untuk paspor PMI dari penipuan?",
+    "Answer": "Imigrasi mengimbau PMI untuk menyimpan dokumen sendiri dan tidak menyerahkan paspor kepada pihak ketiga. Jika ada indikasi penahanan paspor secara ilegal, lapor ke imigrasi atau Disnaker.",
+    "Category": "PMI & Khusus"
   },
   {
     "Question": "Untuk layanan Paspor Anak, silakan siapkan dokumen berikut (Asli & Fotokopi A4):",
@@ -2130,104 +2100,14 @@
     "Category": "Umum"
   },
   {
-    "Question": "m-paspor request timed out, error m-paspor, m-paspor lemot, aplikasi m-paspor tidak bisa dibuka",
-    "Answer": "🔧 *Solusi Error M-Paspor (2026):*\n1. Keluar (logout) dari akun Anda.\n2. Hapus Cache aplikasi di pengaturan ponsel.\n3. Re-install aplikasi ke versi terbaru.\nJika masih error, hubungi humas@imigrasi.go.id dengan melampirkan NIK dan screenshot kendala.",
-    "Category": "M-Paspor - Teknis"
-  },
-  {
-    "Question": "Untuk layanan Penggantian Paspor, silakan siapkan dokumen berikut (Asli & Fotokopi A4):",
-    "Answer": "KTP Elektronik\r\nPaspor Lama  \r\n\r\n  Catatan Penting: Apabila saat pemeriksaan di loket ditemukan perbedaan data antara KTP dan Paspor Lama, petugas berhak meminta dokumen tambahan (KK/Akta Kelahiran/Ijazah). Disarankan tetap membawa dokumen lengkap untuk berjaga-jaga.",
-    "Category": "Umum"
-  },
-  {
-    "Question": "paspor anak yatim, paspor tanpa orang tua, paspor anak wali, anak diasuh nenek kakek paspor, wali paspor anak",
-    "Answer": "🧒 *Paspor Anak Yatim / Diasuh Wali 2026:*\n\nUntuk anak yang kedua orang tuanya meninggal atau diasuh oleh wali:\n\n*Syarat yang Diperlukan:*\n✅ Akta Kematian orang tua (jika meninggal)\n✅ Surat Penetapan Perwalian dari Pengadilan\n✅ KTP wali yang terdaftar secara resmi\n✅ KK yang memuat nama anak dan wali\n✅ Akta Lahir anak\n\n*Jika diasuh tanpa surat resmi (kakek/nenek tanpa penetapan pengadilan):*\n→ Diperlukan Surat Keterangan dari Desa/Kelurahan\n→ Surat pernyataan bermaterai dari wali\n→ Proses mungkin memerlukan verifikasi tambahan\n\n⚠️ Setiap kasus diputuskan oleh Kepala Seksi berdasarkan dokumen yang ada. Hubungi kantor imigrasi terlebih dahulu untuk konsultasi.",
-    "Category": "Paspor - Kasus Khusus"
-  },
-  {
-    "Question": "pindah domisili paspor, buat paspor bukan di domisili, paspor di luar kota, bisa buat paspor di kantor imigrasi manapun",
-    "Answer": "📍 *Pembuatan Paspor di Luar Domisili 2026:*\n\n✅ *Bisa!* Sejak 2023, pembuatan paspor sudah bisa dilakukan di **kantor imigrasi mana pun** di seluruh Indonesia, tidak harus sesuai domisili KTP.\n\n*Cara Melakukannya:*\n1. Daftar di M-Paspor → pilih kantor imigrasi yang Anda inginkan\n2. Datang sesuai jadwal\n3. Proses sama seperti biasa\n\n*Catatan:*\n- Semua data tetap mengacu pada KTP domisili Anda\n- Paspor bisa diambil di kantor yang sama tempat Anda mendaftar\n- Jika ingin dikirim ke alamat lain, ada opsi pengiriman via POS\n\n💡 Manfaatkan ini jika Anda sedang merantau/bekerja di kota lain dan tidak sempat pulang ke kampung untuk buat paspor.",
-    "Category": "Paspor - Lokasi & Domisili"
-  },
-  {
-    "Question": "pembayaran m-paspor tidak berubah, sudah bayar paspor tapi status belum berubah, konfirmasi pembayaran m-paspor",
-    "Answer": "💳 *Status Pembayaran:* Mohon tunggu 1x24 jam setelah pembayaran. Jika status belum berubah di aplikasi, hubungi Live Chat di imigrasi.go.id dengan menunjukkan bukti bayar, NIK, dan kode billing Anda.",
-    "Category": "Pembayaran"
-  },
-  {
-    "Question": "cara reschedule m-paspor, ganti lokasi kantor imigrasi m-paspor, bisa ganti kantor paspor?",
-    "Answer": "📍 *Reschedule:* Aplikasi M-Paspor hanya mengizinkan perubahan **Jadwal Kedatangan**. Anda **TIDAK BISA** mengubah lokasi kantor imigrasi yang sudah dipilih. Jika ingin ganti kantor, permohonan harus dibatalkan dan daftar ulang.",
-    "Category": "Prosedur"
-  },
-  {
-    "Question": "batas waktu bayar paspor, masa berlaku kode billing paspor, telat bayar billing paspor",
-    "Answer": "⏰ *Batas Bayar:* Kode billing resmi berlaku selama **2 jam** setelah diterbitkan. Jika tidak dibayar dalam 2 jam, permohonan otomatis hangus dan Anda wajib mendaftar ulang di aplikasi M-Paspor.",
-    "Category": "Pembayaran"
-  },
-  {
     "Question": "surat pengantar m-paspor tidak bisa download, pdf m-paspor tidak muncul, bukti daftar paspor",
     "Answer": "📄 *Solusi Unduh:* Jika surat pengantar tidak bisa diunduh, jangan panik. Cukup tunjukkan **Screenshot/Tangkapan Layar** halaman beranda aplikasi M-Paspor dan tunjukkan Bukti Bayar asli saat datang ke kantor.",
     "Category": "M-Paspor - Teknis"
   },
   {
-    "Question": "satu akun m-paspor untuk berapa orang, daftar paspor sekeluarga, akun keluarga m-paspor",
-    "Answer": "👨‍👩‍👧‍👦 *Satu Akun untuk Semua:* Ya, satu akun M-Paspor dapat digunakan untuk mendaftarkan beberapa orang sekaligus (anggota keluarga) dalam satu kali proses pendaftaran.",
-    "Category": "Prosedur"
-  },
-  {
-    "Question": "paspor cepat, paspor kilat, paspor darurat, urgent paspor, keberangkatan besok paspor belum jadi, layanan percepatan paspor",
-    "Answer": "🚨 *Layanan Paspor Darurat/Percepatan 2026:*\n\nKantor Imigrasi memiliki layanan percepatan untuk kondisi mendesak. Namanya **Layanan Percepatan Paspor**.\n\n*Kondisi yang memenuhi syarat:*\n- Keberangkatan dalam 3 hari kerja ke depan (wajib tunjukkan tiket)\n- Keperluan medis darurat di luar negeri\n- Keperluan kedinasan/tugas negara\n\n*Biaya Tambahan:*\nSelain biaya paspor normal, dikenakan biaya percepatan *Rp 1.000.000* per permohonan.\n\n*Cara mengajukan:*\nDatang langsung ke Kantor Imigrasi, minta antrian prioritas, dan tunjukkan bukti keberangkatan (tiket/surat tugas).\n\n💡 Tidak bisa dilakukan via M-Paspor untuk kasus darurat.",
-    "Category": "Paspor - Percepatan"
-  },
-  {
-    "Question": "paspor hilang, paspor rusak, lapor paspor hilang, prosedur kehilangan paspor, paspor kena air, paspor terbakar, ganti paspor rusak",
-    "Answer": "🔴 *Paspor Hilang/Rusak — Prosedur Resmi 2026:*\n\n1️⃣ *Buat Surat Laporan Kehilangan* — Datang ke Kantor Polisi terdekat, minta Surat Tanda Laporan (STL) kehilangan paspor.\n2️⃣ *Kunjungi Kantor Imigrasi* — Bawa STL, E-KTP, KK, dan Akta Lahir.\n3️⃣ *Pengajuan Penggantian* — Pengajuan dilakukan langsung (tanpa M-Paspor) karena termasuk kategori khusus/darurat.\n\n⚠️ *Biaya Tambahan:*\n- Paspor hilang: Dikenakan biaya penggantian PLUS *denda administratif Rp 1.000.000*\n- Paspor rusak karena kelalaian: Dikenakan *denda Rp 500.000*\n- Paspor rusak bukan kelalaian (bencana/banjir): Tidak kena denda, cukup bawa surat keterangan.\n\n💡 *Tips:* Foto semua halaman paspor Anda sebagai cadangan digital. Simpan foto di cloud.",
-    "Category": "Paspor - Darurat"
-  },
-  {
-    "Question": "paspor expired, paspor mati, masa berlaku habis, perpanjang paspor expired, paspor sudah mati mau perpanjang",
-    "Answer": "⏰ *Paspor Kadaluarsa — Cara Perpanjang 2026:*\n\nPaspor yang sudah mati masa berlakunya bisa diperpanjang dengan prosedur *Penggantian Paspor* (bukan perpanjangan biasa). Prosedurnya **sama** dengan membuat paspor baru.\n\n*Syarat:*\n✅ E-KTP (asli)\n✅ KK (asli)\n✅ Paspor Lama (yg sudah expired) — wajib dibawa!\n✅ Akta Lahir (jika nama di paspor berbeda dengan e-KTP)\n\n*Biaya:*\n- E-Paspor 5 Tahun: Rp 650.000\n- E-Paspor 10 Tahun: Rp 950.000\n\n⚠️ Paspor lama akan diambil/dilubangi oleh petugas saat penyerahan paspor baru.",
-    "Category": "Paspor - Perpanjang"
-  },
-  {
-    "Question": "paspor beda nama, nama paspor salah, typo nama paspor, nama di paspor berbeda dengan ktp, koreksi nama paspor, nama tengah tidak ada di ktp",
-    "Answer": "✏️ *Koreksi / Perbedaan Nama di Paspor 2026:*\n\nIni masalah yang sering terjadi. Berikut panduan penanganannya:\n\n*Jika nama di paspor salah ketik (typo petugas):*\n→ Laporkan segera ke kantor imigrasi, koreksi tidak dikenakan biaya tambahan jika kesalahan dari petugas.\n\n*Jika nama di paspor berbeda dengan E-KTP (karena perubahan data):*\n→ Lakukan perubahan data E-KTP terlebih dahulu di Disdukcapil\n→ Baru ajukan penggantian paspor dengan data baru\n→ Biaya penggantian normal berlaku\n\n*Jika paspor memiliki nama lengkap (3 kata) tapi KTP hanya 2 kata:*\n→ Bawa Akta Lahir / Ijazah yang mencantumkan nama lengkap 3 kata\n→ Bisa diproses dengan surat keterangan pendukung\n\n⚠️ *Jangan* coba perjalanan dengan paspor yang namanya berbeda dengan tiket, bisa ditolak di bandara.",
-    "Category": "Paspor - Koreksi Data"
-  },
-  {
-    "Question": "Paspor Anda dianggap RUSAK (dan harus melalui jalur BAP) jika terdapat kondisi berikut:",
-    "Answer": "Halaman biodata/foto tidak terbaca jelas atau terkelupas.\n\nAda coretan pulpen/spidol di halaman manapun.\n\nTerkena air (lembab, berjamur, atau halaman lengket).\n\nSampul atau jahitan buku terlepas.\n\nInstruksi: \"Jika paspor Anda mengalami salah satu hal di atas, silahkan klik 'Berikutnya' dan pilih opsi 'Hilang/Rusak'.  \n",
-    "Category": "Umum"
-  },
-  {
-    "Question": "anak cerai, paspor anak orang tua bercerai, hak asuh anak paspor, paspor anak single parent, orang tua tunggal bikin paspor anak",
-    "Answer": "⚖️ *Paspor Anak untuk Orang Tua yang Bercerai:*\n\nIni kasus yang sering ditanyakan. Prosedurnya:\n\n*Jika memiliki Hak Asuh (dari Pengadilan):*\n✅ Bawa Akta Cerai\n✅ Bawa Surat Penetapan Hak Asuh dari Pengadilan\n✅ E-KTP orang tua pemegang hak asuh\n✅ KK (yang memuat nama anak)\n✅ Akta Lahir anak\n→ Cukup **satu orang tua** yang hadir (pemegang hak asuh)\n\n*Jika TIDAK ada surat hak asuh:*\n→ Kedua orang tua wajib hadir\n→ Atau bawa Surat Izin dari orang tua yang tidak hadir (bermaterai Rp 10.000, dilegalisir)\n\n⚠️ Setiap kasus bisa berbeda tergantung penilaian petugas. Hubungi kantor kami terlebih dahulu.",
-    "Category": "Paspor - Kasus Khusus"
-  },
-  {
     "Question": "Apa itu TPPO?",
     "Answer": "Tindak Pidana Perdagangan Orang yang dicegah melalui kebijakan imigrasi.",
     "Category": "Umum"
-  },
-  {
-    "Question": "antrian paspor penuh, slot m-paspor habis, tidak ada jadwal paspor, kuota penuh terus, cara dapat slot paspor, jadwal paspor susah dapat",
-    "Answer": "📅 *Slot M-Paspor Sering Penuh — Solusi 2026:*\n\nIni masalah umum di seluruh Indonesia. Beberapa tips:\n\n🎯 *Tips Mendapat Slot:*\n1. Buka aplikasi M-Paspor tepat pukul **00.00 WIB** atau **07.00 WIB** — slot baru biasanya dirilis di jam-jam ini\n2. Coba semua kantor imigrasi terdekat, bukan hanya satu\n3. Cek secara rutin setiap 30 menit karena ada pembatalan dari pengguna lain\n4. Pastikan aplikasi M-Paspor sudah versi terbaru\n\n📌 *Alternatif:*\n- Pantau pengumuman di Instagram @imigrasi_pangkalpinang untuk info kuota tambahan\n- Kantor imigrasi terkadang membuka kuota walk-in terbatas di hari tertentu\n\n💡 Jangan percaya calo/jasa pembuatan paspor yang menawarkan slot — itu tidak resmi dan berisiko.",
-    "Category": "Paspor - M-Paspor"
-  },
-  {
-    "Question": "paspor WNA, paspor orang asing, ITAS ITAP, wna bikin paspor indonesia, paspor naturalisasi, ganti kewarganegaraan paspor",
-    "Answer": "🌏 *Paspor untuk WNA / Kasus Naturalisasi:*\n\nWarga Negara Asing (WNA) *tidak bisa membuat Paspor Indonesia*. Paspor Indonesia hanya untuk WNI.\n\n*Untuk WNA di Indonesia:*\n- WNA menggunakan paspor negara asal mereka\n- Izin tinggal WNA diatur melalui: ITAS (Izin Tinggal Terbatas) atau ITAP (Izin Tinggal Tetap)\n- Proses ITAS/ITAP berbeda dengan pembuatan paspor\n\n*Untuk WNI yang baru naturalisasi:*\n- Wajib menunjukkan Surat Keputusan Menteri Hukum & HAM tentang naturalisasi\n- Bawa dokumen pelepasan kewarganegaraan asal\n- Proses pembuatan paspor pertama dibantu langsung oleh petugas\n\n➡️ Hubungi kantor imigrasi untuk konsultasi kasus naturalisasi secara langsung.",
-    "Category": "Paspor - WNA & Naturalisasi"
-  },
-  {
-    "Question": "berapa lama paspor jadi, estimasi waktu paspor selesai, paspor kapan bisa diambil, proses paspor berapa hari, lama buat paspor",
-    "Answer": "⏳ *Estimasi Waktu Selesai Paspor 2026:*\n\n📋 *Alur Normal (M-Paspor):*\n- Pendaftaran M-Paspor hingga jadwal verifikasi: 1-7 hari (tergantung ketersediaan slot)\n- Proses setelah verifikasi di kantor: **3-5 hari kerja**\n- Total dari pendaftaran hingga paspor di tangan: **± 5-10 hari kerja**\n\n⚡ *Layanan Percepatan:*\n- Bisa selesai dalam **1 hari kerja** (dengan biaya percepatan Rp 1.000.000)\n\n📬 *Pengambilan:*\n- Bisa diambil langsung di kantor (bawa resi pembayaran)\n- Atau via POS Indonesia / kurir (dikenakan biaya pengiriman)\n\n⚠️ Durasi bisa berubah saat high season (menjelang lebaran, liburan panjang).",
-    "Category": "Paspor - Informasi Umum"
-  },
-  {
-    "Question": "paspor untuk anak sekolah ke luar negeri, pertukaran pelajar paspor, beasiswa luar negeri paspor, paspor untuk studi",
-    "Answer": "🎓 *Paspor untuk Pelajar/Mahasiswa Studi ke Luar Negeri 2026:*\n\nTidak ada perbedaan jenis paspor untuk tujuan studi. Anda menggunakan E-Paspor biasa.\n\n*Rekomendasi untuk pelajar:*\n- Ambil paspor **10 tahun** jika usia sudah 17+ — lebih hemat jangka panjang\n- Pastikan masa berlaku paspor melebihi masa studi Anda ditambah 6 bulan\n- Setelah paspor jadi, segera proses *Student Visa* ke negara tujuan\n\n*Layanan Prioritas Pelajar:*\nJika program beasiswa memiliki batas waktu pendaftaran visa yang mendesak, bawa surat undangan/Letter of Acceptance (LoA) dari universitas — bisa jadi pertimbangan layanan percepatan.\n\n*Proses paspor anak di bawah 17 tahun:*\n- Wajib didampingi orang tua dan bawa dokumen lengkap (Akta Lahir, KK, KTP Ortu, Buku Nikah Ortu)",
-    "Category": "Paspor - Studi & Beasiswa"
   },
   {
     "Question": "cara bayar paspor, pembayaran paspor, bayar paspor dimana, transfer paspor, bayar paspor bank apa, tagihan paspor kapan muncul",
@@ -2240,9 +2120,94 @@
     "Category": "Paspor - Jenis"
   },
   {
+    "Question": "Untuk layanan Penggantian Paspor, silakan siapkan dokumen berikut (Asli & Fotokopi A4):",
+    "Answer": "KTP Elektronik\r\nPaspor Lama  \r\n\r\n  Catatan Penting: Apabila saat pemeriksaan di loket ditemukan perbedaan data antara KTP dan Paspor Lama, petugas berhak meminta dokumen tambahan (KK/Akta Kelahiran/Ijazah). Disarankan tetap membawa dokumen lengkap untuk berjaga-jaga.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "paspor hilang, paspor rusak, lapor paspor hilang, prosedur kehilangan paspor, paspor kena air, paspor terbakar, ganti paspor rusak",
+    "Answer": "🔴 *Paspor Hilang/Rusak — Prosedur Resmi 2026:*\n\n1️⃣ *Buat Surat Laporan Kehilangan* — Datang ke Kantor Polisi terdekat, minta Surat Tanda Laporan (STL) kehilangan paspor.\n2️⃣ *Kunjungi Kantor Imigrasi* — Bawa STL, E-KTP, KK, dan Akta Lahir.\n3️⃣ *Pengajuan Penggantian* — Pengajuan dilakukan langsung (tanpa M-Paspor) karena termasuk kategori khusus/darurat.\n\n⚠️ *Biaya Tambahan:*\n- Paspor hilang: Dikenakan biaya penggantian PLUS *denda administratif Rp 1.000.000*\n- Paspor rusak karena kelalaian: Dikenakan *denda Rp 500.000*\n- Paspor rusak bukan kelalaian (bencana/banjir): Tidak kena denda, cukup bawa surat keterangan.\n\n💡 *Tips:* Foto semua halaman paspor Anda sebagai cadangan digital. Simpan foto di cloud.",
+    "Category": "Paspor - Darurat"
+  },
+  {
     "Question": "ganti paspor sebelum habis, perpanjang paspor masih berlaku, paspor masih berlaku boleh ganti, kapan sebaiknya perpanjang paspor",
     "Answer": "✅ *Ganti Paspor Sebelum Kadaluarsa:*\n\nAnda *boleh dan disarankan* mengganti paspor sebelum masa berlakunya habis, terutama jika:\n- Sisa masa berlaku kurang dari **6 bulan** (banyak negara mensyaratkan ini)\n- Halaman paspor penuh visa/cap\n- Data diri berubah (nama, dll)\n\n*Prosedur:* Sama dengan penggantian biasa via M-Paspor.\n*Biaya:* Sama (Rp 650.000 / Rp 950.000)\n\n💡 *Rekomendasi:* Perpanjang paspor saat masih tersisa 6-12 bulan masa berlaku untuk menghindari penolakan di bandara negara tujuan.",
     "Category": "Paspor - Perpanjang"
+  },
+  {
+    "Question": "paspor untuk umrah, paspor umrah haji, syarat paspor ibadah haji, paspor untuk keluar negeri pertama kali, paspor turis",
+    "Answer": "🕋 *Paspor untuk Ibadah Umrah/Haji 2026:*\n\nTidak ada paspor khusus untuk umrah atau haji. Anda menggunakan **E-Paspor biasa**.\n\n*Catatan Penting dari Kemenag & Imigrasi:*\n- Masa berlaku paspor **minimal 6 bulan** dari tanggal keberangkatan\n- Arab Saudi mensyaratkan paspor berlaku minimal **1 tahun** untuk jamaah haji\n- Nama di paspor harus *konsisten* dengan nama di dokumen lainnya (tiket, visa)\n\n*Tips keberangkatan cepat:*\nJika jadwal keberangkatan sudah dekat, informasikan kepada petugas saat datang ke kantor imigrasi agar bisa diprioritaskan.",
+    "Category": "Paspor - Perjalanan Ibadah"
+  },
+  {
+    "Question": "Paspor Anda dianggap RUSAK (dan harus melalui jalur BAP) jika terdapat kondisi berikut:",
+    "Answer": "Halaman biodata/foto tidak terbaca jelas atau terkelupas.\n\nAda coretan pulpen/spidol di halaman manapun.\n\nTerkena air (lembab, berjamur, atau halaman lengket).\n\nSampul atau jahitan buku terlepas.\n\nInstruksi: \"Jika paspor Anda mengalami salah satu hal di atas, silahkan klik 'Berikutnya' dan pilih opsi 'Hilang/Rusak'.  \n",
+    "Category": "Umum"
+  },
+  {
+    "Question": "paspor lansia, paspor orang tua, paspor jompo, paspor untuk orang sakit, paspor bagi penyandang disabilitas, paspor kursi roda",
+    "Answer": "♿ *Layanan Paspor untuk Lansia & Disabilitas 2026:*\n\n*Imigrasi memiliki layanan prioritas untuk:*\n- 👴 Lansia (usia 60 tahun ke atas)\n- ♿ Penyandang disabilitas\n- 🤰 Ibu hamil\n- 🤒 Orang sakit yang membutuhkan pelayanan duduk\n\n*Keistimewaan Layanan Prioritas:*\n✅ Antrian didahulukan\n✅ Petugas akan mendatangi tempat duduk (tidak perlu berdiri lama)\n✅ Biometrik bisa dilakukan di kursi khusus\n\n*Cara mengakses:*\nSaat tiba di kantor imigrasi, informasikan ke petugas keamanan/resepsionis bahwa Anda membutuhkan layanan prioritas. Tunjukkan KTP dan bukti kebutuhan khusus jika ada.\n\n*Untuk yang tidak bisa datang sama sekali:*\nHubungi kantor imigrasi untuk konsultasi kemungkinan layanan jemput bola (home visit) yang tersedia di beberapa kondisi medis tertentu.",
+    "Category": "Paspor - Layanan Khusus"
+  },
+  {
+    "Question": "paspor cepat, paspor kilat, paspor darurat, urgent paspor, keberangkatan besok paspor belum jadi, layanan percepatan paspor",
+    "Answer": "🚨 *Layanan Paspor Darurat/Percepatan 2026:*\n\nKantor Imigrasi memiliki layanan percepatan untuk kondisi mendesak. Namanya **Layanan Percepatan Paspor**.\n\n*Kondisi yang memenuhi syarat:*\n- Keberangkatan dalam 3 hari kerja ke depan (wajib tunjukkan tiket)\n- Keperluan medis darurat di luar negeri\n- Keperluan kedinasan/tugas negara\n\n*Biaya Tambahan:*\nSelain biaya paspor normal, dikenakan biaya percepatan *Rp 1.000.000* per permohonan.\n\n*Cara mengajukan:*\nDatang langsung ke Kantor Imigrasi, minta antrian prioritas, dan tunjukkan bukti keberangkatan (tiket/surat tugas).\n\n💡 Tidak bisa dilakukan via M-Paspor untuk kasus darurat.",
+    "Category": "Paspor - Percepatan"
+  },
+  {
+    "Question": "antrian paspor penuh, slot m-paspor habis, tidak ada jadwal paspor, kuota penuh terus, cara dapat slot paspor, jadwal paspor susah dapat",
+    "Answer": "📅 *Slot M-Paspor Sering Penuh — Solusi 2026:*\n\nIni masalah umum di seluruh Indonesia. Beberapa tips:\n\n🎯 *Tips Mendapat Slot:*\n1. Buka aplikasi M-Paspor tepat pukul **00.00 WIB** atau **07.00 WIB** — slot baru biasanya dirilis di jam-jam ini\n2. Coba semua kantor imigrasi terdekat, bukan hanya satu\n3. Cek secara rutin setiap 30 menit karena ada pembatalan dari pengguna lain\n4. Pastikan aplikasi M-Paspor sudah versi terbaru\n\n📌 *Alternatif:*\n- Pantau pengumuman di Instagram @imigrasi_pangkalpinang untuk info kuota tambahan\n- Kantor imigrasi terkadang membuka kuota walk-in terbatas di hari tertentu\n\n💡 Jangan percaya calo/jasa pembuatan paspor yang menawarkan slot — itu tidak resmi dan berisiko.",
+    "Category": "Paspor - M-Paspor"
+  },
+  {
+    "Question": "satu akun m-paspor untuk berapa orang, daftar paspor sekeluarga, akun keluarga m-paspor",
+    "Answer": "👨‍👩‍👧‍👦 *Satu Akun untuk Semua:* Ya, satu akun M-Paspor dapat digunakan untuk mendaftarkan beberapa orang sekaligus (anggota keluarga) dalam satu kali proses pendaftaran.",
+    "Category": "Prosedur"
+  },
+  {
+    "Question": "paspor expired, paspor mati, masa berlaku habis, perpanjang paspor expired, paspor sudah mati mau perpanjang",
+    "Answer": "⏰ *Paspor Kadaluarsa — Cara Perpanjang 2026:*\n\nPaspor yang sudah mati masa berlakunya bisa diperpanjang dengan prosedur *Penggantian Paspor* (bukan perpanjangan biasa). Prosedurnya **sama** dengan membuat paspor baru.\n\n*Syarat:*\n✅ E-KTP (asli)\n✅ KK (asli)\n✅ Paspor Lama (yg sudah expired) — wajib dibawa!\n✅ Akta Lahir (jika nama di paspor berbeda dengan e-KTP)\n\n*Biaya:*\n- E-Paspor 5 Tahun: Rp 650.000\n- E-Paspor 10 Tahun: Rp 950.000\n\n⚠️ Paspor lama akan diambil/dilubangi oleh petugas saat penyerahan paspor baru.",
+    "Category": "Paspor - Perpanjang"
+  },
+  {
+    "Question": "paspor WNA, paspor orang asing, ITAS ITAP, wna bikin paspor indonesia, paspor naturalisasi, ganti kewarganegaraan paspor",
+    "Answer": "🌏 *Paspor untuk WNA / Kasus Naturalisasi:*\n\nWarga Negara Asing (WNA) *tidak bisa membuat Paspor Indonesia*. Paspor Indonesia hanya untuk WNI.\n\n*Untuk WNA di Indonesia:*\n- WNA menggunakan paspor negara asal mereka\n- Izin tinggal WNA diatur melalui: ITAS (Izin Tinggal Terbatas) atau ITAP (Izin Tinggal Tetap)\n- Proses ITAS/ITAP berbeda dengan pembuatan paspor\n\n*Untuk WNI yang baru naturalisasi:*\n- Wajib menunjukkan Surat Keputusan Menteri Hukum & HAM tentang naturalisasi\n- Bawa dokumen pelepasan kewarganegaraan asal\n- Proses pembuatan paspor pertama dibantu langsung oleh petugas\n\n➡️ Hubungi kantor imigrasi untuk konsultasi kasus naturalisasi secara langsung.",
+    "Category": "Paspor - WNA & Naturalisasi"
+  },
+  {
+    "Question": "paspor beda nama, nama paspor salah, typo nama paspor, nama di paspor berbeda dengan ktp, koreksi nama paspor, nama tengah tidak ada di ktp",
+    "Answer": "✏️ *Koreksi / Perbedaan Nama di Paspor 2026:*\n\nIni masalah yang sering terjadi. Berikut panduan penanganannya:\n\n*Jika nama di paspor salah ketik (typo petugas):*\n→ Laporkan segera ke kantor imigrasi, koreksi tidak dikenakan biaya tambahan jika kesalahan dari petugas.\n\n*Jika nama di paspor berbeda dengan E-KTP (karena perubahan data):*\n→ Lakukan perubahan data E-KTP terlebih dahulu di Disdukcapil\n→ Baru ajukan penggantian paspor dengan data baru\n→ Biaya penggantian normal berlaku\n\n*Jika paspor memiliki nama lengkap (3 kata) tapi KTP hanya 2 kata:*\n→ Bawa Akta Lahir / Ijazah yang mencantumkan nama lengkap 3 kata\n→ Bisa diproses dengan surat keterangan pendukung\n\n⚠️ *Jangan* coba perjalanan dengan paspor yang namanya berbeda dengan tiket, bisa ditolak di bandara.",
+    "Category": "Paspor - Koreksi Data"
+  },
+  {
+    "Question": "berapa lama paspor jadi, estimasi waktu paspor selesai, paspor kapan bisa diambil, proses paspor berapa hari, lama buat paspor",
+    "Answer": "⏳ *Estimasi Waktu Selesai Paspor 2026:*\n\n📋 *Alur Normal (M-Paspor):*\n- Pendaftaran M-Paspor hingga jadwal verifikasi: 1-7 hari (tergantung ketersediaan slot)\n- Proses setelah verifikasi di kantor: **3-5 hari kerja**\n- Total dari pendaftaran hingga paspor di tangan: **± 5-10 hari kerja**\n\n⚡ *Layanan Percepatan:*\n- Bisa selesai dalam **1 hari kerja** (dengan biaya percepatan Rp 1.000.000)\n\n📬 *Pengambilan:*\n- Bisa diambil langsung di kantor (bawa resi pembayaran)\n- Atau via POS Indonesia / kurir (dikenakan biaya pengiriman)\n\n⚠️ Durasi bisa berubah saat high season (menjelang lebaran, liburan panjang).",
+    "Category": "Paspor - Informasi Umum"
+  },
+  {
+    "Question": "paspor untuk anak sekolah ke luar negeri, pertukaran pelajar paspor, beasiswa luar negeri paspor, paspor untuk studi",
+    "Answer": "🎓 *Paspor untuk Pelajar/Mahasiswa Studi ke Luar Negeri 2026:*\n\nTidak ada perbedaan jenis paspor untuk tujuan studi. Anda menggunakan E-Paspor biasa.\n\n*Rekomendasi untuk pelajar:*\n- Ambil paspor **10 tahun** jika usia sudah 17+ — lebih hemat jangka panjang\n- Pastikan masa berlaku paspor melebihi masa studi Anda ditambah 6 bulan\n- Setelah paspor jadi, segera proses *Student Visa* ke negara tujuan\n\n*Layanan Prioritas Pelajar:*\nJika program beasiswa memiliki batas waktu pendaftaran visa yang mendesak, bawa surat undangan/Letter of Acceptance (LoA) dari universitas — bisa jadi pertimbangan layanan percepatan.\n\n*Proses paspor anak di bawah 17 tahun:*\n- Wajib didampingi orang tua dan bawa dokumen lengkap (Akta Lahir, KK, KTP Ortu, Buku Nikah Ortu)",
+    "Category": "Paspor - Studi & Beasiswa"
+  },
+  {
+    "Question": "syarat paspor terbaru April 2026, dokumen wajib paspor 2026, apa saja yang dibawa ke imigrasi",
+    "Answer": "📂 *Syarat Wajib 2026:* \n1. E-KTP (Asli)\n2. Kartu Keluarga (Asli)\n3. Akta Lahir / Buku Nikah / Ijazah (Pilih salah satu yang asli).\nSemua data (nama/tanggal lahir) di dokumen tersebut harus konsisten (sama).",
+    "Category": "Syarat"
+  },
+  {
+    "Question": "anak cerai, paspor anak orang tua bercerai, hak asuh anak paspor, paspor anak single parent, orang tua tunggal bikin paspor anak",
+    "Answer": "⚖️ *Paspor Anak untuk Orang Tua yang Bercerai:*\n\nIni kasus yang sering ditanyakan. Prosedurnya:\n\n*Jika memiliki Hak Asuh (dari Pengadilan):*\n✅ Bawa Akta Cerai\n✅ Bawa Surat Penetapan Hak Asuh dari Pengadilan\n✅ E-KTP orang tua pemegang hak asuh\n✅ KK (yang memuat nama anak)\n✅ Akta Lahir anak\n→ Cukup **satu orang tua** yang hadir (pemegang hak asuh)\n\n*Jika TIDAK ada surat hak asuh:*\n→ Kedua orang tua wajib hadir\n→ Atau bawa Surat Izin dari orang tua yang tidak hadir (bermaterai Rp 10.000, dilegalisir)\n\n⚠️ Setiap kasus bisa berbeda tergantung penilaian petugas. Hubungi kantor kami terlebih dahulu.",
+    "Category": "Paspor - Kasus Khusus"
+  },
+  {
+    "Question": "batas waktu bayar paspor, masa berlaku kode billing paspor, telat bayar billing paspor",
+    "Answer": "⏰ *Batas Bayar:* Kode billing resmi berlaku selama **2 jam** setelah diterbitkan. Jika tidak dibayar dalam 2 jam, permohonan otomatis hangus dan Anda wajib mendaftar ulang di aplikasi M-Paspor.",
+    "Category": "Pembayaran"
+  },
+  {
+    "Question": "foto paspor, syarat foto paspor, baju foto paspor, warna baju foto paspor, bawa foto sendiri, ukuran foto paspor",
+    "Answer": "📸 *Foto untuk Paspor — Panduan 2026:*\n\n✅ Foto dilakukan **langsung di kantor imigrasi** oleh petugas (biometrik). Anda **tidak perlu membawa foto**.\n\n*Tips agar foto biometrik berhasil sekali jalan:*\n- 👔 **Warna baju**: Hindari putih (background foto paspor adalah putih). Gunakan warna gelap/cerah selain putih\n- 😐 **Ekspresi**: Netral, tidak senyum, mata terbuka sempurna\n- 👓 **Kacamata**: Harus dilepas\n- 🧕 **Jilbab**: Diperbolehkan, asalkan wajah terlihat penuh dari dahi hingga dagu\n- 💄 **Makeup**: Boleh tapi tidak berlebihan\n- 💡 Datang dengan penampilan rapi dan segar, hindari datang setelah baru berolahraga\n\n⚠️ Jika foto gagal/buram, petugas akan mencoba ulang di tempat.",
+    "Category": "Paspor - Informasi Umum"
   },
   {
     "Question": "denda paspor, keterlambatan perpanjang paspor, sanksi paspor, apakah ada denda kalau telat perpanjang paspor",
@@ -2255,9 +2220,39 @@
     "Category": "Paspor - Darurat Internasional"
   },
   {
-    "Question": "paspor sehari jadi, percepatan paspor, biaya express paspor, paspor kilat jam berapa datang",
-    "Answer": "Layanan percepatan (Selesai Hari Sama) tersedia dengan biaya tambahan Rp 1.000.000 di luar biaya buku paspor. Pemohon wajib datang sebelum jam 10.00 pagi.",
-    "Category": "Layanan"
+    "Question": "perpanjang paspor bagi TKI, TKW, PMI, pekerja migran paspor, paspor untuk kerja di luar negeri, paspor TKI arab saudi",
+    "Answer": "✈️ *Paspor untuk Pekerja Migran Indonesia (PMI) 2026:*\n\n*PMI (TKI/TKW) mendapat perlakuan khusus dari imigrasi:*\n\n✅ *Layanan Prioritas PMI:*\n- Antrian diprioritaskan di loket khusus\n- Proses lebih cepat dengan koordinasi BP2MI\n\n*Syarat Tambahan PMI (Selain Syarat Umum):*\n- Surat keterangan bekerja di luar negeri / kontrak kerja\n- Buku Pelaut (untuk ABK)\n- Rekomendasi dari BP2MI jika diperlukan\n\n*Penting untuk PMI:*\n- Pastikan paspor berlaku minimal **1 tahun** saat keberangkatan (Saudi mensyaratkan ini)\n- Jangan percayakan paspor Anda kepada agen/majikan — ini hak Anda!\n- Jika paspor ditahan majikan di luar negeri, hubungi KBRI/KJRI setempat\n\n📞 *Hotline PMI Kementerian Ketenagakerjaan:* 1500-630",
+    "Category": "Paspor - PMI & TKI"
+  },
+  {
+    "Question": "cara reschedule m-paspor, ganti lokasi kantor imigrasi m-paspor, bisa ganti kantor paspor?",
+    "Answer": "📍 *Reschedule:* Aplikasi M-Paspor hanya mengizinkan perubahan **Jadwal Kedatangan**. Anda **TIDAK BISA** mengubah lokasi kantor imigrasi yang sudah dipilih. Jika ingin ganti kantor, permohonan harus dibatalkan dan daftar ulang.",
+    "Category": "Prosedur"
+  },
+  {
+    "Question": "Jika nama, tempat lahir, atau tanggal lahir pada KTP, KK, dan Akta/Ijazah Anda tidak sama (meskipun hanya beda satu huruf atau spasi), harap perhatikan ketentuan berikut:",
+    "Answer": "Data yang Benar: Tentukan dokumen mana yang datanya paling benar dan ingin digunakan di paspor.\r\n\r\nSurat Keterangan: Anda WAJIB membawa Surat Keterangan dari instansi terkait (misal: Disdukcapil untuk beda nama di KTP/KK, atau Sekolah/Kampus untuk beda nama di Ijazah).\r\n\r\nPenetapan Pengadilan: Jika perbedaan data sangat signifikan (ganti nama total), Anda wajib membawa Salinan Penetapan Pengadilan.\r\n\r\nRisiko Penundaan: Petugas loket berhak menunda permohonan Anda untuk penelitian lebih lanjut jika perbedaan data dianggap meragukan.",
+    "Category": "Umum"
+  },
+  {
+    "Question": "pembayaran m-paspor tidak berubah, sudah bayar paspor tapi status belum berubah, konfirmasi pembayaran m-paspor",
+    "Answer": "💳 *Status Pembayaran:* Mohon tunggu 1x24 jam setelah pembayaran. Jika status belum berubah di aplikasi, hubungi Live Chat di imigrasi.go.id dengan menunjukkan bukti bayar, NIK, dan kode billing Anda.",
+    "Category": "Pembayaran"
+  },
+  {
+    "Question": "pindah domisili paspor, buat paspor bukan di domisili, paspor di luar kota, bisa buat paspor di kantor imigrasi manapun",
+    "Answer": "📍 *Pembuatan Paspor di Luar Domisili 2026:*\n\n✅ *Bisa!* Sejak 2023, pembuatan paspor sudah bisa dilakukan di **kantor imigrasi mana pun** di seluruh Indonesia, tidak harus sesuai domisili KTP.\n\n*Cara Melakukannya:*\n1. Daftar di M-Paspor → pilih kantor imigrasi yang Anda inginkan\n2. Datang sesuai jadwal\n3. Proses sama seperti biasa\n\n*Catatan:*\n- Semua data tetap mengacu pada KTP domisili Anda\n- Paspor bisa diambil di kantor yang sama tempat Anda mendaftar\n- Jika ingin dikirim ke alamat lain, ada opsi pengiriman via POS\n\n💡 Manfaatkan ini jika Anda sedang merantau/bekerja di kota lain dan tidak sempat pulang ke kampung untuk buat paspor.",
+    "Category": "Paspor - Lokasi & Domisili"
+  },
+  {
+    "Question": "paspor anak yatim, paspor tanpa orang tua, paspor anak wali, anak diasuh nenek kakek paspor, wali paspor anak",
+    "Answer": "🧒 *Paspor Anak Yatim / Diasuh Wali 2026:*\n\nUntuk anak yang kedua orang tuanya meninggal atau diasuh oleh wali:\n\n*Syarat yang Diperlukan:*\n✅ Akta Kematian orang tua (jika meninggal)\n✅ Surat Penetapan Perwalian dari Pengadilan\n✅ KTP wali yang terdaftar secara resmi\n✅ KK yang memuat nama anak dan wali\n✅ Akta Lahir anak\n\n*Jika diasuh tanpa surat resmi (kakek/nenek tanpa penetapan pengadilan):*\n→ Diperlukan Surat Keterangan dari Desa/Kelurahan\n→ Surat pernyataan bermaterai dari wali\n→ Proses mungkin memerlukan verifikasi tambahan\n\n⚠️ Setiap kasus diputuskan oleh Kepala Seksi berdasarkan dokumen yang ada. Hubungi kantor imigrasi terlebih dahulu untuk konsultasi.",
+    "Category": "Paspor - Kasus Khusus"
+  },
+  {
+    "Question": "m-paspor request timed out, error m-paspor, m-paspor lemot, aplikasi m-paspor tidak bisa dibuka",
+    "Answer": "🔧 *Solusi Error M-Paspor (2026):*\n1. Keluar (logout) dari akun Anda.\n2. Hapus Cache aplikasi di pengaturan ponsel.\n3. Re-install aplikasi ke versi terbaru.\nJika masih error, hubungi humas@imigrasi.go.id dengan melampirkan NIK dan screenshot kendala.",
+    "Category": "M-Paspor - Teknis"
   },
   {
     "Question": "buat paspor beda ktp, alamat ktp luar kota, bikin paspor jauh dari domisili, paspor lintas daerah",
@@ -2265,19 +2260,24 @@
     "Category": "Prosedur"
   },
   {
-    "Question": "biaya paspor elektronik 10 tahun 2026, harga e-paspor 10 th, tarif paspor terbaru",
-    "Answer": "Sesuai Peraturan Pemerintah terbaru, Biaya Paspor Elektronik (e-Paspor) 10 Tahun adalah Rp 950.000. Untuk Paspor Biasa (Non-Elektronik) 10 Tahun adalah Rp 650.000.",
-    "Category": "Biaya"
-  },
-  {
     "Question": "paspor m-paspor error terus, tidak bisa login, slot penuh m-paspor, aplikasi lemot, m-paspor bermasalah",
     "Answer": "Jika aplikasi M-Paspor error, pastikan aplikasi sudah versi terbaru. Cobalah login di jam tenang (malam hari). Jika slot penuh, pantau rilis kuota baru setiap hari Jumat atau Senin pagi.",
     "Category": "Prosedur"
   },
   {
+    "Question": "paspor sehari jadi, percepatan paspor, biaya express paspor, paspor kilat jam berapa datang",
+    "Answer": "Layanan percepatan (Selesai Hari Sama) tersedia dengan biaya tambahan Rp 1.000.000 di luar biaya buku paspor. Pemohon wajib datang sebelum jam 10.00 pagi.",
+    "Category": "Layanan"
+  },
+  {
     "Question": "perbedaan e-paspor dan paspor biasa, apa itu chip paspor, keuntungan elektronik, visa waiver jepang",
     "Answer": "E-Paspor memiliki chip elektronik yang menyimpan data biometrik, lebih aman, dan bisa menggunakan fasilitas Autogate di bandara. Keunggulan lainnya adalah potensi bebas visa (Visa Waiver) ke negara tertentu seperti Jepang.",
     "Category": "E-Paspor"
+  },
+  {
+    "Question": "biaya paspor elektronik 10 tahun 2026, harga e-paspor 10 th, tarif paspor terbaru",
+    "Answer": "Sesuai Peraturan Pemerintah terbaru, Biaya Paspor Elektronik (e-Paspor) 10 Tahun adalah Rp 950.000. Untuk Paspor Biasa (Non-Elektronik) 10 Tahun adalah Rp 650.000.",
+    "Category": "Biaya"
   },
   {
     "Question": "Syarat dokumen nya?",
@@ -2310,13 +2310,13 @@
     "Category": "Umum"
   },
   {
-    "Question": "Saya mau perpanjangan paspor",
-    "Answer": "perpanjangan paspor bisa juga dibilang pergantian, karna anda akan mendapatkan buku baru dan perlu membayar biayanya",
+    "Question": "Berapa biaya perpanjangan paspor?",
+    "Answer": "biaya perpanjangan/penggantian paspor sama halnya dengan paspor baru, yaitu:\n• 5 tahun: rp650.000\n• 10 tahun: rp950.000",
     "Category": "Umum"
   },
   {
-    "Question": "Berapa biaya perpanjangan paspor?",
-    "Answer": "biaya perpanjangan/penggantian paspor sama halnya dengan paspor baru, yaitu:\n• 5 tahun: rp650.000\n• 10 tahun: rp950.000",
+    "Question": "Saya mau perpanjangan paspor",
+    "Answer": "perpanjangan paspor bisa juga dibilang pergantian, karna anda akan mendapatkan buku baru dan perlu membayar biayanya",
     "Category": "Umum"
   },
   {
@@ -2330,98 +2330,33 @@
     "Category": "Umum"
   },
   {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Australia?",
-    "Answer": "WNI memerlukan visa untuk masuk ke Australia. Visa bisa diajukan secara online (e-Visa) sebelum keberangkatan melalui portal resmi imigrasi Australia.",
+    "Question": "Ke berapa negara paspor Indonesia bisa masuk bebas visa?",
+    "Answer": "Tahun 2025-2026, paspor Indonesia dapat mengakses sekitar 76–92 negara/wilayah tanpa visa, VoA (Visa on Arrival), atau e-Visa (berdasarkan Henley Passport Index).",
     "Category": null
   },
   {
-    "Question": "Apakah ada batasan berapa kali bisa keluar masuk Indonesia dalam setahun?",
-    "Answer": "Tidak ada batasan resmi untuk WNI bepergian ke luar negeri, selama paspor masih berlaku dan tidak ada cekal (pencegahan) dari pihak berwajib.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia masuk daftar paspor terkuat dunia?",
-    "Answer": "Paspor Indonesia masuk peringkat 66 dunia (Henley Passport Index 2025) dengan akses bebas visa ke 76 negara, terus meningkat seiring kebijakan diplomatik RI.",
-    "Category": null
-  },
-  {
-    "Question": "Apa itu Visa on Arrival (VoA)?",
-    "Answer": "Visa yang diperoleh langsung di pintu masuk (bandara/pelabuhan) negara tujuan tanpa harus mengurus visa sebelumnya. Tersedia di lebih dari 27 negara untuk paspor Indonesia.",
-    "Category": null
-  },
-  {
-    "Question": "Berapa lama masa tinggal VoA di Indonesia untuk WNA?",
-    "Answer": "Masa tinggal VoA di Indonesia umumnya 30 hari dan dapat diperpanjang 1 kali menjadi 60 hari melalui kantor imigrasi terdekat.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah WNI wajib melapor ke KBRI saat tinggal lama di luar negeri?",
-    "Answer": "Sangat disarankan. WNI yang tinggal lebih dari 6 bulan di luar negeri dianjurkan melapor ke KBRI/KJRI untuk mendapatkan perlindungan konsuler dan kemudahan jika ada kondisi darurat.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah ada wajib deklarasi kedatangan di bandara Indonesia?",
-    "Answer": "Ya, penumpang di beberapa bandara internasional dan pelabuhan wajib melakukan deklarasi kedatangan melalui aplikasi All Indonesia.",
-    "Category": null
-  },
-  {
-    "Question": "Bagaimana jika visa di paspor lama masih berlaku dan paspor sudah diganti?",
-    "Answer": "Bawa kedua paspor (lama dan baru) saat bepergian. Tunjukkan paspor baru sebagai identitas dan paspor lama sebagai bukti visa yang masih berlaku.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah visa negara tujuan otomatis ada di paspor baru setelah ganti?",
-    "Answer": "Tidak. Visa di paspor lama tidak berpindah ke paspor baru. Harus mengurus visa baru atau membawa kedua paspor saat perjalanan jika visa lama masih berlaku.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah ada batas jumlah visa yang bisa ada di satu paspor?",
-    "Answer": "Tidak ada batas jumlah visa. Namun jika halaman paspor penuh (semua halaman terisi cap/stiker visa), paspor harus diganti.",
-    "Category": null
-  },
-  {
-    "Question": "Berapa lama masa tinggal bebas visa di Singapura untuk WNI?",
-    "Answer": "30 hari untuk kunjungan wisata (dapat diperpanjang hingga 90 hari jika diizinkan imigrasi Singapura).",
-    "Category": null
-  },
-  {
-    "Question": "Apa itu eTA (Electronic Travel Authorization)?",
-    "Answer": "eTA adalah dokumen perjalanan digital yang diperoleh online sebelum keberangkatan, digunakan beberapa negara (seperti Sri Lanka) sebagai syarat masuk tanpa perlu visa konvensional.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Hong Kong?",
-    "Answer": "Ya, WNI dapat masuk Hong Kong bebas visa untuk kunjungan wisata (biasanya 14–30 hari).",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor yang hampir habis masa berlaku bisa dipakai perjalanan?",
-    "Answer": "Tidak disarankan. Banyak negara mensyaratkan minimal 6 bulan sisa masa berlaku. Segera ganti paspor sebelum keberangkatan.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke China?",
-    "Answer": "WNI memerlukan visa untuk masuk ke China (RRT). Harus diajukan ke Kedubes China di Indonesia sebelum keberangkatan.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Turki?",
-    "Answer": "Ya, WNI bisa masuk Turki bebas visa untuk kunjungan singkat (sesuai kebijakan terbaru 2025). Turki juga memberikan fasilitas e-Visa sebagai alternatif.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Korea Selatan?",
-    "Answer": "Mulai 2023, WNI memerlukan e-Visa untuk wisata ke Korea Selatan. Diajukan melalui portal Korea Electronic Travel Authorization (K-ETA).",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke negara-negara Afrika?",
-    "Answer": "Beberapa negara Afrika memberikan VoA atau bebas visa untuk WNI, seperti Kenya, Tanzania, Rwanda, Maroko, Tunisia, Namibia, dan beberapa lainnya.",
+    "Question": "Apakah paspor Indonesia bisa masuk ke Amerika Serikat?",
+    "Answer": "WNI memerlukan visa B1/B2 (kunjungan/wisata) untuk masuk ke AS. Proses pengajuan visa cukup panjang dan memerlukan wawancara di Kedubes AS.",
     "Category": null
   },
   {
     "Question": "Apa itu deklarasi kedatangan All Indonesia?",
     "Answer": "Aplikasi deklarasi digital bagi penumpang yang tiba di bandara internasional dan pelabuhan di Indonesia, menggantikan kartu kedatangan fisik.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor Indonesia bisa masuk ke Australia?",
+    "Answer": "WNI memerlukan visa untuk masuk ke Australia. Visa bisa diajukan secara online (e-Visa) sebelum keberangkatan melalui portal resmi imigrasi Australia.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor Indonesia bisa masuk ke Mekah dan Madinah?",
+    "Answer": "WNI yang akan ke Arab Saudi untuk haji atau umroh memerlukan visa haji/umroh dari Kedubes Saudi. Visa ini diurus melalui travel resmi yang terdaftar di Kemenag.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah bisa transit di negara yang butuh visa tanpa keluar bandara?",
+    "Answer": "Tergantung kebijakan masing-masing negara. Beberapa negara memiliki aturan airside transit yang membolehkan transit tanpa visa jika tidak keluar dari area bandara internasional.",
     "Category": null
   },
   {
@@ -2450,33 +2385,8 @@
     "Category": null
   },
   {
-    "Question": "Ke berapa negara paspor Indonesia bisa masuk bebas visa?",
-    "Answer": "Tahun 2025-2026, paspor Indonesia dapat mengakses sekitar 76–92 negara/wilayah tanpa visa, VoA (Visa on Arrival), atau e-Visa (berdasarkan Henley Passport Index).",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Mekah dan Madinah?",
-    "Answer": "WNI yang akan ke Arab Saudi untuk haji atau umroh memerlukan visa haji/umroh dari Kedubes Saudi. Visa ini diurus melalui travel resmi yang terdaftar di Kemenag.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah bisa transit di negara yang butuh visa tanpa keluar bandara?",
-    "Answer": "Tergantung kebijakan masing-masing negara. Beberapa negara memiliki aturan airside transit yang membolehkan transit tanpa visa jika tidak keluar dari area bandara internasional.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Inggris (UK)?",
-    "Answer": "WNI memerlukan visa kunjungan (Standard Visitor Visa) untuk masuk ke Inggris. Diajukan online melalui portal resmi UK Visas and Immigration.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Amerika Serikat?",
-    "Answer": "WNI memerlukan visa B1/B2 (kunjungan/wisata) untuk masuk ke AS. Proses pengajuan visa cukup panjang dan memerlukan wawancara di Kedubes AS.",
-    "Category": null
-  },
-  {
-    "Question": "Negara ASEAN mana saja yang bebas visa untuk paspor Indonesia?",
-    "Answer": "Singapura, Malaysia, Thailand, Filipina, Brunei, Laos, Vietnam, Kamboja, dan Myanmar memberikan bebas visa bagi WNI.",
+    "Question": "Apakah paspor Indonesia bisa masuk ke Jepang tanpa visa?",
+    "Answer": "Pemegang E-Paspor Indonesia bisa masuk Jepang tanpa visa melalui program visa waiver (bebas visa) dengan mendaftar online di sistem JAVES terlebih dahulu, maksimal 15 hari kunjungan.",
     "Category": null
   },
   {
@@ -2485,13 +2395,58 @@
     "Category": null
   },
   {
+    "Question": "Apakah E-Paspor Indonesia diterima di semua negara?",
+    "Answer": "E-Paspor Indonesia diterima di semua negara yang mengakui ICAO biometric passport. Mayoritas negara di dunia sudah menggunakan sistem ini.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor Indonesia masuk daftar paspor terkuat dunia?",
+    "Answer": "Paspor Indonesia masuk peringkat 66 dunia (Henley Passport Index 2025) dengan akses bebas visa ke 76 negara, terus meningkat seiring kebijakan diplomatik RI.",
+    "Category": null
+  },
+  {
+    "Question": "Apa itu Visa on Arrival (VoA)?",
+    "Answer": "Visa yang diperoleh langsung di pintu masuk (bandara/pelabuhan) negara tujuan tanpa harus mengurus visa sebelumnya. Tersedia di lebih dari 27 negara untuk paspor Indonesia.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah ada wajib deklarasi kedatangan di bandara Indonesia?",
+    "Answer": "Ya, penumpang di beberapa bandara internasional dan pelabuhan wajib melakukan deklarasi kedatangan melalui aplikasi All Indonesia.",
+    "Category": null
+  },
+  {
+    "Question": "Bagaimana jika visa di paspor lama masih berlaku dan paspor sudah diganti?",
+    "Answer": "Bawa kedua paspor (lama dan baru) saat bepergian. Tunjukkan paspor baru sebagai identitas dan paspor lama sebagai bukti visa yang masih berlaku.",
+    "Category": null
+  },
+  {
+    "Question": "Berapa lama masa tinggal VoA di Indonesia untuk WNA?",
+    "Answer": "Masa tinggal VoA di Indonesia umumnya 30 hari dan dapat diperpanjang 1 kali menjadi 60 hari melalui kantor imigrasi terdekat.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor Indonesia bisa masuk ke negara-negara Afrika?",
+    "Answer": "Beberapa negara Afrika memberikan VoA atau bebas visa untuk WNI, seperti Kenya, Tanzania, Rwanda, Maroko, Tunisia, Namibia, dan beberapa lainnya.",
+    "Category": null
+  },
+  {
+    "Question": "Negara ASEAN mana saja yang bebas visa untuk paspor Indonesia?",
+    "Answer": "Singapura, Malaysia, Thailand, Filipina, Brunei, Laos, Vietnam, Kamboja, dan Myanmar memberikan bebas visa bagi WNI.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah WNI wajib melapor ke KBRI saat tinggal lama di luar negeri?",
+    "Answer": "Sangat disarankan. WNI yang tinggal lebih dari 6 bulan di luar negeri dianjurkan melapor ke KBRI/KJRI untuk mendapatkan perlindungan konsuler dan kemudahan jika ada kondisi darurat.",
+    "Category": null
+  },
+  {
     "Question": "Apakah ada negara yang menolak paspor Indonesia?",
     "Answer": "Tidak ada negara yang secara resmi menolak semua paspor Indonesia. Namun beberapa negara mungkin menolak individu karena alasan keamanan atau pelanggaran imigrasi sebelumnya.",
     "Category": null
   },
   {
-    "Question": "Apakah paspor Indonesia bisa masuk ke Jepang tanpa visa?",
-    "Answer": "Pemegang E-Paspor Indonesia bisa masuk Jepang tanpa visa melalui program visa waiver (bebas visa) dengan mendaftar online di sistem JAVES terlebih dahulu, maksimal 15 hari kunjungan.",
+    "Question": "Apakah visa negara tujuan otomatis ada di paspor baru setelah ganti?",
+    "Answer": "Tidak. Visa di paspor lama tidak berpindah ke paspor baru. Harus mengurus visa baru atau membawa kedua paspor saat perjalanan jika visa lama masih berlaku.",
     "Category": null
   },
   {
@@ -2500,23 +2455,53 @@
     "Category": null
   },
   {
-    "Question": "Apakah E-Paspor Indonesia diterima di semua negara?",
-    "Answer": "E-Paspor Indonesia diterima di semua negara yang mengakui ICAO biometric passport. Mayoritas negara di dunia sudah menggunakan sistem ini.",
+    "Question": "Apakah ada batasan berapa kali bisa keluar masuk Indonesia dalam setahun?",
+    "Answer": "Tidak ada batasan resmi untuk WNI bepergian ke luar negeri, selama paspor masih berlaku dan tidak ada cekal (pencegahan) dari pihak berwajib.",
     "Category": null
   },
   {
-    "Question": "perbedaan paspor biasa dan elektronik, apa itu e paspor, beda paspor biasa vs e paspor, kelebihan e paspor, paspor biometrik Indonesia, chip paspor elektronik, manfaat e paspor, e paspor Indonesia, paspor chip vs non chip, biaya e paspor",
-    "Answer": "Paspor biasa tidak memiliki chip, sedangkan paspor elektronik (e-paspor) memiliki chip berisi data biometrik sehingga lebih aman. E-paspor juga memungkinkan proses imigrasi lebih cepat (autogate) dan memiliki manfaat tambahan seperti potensi bebas visa ke negara tertentu, namun biayanya lebih mahal dibanding paspor biasa.",
+    "Question": "Apakah paspor Indonesia bisa masuk ke China?",
+    "Answer": "WNI memerlukan visa untuk masuk ke China (RRT). Harus diajukan ke Kedubes China di Indonesia sebelum keberangkatan.",
     "Category": null
   },
   {
-    "Question": "Apakah perlu e-paspor untuk haji atau umroh?",
-    "Answer": "❌ Tidak wajib, paspor biasa juga bisa digunakan.",
+    "Question": "Apakah paspor Indonesia bisa masuk ke Turki?",
+    "Answer": "Ya, WNI bisa masuk Turki bebas visa untuk kunjungan singkat (sesuai kebijakan terbaru 2025). Turki juga memberikan fasilitas e-Visa sebagai alternatif.",
     "Category": null
   },
   {
-    "Question": "apakah bisa bayar paspor di tempat",
-    "Answer": "💳 Tidak.\nPembayaran dilakukan melalui bank/ATM/m-banking/minimarket menggunakan kode billing.",
+    "Question": "Apakah paspor Indonesia bisa masuk ke Korea Selatan?",
+    "Answer": "Mulai 2023, WNI memerlukan e-Visa untuk wisata ke Korea Selatan. Diajukan melalui portal Korea Electronic Travel Authorization (K-ETA).",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor Indonesia bisa masuk ke Inggris (UK)?",
+    "Answer": "WNI memerlukan visa kunjungan (Standard Visitor Visa) untuk masuk ke Inggris. Diajukan online melalui portal resmi UK Visas and Immigration.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah ada batas jumlah visa yang bisa ada di satu paspor?",
+    "Answer": "Tidak ada batas jumlah visa. Namun jika halaman paspor penuh (semua halaman terisi cap/stiker visa), paspor harus diganti.",
+    "Category": null
+  },
+  {
+    "Question": "Berapa lama masa tinggal bebas visa di Singapura untuk WNI?",
+    "Answer": "30 hari untuk kunjungan wisata (dapat diperpanjang hingga 90 hari jika diizinkan imigrasi Singapura).",
+    "Category": null
+  },
+  {
+    "Question": "Apa itu eTA (Electronic Travel Authorization)?",
+    "Answer": "eTA adalah dokumen perjalanan digital yang diperoleh online sebelum keberangkatan, digunakan beberapa negara (seperti Sri Lanka) sebagai syarat masuk tanpa perlu visa konvensional.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor Indonesia bisa masuk ke Hong Kong?",
+    "Answer": "Ya, WNI dapat masuk Hong Kong bebas visa untuk kunjungan wisata (biasanya 14–30 hari).",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor yang hampir habis masa berlaku bisa dipakai perjalanan?",
+    "Answer": "Tidak disarankan. Banyak negara mensyaratkan minimal 6 bulan sisa masa berlaku. Segera ganti paspor sebelum keberangkatan.",
     "Category": null
   },
   {
@@ -2525,28 +2510,8 @@
     "Category": null
   },
   {
-    "Question": "Informasi BAP (Paspor Hilang/Rusak)",
-    "Answer": "Anda diwajibkan melalui proses pemeriksaan (BAP) oleh petugas Intelijen dan Penindakan Keimigrasian.\r\n\r\nBiaya Denda: \r\n\r\nHilang: Rp1.000.000,-\r\nRusak: Rp500.000,- (Denda di luar biaya buku paspor).\"",
-    "Category": null
-  },
-  {
-    "Question": "Apakah paspor wajib untuk haji dan umroh?",
-    "Answer": "✅ Ya, paspor adalah dokumen wajib untuk keberangkatan haji dan umroh.",
-    "Category": null
-  },
-  {
-    "Question": "  Untuk layanan Penggantian Paspor, silakan siapkan dokumen berikut (Asli & Fotokopi A4):  ",
-    "Answer": "KTP Elektronik\r\nPaspor Lama  \r\n\r\n  Catatan Penting: Apabila saat pemeriksaan di loket ditemukan perbedaan data antara KTP dan Paspor Lama, petugas berhak meminta dokumen tambahan (KK/Akta Kelahiran/Ijazah). Disarankan tetap membawa dokumen lengkap untuk berjaga-jaga.",
-    "Category": null
-  },
-  {
-    "Question": "boleh pakai jilbab saat foto paspor, hijab paspor",
-    "Answer": "✅ Boleh menggunakan jilbab/hijab.\nPastikan wajah terlihat jelas.",
-    "Category": null
-  },
-  {
-    "Question": "Berapa biaya percepatan paspor, biaya percepatan?, prosedur paspor percepatan, percepatan, sehari jadi, sameday, kilat, cepat, bagaimana paspor percepatan, bagaimana percepatan?",
-    "Answer": "⚡ *Layanan Percepatan Paspor (Sehari Jadi): *Anda bisa mendapatkan paspor di hari yang sama.• Biaya tambahan: Rp 1.000.000* (sesuai PP No. 28/2019). • Pendaftaran biasanya dilakukan langsung di kantor imigrasi sebelum jam 10 pagi. *Catatan:* Pastikan kuota harian layanan percepatan masih tersedia. Informasi ini berdasarkan UU No. 6 Tahun 2011 tentang Keimigrasian & Peraturan Pemerintah No. 28 Tahun 2019. Data dapat berubah sewaktu-waktu sesuai kebijakan terbaru.",
+    "Question": "Berapa biaya paspor elektronik (e-paspor)?",
+    "Answer": "5 tahun Rp650.000; 10 tahun Rp950.000.",
     "Category": null
   },
   {
@@ -2555,23 +2520,43 @@
     "Category": null
   },
   {
-    "Question": "apakah bisa daftar paspor untuk orang lain",
-    "Answer": "📱 Bisa membantu daftar di M-Paspor, tetapi saat datang ke kantor, pemohon wajib hadir sendiri.",
+    "Question": "apakah bisa ubah data di paspor, revisi nama paspor,  perubahan data",
+    "Answer": "📄 Bisa, tetapi harus melalui prosedur perubahan data dengan dokumen pendukung resmi.",
     "Category": null
   },
   {
-    "Question": "Apa saja kondisi paspor rusak?",
-    "Answer": "Sobek; berlubang; tercoret; basah; terlipat; terbakar.",
+    "Question": "Apa itu keimigrasian?",
+    "Answer": "Keimigrasian adalah hal ihwal lalu lintas orang yang masuk atau keluar wilayah Indonesia serta pengawasannya untuk menjaga kedaulatan negara (UU No. 6 Tahun 2011).",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor wajib untuk haji dan umroh?",
+    "Answer": "✅ Ya, paspor adalah dokumen wajib untuk keberangkatan haji dan umroh.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah perlu e-paspor untuk haji atau umroh?",
+    "Answer": "❌ Tidak wajib, paspor biasa juga bisa digunakan.",
+    "Category": null
+  },
+  {
+    "Question": "cara bikin paspor, langkah bikin paspor, alur buat paspor, gimana cara buat paspor pertama kali",
+    "Answer": "📋 Alur Pembuatan Paspor:\n\nDownload aplikasi M-Paspor\nDaftar akun & isi data\nPilih jadwal & kantor imigrasi\nDatang sesuai jadwal\nVerifikasi berkas\nFoto & wawancara\nBayar\nAmbil paspor",
+    "Category": null
+  },
+  {
+    "Question": "Apakah paspor umroh berbeda dengan paspor biasa?, paspor umroh beda atau tidak, jenis paspor umroh, paspor haji khusus",
+    "Answer": "❌ Tidak. Paspor yang digunakan sama, hanya tujuan penggunaannya berbeda.",
+    "Category": null
+  },
+  {
+    "Question": "Syarat Paspor Anak di bawah 17 tahun",
+    "Answer": "Syarat paspor anak: 1. E-KTP kedua orang tua (asli), 2. KK (asli), 3. Akta Lahir anak (asli), 4. Buku Nikah orang tua (asli), 5. Paspor lama anak (jika ada). Kedua orang tua wajib hadir mendampingi.",
     "Category": null
   },
   {
     "Question": "  Jika nama, tempat lahir, atau tanggal lahir pada KTP, KK, dan Akta/Ijazah Anda tidak sama (meskipun hanya beda satu huruf atau spasi), harap perhatikan ketentuan berikut:",
     "Answer": "Data yang Benar: Tentukan dokumen mana yang datanya paling benar dan ingin digunakan di paspor.\r\n\r\nSurat Keterangan: Anda WAJIB membawa Surat Keterangan dari instansi terkait (misal: Disdukcapil untuk beda nama di KTP/KK, atau Sekolah/Kampus untuk beda nama di Ijazah).\r\n\r\nPenetapan Pengadilan: Jika perbedaan data sangat signifikan (ganti nama total), Anda wajib membawa Salinan Penetapan Pengadilan.\r\n\r\nRisiko Penundaan: Petugas loket berhak menunda permohonan Anda untuk penelitian lebih lanjut jika perbedaan data dianggap meragukan.",
-    "Category": null
-  },
-  {
-    "Question": "Berapa lama proses endorsement paspor?, lama proses endorsement paspor, berapa lama tambah nama paspor, waktu endorsement",
-    "Answer": "⏳ Umumnya relatif cepat, tergantung kelengkapan dokumen.",
     "Category": null
   },
   {
@@ -2585,16 +2570,6 @@
     "Category": null
   },
   {
-    "Question": "apakah bisa ubah data di paspor, revisi nama paspor,  perubahan data",
-    "Answer": "📄 Bisa, tetapi harus melalui prosedur perubahan data dengan dokumen pendukung resmi.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah bisa membuat paspor beda domisili KTP?",
-    "Answer": "✅ Bisa. Pembuatan paspor tidak harus sesuai domisili KTP.",
-    "Category": null
-  },
-  {
     "Question": "Apakah penggantian paspor rusak perlu M-Paspor?",
     "Answer": "Tidak; bisa langsung walk-in.",
     "Category": null
@@ -2605,38 +2580,13 @@
     "Category": null
   },
   {
-    "Question": "Apakah paspor umroh berbeda dengan paspor biasa?, paspor umroh beda atau tidak, jenis paspor umroh, paspor haji khusus",
-    "Answer": "❌ Tidak. Paspor yang digunakan sama, hanya tujuan penggunaannya berbeda.",
-    "Category": null
-  },
-  {
-    "Question": "Apakah bisa percepatan paspor untuk keperluan umroh mendadak?, percepatan paspor umroh, paspor cepat untuk haji, paspor kilat umroh",
-    "Answer": "⚡ Bisa menggunakan layanan percepatan (biaya tambahan).",
-    "Category": null
-  },
-  {
-    "Question": "Apakah endorsement wajib untuk haji?, endorsement haji wajib, penambahan nama haji wajib, syarat paspor haji",
-    "Answer": "✅ Ya, biasanya wajib untuk memenuhi ketentuan keberangkatan.",
-    "Category": null
-  },
-  {
     "Question": "Apakah paspor harus masih berlaku untuk haji/umroh?, masa berlaku paspor haji umroh, paspor minimal berapa bulan umroh, masa aktif paspor",
     "Answer": "📅 Ya, minimal masa berlaku 6 bulan sebelum keberangkatan.",
     "Category": null
   },
   {
-    "Question": "paspor hilang di luar negeri, kehilangan paspor di luar negeri",
-    "Answer": "🌍 Jika paspor hilang di luar negeri:\n\nLapor ke polisi setempat\nHubungi KBRI/KJRI terdekat\nAjukan Surat Perjalanan Laksana Paspor (SPLP)",
-    "Category": null
-  },
-  {
-    "Question": "Apa saja fungsi keimigrasian?",
-    "Answer": "Pelayanan keimigrasian; penegakan hukum; keamanan negara; fasilitator pembangunan kesejahteraan masyarakat.",
-    "Category": null
-  },
-  {
-    "Question": "Berapa biaya paspor elektronik (e-paspor)?",
-    "Answer": "5 tahun Rp650.000; 10 tahun Rp950.000.",
+    "Question": "perbedaan paspor biasa dan elektronik, apa itu e paspor, beda paspor biasa vs e paspor, kelebihan e paspor, paspor biometrik Indonesia, chip paspor elektronik, manfaat e paspor, e paspor Indonesia, paspor chip vs non chip, biaya e paspor",
+    "Answer": "Paspor biasa tidak memiliki chip, sedangkan paspor elektronik (e-paspor) memiliki chip berisi data biometrik sehingga lebih aman. E-paspor juga memungkinkan proses imigrasi lebih cepat (autogate) dan memiliki manfaat tambahan seperti potensi bebas visa ke negara tertentu, namun biayanya lebih mahal dibanding paspor biasa.",
     "Category": null
   },
   {
@@ -2645,8 +2595,38 @@
     "Category": null
   },
   {
-    "Question": "Apa itu keimigrasian?",
-    "Answer": "Keimigrasian adalah hal ihwal lalu lintas orang yang masuk atau keluar wilayah Indonesia serta pengawasannya untuk menjaga kedaulatan negara (UU No. 6 Tahun 2011).",
+    "Question": "Apakah endorsement wajib untuk haji?, endorsement haji wajib, penambahan nama haji wajib, syarat paspor haji",
+    "Answer": "✅ Ya, biasanya wajib untuk memenuhi ketentuan keberangkatan.",
+    "Category": null
+  },
+  {
+    "Question": "Apakah bisa percepatan paspor untuk keperluan umroh mendadak?, percepatan paspor umroh, paspor cepat untuk haji, paspor kilat umroh",
+    "Answer": "⚡ Bisa menggunakan layanan percepatan (biaya tambahan).",
+    "Category": null
+  },
+  {
+    "Question": "Berapa lama proses endorsement paspor?, lama proses endorsement paspor, berapa lama tambah nama paspor, waktu endorsement",
+    "Answer": "⏳ Umumnya relatif cepat, tergantung kelengkapan dokumen.",
+    "Category": null
+  },
+  {
+    "Question": "Apa saja kondisi paspor rusak?",
+    "Answer": "Sobek; berlubang; tercoret; basah; terlipat; terbakar.",
+    "Category": null
+  },
+  {
+    "Question": "apakah bisa daftar paspor untuk orang lain",
+    "Answer": "📱 Bisa membantu daftar di M-Paspor, tetapi saat datang ke kantor, pemohon wajib hadir sendiri.",
+    "Category": null
+  },
+  {
+    "Question": "paspor hilang di luar negeri, kehilangan paspor di luar negeri",
+    "Answer": "🌍 Jika paspor hilang di luar negeri:\n\nLapor ke polisi setempat\nHubungi KBRI/KJRI terdekat\nAjukan Surat Perjalanan Laksana Paspor (SPLP)",
+    "Category": null
+  },
+  {
+    "Question": "boleh pakai jilbab saat foto paspor, hijab paspor",
+    "Answer": "✅ Boleh menggunakan jilbab/hijab.\nPastikan wajah terlihat jelas.",
     "Category": null
   },
   {
@@ -2655,23 +2635,43 @@
     "Category": null
   },
   {
+    "Question": "Berapa biaya percepatan paspor, biaya percepatan?, prosedur paspor percepatan, percepatan, sehari jadi, sameday, kilat, cepat, bagaimana paspor percepatan, bagaimana percepatan?",
+    "Answer": "⚡ *Layanan Percepatan Paspor (Sehari Jadi): *Anda bisa mendapatkan paspor di hari yang sama.• Biaya tambahan: Rp 1.000.000* (sesuai PP No. 28/2019). • Pendaftaran biasanya dilakukan langsung di kantor imigrasi sebelum jam 10 pagi. *Catatan:* Pastikan kuota harian layanan percepatan masih tersedia. Informasi ini berdasarkan UU No. 6 Tahun 2011 tentang Keimigrasian & Peraturan Pemerintah No. 28 Tahun 2019. Data dapat berubah sewaktu-waktu sesuai kebijakan terbaru.",
+    "Category": null
+  },
+  {
+    "Question": "Apa saja fungsi keimigrasian?",
+    "Answer": "Pelayanan keimigrasian; penegakan hukum; keamanan negara; fasilitator pembangunan kesejahteraan masyarakat.",
+    "Category": null
+  },
+  {
+    "Question": "Informasi BAP (Paspor Hilang/Rusak)",
+    "Answer": "Anda diwajibkan melalui proses pemeriksaan (BAP) oleh petugas Intelijen dan Penindakan Keimigrasian.\r\n\r\nBiaya Denda: \r\n\r\nHilang: Rp1.000.000,-\r\nRusak: Rp500.000,- (Denda di luar biaya buku paspor).\"",
+    "Category": null
+  },
+  {
+    "Question": "  Untuk layanan Penggantian Paspor, silakan siapkan dokumen berikut (Asli & Fotokopi A4):  ",
+    "Answer": "KTP Elektronik\r\nPaspor Lama  \r\n\r\n  Catatan Penting: Apabila saat pemeriksaan di loket ditemukan perbedaan data antara KTP dan Paspor Lama, petugas berhak meminta dokumen tambahan (KK/Akta Kelahiran/Ijazah). Disarankan tetap membawa dokumen lengkap untuk berjaga-jaga.",
+    "Category": null
+  },
+  {
+    "Question": "apakah bisa bayar paspor di tempat",
+    "Answer": "💳 Tidak.\nPembayaran dilakukan melalui bank/ATM/m-banking/minimarket menggunakan kode billing.",
+    "Category": null
+  },
+  {
     "Question": "Apa keunggulan paspor elektronik?",
     "Answer": "Lebih aman dan modern (tidak dirinci di slide).",
     "Category": null
   },
   {
-    "Question": "Syarat Paspor Anak di bawah 17 tahun",
-    "Answer": "Syarat paspor anak: 1. E-KTP kedua orang tua (asli), 2. KK (asli), 3. Akta Lahir anak (asli), 4. Buku Nikah orang tua (asli), 5. Paspor lama anak (jika ada). Kedua orang tua wajib hadir mendampingi.",
+    "Question": "Apakah bisa membuat paspor beda domisili KTP?",
+    "Answer": "✅ Bisa. Pembuatan paspor tidak harus sesuai domisili KTP.",
     "Category": null
   },
   {
-    "Question": "cara bikin paspor, langkah bikin paspor, alur buat paspor, gimana cara buat paspor pertama kali",
-    "Answer": "📋 Alur Pembuatan Paspor:\n\nDownload aplikasi M-Paspor\nDaftar akun & isi data\nPilih jadwal & kantor imigrasi\nDatang sesuai jadwal\nVerifikasi berkas\nFoto & wawancara\nBayar\nAmbil paspor",
-    "Category": null
-  },
-  {
-    "Question": "Hrga pasport ank?",
-    "Answer": "harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n• 5 tahun: rp650.000\n• 10 tahun: rp950.000",
+    "Question": "Hrga paspor anak?",
+    "Answer": "harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n• 5 tahun: Rp650.000\n• 10 tahun: Rp950.000",
     "Category": null
   },
   {
@@ -2680,8 +2680,8 @@
     "Category": null
   },
   {
-    "Question": "Hrga paspor anak?",
-    "Answer": "harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n• 5 tahun: Rp650.000\n• 10 tahun: Rp950.000",
+    "Question": "Hrga pasport ank?",
+    "Answer": "harga paspor anak dan dewasa itu sama, yang beda itu batas waktu berlakunya:\n• 5 tahun: rp650.000\n• 10 tahun: rp950.000",
     "Category": null
   },
   {
@@ -2700,13 +2700,13 @@
     "Category": null
   },
   {
-    "Question": "Loket 1 ganteng dk?",
-    "Answer": "YA, SANGAT",
+    "Question": "Instagramnya, IG",
+    "Answer": "Wahyu Dewata",
     "Category": null
   },
   {
-    "Question": "Instagramnya, IG",
-    "Answer": "Wahyu Dewata",
+    "Question": "Loket 1 ganteng dk?",
+    "Answer": "YA, SANGAT",
     "Category": null
   }
 ]

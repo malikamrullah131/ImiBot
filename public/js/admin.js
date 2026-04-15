@@ -208,6 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 cloudBadge.className = `px-2 py-0.5 rounded text-[8px] font-black uppercase ${data.status === "Connected" ? 'text-emerald-500 bg-emerald-50' : 'text-amber-500 bg-amber-50 animate-pulse'}`;
             }
 
+            // Sync AI Balance globally
+            fetchAiBalance();
+
         } catch (e) {
             console.error("Status fetch error", e);
             const cloudBadge = document.getElementById('cloud-sync-badge');
@@ -923,6 +926,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Sync Global Badges
             updateSystemBadges();
+            fetchAiBalance(); // Added for Pro balance
             lucide.createIcons();
 
         } catch (e) {
@@ -992,6 +996,51 @@ document.addEventListener('DOMContentLoaded', () => {
             showNotification("Gagal mengirim perintah restart", "error");
         }
     };
+
+    // --- PRO MODE LOGIC ---
+    window.activateProMode = async () => {
+        if (!confirm("🚀 Aktifkan Mode Pro? Bot akan merestart untuk menerapkan performa maksimal (Paid Cloud).")) return;
+        try {
+            showGlobalProgress(true, 'Mengaktifkan Mode Pro...', 'Sistem sedang mengatur performa ke level maksimal.');
+            const res = await fetch('/api/system/mode/pro', { method: 'POST' });
+            const data = await res.json();
+            showNotification(data.message, 'success');
+            setTimeout(() => location.reload(), 5000);
+        } catch (e) {
+            showNotification("Gagal mengaktifkan mode pro", "error");
+            showGlobalProgress(false);
+        }
+    };
+
+    async function fetchAiBalance() {
+        try {
+            const res = await fetch('/api/system/balance');
+            const data = await res.json();
+            
+            // System Tab elements
+            const label = document.getElementById('pro-balance-label');
+            const status = document.getElementById('pro-status-label');
+            
+            // Dashboard Tab elements
+            const dashBalance = document.getElementById('dash-pro-balance');
+            const dashLabel = document.getElementById('dash-pro-label');
+            
+            if (data.balance === null) {
+                if (label) label.innerText = "No Key";
+                if (dashBalance) dashBalance.innerText = "--";
+            } else {
+                const remains = parseFloat(data.balance);
+                const valStr = `$${remains.toFixed(4)}`;
+                
+                if (label) label.innerText = valStr;
+                if (dashBalance) dashBalance.innerText = valStr;
+                
+                if (remains < 0.1) {
+                    if (label) label.className = "text-xs font-bold bg-rose-500/40 px-3 py-1 rounded-full text-white line-pulse";
+                }
+            }
+        } catch (e) {}
+    }
 
     // --- FORM ACTIONS ---
     window.addManual = async () => {
@@ -1236,6 +1285,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchStatus();
     initCharts();
     fetchAnalytics();
+    fetchAiBalance();
     setInterval(fetchStatus, 10000);
     setInterval(fetchAnalytics, 15000);
     setInterval(updateSystemBadges, 8000);

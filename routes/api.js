@@ -180,7 +180,6 @@ module.exports = function(context) {
         
         try {
             const logs = fs.readFileSync(logPath, 'utf8');
-            // Extract IDs like 628xxx@c.us or 628xxx@lid (limited to @lid as per logs)
             const matches = logs.match(/\d+@(lid|c\.us)/g) || [];
             const uniqueRecipients = [...new Set(matches)];
             res.json({ recipients: uniqueRecipients });
@@ -189,21 +188,40 @@ module.exports = function(context) {
 
     router.post('/broadcast', requireAuth, async (req, res) => {
         const { message, recipients } = req.body;
-        const zapclient = context.client; // Passed from server.js
+        const zapclient = context.client;
         if (!zapclient) return res.status(500).json({ error: "WA Client not ready" });
-
-        // Run in background to avoid timeout
         res.json({ status: "success", message: "Broadcast started" });
-
         for (const target of recipients) {
             try {
                 await zapclient.sendMessage(target, message);
-                // Delay 3-5 seconds to prevent ban
                 await new Promise(r => setTimeout(r, 3000 + Math.random() * 2000));
-            } catch (e) {
-                console.error(`Broadcast failed to ${target}: ${e.message}`);
-            }
+            } catch (e) { console.error(`Broadcast failed to ${target}: ${e.message}`); }
         }
+    });
+
+    router.get('/system/balance', requireAuth, async (req, res) => {
+        const { checkOpenRouterBalance } = require('../ai');
+        const balance = await checkOpenRouterBalance();
+        res.json({ balance: balance });
+    });
+
+    router.post('/system/mode/pro', requireAuth, async (req, res) => {
+        try {
+            const envPath = path.join(__dirname, '../.env');
+            if (fs.existsSync(envPath)) {
+                let envContent = fs.readFileSync(envPath, 'utf8');
+                if (envContent.includes('BOT_MODE=')) {
+                    envContent = envContent.replace(/BOT_MODE=.*/g, 'BOT_MODE="cloud-backup"');
+                } else {
+                    envContent += '\nBOT_MODE="cloud-backup"';
+                }
+                fs.writeFileSync(envPath, envContent);
+                res.json({ status: "success", message: "Mode Pro diaktifkan! Bot akan restart." });
+                setTimeout(() => process.exit(0), 2000);
+            } else {
+                res.status(404).json({ error: ".env file not found" });
+            }
+        } catch (e) { res.status(500).json({ error: e.message }); }
     });
 
     // --- SYNC ENGINE ---

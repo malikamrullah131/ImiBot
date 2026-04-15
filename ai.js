@@ -871,6 +871,7 @@ async function universalLocalAI(prompt, modelName) {
 async function fastAI(localPrompt, cloudPrompt, isComplex = false) {
     const os = require('os');
     const ramUsage = (1 - os.freemem() / os.totalmem()) * 100;
+    const isPro = config.botMode === 'cloud-backup';
 
     // 💡 LITE MODE RESTRICTION
     if (config.botMode === 'lite' && isComplex && ramUsage > 85) {
@@ -878,7 +879,12 @@ async function fastAI(localPrompt, cloudPrompt, isComplex = false) {
         return "Pertanyaan Anda cukup kompleks. Saya sarankan untuk menghubungi admin atau datang langsung ke kantor untuk informasi lebih lanjut. (Hemat RAM)";
     }
 
-    if (config.botMode !== 'cloud-backup' && ramUsage < config.performance.maxRamTolerance) {
+    // 💡 QUOTA EFFICIENCY: Even in Pro Mode, use local for SIMPLE queries if RAM is okay.
+    // This prevents wasting paid tokens on things like greetings or basic info.
+    const canUseLocal = ramUsage < config.performance.maxRamTolerance;
+    const shouldTryLocalFirst = !isComplex || (!isPro && canUseLocal);
+
+    if (shouldTryLocalFirst && canUseLocal) {
         try {
             // 1. PRIMARY LOCAL: Phi-3 Mini (Fastest/Lightest)
             let modelToUse = config.localModels.primary;
@@ -888,17 +894,18 @@ async function fastAI(localPrompt, cloudPrompt, isComplex = false) {
                 modelToUse = config.localModels.secondary;
             }
 
-            console.log(`[LOCAL-AI] ⚡ Using ${config.localModels.provider} (${modelToUse}) for processing...`);
+            console.log(`[LOCAL-AI] ⚡ ${isPro ? 'Pro-Efficiency:' : ''} Using ${config.localModels.provider} (${modelToUse}) for simple/local processing...`);
             const localRes = await universalLocalAI(localPrompt, modelToUse);
-            if (localRes) return localRes;
+            if (localRes && localRes.length > 5) return localRes;
 
         } catch (e) {
-            console.warn(`[LOCAL-AI] ⚠️ Local model failed, trying fallback... ${e.message}`);
+            console.warn(`[LOCAL-AI] ⚠️ Local model failed, trying cloud fallback... ${e.message}`);
         }
     }
 
-    // 3. CLOUD FALLBACK (Now with Infinite Retry)
+    // 3. CLOUD FALLBACK (Paid Quota Usage)
     try {
+        if (isPro) console.log("[🚀 PRO-QUOTA] Routing to Premium Cloud Engines...");
         return await gemini(cloudPrompt, isComplex);
     } catch (e) {
         console.warn("[AI ENGINE] Cloud Ensemble failed, using Final Local Stand (Ollama)...");
@@ -1272,10 +1279,10 @@ INSTRUKSI KHUSUS:
 7. JIKA pertanyaan tidak ada hubungannya dengan layanan Paspor, Visa, Izin Tinggal, atau Keimigrasian, jawab: "Maaf, saya hanya dapat membantu memberikan informasi terkait layanan keimigrasian."
 `;
 
-    // 💡 KARPATHY LLM WIKI INJECTION: Bypass RAG for Cloud API
-    const localPrompt = basePrompt.replace("{{DB_CONTEXT}}", ragContext || "Tidak ada data spesifik di database. Gunakan pengetahuan umum imigrasi Indonesia namun beri disclaimer.");
-    const megaContext = MEGA_WIKI_CONTEXT + (ragContext ? `\n\nTAMBAHAN SPESIFIK:\n${ragContext}` : "");
-    const cloudPrompt = basePrompt.replace("{{DB_CONTEXT}}", megaContext || ragContext || "Tidak ada data.");
+    // 💡 TOKEN EFFICIENCY: Cloud models (expensive) get only relevant RAG context.
+    // Local models (free) get the full Mega Wiki context for maximum accuracy.
+    const localPrompt = basePrompt.replace("{{DB_CONTEXT}}", (MEGA_WIKI_CONTEXT + "\n" + (ragContext || "")));
+    const cloudPrompt = basePrompt.replace("{{DB_CONTEXT}}", ragContext || "Tidak ada data spesifik di database. Jawab berdasarkan pengetahuan umum imigrasi Indonesia namun beri disclaimer jika tidak yakin.");
 
     // 7. MULTI-AGENT EXECUTION & CONFIDENCE
     let confidenceScore = calculateConfidence(searchResults, isComplex ? 2 : 1);

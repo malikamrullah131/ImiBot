@@ -184,15 +184,27 @@ async function executeWebSearch(query, provider = "duckduckgo") {
     let results = [];
     switch (provider.toLowerCase()) {
         case "duckduckgo":
+            // 1. Coba DDG (Cepat)
             results = await searchDuckDuckGo(query);    
-            // Auto-fallback jika DDG kosong/timeout
+            
             if (results.length === 0) {
-                console.log("[🌐 FALLBACK 1] DuckDuckGo nihil, mencoba SearxNG...");
-                results = await searchSearxNG(query);
-            }
-            if (results.length === 0) {
-                console.log("[🌐 FALLBACK 2] SearxNG nihil, mencoba Mojeek...");
-                results = await searchMojeek(query);
+                console.log("[🌐 FALLBACK ⚡] Mencoba Mojeek & SearxNG secara paralel...");
+                
+                // 2. Jalankan Mojeek dan Rotasi SearxNG (Batas 3 instance saja agar cepat)
+                const fallbackPromises = [
+                    searchMojeek(query),
+                    (async () => {
+                        const shuffled = [...PUBLIC_SEARXNG_INSTANCES].sort(() => Math.random() - 0.5);
+                        for (const url of shuffled.slice(0, 3)) {
+                            const res = await searchSearxNG_Single(url, query);
+                            if (res.length > 0) return res;
+                        }
+                        return [];
+                    })()
+                ];
+
+                const fastResults = await Promise.any(fallbackPromises.map(p => p.then(r => r.length > 0 ? r : Promise.reject())));
+                results = fastResults || [];
             }
             break;
         case "searxng":
@@ -202,13 +214,25 @@ async function executeWebSearch(query, provider = "duckduckgo") {
         case "tavily":
             results = await searchTavily(query);        break;
         case "brave":
-            results = await searchBrave(query);         break;
+            results = await searchBrave(query) ;        break;
         default:
-            console.log(`Provider ${provider} tidak ditemukan, jatuh kembali ke mode DuckDuckGo.`);
-            results = await searchDuckDuckGo(query);
-            if (results.length === 0) results = await searchSearxNG(query);
+            results = await executeWebSearch(query, "duckduckgo");
     }
     return results;
+}
+
+/** Helper untuk SearxNG Tunggal */
+async function searchSearxNG_Single(baseUrl, query) {
+    try {
+        const response = await axios.get(`${baseUrl}/search`, {
+            params: { q: query, format: 'json' },
+            timeout: 3500 // Lebih cepat
+        });
+        if (response.data && response.data.results && response.data.results.length > 0) {
+            return response.data.results.slice(0, 5).map(res => res.content || res.snippet || "");
+        }
+    } catch (e) { }
+    return [];
 }
 
 // ================= PENGUJIAN LOKAL ================= //
