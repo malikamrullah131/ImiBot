@@ -15,22 +15,22 @@ graph TD
     A[Pesan WhatsApp] --> B{🛡️ Anti-Spam Gate}
     B -- Noise/Flood --> Z[Abaikan / Peringatan]
     B -- OK --> C{Step 0: Profile Memory}
-    C -- Context Found --> D{Step 1: Rule Engine}
-    C -- New User --> D
-    D -- Match --> E[Kirim Jawaban]
-    D -- No Match --> F{Step 2: Smart Cache}
+    C -- Context Found --> D{🛡️ Quota Guard}
+    D -- Off-Topic Pattern --> E1[Local Block + Free Refusal]
+    D -- OK --> D1{Step 1: Rule Engine}
+    D1 -- Match --> E[Kirim Jawaban]
+    D1 -- No Match --> F{Step 2: Smart Cache}
     F -- Hit --> E
     F -- Miss --> G{Step 3: Normalized Search}
     G -- Match --> E
     G -- No Match --> H{Step 4: Vector-Lite Search}
     H -- Score > 0.8 --> E
     H -- Low Score --> I{Step 5: LLM Dispatcher}
-    H -- GPT-5 / DeepSeek V3.2 --> E
-    H -- OpenRouter Ensemble --> E
-    I -- Google SDK Direct --> E
-    J -- Success --> E
-    J -- Fail --> K[Ultimate Fallback: Ollama Local] --> E
+    I -- Cloud Failed / Conf < 30 --> J{🌐 Free Search Fallback}
+    J -- DDG / SearxNG --> E
+    I -- Success --> E
 ```
+
 
 ---
 
@@ -88,6 +88,21 @@ Bot kini dapat diintegrasikan dengan platform eksternal (Botpress, Typebot, webs
 
 ### 9. 💰 Auto Balance Monitor
 Setiap **30 pesan** yang diproses, sistem secara otomatis memeriksa saldo OpenRouter dan mengirimkan peringatan ke WhatsApp Admin jika saldo di bawah **$0.50**.
+
+### 10. 🌐 Zero-Key Free Search Fallback
+Untuk menjaga kelangsungan layanan tanpa biaya API tambahan:
+- **Search Provider Rotation**: Jika DuckDuckGo gagal, sistem otomatis berotasi ke daftar instance publik **SearxNG** (seperti searx.be, searxng.site).
+- **Emergency Trigger**: Mekanisme ini otomatis aktif jika Confidence Score < 30% atau terjadi `API_ERROR` pada cluster Cloud AI.
+
+### 11. 🛡️ Local Quota Guard
+- **Regex Firewall**: Menapis pertanyaan di luar domain imigrasi (politik, olahraga, gossip) menggunakan pola regex lokal sebelum memanggil API berbayar.
+- **Cost Minimization**: Memastikan budget API hanya digunakan untuk pertanyaan substansial terkait layanan keimigrasian.
+
+### 12. 📊 Autonomous Intelligence Analysis (`analyze_and_report_v5.js`)
+Sistem dilengkapi dengan skrip analisa mandiri yang:
+- Membedah log `chatbot_logs.txt` untuk menemukan tren pertanyaan baru.
+- Mendeteksi upaya spamming atau bypass filter.
+- Memperbarui `lessons_learned.json` untuk meningkatkan nalar bot secara berkelanjutan.
 
 ---
 
@@ -210,4 +225,4 @@ npm start            # node guardian.js
 Sistem ini bersifat **Open Enhancement** untuk internal Kantor Imigrasi PKP. Pengembang dapat melakukan modifikasi pada `config.js` untuk menyesuaikan ambang batas (*threshold*) akurasi AI dan mode operasional.
 
 **Penyusun:** Antigravity AI Team  
-**Status:** ✅ Stable for Production (v4.1 - Anti-Spam, SaaS API & PDF Knowledge Edition)
+**Status:** ✅ Stable for Production (v4.3 - Intelligence & Resilience Edition)

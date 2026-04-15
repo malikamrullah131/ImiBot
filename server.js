@@ -209,9 +209,24 @@ client.on('message', async (msg) => {
     const contact = await msg.getContact().catch(() => ({ number: "" }));
     const isFromAdmin = (contact.number === ADMIN_WA_NUMBER.replace(/\D/g, '')) || (msg.from === ADMIN_WA_NUMBER);
 
-    // --- ADMIN COMMANDS ---
-    if (isFromAdmin && msg.body.startsWith('!')) {
-        const cmd = msg.body.toLowerCase().trim();
+        let cmd = msg.body.toLowerCase().trim();
+        
+        // --- SHORT ALIASES ---
+        if (cmd === '!a') cmd = '!help';
+        if (cmd === '!s') cmd = '!status';
+        if (cmd === '!r') cmd = '!rekap';
+        if (cmd === '!w') cmd = '!websearch';
+        if (cmd === '!b') cmd = '!benar';
+        if (cmd.startsWith('!x')) { 
+            if (cmd === '!x') cmd = '!salah'; // allow '!x' alone but it might fail validation later
+            else msg.body = '!salah ' + msg.body.substring(2).trim(); 
+            cmd = '!salah'; 
+        }
+        if (cmd === '!g') cmd = '!gas';
+        if (cmd === '!y') cmd = '!sync';
+        if (cmd === '!p') cmd = '!pause';
+        if (cmd === '!m') cmd = '!resume';
+        
         if (cmd === '!status') {
             const totalMem = os.totalmem();
             const freeMem = os.freemem();
@@ -347,17 +362,61 @@ client.on('message', async (msg) => {
             }
             return msg.reply("❌ Gagal mengambil data saldo. Pastikan API Key OpenRouter valid.");
         }
+        if (cmd === '!websearch') {
+            if (!globalLastUser || !lastInteractions[globalLastUser]) return msg.reply("❌ Tidak ada data interaksi terbaru.");
+            const lastQ = lastInteractions[globalLastUser].question;
+            await msg.reply(`🌐 *MENCARI DI WEB (DUCKDUCKGO)...*\nQuery: "${lastQ}"`);
+            try {
+                const { executeWebSearch } = require('./search_providers');
+                const results = await executeWebSearch(lastQ, 'duckduckgo');
+                if (results && results.length > 0) {
+                    return msg.reply(`🔍 *HASIL PENCARIAN WEB:*\n\n${results.slice(0, 3).join('\n\n')}`);
+                }
+                return msg.reply("❌ Tidak ditemukan hasil pencarian yang relevan.");
+            } catch (e) { return msg.reply(`❌ Gagal: ${e.message}`); }
+        }
+        if (cmd === '!rekap') {
+            await msg.reply("📅 *MENYUSUN REKAP 24 JAM TERAKHIR...*");
+            try {
+                const logPath = path.join(__dirname, 'chatbot_logs.txt');
+                if (!fs.existsSync(logPath)) return msg.reply("❌ Log tidak ditemukan.");
+                
+                const content = fs.readFileSync(logPath, 'utf8');
+                const lines = content.split('\n');
+                const now = new Date();
+                const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+                
+                let rekap = lines.filter(line => {
+                    if (!line.includes('[Message Received]')) return false;
+                    const timestampStr = line.substring(1, line.indexOf(']'));
+                    const timestamp = new Date(timestampStr);
+                    return timestamp > yesterday;
+                }).map(line => {
+                    const parts = line.split('] ');
+                    const sender = parts[1]?.split(': ')[0] || 'Unknown';
+                    const message = parts[2] || '';
+                    return `• [${sender}] ${message}`;
+                });
+
+                if (rekap.length === 0) return msg.reply("📭 Tidak ada pertanyaan dalam 24 jam terakhir.");
+                
+                const finalRekap = `📋 *REKAP PERTANYAAN (24 JAM terakhir):*\n\n${rekap.slice(-20).join('\n')}\n\n_Menampilkan ${Math.min(rekap.length, 20)} dari ${rekap.length} pesan._`;
+                return msg.reply(finalRekap);
+            } catch (e) { return msg.reply(`❌ Gagal: ${e.message}`); }
+        }
         if (cmd === '!help') {
-            return msg.reply(`🛡️ *ADMIN COMMANDS*
-• !status - Cek status bot
+            return msg.reply(`🛡️ *ADMIN COMMANDS (Shortcuts)*
+• !s / !status - Cek status bot
 • !saldo - Cek sisa saldo API
-• !sync - Sinkronisasi dari Spreadsheet
-• !sync-local - Backup data ke lokal
-• !benar - Simpan jawaban terakhir ke DB
-• !salah [teks] - Koreksi jawaban terakhir
-• !audit - Analisa AI terhadap jawaban terakhir
-• !gas - Gunakan hasil audit secara instan
-• !pause/!resume - Jeda bot`);
+• !y / !sync - Sinkronisasi database
+• !r / !rekap - Rekap pesan 24 jam
+• !w / !websearch - Search web terakhir
+• !b / !benar - Simpan jawaban ke DB
+• !x [teks] / !salah - Koreksi jawaban
+• !audit - Analisa AI mendalam
+• !g / !gas - Terapkan hasil audit
+• !p / !m - Pause/Resume bot
+• !a / !help - Buka menu ini`);
         }
     }
 

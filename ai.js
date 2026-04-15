@@ -43,15 +43,24 @@ const CONFIRMATION_SUFFIX = "\n\nAda lagi yang bisa kami bantu? 😊";
 const NUDGE_MESSAGE = "Maaf, kami tidak mengerti apa yang Anda maksud. Apakah maksud Anda salah satu dari kategori berikut?\n\n1. *Paspor* (Syarat, Hilang, Rusak)\n2. *M-Paspor* (Daftar Online, Antrean)\n3. *Lokasi & Jadwal* (Alamat, Jam Kerja)\n4. *Biaya* (Tarif Non-Elektronik & Elektronik)\n\nSilakan berikan pertanyaan Anda kembali dengan menyebutkan salah satu kategori di atas agar kami bisa membantu lebih baik.";
 
 // --- KARPATHY MEGA-WIKI CONTEXT (Optimized for Tokens) ---
-let MEGA_WIKI_CONTEXT = "";
 try {
     const rawData = JSON.parse(fs.readFileSync(path.join(__dirname, 'Final_KB_Rombak.json'), 'utf8'));
-    // Hanya ambil inti sari: Question pertama + Answer (Tanpa keyword duplikat)
     MEGA_WIKI_CONTEXT = rawData.map(item => {
-        const shortQ = item.Question.split(',')[0]; // Ambil topik utama saja
+        const shortQ = item.Question.split(',')[0];
         return `Topik: ${shortQ}\nInfo: ${item.Answer}`;
     }).join('\n\n');
 } catch(e) { console.error("[MEGA-WIKI] Gagal memuat JSON", e.message); }
+
+// --- STRATEGIC INTELLIGENCE (LEARNED LESSONS) ---
+let LEARNED_LESSONS = "";
+try {
+    const lessonsPath = path.join(__dirname, 'data', 'lessons_learned.json');
+    if (fs.existsSync(lessonsPath)) {
+        const lessonsData = JSON.parse(fs.readFileSync(lessonsPath, 'utf8'));
+        LEARNED_LESSONS = `\n[MANDATORY LESSONS FROM SYSTEM ANALYSIS]:\n${lessonsData.recommended_context}\n`;
+        console.log("🧠 Intelligence Core: Strategic Lessons Loaded.");
+    }
+} catch (e) { console.error("[LEARNING] Failed to load lessons", e.message); }
 
 /**
  * Clears all cache entries that match or are similar to a given question.
@@ -122,12 +131,12 @@ const GREETINGS_MAP = {
         response: '📱 *Pendaftaran Paspor wajib melalui aplikasi M-Paspor.*\n\n1. Unduh di PlayStore (Android) atau AppStore (iOS).\n2. Buat akun dan pilih "Pengajuan Permohonan Paspor".\n3. Unggah dokumen & pilih jadwal kedatangan di Kanim Pangkalpinang.\n4. Bayar sesuai kode billing yang muncul.'
     },
     'biaya': {
-        keywords: ['biaya', 'harga', 'bayar berapa', 'tarif', 'paspor biasa', 'non elektronik'],
-        response: '⚠️ *Informasi Penting:* Kantor Imigrasi Pangkalpinang saat ini **hanya melayani permohonan Paspor Elektronik (E-Paspor)**.\n\n💰 *Tarif E-Paspor :*\n\n1. *E-Paspor Masa Berlaku 5 Tahun:* Rp 650.000\n2. *E-Paspor Masa Berlaku 10 Tahun:* Rp 950.000\n\n_Catatan: Layanan Paspor Biasa (Non-Elektronik) sudah tidak tersedia di Kanim Pangkalpinang. Pembayaran dilakukan via Bank/Post/Marketplace setelah kode billing muncul di M-Paspor._'
+        keywords: ['biaya', 'harga', 'bayar berapa', 'tarif', 'paspor biasa', 'non elektronik', 'duit', 'e-paspor', 'epaspor', 'pnbp', 'berapa harganya'],
+        response: '⚠️ *Informasi Penting:* Kantor Imigrasi Pangkalpinang saat ini **hanya melayani permohonan Paspor Elektronik (E-Paspor)**.\n\n💰 *Tarif E-Paspor (Sesuai PP No. 45/2024):*\n\n1. *E-Paspor Masa Berlaku 5 Tahun:* Rp 650.000\n2. *E-Paspor Masa Berlaku 10 Tahun:* Rp 950.000\n\n_Catatan: Layanan Paspor Biasa (Non-Elektronik) sudah tidak tersedia di Kanim Pangkalpinang. Pembayaran dilakukan via Bank/Pos/Marketplace setelah kode billing muncul di M-Paspor._'
     },
     'syarat': {
-        keywords: ['syarat', 'persyaratan', 'dokumen apa saja', 'bawa apa', 'berkas'],
-        response: '📄 *Persyaratan Umum Paspor Baru/Penggantian:*\n\n1. E-KTP (Asli)\n2. Kartu Keluarga (Asli)\n3. Akta Kelahiran / Buku Nikah / Ijazah (Asli - pilih salah satu yang memuat nama, tempat/tgl lahir, dan nama orang tua).\n\n_Untuk penggantian paspor terbitan setelah 2009 cukup bawa E-KTP dan Paspor Lama saja._'
+        keywords: ['syarat', 'persyaratan', 'dokumen apa saja', 'bawa apa', 'berkas', 'bikin baru', 'buat paspor'],
+        response: '📄 *Persyaratan Umum Paspor Baru/Penggantian:*\n\n1. E-KTP (Asli)\n2. Kartu Keluarga (Asli)\n3. Akta Kelahiran / Buku Nikah / Ijazah (Asli - pilih salah satu yang memuat nama, tempat/tgl lahir, dan nama orang tua).\n\n_Untuk penggantian paspor terbitan setelah 2009 cukup bawa E-KTP dan Paspor Lama saja. Untuk anak di bawah umur, wajib melampirkan KTP orang tua dan akta lahir._'
     },
     'percepatan': {
         keywords: ['percepatan', 'sehari jadi', 'langsung jadi', 'cepat', 'express'],
@@ -140,6 +149,10 @@ const GREETINGS_MAP = {
     'cek-status': {
         keywords: ['cek status', 'nomor permohonan', 'sudah jadi belum', 'sampai mana', 'monitoring'],
         response: '🔍 *Cara Cek Status Permohonan Paspor:*\n\n1. Buka aplikasi *M-Paspor*.\n2. Pilih menu "Riwayat Pengajuan".\n3. Klik pada permohonan Anda untuk melihat status terbaru (Menunggu Pembayaran / Verifikasi / Ajudikasi / Selesai).\n\n_Jika status sudah "Selesai", Anda bisa datang ke kantor untuk pengambilan._'
+    },
+    'off-topic': {
+        keywords: ['cilok', 'makan', 'lapar', 'ganteng', 'cantik', 'pacar', 'jomblo', 'pencalukan', 'bakso', 'nasi', 'cuaca', 'presiden', 'politik', 'gosip', 'emas', 'beras', 'minyak', 'pulsa', 'tiket pesawat', 'hotel'],
+        response: 'Maaf, saya adalah asisten AI Kantor Imigrasi Pangkalpinang. Saya hanya dapat membantu menjawab pertanyaan seputar layanan keimigrasian seperi Paspor, Visa, dan Izin Tinggal. 🙏'
     }
 };
 
@@ -147,10 +160,22 @@ function ruleCheck(input) {
     const raw = input.toLowerCase().trim();
     if (raw === 'ping') return 'Pong! I am alive and thinking. 🤖';
 
-    // Check Map
+    // 1. Check Off-Topic first to prevent accidental triggers (e.g. "harga cilok")
+    if (GREETINGS_MAP['off-topic'].keywords.some(kw => raw.includes(kw))) {
+        console.log(`[🚫 OFF-TOPIC] Caught: "${raw}"`);
+        return GREETINGS_MAP['off-topic'].response;
+    }
+
+    // 2. Check Other Maps
     for (const category in GREETINGS_MAP) {
+        if (category === 'off-topic') continue;
         const entry = GREETINGS_MAP[category];
-        if (entry.keywords.some(kw => raw.includes(kw) && raw.length <= kw.length + 5)) {
+        // NEW: Higher tolerance for important keywords even in longer sentences
+        const isCommonQuery = ['biaya', 'syarat', 'm-paspor', 'lokasi', 'jadwal-layanan'].includes(category);
+        const lengthLimit = isCommonQuery ? 100 : 15; // Allow longer sentences for common queries
+        
+        if (entry.keywords.some(kw => raw.includes(kw) && raw.length <= kw.length + lengthLimit)) {
+            console.log(`[🎯 RULE MATCH] Found ${category} match in: "${raw}"`);
             return entry.response;
         }
     }
@@ -893,11 +918,26 @@ async function fastAI(localPrompt, cloudPrompt, isComplex = false) {
  */
 async function agentPlan(msgBody) {
     const lower = msgBody.toLowerCase();
+    
+    // 🛡️ NO-QUOTA GUARD: Immediate Off-Topic Detection (Local & Free)
+    const offTopicPatterns = [
+        /siapa (presiden|gubernur|walikota|pencipta|penemu)/i,
+        /berapa (harga beras|harga emas|skor bola|umur)/i,
+        /apa itu (cinta|galau|rindu)/i,
+        /ganteng|cantik|pacar|jomblo|makan|lapar|haus|ngantuk|tidur|bola|main/i
+    ];
+    
+    if (offTopicPatterns.some(p => p.test(lower))) {
+        console.log(`[🛡️ GUARD] Local block for off-topic pattern: "${lower}"`);
+        return 'off_topic_noise';
+    }
+
     // Deteksi cepat berbasis kata kunci tanpa LLM (sangat cepat)
     if (/harga|biaya|tarif|berapa|bayar|pnbp/i.test(lower)) return 'price_query';
     if (/berita|update|terbaru|2024|2025|akhir|kabar/i.test(lower)) return 'web_news';
     if (/pdf|dokumen|aturan|pp|permenkum|peraturan/i.test(lower)) return 'policy_doc';
     if (/halo|hai|assalamualaikum|selamat/i.test(lower)) return 'greeting';
+    
     return 'database'; // Default: cari di database dulu
 }
 
@@ -1005,9 +1045,23 @@ async function aiRouter(inputMsgBody, localPrompt, cloudPrompt, isComplex = fals
             answer
         };
     } catch (err) {
-        markBadKey(getRandomKey('OPENROUTER_API_KEY'));
-        console.error("[AI ROUTER] Total AI Failure! Sistem sedang kritis.");
-        return { intent: "System Busy", rephrase: inputMsgBody, answer: "Maaf, sistem AI sedang melayani banyak warga. Tunggu sejenak ya." };
+        console.error("[AI ROUTER] 🚨 Total AI Failure (Limit/Error)! Triggering Emergency Web Search...");
+        
+        try {
+            const { executeWebSearch } = require('./search_providers');
+            const searchResults = await executeWebSearch(inputMsgBody, "duckduckgo");
+            if (searchResults && searchResults.length > 0) {
+                return {
+                    intent: "Emergency-Search",
+                    rephrase: inputMsgBody,
+                    answer: `Mohon maaf, terjadi gangguan pada sistem otak AI utama saya (API Limit). Berikut hasil temuan cepat dari internet mengenai pertanyaan Anda:\n\n- ${searchResults.slice(0, 2).join('\n- ')}\n\n_(Respon Darurat via DuckDuckGo)_`
+                };
+            }
+        } catch (searchErr) {
+            console.error("[EMERGENCY-SEARCH] Gagal:", searchErr.message);
+        }
+
+        return { intent: "System Busy", rephrase: inputMsgBody, answer: "Maaf, sistem AI sedang melayani banyak warga dan pencarian darurat juga gagal. Tunggu sejenak ya. 🙏" };
     }
 }
 
@@ -1036,6 +1090,12 @@ function savePending(data) {
 
 // Step 10: ALUR KERJA UTAMA (Final Lifecycle with History)
 async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = null) {
+    // 🛡️ ANTI-SPAM SILENT DROP (From Strategic Intelligence Report)
+    const normalizedText = normalize(msgBody);
+    if (normalizedText.length <= 1 || (normalizedText.length === 2 && normalizedText.repeat(2).includes(normalizedText))) {
+        return { answer: "Halo! Saya ImmiCare. Ada yang bisa saya bantu terkait layanan paspor? Mohon kirim pertanyaan yang lebih jelas ya. 😊", wasAIGenerated: false, confidence: 'high' };
+    }
+
     const input = normalize(msgBody);
     const isComplex = detectComplexity(msgBody);
 
@@ -1061,37 +1121,51 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = 
     const history = chatHistory[remoteId] || [];
     const historySummary = history.map(h => `${h.role === 'user' ? 'User' : 'AI'}: ${h.text}`).join('\n');
 
-    // 1. Rule Check (Fastest)
+    // PRTA: High-Precision Keyword Matcher
     const rule = ruleCheck(input);
     if (rule) return { answer: rule, wasAIGenerated: false, confidence: 'high' };
 
-    // 2. ⚡ SEMANTIC CACHE (Advanced v5.1)
+    // STAGE 1: Exact Database Keyword Match (Zero Hallucination)
+    const exactDBMatch = await searchDB(msgBody, rawKB);
+    if (exactDBMatch && exactDBMatch.method === 'exact') {
+        console.log(`[🎯 KEYWORD-FIRST] Exact match found for: "${msgBody}"`);
+        return { answer: exactDBMatch.answer + CONFIRMATION_SUFFIX, wasAIGenerated: false, confidence: 'high' };
+    }
+
+    // STAGE 2: Semantic Cache
     const { getCache, getSemanticCache, saveSemanticCache } = require('./vectorStore');
     const semanticHit = await getSemanticCache(msgBody);
     if (semanticHit) return { answer: semanticHit, wasAIGenerated: false, confidence: 'high' };
 
-    // ------- AGENTIC PLANNING (Pre-Retrieval) -------
+    // STAGE 3: Agentic Intent Analysis
     const agentIntent = await agentPlan(msgBody);
-    console.log(`[🤖 AGENTIC] Intent classified as: '${agentIntent}'`);
+    console.log(`[🤖 AGENTIC] Intent: '${agentIntent}'`);
     
-    // Jika Agentic mendeteksi ini adalah pertanyaan berita/update terbaru, langsung ke Web
+    // 🛡️ STOP OFF-TOPIC NOISE BEFORE REACHING CLOUD (SAVE QUOTA)
+    if (agentIntent === 'off_topic_noise') {
+        return { 
+            answer: "Maaf, saya hanya dapat membantu menjawab pertanyaan seputar layanan keimigrasian (Paspor, Visa, Izin Tinggal). Mohon kirimkan pertanyaan yang relevan dengan layanan kami. 🙏", 
+            wasAIGenerated: false, 
+            confidence: 'high' 
+        };
+    }
+
     if (agentIntent === 'web_news') {
-        console.log(`[🤖 AGENTIC] Intent 'web_news' -> Bypassing RAG, langsung ke Web Search.`);
         if (onThinking) onThinking();
         try {
             const { executeWebSearch } = require('./search_providers');
-            const provider = process.env.TAVILY_API_KEY ? "tavily" : (process.env.SERPER_API_KEY ? "serper" : "duckduckgo");
+            const provider = process.env.TAVILY_API_KEY ? "tavily" : "duckduckgo";
             const webResults = await executeWebSearch(msgBody, provider);
             if (webResults && webResults.length > 0) {
                 const webCtx = webResults.join("\n- ");
-                const webPrompt = `Anda adalah Pakar Imigrasi Indonesia. Pertanyaan: "${msgBody}". Informasi terkini dari internet:\n${webCtx}\n\nJawab secara formal, tambahkan disclaimer bahwa ini info terbaru dari internet. Gunakan Markdown.`;
+                const webPrompt = `Info Imigrasi 2026: ${webCtx}\nPertanyaan: ${msgBody}`;
                 const webAnswer = await fastAI(webPrompt, webPrompt, false);
-                return { answer: (webAnswer || "Info tidak tersedia saat ini.") + "\n\n_(🌐 Dijawab via Web Search Terkini)_", wasAIGenerated: true, confidence: 'medium' };
+                return { answer: (webAnswer || "Info tidak tersedia.") + "\n\n_(🌐 Sumber: Web Search)_", wasAIGenerated: true, confidence: 'medium' };
             }
         } catch(e) { console.error('[Agentic Web]', e.message); }
     }
 
-    // 3. Hybrid Search Pipeline (Keywords + Semantic)
+    // STAGE 4: Hybrid Deep Search (PGVector + Keyword)
     const { hybridSearch } = require('./vectorStore');
     let searchResults = await hybridSearch(msgBody, 5);
     let dbMatchObj = searchResults.length > 0 ? {
@@ -1177,6 +1251,9 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = 
     const basePrompt = `
 "${profileContext}"
 
+[STRATEGIC SYSTEM LEARNING (READ FIRST)]:
+${LEARNED_LESSONS || 'Tetap fokus pada domain imigrasi.'}
+
 RIWAYAT PERCAKAPAN (Terbaru):
 ${historySummary || '(Percakapan baru)'}
 
@@ -1186,11 +1263,13 @@ DATABASE PENGETAHUAN KANTOR IMIGRASI:
 PERTANYAAN USER: "${msgBody}"
 
 INSTRUKSI KHUSUS:
-1. Anda adalah Pakar Imigrasi. Jawablah dengan nada Formal, Solutif, dan Sopan.
-2. Prioritaskan data dari DATABASE PENGETAHUAN di atas.
-3. JIKA sumber berasal dari [PDF-DOC], Anda WAJIB menyebutkan nama dokumennya untuk kredibilitas (misal: "Sesuai Aturan di Dokumen X...").
-4. Gunakan format Markdown (Bold/List) agar mudah dibaca di WhatsApp.
-5. Berikan jawaban Anda secara langsung tanpa kalimat pembuka yang membosankan.
+1. Anda adalah Pakar Imigrasi Kantor Imigrasi Kelas I TPI Pangkalpinang. Jawablah dengan nada Formal, Solutif, dan Sopan.
+2. Prioritaskan data dari DATABASE PENGETAHUAN di atas. JIKA TIDAK ADA DATA di dalam DATABASE/KNOWLEDGE BASE, jawablah bahwa Anda tidak memiliki informasi tersebut dan sarankan untuk menghubungi Admin.
+3. JANGAN PERNAH berhalusinasi atau memberikan informasi di luar domain imigrasi (seperti harga makanan, politik, gosip, atau hal pribadi).
+4. JIKA sumber berasal dari [PDF-DOC], Anda WAJIB menyebutkan nama dokumennya untuk kredibilitas (misal: "Sesuai Aturan di Dokumen X...").
+5. Gunakan format Markdown (Bold/List) agar mudah dibaca di WhatsApp.
+6. Berikan jawaban Anda secara langsung tanpa kalimat pembuka yang membosankan.
+7. JIKA pertanyaan tidak ada hubungannya dengan layanan Paspor, Visa, Izin Tinggal, atau Keimigrasian, jawab: "Maaf, saya hanya dapat membantu memberikan informasi terkait layanan keimigrasian."
 `;
 
     // 💡 KARPATHY LLM WIKI INJECTION: Bypass RAG for Cloud API
@@ -1204,21 +1283,17 @@ INSTRUKSI KHUSUS:
 
     const isMegaWikiActive = MEGA_WIKI_CONTEXT.length > 1000;
 
-    // 🛑 "SAY I DON'T KNOW" LITE WEB SEARCH (Trigger jika MegaWiki tidak aktif atau LLM butuh internet nyata)
-    if (confidenceScore < 15 && !dbMatchObj && isComplex && !isMegaWikiActive) {
-        console.warn("[🛑 ANTI-HALU] Confidence score too low. Mencoba Auto Web Search (DuckDuckGo)...");
+    // 🛑 ZERO-COST FALLBACK: DuckDuckGo Web Search (Triggered if Confidence < 30%)
+    if (confidenceScore < 30 && !rule) {
+        console.warn(`[🛑 LOW-CONFIDENCE] Score: ${confidenceScore}%. Mencoba 'Jalan Gratis' (DuckDuckGo Search)...`);
         
         try {
             const { executeWebSearch } = require('./search_providers');
-            // Menentukan provider terbaik (Prioritaskan Tavily jika ada Key)
-            const provider = process.env.TAVILY_API_KEY ? "tavily" : 
-                             (process.env.SERPER_API_KEY ? "serper" : "duckduckgo");
-                             
-            console.log(`[🌐 WEB SEARCH] Mencoba pencarian menggunakan: ${provider}...`);
-            const webResults = await executeWebSearch(msgBody, provider);
+            // Force DuckDuckGo for the "Zero API Key" path
+            const webResults = await executeWebSearch(msgBody, "duckduckgo");
             
             if (webResults && webResults.length > 0) {
-                console.log("[🌐 WEB SEARCH] Hasil ditemukan, mengirim ke AI untuk dianalisis...");
+                console.log("[🌐 FREE-SEARCH] Hasil ditemukan via DuckDuckGo. Menganalisis...");
                 const webContext = webResults.join("\n- ");
                 
                 const webPrompt = `TUGAS: Anda adalah asisten AI Imigrasi. Pengguna bertanya: "${msgBody}"
@@ -1233,28 +1308,51 @@ TUGAS ANDA:
                 
                 const webAnswer = await aiRouter(msgBody, webPrompt, webPrompt, false); // Pakai router ringan
                 return {
-                    answer: (webAnswer?.answer || webAnswer) + "\n\n_(🌐 Dijawab dengan bantuan Web Search)_" + CONFIRMATION_SUFFIX,
+                    answer: (webAnswer?.answer || webAnswer) + "\n\n_(🌐 Dijawab via Jalur Gratis DuckDuckGo)_" + CONFIRMATION_SUFFIX,
                     wasAIGenerated: true,
                     confidence: 'medium'
                 };
             }
         } catch (webErr) {
-            console.error("[Web Search Error]", webErr.message);
+            console.error("[Free Search Error]", webErr.message);
         }
 
-        console.warn("[🛑 ANTI-HALU] Web search gagal. Triggering 'I Don't Know' mode fallback akhir.");
+        console.warn("[🛑 FALLBACK] Web search gagal. Triggering 'I Don't Know' mode.");
         return { 
-            answer: "Maaf, saya tidak menemukan informasi resmi yang cukup spesifik mengenai hal tersebut di database kami, maupun di pencarian web. Untuk menghindari kesalahan informasi, saya sarankan Anda langsung menghubungi Admin kantor layanan. 🙏", 
+            answer: "Maaf, daya yakin saya rendah untuk menjawab ini secara akurat. Namun menurut data umum imigrasi, mohon konfirmasi ke Admin untuk detail terbaru agar tidak terjadi kesalahan informasi. 🙏", 
             wasAIGenerated: true, 
             confidence: 'low' 
         };
     }
 
-    const aiResult = isComplex 
-        ? { answer: await multiAgentVote(localPrompt, cloudPrompt, ragContext) }
-        : await aiRouter(msgBody, localPrompt, cloudPrompt, false);
+    let aiResult;
+    try {
+        aiResult = isComplex 
+            ? { answer: await multiAgentVote(localPrompt, cloudPrompt, ragContext) }
+            : await aiRouter(msgBody, localPrompt, cloudPrompt, false);
+            
+        // Jika aiRouter mereturn fallback busy, lempar ke catch untuk trigger search
+        if (aiResult?.intent === "System Busy") throw new Error("AI Busy Fallback Triggered");
+        
+    } catch (totalAiError) {
+        console.error("[💔 TOTAL FAILURE] AI Brain is dead. Triggering Emergency Web Guard...");
+        try {
+            const { executeWebSearch } = require('./search_providers');
+            const zeroKeyResults = await executeWebSearch(msgBody, "duckduckgo");
+            aiResult = {
+                answer: `Mohon maaf, saat ini akses ke sistem AI utama sedang penuh/limit. Namun saya menemukan info kilas berikut dari internet:\n\n- ${zeroKeyResults.slice(0, 2).join('\n- ')}\n\n_(⚠️ Harap hubungi Admin jika butuh kepastian hukum)_`,
+                wasAIGenerated: true,
+                intent: 'Emergency-Search'
+            };
+        } catch (searchFail) {
+            aiResult = { 
+                answer: "Waduh, koneksi ke sistem AI dan pencarian internet sedang bermasalah. Silakan hubungi WA Admin kami atau coba lagi dalam beberapa menit. 🙏",
+                wasAIGenerated: false 
+            };
+        }
+    }
 
-    let finalAnswer = aiResult.answer;
+    let finalAnswer = aiResult?.answer || aiResult;
 
     // 8. 🕵️‍♂️ FINAL AUDIT (Post-Processing)
     if (isComplex && confidenceScore > 10) {

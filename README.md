@@ -48,19 +48,31 @@ Kami menyediakan halaman web cantik (Dashboard) untuk memantau:
 ### 3. Perintah Lewat WhatsApp
 Admin bisa mengatur robot langsung dari chat WhatsApp dengan perintah simpel:
 
-| Perintah | Fungsi |
-|---|---|
-| `!help` | Tampilkan daftar semua perintah admin. |
-| `!status` | Cek apakah robot sedang sehat atau butuh istirahat. |
-| `!saldo` | Cek sisa saldo API AI (OpenRouter). |
-| `!audit` | Minta robot menganalisa sendiri jawabannya (untuk memastikan akurasi). |
-| `!gas` | Langsung kirim jawaban terbaik hasil analisa robot ke pengguna + simpan otomatis. |
-| `!benar` | Beri tahu robot jika jawabannya tepat (simpan ke database). |
-| `!salah [jawaban]` | Koreksi jawaban robot secara instan dengan jawaban yang benar. |
-| `!sync` | Sinkronisasi data dari Google Sheets + Cloud + PDF. |
-| `!sync-local` | Backup data ke penyimpanan lokal komputer (Offline Security). |
-| `!sync-pdf` | Perbarui Knowledge Base dari dokumen PDF di folder `knowledge_pdf/`. |
-| `!pause` / `!resume` | Jeda bot sementara atau aktifkan kembali. |
+| Perintah Full | Shortcut | Fungsi |
+|---|---|---|
+| `!help` | `!a` | Tampilkan daftar semua perintah admin. |
+| `!status` | `!s` | Cek apakah robot sedang sehat atau butuh istirahat. |
+| `!saldo` | - | Cek sisa saldo API AI (OpenRouter). |
+| `!rekap` | `!r` | Rekap semua pertanyaan user dalam 24 jam terakhir. |
+| `!websearch`| `!w` | Pencarian manual ke Web (DuckDuckGo) untuk query terakhir. |
+| `!audit` | - | Minta robot menganalisa sendiri jawabannya. |
+| `!gas` | `!g` | Langsung kirim jawaban terbaik hasil analisa robot + simpan. |
+| `!benar` | `!b` | Konfirmasi jawaban robot tepat (simpan ke database). |
+| `!salah` | `!x [teks]` | Koreksi jawaban robot secara instan. |
+| `!sync` | `!y` | Sinkronisasi penuh (Sheets + Cloud + PDF). |
+| `!sync-local`| - | Backup data ke penyimpanan lokal komputer. |
+| `!pause` / `!resume` | `!p` / `!m` | Jeda atau aktifkan kembali bot. |
+
+---
+
+## 🛡️ Sistem Proteksi & Efisiensi (Baru!)
+
+ImmiCare kini lebih pintar dalam menjaga biaya dan akurasi:
+1. **Quota Guard (Anti-Bocor)**: Robot secara otomatis mendeteksi pertanyaan "Off-Topic" (politik, gosip, makanan) di tingkat lokal. Ini mencegah penggunaan saldo API untuk pertanyaan yang tidak relevan.
+2. **Jalur Gratis (Zero-Key Path)**: Jika saldo API habis atau koneksi bermasalah, robot secara otomatis menggunakan DuckDuckGo & SearxNG untuk mencari jawaban secara gratis.
+3. **High-Speed Rule Path**: Pertanyaan umum seperti "biaya" atau "syarat" kini diproses dalam milidetik menggunakan sistem kata kunci tingkat tinggi tanpa menunggu AI berpikir.
+4. **Autonomous Learning**: Bot menganalisa log secara berkala untuk mengenali pola spam atau kesalahan informasi baru secara mandiri.
+
 
 ### 4. Sistem Guardian Nudge 🛡️
 Robot akan otomatis mengirimkan pesan khusus ("Nudge") ke WhatsApp Admin jika dia merasa kurang yakin dengan jawabannya atau jika dia terpaksa menggunakan nalar AI (bukan dari database). Ini membantu Admin memantau kualitas tanpa harus membaca semua chat satu per satu.

@@ -409,5 +409,139 @@
     "suggestion": "**Analisis:**  \nJAWABAN AI sudah **akurat dan sesuai** dengan konteks resmi yang diberikan (prosedur pendaftaran via aplikasi M-Paspor). Tidak ada informasi yang bertentangan atau kesalahan fakta yang perlu diperbaiki.  \n\n**Kesimpulan:**  \nJAWABAN AI dapat digunakan sebagaimana adanya.  \n\n---  \n**JAWABAN AI (Tidak Ada Perubahan):**  \n\n\"**📋 Prosedur Pembuatan Paspor (2026):**  \n\n### **1. Persiapkan Dokumen**  \n- **Dewasa:**  \n  ✅ E-KTP (asli)  \n  ✅ KK (asli)  \n  ✅ Akta Lahir/Ijazah/Buku Nikah (asli)  \n  ✅ Paspor lama (jika ada)  \n\n- **Anak (<17 tahun):**  \n  ✅ E-KTP kedua orang tua  \n  ✅ KK  \n  ✅ Akta Lahir anak  \n  ✅ Buku Nikah orang tua  \n  ✅ Paspor lama anak (jika ada)  \n\n### **2. Daftar via Aplikasi M-Paspor**  \n- Download **M-Paspor** (Play Store/App Store).  \n- Buat akun → Pilih kantor imigrasi & jadwal.  \n- *Catatan:* Slot terbatas, coba buka aplikasi **pukul 00.00 atau 07.00 WIB**.  \n\n### **3. Datang ke Kantor Imigrasi**  \n- Bawa **dokumen asli** dan **materai Rp10.000**.  \n- Proses:  \n  - Verifikasi berkas  \n  - Foto & biometrik  \n  - Wawancara singkat (5-10 menit)  \n  - Pembayaran (via kode billing)  \n\n### **4. Pembayaran**  \n- Biaya:  \n  - **E-Paspor 5 tahun:** Rp650.000  \n  - **E-Paspor 10 tahun:** Rp950.000  \n- Metode: Transfer bank/ATM/M-Banking (batas waktu: 2 jam setelah billing terbit).  \n\n### **5. Pengambilan Paspor**  \n- Selesai dalam **4 hari kerja** (status \"Ajudikasi\" = verifikasi akhir).  \n- Ambil di kantor imigrasi dengan bukti bayar + KTP.  \n- *Bisa diwakilkan* dengan surat kuasa bermaterai Rp10.000.  \n\n### **⚠️ Catatan Penting:**  \n- **Paspor rusak/hilang?** Ada denda (Rp500.000 untuk rusak, Rp1.000.000 untuk hilang).  \n- **Percepatan:** Biaya tambahan Rp1.000.000 (syarat: datang sebelum jam 10.00 WIB).  \n- **Umroh/Haji?** Butuh **endorsement** (tambahan nama) tanpa biaya.  \n\n🔗 *Formulir terkait:*  \n- [Formulir Surat Pernyataan Ortu](https://docs.google.com/document/d/13HAgAqMdHSYEoytE2HR7Zd6uw-Oz83m2/edit)  \n- [Formulir Endorsement](https://docs.google.com/document/d/1MnIb5c7kHhkfusIkQZLV992sxDqjI7ZX/edit)  \n\n**💡 Tips:**  \n- Pastikan data di dokumen konsisten (KTP/KK/Akta Lahir).  \n- Hindari pakaian putih saat foto biometrik.  \n- Simpan foto digital paspor sebagai cadangan.  \n\nUntuk pertanyaan lebih lanjut, hubungi kantor imigrasi terdekat atau cek Instagram resmi @imigrasi.pangkalpinang.\"",
     "timestamp": "2026-04-13T08:48:04.765Z",
     "status": "pending"
+  },
+  {
+    "id": 1776242212342,
+    "question": "Apa syarat bikin paspor baru?",
+    "normalized": "apa syarat bikin paspor baru",
+    "suggestion": "**Syarat Pembuatan Paspor Baru (2026):**  \n\n### **A. Dokumen Wajib (Asli + Fotokopi):**  \n1. **E-KTP** (masih berlaku)  \n2. **Kartu Keluarga (KK)**  \n3. **Akta Lahir** (atau dokumen lain seperti Buku Nikah/Ijazah jika nama berbeda dengan KTP)  \n4. **Paspor Lama** (jika pernah memiliki paspor sebelumnya, terbitan 2009 ke atas)  \n\n### **B. Prosedur:**  \n1. **Daftar via Aplikasi M-Paspor** (Play Store/App Store).  \n2. **Bawa dokumen asli** untuk verifikasi di kantor imigrasi.  \n3. **Lakukan biometrik & wawancara** (wajib hadir sendiri).  \n4. **Bayar biaya**:  \n   - E-Paspor 5 Tahun: Rp 650.000  \n   - E-Paspor 10 Tahun: Rp 950.000 (untuk usia ≥17 tahun/sudah menikah).  \n\n### **C. Catatan Penting:**  \n- **Fotokopi tidak menggantikan dokumen asli**.  \n- **Untuk anak (<17 tahun)**:  \n  - Wajib bawa KTP orang tua, KK, Akta Lahir anak, dan Buku Nikah orang tua.  \n  - Anak harus hadir untuk foto biometrik.  \n- **Perbedaan data (KTP vs dokumen lain)**:  \n  - Bawa Surat Keterangan dari Disdukcapil/Sekolah/Pengadilan.  \n\n### **D. Referensi:**  \n- **UU No. 6 Tahun 2011** tentang Keimigrasian.  \n- **Peraturan Pemerintah No. 28 Tahun 2019**.  \n\nJika ada kondisi khusus (hilang/rusak/umroh), sampaikan ke petugas untuk panduan lebih lanjut.",
+    "rephrase": "Apa syarat bikin paspor baru?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T08:36:52.342Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776242276706,
+    "question": "Berapa duit buat bikin e-paspor?",
+    "normalized": "berapa duit buat bikin e-paspor",
+    "suggestion": "\n```markdown\n- **Jika Anda adalah pakar imigrasi, dan andelmukan pertanyaan ini:**\n    - _Ditransfer ke WhatsApp oleh Pertanda yang menentudikan data dalam tabel RAG untuk kredibilitas._\n- **Keterlibatan (Pasien): 10% berlaku selama waktu aktivasi program, $5.00 dari biaya tersegar diberi oleh masa depan bersenang-senang dan perjudian ketika Anda jatuh ke asal semayani (kegiatan yang tidak berdampak).**\n```\n\nJika ada pertanyaan lainnya, silahkan saja menanyidkan nama dokumen di atas untuk memastikan kredibilitas.",
+    "rephrase": "Berapa duit buat bikin e-paspor?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T08:37:56.706Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776242339831,
+    "question": "Bagaimana jika saya kehilangan paspor di Singapura dan harus kembali besok?",
+    "normalized": "bagaimana jika saya kehilangan paspor di singapura dan harus kembali besok",
+    "suggestion": "**Prosedur Darurat Jika Paspor Hilang di Singapura (2026):**\n\n1️⃣ **Lapor ke Polisi Setempat**  \n   - Segera buat *Police Report* di kantor polisi terdekat di Singapura. Ini dokumen wajib untuk proses selanjutnya.  \n   - Contoh lokasi: **Neighborhood Police Centre (NPC)** atau **Police Cantonment Complex**.\n\n2️⃣ **Hubungi KBRI Singapura**  \n   - 📞 **Kedutaan Besar RI (KBRI) Singapura**:  \n     - Alamat: 7 Chatsworth Road, Singapore 249761  \n     - Telepon: +65 6737 7422 (24 jam untuk darurat)  \n   - Minta penerbitan **SPLP (Surat Perjalanan Laksana Paspor)** sebagai pengganti sementara.  \n\n3️⃣ **Dokumen yang Dibutuhkan KBRI**:  \n   - Fotokopi paspor yang hilang (jika ada simpan di email/cloud).  \n   - *Police Report* asli.  \n   - Pas foto ukuran 4x6 (2 lembar).  \n   - Tiket pulang ke Indonesia (bukti keberangkatan besok).  \n\n4️⃣ **Biaya dan Proses KBRI**:  \n   - SPLP biasanya selesai dalam **1 hari kerja** dengan biaya sekitar **SGD 50-100**.  \n   - SPLP hanya berlaku untuk **pulang ke Indonesia** (tidak bisa digunakan untuk transit ke negara lain).  \n\n5️⃣ **Setiba di Indonesia**:  \n   - Laporkan kehilangan ke Kantor Imigrasi terdekat.  \n   - Bayar **denda Rp 1.000.000** dan ajukan paspor baru.  \n\n⚠️ **Tips Penting**:  \n   - Jika tidak ada fotokopi paspor, KBRI mungkin meminta verifikasi data ke Imigrasi Indonesia (proses lebih lama).  \n   - Simpan nomor darurat KBRI di ponsel sebelum bepergian.  \n\n🔗 *Referensi: Prosedur Kehilangan Paspor di Luar Negeri (SOP Imigrasi No. IMI-076/G.30/2025)*.  \n\nBila mendesak, segera ke KBRI pagi hari dengan membawa semua dokumen yang tersisa.",
+    "timestamp": "2026-04-15T08:38:59.831Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776242392769,
+    "question": "Berapa harga cilok di depan kantor imigrasi?",
+    "normalized": "berapa harga cilok di depan kantor imigrasi",
+    "suggestion": "\n> **Harga cilok di depan kantor imigrasi adalah Rp 10.000 setiap sampai dua belas rotasi.**\n\n\nDibawah opsi yang menjadi referensi dari Data Base Tahu:\n\n- [undefined] undefined",
+    "rephrase": "Berapa harga cilok di depan kantor imigrasi?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T08:39:52.769Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776243573741,
+    "question": "Siapa prabowo?",
+    "normalized": "siapa prabowo",
+    "suggestion": "**Maaf, pertanyaan Anda tidak terkait dengan topik keimigrasian atau layanan paspor.**  \n\nSebagai informasi, saya adalah *Pakar Layanan Imigrasi* yang siap membantu Anda mengenai:  \n\n- **Prosedur pembuatan/penggantian paspor**  \n- **Persyaratan dokumen imigrasi**  \n- **Layanan khusus (percepatan, paspor anak, dll.)**  \n\nJika Anda memiliki pertanyaan terkait hal di atas, silakan sampaikan detailnya.  \n\n*Contoh pertanyaan yang bisa saya bantu:*  \n- \"Bagaimana cara daftar paspor online?\"  \n- \"Apa syarat paspor untuk umroh?\"  \n- \"Berapa biaya ganti paspor rusak?\"  \n\nMohon maaf, saya tidak dapat menjawab pertanyaan di luar lingkup keimigrasian. Terima kasih.",
+    "rephrase": "Siapa prabowo?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T08:59:33.741Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776243791357,
+    "question": "Prabowo",
+    "normalized": "prabowo",
+    "suggestion": "Mohon ketikkan pertanyaan yang lebih lengkap agar saya bisa membantu Anda dengan informasi yang tepat. 😊",
+    "rephrase": "Prabowo",
+    "intent": "Short Query",
+    "timestamp": "2026-04-15T09:03:11.357Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776244221542,
+    "question": "M-paspor saya request timed out gimana?",
+    "normalized": "m-paspor saya request timed out gimana",
+    "suggestion": "**Solusi Mengatasi \"Request Timed Out\" di Aplikasi M-Paspor:**  \n\n1. **Logout & Login Ulang**  \n   - Keluar dari akun Anda, lalu masuk kembali.  \n\n2. **Hapus Cache Aplikasi**  \n   - Buka **Pengaturan Ponsel** → **Aplikasi** → **M-Paspor** → **Hapus Cache**.  \n\n3. **Update/Re-install Aplikasi**  \n   - Pastikan menggunakan versi terbaru M-Paspor (cek di [Play Store](https://play.google.com) atau [App Store](https://apps.apple.com)).  \n\n4. **Coba di Waktu Sepi**  \n   - Akses aplikasi **malam hari** (setelah pukul 20.00 WIB) saat server kurang padat.  \n\n5. **Hubungi Tim Teknis**  \n   - Jika masih error, kirim email ke **humas@imigrasi.go.id** dengan lampiran:  \n     - Screenshot error  \n     - NIK Anda  \n     - Nama lengkap  \n\n🔹 **Catatan Penting:**  \n- Jangan gunakan VPN/jaringan tidak stabil saat akses M-Paspor.  \n- Pastikan kuota internet mencukupi.  \n\nSumber: Panduan Resmi Imigrasi (2026) terkait *Troubleshooting M-Paspor*.",
+    "rephrase": "M-paspor saya request timed out gimana?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T09:10:21.542Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776244284696,
+    "question": "M-paspor saya request timed out gimana?",
+    "normalized": "m-paspor saya request timed out gimana",
+    "suggestion": "🔧 **Solusi Error \"Request Timed Out\" di M-Paspor:**  \n\n1. **Logout** dari akun Anda terlebih dahulu.  \n2. **Hapus Cache Aplikasi**:  \n   - Buka **Pengaturan** ponsel → **Aplikasi** → **M-Paspor** → **Hapus Cache**.  \n3. **Re-install Aplikasi**:  \n   - Pastikan mengunduh versi terbaru dari [Play Store](https://play.google.com) atau [App Store](https://apps.apple.com).  \n\n⚠️ **Jika masih error**:  \n- Hubungi **humas@imigrasi.go.id** dengan lampirkan:  \n  - **NIK** Anda  \n  - **Screenshot error**  \n  - **Nama kantor imigrasi** yang dipilih.  \n\n📌 **Catatan Penting**:  \n- Error ini sering terjadi karena **jaringan tidak stabil** atau **server sedang padat**. Coba akses aplikasi **saat malam hari** (di luar jam sibuk).  \n\nSumber: *Database Kantor Imigrasi (Panduan Troubleshooting M-Paspor 2026)*.",
+    "rephrase": "M-paspor saya request timed out gimana?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T09:11:24.696Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776244672302,
+    "question": "Berapa duit buat bikin e-paspor?",
+    "normalized": "berapa duit buat bikin e-paspor",
+    "suggestion": "**Biaya Pembuatan E-Paspor (2026):**  \n\n- **E-Paspor 5 Tahun**: **Rp 650.000**  \n- **E-Paspor 10 Tahun**: **Rp 950.000** (untuk WNI berusia ≥17 tahun atau sudah menikah).  \n\n*Catatan:*  \n- Pembayaran via **Bank/ATM/M-Banking/Kantor Pos** menggunakan kode billing dari M-Paspor.  \n- **Tidak ada biaya tambahan** kecuali untuk layanan percepatan (Rp 1.000.000) atau denda (kehilangan/kerusakan).  \n\nSumber: Database Kantor Imigrasi Pangkalpinang (Peraturan Menteri Hukum dan HAM No. 18 Tahun 2022).",
+    "rephrase": "Berapa duit buat bikin e-paspor?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T09:17:52.302Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776244743664,
+    "question": "Harga cilok di depan kantor imigrasi?",
+    "normalized": "harga cilok di depan kantor imigrasi",
+    "suggestion": "**Maaf, saya hanya dapat membantu memberikan informasi terkait layanan keimigrasian.**  \n\nJika Anda memerlukan informasi tentang paspor, visa, atau layanan imigrasi lainnya, silakan bertanya.",
+    "rephrase": "Harga cilok di depan kantor imigrasi?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T09:19:03.664Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776244817653,
+    "question": "Loket 1 ganteng gak?",
+    "normalized": "loket 1 ganteng gak",
+    "suggestion": "**Maaf, saya hanya dapat membantu memberikan informasi terkait layanan keimigrasian.**  \n\nJika Anda memiliki pertanyaan seputar paspor, visa, atau layanan imigrasi lainnya, silakan sampaikan. Saya siap membantu dengan informasi resmi dari Kantor Imigrasi.  \n\nContoh pertanyaan yang bisa diajukan:  \n- Syarat pembuatan paspor  \n- Prosedur penggantian paspor hilang  \n- Biaya e-paspor terbaru  \n- Jadwal layanan di Kantor Imigrasi Pangkalpinang  \n\nTerima kasih.",
+    "rephrase": "Loket 1 ganteng gak?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T09:20:17.653Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776244898336,
+    "question": "Apa syarat bikin paspor baru?",
+    "normalized": "apa syarat bikin paspor baru",
+    "suggestion": "**Syarat Pembuatan Paspor Baru (2026):**\n\n📌 **Dokumen Wajib (Asli):**  \n1. **E-KTP** (masih berlaku)  \n2. **Kartu Keluarga (KK)**  \n3. **Akta Lahir** / Buku Nikah / Ijazah terakhir (pilih salah satu)  \n\n📌 **Tambahan:**  \n- **Materai Rp10.000** (untuk surat kuasa/pengambilan paspor)  \n- **Paspor lama** (jika pernah memiliki paspor sebelumnya)  \n\n⚠️ **Catatan Penting:**  \n- **Wajib bawa dokumen asli** untuk verifikasi. Fotokopi hanya sebagai pelengkap.  \n- Pendaftaran **harus melalui aplikasi M-Paspor** (Play Store/App Store) sebelum datang ke kantor imigrasi.  \n- Pastikan **nama dan data di semua dokumen konsisten**. Jika ada perbedaan, bawa surat keterangan dari instansi terkait (contoh: Disdukcapil).  \n\n🔗 **Formulir Pendukung:**  \n- [Formulir Persyaratan Paspor](https://drive.google.com/drive/folders/1neE7ndKq6HvCNP9iZiUIpx8jzZtdaDlp)  \n\nUntuk informasi lebih lanjut, silakan hubungi Kantor Imigrasi terdekat.",
+    "rephrase": "Apa syarat bikin paspor baru?...",
+    "intent": "Auto-Resolved",
+    "timestamp": "2026-04-15T09:21:38.336Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776244975900,
+    "question": "Bagaimana cara daftar M-Paspor?",
+    "normalized": "bagaimana cara daftar m-paspor",
+    "suggestion": "**Hasil Pemeriksaan:**  \nJAWABAN AI **tidak bertentangan** dengan KONTEKS RESMI dan telah melengkapi prosedur dasar dengan detail tambahan yang relevan (seperti link download, dokumen persyaratan, dan catatan teknis).  \n\n**Kembalikan JAWABAN AI apa adanya:**  \n\n---  \n\n**Cara Mendaftar M-Paspor:**  \n\n1. **Download Aplikasi**  \n   - Unduh *M-Paspor* di [Play Store (Android)](https://play.google.com/store/apps/details?id=go.id.imigrasi.mpaspor) atau [App Store (iOS)](https://apps.apple.com/id/app/m-paspor/id1595404769).  \n\n2. **Buat Akun**  \n   - Buka aplikasi → Pilih **\"Daftar\"** → Masukkan **NIK**, alamat email, dan nomor HP → Verifikasi via OTP.  \n\n3. **Pilih Layanan & Kantor Imigrasi**  \n   - Login → Pilih **\"Paspor Baru\"** → Pilih kantor imigrasi terdekat → Tentukan jadwal kedatangan.  \n\n4. **Siapkan Dokumen**  \n   - Pastikan dokumen asli (*E-KTP, KK, Akta Lahir/Ijazah*) siap untuk verifikasi di loket.  \n\n5. **Datang ke Kantor Imigrasi**  \n   - Bawa dokumen asli sesuai jadwal → Lakukan verifikasi, biometrik, dan wawancara → Bayar via kode billing yang diberikan.  \n\n**Catatan Penting:**  \n- Batas pembayaran: **2 jam** setelah kode billing terbit.  \n- Jika error, coba **hapus cache** atau login saat *traffic rendah* (malam hari).  \n\nUntuk panduan visual, lihat tutorial resmi di [YouTube Imigrasi](https://www.youtube.com/@ditjenimigrasi).  \n\n🔍 *Sesuai Prosedur di Aplikasi M-Paspor v3.1 (2026).*",
+    "timestamp": "2026-04-15T09:22:55.900Z",
+    "status": "pending"
+  },
+  {
+    "id": 1776245717286,
+    "question": "Bagaimana prosedur paspor di luar negeri?",
+    "normalized": "bagaimana prosedur paspor di luar negeri",
+    "suggestion": "**Analisis dan Perbaikan:**  \n\n1. **Kesesuaian dengan Konteks Resmi:**  \n   - Konteks resmi menyebutkan **surat kuasa/persetujuan yang dilegalisir KBRI/KJRI** untuk orang tua di luar negeri, tetapi JAWABAN AI tidak mencantumkan informasi ini.  \n   - JAWABAN AI fokus pada prosedur umum pembuatan paspor, bukan spesifik kasus surat kuasa.  \n\n2. **Kesalahan/Kekurangan:**  \n   - **Tidak ada penjelasan tentang surat kuasa** yang diperlukan jika orang tua mengurus dokumen anak di luar negeri (sesuai konteks resmi).  \n   - Prosedur darurat (SPLP) dan biaya denda paspor hilang **tidak relevan** dengan konteks surat kuasa.  \n\n3. **Perbaikan:**  \n   - Tambahkan poin khusus tentang **surat kuasa/persetujuan** yang dilegalisir KBRI/KJRI.  \n\n---  \n\n**JAWABAN YANG DIPERBAIKI:**  \n\n\"**Prosedur Pembuatan/Penggantian Paspor di Luar Negeri (2026):**  \n\n1. **Lokasi Pelayanan:**  \n   - Hanya bisa dilakukan di **KBRI/KJRI** setempat.  \n\n2. **Dokumen untuk Kasus Orang Tua di Luar Negeri:**  \n   - **Surat kuasa/persetujuan** dari orang tua yang dilegalisir oleh KBRI/KJRI (jika anak diurus oleh pihak lain).  \n   - Dokumen lain (paspor lama, foto, formulir) tetap berlaku.  \n\n3. **Proses dan Biaya:**  \n   - Verifikasi dokumen → Pembayaran → Penerbitan (3-5 hari kerja).  \n   - Biaya sesuai tarif paspor RI (5 tahun: Rp 650.000; 10 tahun: Rp 950.000).  \n\n4. **Catatan:**  \n   - Konsultasi ke KBRI/KJRI untuk prosedur lengkap, termasuk legalisasi surat kuasa.  \n\n**Referensi:**  \n- UU No. 6 Tahun 2011 tentang Keimigrasian  \n- Kebijakan KBRI/KJRI setempat.\"  \n\n---  \n**Perubahan Utama:**  \n- Menghapus informasi tidak relevan (SPLP, denda paspor hilang).  \n- Menambahkan poin eksplisit tentang **surat kuasa** sesuai konteks resmi.  \n- Menyederhanakan struktur untuk fokus pada kebutuhan utama.",
+    "timestamp": "2026-04-15T09:35:17.286Z",
+    "status": "pending"
   }
 ]

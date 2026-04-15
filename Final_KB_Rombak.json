@@ -543,5 +543,47 @@
     "Question": "pindah domisili paspor, buat paspor bukan di domisili, paspor di luar kota, bisa buat paspor di kantor imigrasi manapun",
     "Answer": "📍 *Pembuatan Paspor di Luar Domisili 2026:*\n\n✅ *Bisa!* Sejak 2023, pembuatan paspor sudah bisa dilakukan di **kantor imigrasi mana pun** di seluruh Indonesia, tidak harus sesuai domisili KTP.\n\n*Cara Melakukannya:*\n1. Daftar di M-Paspor → pilih kantor imigrasi yang Anda inginkan\n2. Datang sesuai jadwal\n3. Proses sama seperti biasa\n\n*Catatan:*\n- Semua data tetap mengacu pada KTP domisili Anda\n- Paspor bisa diambil di kantor yang sama tempat Anda mendaftar\n- Jika ingin dikirim ke alamat lain, ada opsi pengiriman via POS\n\n💡 Manfaatkan ini jika Anda sedang merantau/bekerja di kota lain dan tidak sempat pulang ke kampung untuk buat paspor.",
     "Category": "Paspor - Lokasi & Domisili"
+  },
+  {
+    "No": 1021,
+    "Question": "m-paspor request timed out, error m-paspor, m-paspor lemot, aplikasi m-paspor tidak bisa dibuka",
+    "Answer": "🔧 *Solusi Error M-Paspor (2026):*\n1. Keluar (logout) dari akun Anda.\n2. Hapus Cache aplikasi di pengaturan ponsel.\n3. Re-install aplikasi ke versi terbaru.\nJika masih error, hubungi humas@imigrasi.go.id dengan melampirkan NIK dan screenshot kendala.",
+    "Category": "M-Paspor - Teknis"
+  },
+  {
+    "No": 1022,
+    "Question": "pembayaran m-paspor tidak berubah, sudah bayar paspor tapi status belum berubah, konfirmasi pembayaran m-paspor",
+    "Answer": "💳 *Status Pembayaran:* Mohon tunggu 1x24 jam setelah pembayaran. Jika status belum berubah di aplikasi, hubungi Live Chat di imigrasi.go.id dengan menunjukkan bukti bayar, NIK, dan kode billing Anda.",
+    "Category": "Pembayaran"
+  },
+  {
+    "No": 1023,
+    "Question": "cara reschedule m-paspor, ganti lokasi kantor imigrasi m-paspor, bisa ganti kantor paspor?",
+    "Answer": "📍 *Reschedule:* Aplikasi M-Paspor hanya mengizinkan perubahan **Jadwal Kedatangan**. Anda **TIDAK BISA** mengubah lokasi kantor imigrasi yang sudah dipilih. Jika ingin ganti kantor, permohonan harus dibatalkan dan daftar ulang.",
+    "Category": "Prosedur"
+  },
+  {
+    "No": 1024,
+    "Question": "batas waktu bayar paspor, masa berlaku kode billing paspor, telat bayar billing paspor",
+    "Answer": "⏰ *Batas Bayar:* Kode billing resmi berlaku selama **2 jam** setelah diterbitkan. Jika tidak dibayar dalam 2 jam, permohonan otomatis hangus dan Anda wajib mendaftar ulang di aplikasi M-Paspor.",
+    "Category": "Pembayaran"
+  },
+  {
+    "No": 1025,
+    "Question": "surat pengantar m-paspor tidak bisa download, pdf m-paspor tidak muncul, bukti daftar paspor",
+    "Answer": "📄 *Solusi Unduh:* Jika surat pengantar tidak bisa diunduh, jangan panik. Cukup tunjukkan **Screenshot/Tangkapan Layar** halaman beranda aplikasi M-Paspor dan tunjukkan Bukti Bayar asli saat datang ke kantor.",
+    "Category": "M-Paspor - Teknis"
+  },
+  {
+    "No": 1026,
+    "Question": "satu akun m-paspor untuk berapa orang, daftar paspor sekeluarga, akun keluarga m-paspor",
+    "Answer": "👨‍👩‍👧‍👦 *Satu Akun untuk Semua:* Ya, satu akun M-Paspor dapat digunakan untuk mendaftarkan beberapa orang sekaligus (anggota keluarga) dalam satu kali proses pendaftaran.",
+    "Category": "Prosedur"
+  },
+  {
+    "No": 1027,
+    "Question": "syarat paspor terbaru April 2026, dokumen wajib paspor 2026, apa saja yang dibawa ke imigrasi",
+    "Answer": "📂 *Syarat Wajib 2026:* \n1. E-KTP (Asli)\n2. Kartu Keluarga (Asli)\n3. Akta Lahir / Buku Nikah / Ijazah (Pilih salah satu yang asli).\nSemua data (nama/tanggal lahir) di dokumen tersebut harus konsisten (sama).",
+    "Category": "Syarat"
   }
 ]

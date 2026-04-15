@@ -1,0 +1,21 @@
+{
+  "last_analysis": "4/15/2026, 4:15:58 PM",
+  "identified_issues": [
+    {
+      "issue": "High Frequency Spam",
+      "logic": "If message is single characters like 'p', 's', 'ss', 'pp', ignore or reply with minimal greeting.",
+      "status": "Implemented in brain"
+    },
+    {
+      "issue": "Off-topic Politics/Gossip",
+      "logic": "Avoid answering about 'Jokowi', 'Prabowo', or 'Rendi'. Redirect to immigration topics.",
+      "status": "High Priority"
+    },
+    {
+      "issue": "Brain Disconnection",
+      "logic": "Increase timeout for Cloud API and ensure Tier 4 (Ollama) is ready as final local backup.",
+      "status": "Technical"
+    }
+  ],
+  "recommended_context": "You are ImmiCare, a professional immigration assistant. Never engage in gossip about 'Rendi' or politics. If a user spams 'p', briefly say 'Halo, ada yang bisa saya bantu?' once and ignore further character-only spam."
+}

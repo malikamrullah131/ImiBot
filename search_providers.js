@@ -36,30 +36,35 @@ async function searchDuckDuckGo(query) {
 }
 
 /**
- * 2. API SearxNG Lokal (Self-Hosted Metasearch)
- * Syarat: Install SearxNG dengan Docker dan arahkan localhost URL Anda ke sini.
- * Gratis Tanpa Batas Kuota (Metasearch Engine mandiri).
+ * 2. API SearxNG Lokal / Public (Metasearch Engine)
+ * Mencoba rotasi beberapa instance publik jika DuckDuckGo gagal.
  */
-async function searchSearxNG(query, searxngUrl = "http://localhost:8080") {
-    try {
-        console.log(`[Search] Mencari via SearxNG: ${query}`);
-        const response = await axios.get(`${searxngUrl}/search`, {
-            params: {
-                q: query,
-                format: 'json',
-                language: 'id-ID'
+const PUBLIC_SEARXNG_INSTANCES = [
+    "https://searx.be",
+    "https://searxng.site",
+    "https://search.ononoki.org",
+    "https://searx.tiekoetter.com"
+];
+
+async function searchSearxNG(query) {
+    // Coba rotasi instance
+    for (const baseUrl of PUBLIC_SEARXNG_INSTANCES) {
+        try {
+            console.log(`[Search] Mencoba SearxNG Instance: ${baseUrl}`);
+            const response = await axios.get(`${baseUrl}/search`, {
+                params: { q: query, format: 'json' },
+                timeout: 5000 // 5 detik per instance
+            });
+            
+            if (response.data && response.data.results && response.data.results.length > 0) {
+                return response.data.results.slice(0, 5).map(res => res.content || res.snippet || "");
             }
-        });
-        
-        if (response.data && response.data.results) {
-            // Ekstrak snippet jawaban/konten ke dalam Array
-            return response.data.results.slice(0, 5).map(res => res.content || res.snippet || "");
+        } catch (error) {
+            console.warn(`[SearxNG Warning] Instance ${baseUrl} gagal: ${error.message}`);
+            continue; // Coba instance berikutnya
         }
-        return [];
-    } catch (error) {
-        console.error("[SearxNG Error] Pastikan container SearxNG sudah running di", searxngUrl);
-        return [];
     }
+    return [];
 }
 
 /**
@@ -146,7 +151,13 @@ async function executeWebSearch(query, provider = "duckduckgo") {
     let results = [];
     switch (provider.toLowerCase()) {
         case "duckduckgo":
-            results = await searchDuckDuckGo(query);    break;
+            results = await searchDuckDuckGo(query);    
+            // Auto-fallback jika DDG kosong/timeout
+            if (results.length === 0) {
+                console.log("[🌐 FALLBACK] DuckDuckGo nihil, mencoba SearxNG...");
+                results = await searchSearxNG(query);
+            }
+            break;
         case "searxng":
             results = await searchSearxNG(query);       break;
         case "serper":
@@ -158,6 +169,7 @@ async function executeWebSearch(query, provider = "duckduckgo") {
         default:
             console.log(`Provider ${provider} tidak ditemukan, jatuh kembali ke mode DuckDuckGo.`);
             results = await searchDuckDuckGo(query);
+            if (results.length === 0) results = await searchSearxNG(query);
     }
     return results;
 }
