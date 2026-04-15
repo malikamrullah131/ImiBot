@@ -209,6 +209,8 @@ client.on('message', async (msg) => {
     const contact = await msg.getContact().catch(() => ({ number: "" }));
     const isFromAdmin = (contact.number === ADMIN_WA_NUMBER.replace(/\D/g, '')) || (msg.from === ADMIN_WA_NUMBER);
 
+    // --- ADMIN COMMANDS ---
+    if (isFromAdmin && msg.body.startsWith('!')) {
         let cmd = msg.body.toLowerCase().trim();
         
         // --- SHORT ALIASES ---
@@ -218,7 +220,7 @@ client.on('message', async (msg) => {
         if (cmd === '!w') cmd = '!websearch';
         if (cmd === '!b') cmd = '!benar';
         if (cmd.startsWith('!x')) { 
-            if (cmd === '!x') cmd = '!salah'; // allow '!x' alone but it might fail validation later
+            if (cmd === '!x') cmd = '!salah'; 
             else msg.body = '!salah ' + msg.body.substring(2).trim(); 
             cmd = '!salah'; 
         }

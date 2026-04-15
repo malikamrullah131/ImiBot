@@ -41,14 +41,47 @@ async function searchDuckDuckGo(query) {
  */
 const PUBLIC_SEARXNG_INSTANCES = [
     "https://searx.be",
-    "https://searxng.site",
-    "https://search.ononoki.org",
-    "https://searx.tiekoetter.com"
+    "https://searx.work",
+    "https://searx.xyz",
+    "https://searx.info",
+    "https://baresearch.org",
+    "https://searx.tiekoetter.com",
+    "https://priv.au",
+    "https://searx.rhscz.eu",
+    "https://searx.ch",
+    "https://search.mdosch.de",
+    "https://searx.ru"
 ];
 
+/**
+ * 2b. Mojeek Proxy (Alternatif Scraping Ringan)
+ */
+async function searchMojeek(query) {
+    try {
+        console.log(`[Search] Mencoba Mojeek: ${query}`);
+        const response = await axios.get(`https://www.mojeek.com/search?q=${encodeURIComponent(query)}`, {
+            headers: { 'User-Agent': 'Mozilla/5.0' },
+            timeout: 5000
+        });
+        const html = response.data;
+        const results = [];
+        const regex = /<p class="s">(.*?)<\/p>/gi;
+        let match;
+        while ((match = regex.exec(html)) !== null && results.length < 5) {
+            results.push(match[1].replace(/<\/?[^>]+(>|$)/g, "").trim());
+        }
+        return results;
+    } catch (e) {
+        return [];
+    }
+}
+
 async function searchSearxNG(query) {
+    // Shuffle agar tidak selalu kena blok di instance yang sama
+    const shuffled = [...PUBLIC_SEARXNG_INSTANCES].sort(() => Math.random() - 0.5);
+    
     // Coba rotasi instance
-    for (const baseUrl of PUBLIC_SEARXNG_INSTANCES) {
+    for (const baseUrl of shuffled) {
         try {
             console.log(`[Search] Mencoba SearxNG Instance: ${baseUrl}`);
             const response = await axios.get(`${baseUrl}/search`, {
@@ -154,8 +187,12 @@ async function executeWebSearch(query, provider = "duckduckgo") {
             results = await searchDuckDuckGo(query);    
             // Auto-fallback jika DDG kosong/timeout
             if (results.length === 0) {
-                console.log("[🌐 FALLBACK] DuckDuckGo nihil, mencoba SearxNG...");
+                console.log("[🌐 FALLBACK 1] DuckDuckGo nihil, mencoba SearxNG...");
                 results = await searchSearxNG(query);
+            }
+            if (results.length === 0) {
+                console.log("[🌐 FALLBACK 2] SearxNG nihil, mencoba Mojeek...");
+                results = await searchMojeek(query);
             }
             break;
         case "searxng":
