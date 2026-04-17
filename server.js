@@ -10,6 +10,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 require('dotenv').config();
 const chalk = require('chalk');
+const { exec } = require('child_process');
 
 const config = require('./config');
 const { fetchSpreadsheetData, addKnowledgeBaseEntry } = require('./sheets');
@@ -69,7 +70,15 @@ console.log("\x1b[32m%s\x1b[0m", "==============================================
 // --- GLOBAL STATE ---
 let lastInteractions = {};
 let globalLastUser = null;
-let botPaused = false;
+const settingsPath = path.join(__dirname, 'settings.json');
+let settings = { aiMode: 'hybrid', botPaused: false };
+try {
+    if (fs.existsSync(settingsPath)) {
+        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+    }
+} catch (e) { console.error("Error loading settings:", e); }
+
+let botPaused = settings.botPaused || false;
 let rawKnowledgeBase = [];
 const ADMIN_WA_NUMBER = process.env.ADMIN_PHONE ? `${process.env.ADMIN_PHONE}@c.us` : "6287729391757@c.us";
 let messageCounter = 0; // Untuk auto-check saldo per 30 pesan meminimalisir API call
@@ -233,7 +242,51 @@ client.on('message', async (msg) => {
             const totalMem = os.totalmem();
             const freeMem = os.freemem();
             const usedPct = ((1 - freeMem/totalMem)*100).toFixed(1);
-            return msg.reply(`📊 *STATUS*\nRAM: ${usedPct}%\nMode: ${config.botMode}\nVector: ${config.vectorMode}\nKB: ${rawKnowledgeBase.length}\nPaused: ${botPaused}`);
+            
+            // Get PM2 Stats
+            exec('pm2 jlist', (err, stdout) => {
+                let pm2Info = "\n⚠️ *PM2 Stats Not Found*";
+                let healthStatus = "🟢 SEHAT";
+                
+                try {
+                    if (!err && stdout) {
+                        const list = JSON.parse(stdout);
+                        const botProc = list.find(p => p.name === 'immicare');
+                        if (botProc) {
+                            const cpu = botProc.monit.cpu;
+                            const mem = (botProc.monit.memory / (1024 * 1024)).toFixed(1);
+                            const restarts = botProc.pm2_env.restart_time;
+                            const uptime = Math.floor(botProc.pm2_env.pm_uptime / 1000);
+                            const hours = Math.floor(uptime / 3600);
+                            const mins = Math.floor((uptime % 3600) / 60);
+                            
+                            // Analisa Overload/Overheat (Logis)
+                            if (cpu > 80 || restarts > 50) healthStatus = "🔴 OVERLOAD/UNSTABLE";
+                            else if (cpu > 50) healthStatus = "🟡 HEAVY LOAD";
+
+                            pm2Info = `
+⚡ *PM2 PERFORMANCE*
+• CPU Usage : ${cpu}%
+• Bot RAM   : ${mem} MB
+• Restarts  : ${restarts}x
+• Uptime    : ${hours}j ${mins}m
+• Health    : ${healthStatus}`;
+                        }
+                    }
+                } catch (e) { console.error("PM2 Stat Error:", e); }
+
+                return msg.reply(`📊 *STATUS SISTEM*
+🖥️ *SERVER*
+• OS RAM    : ${usedPct}%
+• Mode      : ${config.botMode}
+• Vector    : ${config.vectorMode}
+• KB Data   : ${rawKnowledgeBase.length}
+• Paused    : ${botPaused ? '⏸️ YA' : '▶️ TIDAK'}
+${pm2Info}
+
+_Status diperbarui secara real-time._`);
+            });
+            return;
         }
         if (cmd === '!sync-pdf') {
             msg.reply("📚 *Menganalisa dokumen PDF...* Mohon tunggu sebentar.");
@@ -343,8 +396,30 @@ client.on('message', async (msg) => {
 • Automasi: Terkirim ke Zapier.`);
             } catch (e) { return msg.reply(`❌ Masalah teknis: ${e.message}`); }
         }
-        if (cmd === '!pause') { botPaused = true; return msg.reply("⏸️ Bot dijeda."); }
-        if (cmd === '!resume') { botPaused = false; return msg.reply("▶️ Bot aktif."); }
+        if (cmd === '!pause') { 
+            botPaused = true; 
+            settings.botPaused = true;
+            fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
+            console.log(chalk.yellow(`[⚙️ SYSTEM] Bot paused by admin.`));
+            return msg.reply("⏸️ Bot dijeda."); 
+        }
+        if (cmd === '!resume') { 
+            botPaused = false; 
+            settings.botPaused = false;
+            fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
+            console.log(chalk.green(`[⚙️ SYSTEM] Bot resumed by admin.`));
+            return msg.reply("▶️ Bot aktif."); 
+        }
+        if (cmd === '!shut') {
+            await msg.reply("🛑 *MEMATIKAN BOT SEPENUHNYA...*\n\nBot akan berhenti dan tidak bisa dinyalakan lagi melalui WhatsApp. Untuk menyalakan kembali, Anda harus menjalankan perintah manual di terminal server.");
+            console.log(chalk.red(`[⚙️ SYSTEM] SHUTDOWN COMMAND RECEIVED FROM ADMIN.`));
+            setTimeout(() => {
+                exec('pm2 stop immicare', (err) => {
+                    if (err) console.error("Shutdown failed:", err);
+                });
+            }, 2000);
+            return;
+        }
         if (cmd === '!sync-local') {
             await msg.reply("💾 *SINKRONISASI LOKAL...*");
             try {
@@ -418,6 +493,7 @@ client.on('message', async (msg) => {
 • !audit - Analisa AI mendalam
 • !g / !gas - Terapkan hasil audit
 • !p / !m - Pause/Resume bot
+• !shut - Matikan bot total (PM2)
 • !a / !help - Buka menu ini`);
         }
     }

@@ -182,50 +182,72 @@ function ruleCheck(input) {
     return null;
 }
 
-// Step 3: Similarity Search (Keyword based)
+// Step 3: Similarity Search (Keyword based + Fuzzy)
 async function searchDB(input, rawKB) {
     if (!rawKB || rawKB.length === 0) return null;
 
     const normalizedInput = normalize(input);
+    const wordsInput = normalizedInput.split(/\s+/).filter(w => w.length > 2);
     
     // 1. Exact Match (Highest Priority)
     const exactMatch = rawKB.find(row => row.Question && row.Question.toLowerCase().trim() === input.toLowerCase().trim());
     if (exactMatch) return { answer: exactMatch.Answer, category: exactMatch.Category || "Umum", method: 'exact' };
 
-    // 2. Normalized Match
-    const normalizedMatch = rawKB.find(row => normalize(row.Question) === normalizedInput);
-    if (normalizedMatch) return { answer: normalizedMatch.Answer, category: normalizedMatch.Category || "Umum", method: 'normalized' };
+    // 2. Fuzzy / Keyword Overlap (Advanced)
+    let candidates = [];
 
-    // 3. Keyword Overlap (Advanced Keyword matching)
-    const keywords = normalizedInput.split(/\s+/).filter(w => w.length > 2);
-    if (keywords.length > 0) {
-        let bestMatch = null;
-        let maxScore = 0;
-
-        rawKB.forEach(row => {
-            let score = 0;
-            const q = normalize(row.Question);
-            const rowKeywords = q.split(/\s+/);
-            
-            keywords.forEach(kw => {
-                if (q.includes(kw)) {
-                    score += 1;
-                    if (rowKeywords.includes(kw)) score += 0.5; // Bonus for whole word
+    rawKB.forEach(row => {
+        let score = 0;
+        const q = normalize(row.Question);
+        const rowKeywords = q.split(/\s+/);
+        
+        // Exact keyword hits
+        wordsInput.forEach(kw => {
+            if (q.includes(kw)) {
+                score += 1;
+                if (rowKeywords.includes(kw)) score += 0.5; 
+            } else {
+                // Simple Fuzzy Check (Levenshtein-like behavior for short words)
+                for (let rw of rowKeywords) {
+                    if (rw.length > 4 && kw.length > 4) {
+                        let distance = levenshtein(kw, rw);
+                        if (distance <= 1) score += 0.8; // Minor typo
+                    }
                 }
-            });
-
-            // Normalize score by input keyword count to prevent long questions from winning purely by length
-            const finalScore = score / keywords.length;
-            if (finalScore > maxScore) {
-                maxScore = finalScore;
-                bestMatch = { answer: row.Answer, category: row.Category || "Umum", method: 'keyword', score: finalScore };
             }
         });
 
-        // Threshold for keyword confidence (e.g., 60% overlap)
-        if (maxScore >= 0.6) return bestMatch;
+        const finalScore = score / (wordsInput.length || 1);
+        if (finalScore >= 0.5) {
+            candidates.push({ ...row, score: finalScore });
+        }
+    });
+
+    if (candidates.length > 0) {
+        // Sort by score and return best
+        candidates.sort((a, b) => b.score - a.score);
+        const best = candidates[0];
+        return { answer: best.Answer, category: best.Category || "Umum", method: 'fuzzy', score: best.score };
     }
+    
     return null;
+}
+
+/** 
+ * Levenshtein Distance for typo tolerance 
+ */
+function levenshtein(s1, s2) {
+    if (s1.length < s2.length) [s1, s2] = [s2, s1];
+    let l1 = s1.length, l2 = s2.length;
+    let prev = Array.from({length: l2 + 1}, (_, i) => i);
+    for (let i = 0; i < l1; i++) {
+        let curr = [i + 1];
+        for (let j = 0; j < l2; j++) {
+            curr.push(Math.min(prev[j + 1] + 1, curr[j] + 1, prev[j] + (s1[i] === s2[j] ? 0 : 1)));
+        }
+        prev = curr;
+    }
+    return prev[l2];
 }
 
 // Step 4-1: API Key Rotation
@@ -463,17 +485,17 @@ async function gemini(prompt, isComplex = false) {
     const orKeys = (process.env.OPENROUTER_API_KEY || "").split(',').map(k => k.trim()).filter(k => k && !BAD_KEYS.has(k));
     const geminiKeys = (process.env.GEMINI_API_KEY || "").split(',').map(k => k.trim()).filter(k => k && !BAD_KEYS.has(k));
     
-    // DAFTAR MODEL GRATIS TERBAIK & TERSTABIL 2026
+    // DAFTAR MODEL GRATIS TERBAIK & TERSTABIL 2026 (100% FREE TIER)
     const models = isComplex
         ? [
-            "deepseek/deepseek-chat", // Prioritas Utama jika via OpenRouter
-            "deepseek/deepseek-r1:free",
-            "meta-llama/llama-3.3-70b-instruct:free",
-            "google/gemini-2.0-flash-lite-preview-02-05:free"
+            "deepseek/deepseek-chat", // DeepSeek V3 (Best General)
+            "deepseek/deepseek-reasoner", // DeepSeek R1 (Best Reasoning)
+            "meta-llama/llama-3.3-70b-instruct:free", // Llama 3.3 (High Performance)
+            "google/gemini-2.0-flash-lite-preview-02-05:free" // Gemini 2.0 (Fastest)
         ]
         : [
-            "deepseek/deepseek-chat",
-            "google/gemini-2.0-flash-lite-preview-02-05:free"
+            "google/gemini-2.0-flash-lite-preview-02-05:free",
+            "deepseek/deepseek-chat"
         ];
 
     // --- TIER 0: PREMIUM MODELS (GPT-5 & DEEPSEEK V3.2) ---
@@ -550,9 +572,9 @@ async function gemini(prompt, isComplex = false) {
     // --- TIER 4: ABSOLUTE FREE (COMMUNITY AGGREGATORS) ---
     try {
         const communityRes = await communityFreeDispatcher(prompt);
-        return communityRes + "\n\n_(Respon via Jalur Komunitas Bebas Quota)_";
+        return communityRes;
     } catch (e) {
-        return "Maaf, semua sistem AI (Cloud, Local, & Komunitas) sedang sangat sibuk. Mohon coba 1 menit lagi. 🙏";
+        return "Mohon maaf, sistem pusat sedang sangat sibuk. Untuk respon cepat, silakan hubungi WhatsApp Admin di 0811-xxx-xxx pada jam kerja. 🙏";
     }
 }
 
@@ -1097,7 +1119,6 @@ function savePending(data) {
 
 // Step 10: ALUR KERJA UTAMA (Final Lifecycle with History)
 async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = null) {
-    // 🛡️ ANTI-SPAM SILENT DROP (From Strategic Intelligence Report)
     const normalizedText = normalize(msgBody);
     if (normalizedText.length <= 1 || (normalizedText.length === 2 && normalizedText.repeat(2).includes(normalizedText))) {
         return { answer: "Halo! Saya ImmiCare. Ada yang bisa saya bantu terkait layanan paspor? Mohon kirim pertanyaan yang lebih jelas ya. 😊", wasAIGenerated: false, confidence: 'high' };
@@ -1110,44 +1131,53 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = 
     const profile = await getUserProfile(remoteId);
     let profileContext = "";
     if (profile && profile.last_topic && profile.last_topic !== "Unknown") {
-        profileContext = `KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelumnya pernah berdiskusi tentang: "${profile.last_topic}". Jika pertanyaannya sekarang tampak seperti lanjutan dari topik ini, pahami arah pembicaraannya ke arah sana. Menyapa dengan hangat juga disarankan jika relevan.\n`;
+        profileContext = `KONTEKS PENGGUNA JANGKA PANJANG:\nUser ini sebelumnya pernah berdiskusi tentang: "${profile.last_topic}".\n`;
     }
     
-    // Inject Fakta Profil (Long-Term Memory)
     if (profile && profile.history_summary && profile.history_summary.startsWith('[')) {
         try {
             const facts = JSON.parse(profile.history_summary);
-            if (facts.length > 0) {
-                profileContext += `FAKTA PENGGUNA SAAT INI (Gunakan info ini untuk personalisasi): ${facts.join(", ")}.\n`;
-                console.log(`[🧠 MEMORY] Mengingat ${facts.length} fakta untuk user ${remoteId}`);
-            }
-        } catch (e) { /* ignore parse error */ }
+            if (facts.length > 0) profileContext += `FAKTA PENGGUNA: ${facts.join(", ")}.\n`;
+        } catch (e) { }
     }
-
 
     const history = chatHistory[remoteId] || [];
     const historySummary = history.map(h => `${h.role === 'user' ? 'User' : 'AI'}: ${h.text}`).join('\n');
 
-    // PRTA: High-Precision Keyword Matcher
+    // --- STRATEGI RETRIEVAL MULTI-STAGE (BEST ACCURACY) ---
+    
+    // Stage 1: Fast Rule Check
     const rule = ruleCheck(input);
     if (rule) return { answer: rule, wasAIGenerated: false, confidence: 'high' };
 
-    // STAGE 1: Exact Database Keyword Match (Zero Hallucination)
-    const exactDBMatch = await searchDB(msgBody, rawKB);
-    if (exactDBMatch && exactDBMatch.method === 'exact') {
-        console.log(`[🎯 KEYWORD-FIRST] Exact match found for: "${msgBody}"`);
-        return { answer: exactDBMatch.answer + CONFIRMATION_SUFFIX, wasAIGenerated: false, confidence: 'high' };
-    }
-
-    // STAGE 2: Semantic Cache
-    const { getCache, getSemanticCache, saveSemanticCache } = require('./vectorStore');
-    const semanticHit = await getSemanticCache(msgBody);
-    if (semanticHit) return { answer: semanticHit, wasAIGenerated: false, confidence: 'high' };
-
-    // STAGE 3: Agentic Intent Analysis
-    const agentIntent = await agentPlan(msgBody);
-    console.log(`[🤖 AGENTIC] Intent: '${agentIntent}'`);
+    // Stage 2: Database Candidate Retrieval
+    console.log(`[🔎 RETRIEVAL] Mencari kandidat jawaban terbaik untuk: "${msgBody}"`);
+    const keywordMatch = await searchDB(msgBody, rawKB);
+    const semanticHits = config.features.useVectorDB ? await semanticSearchDB(msgBody) : [];
     
+    let candidates = [];
+    if (keywordMatch) candidates.push({ q: "Keyword Match", a: keywordMatch.answer });
+    semanticHits.forEach(h => candidates.push({ q: h.Question || h.question, a: h.Answer || h.answer }));
+
+    // Stage 3: Intelligent Reranking (Agentic)
+    let ragContext = "";
+    if (candidates.length > 0) {
+        console.log(`[⚖️ RERANKER] Menganalisis ${candidates.length} kandidat untuk akurasi maksimal...`);
+        const rerankPrompt = `
+TUGAS: Pilih JAWABAN TERBAIK dari kandidat di bawah untuk pertanyaan: "${msgBody}"
+KANDIDAT:
+${candidates.map((c, i) => `${i + 1}. [Tanya: ${c.q}] -> [Jawab: ${c.a}]`).join("\n")}
+
+Jika ada jawaban yang SANGAT RELEVAN, tuliskan kembali isi JAWABAN tersebut saja.
+Jika tidak ada yang cocok, tulis "TIDAK_ADA_YANG_COCOK".
+HASIL:
+`;
+        const bestCandidate = await gemini(rerankPrompt, false);
+        if (bestCandidate && !bestCandidate.includes("TIDAK_ADA_YANG_COCOK")) {
+            ragContext = "REFERENSI DATA TERVERIFIKASI:\n" + bestCandidate;
+            console.log("[🎯 RERANKER] Kandidat terbaik terpilih.");
+        }
+    }
     // 🛡️ STOP OFF-TOPIC NOISE BEFORE REACHING CLOUD (SAVE QUOTA)
     if (agentIntent === 'off_topic_noise') {
         return { 
@@ -1247,7 +1277,9 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = 
     console.log(`[AI] Processing query via AI Brain untuk ${remoteId}`);
 
     // OPTIMASI: Kumpulkan lebih banyak konteks dari RAG (Semantic Search) jika belum ada
-    let ragContext = dbContextForComplex;
+    if (!ragContext) {
+        ragContext = dbContextForComplex;
+    }
     if (!ragContext && config.features.useVectorDB) {
         const semanticHits = await semanticSearchDB(msgBody);
         if (semanticHits.length > 0) {
@@ -1256,27 +1288,28 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = 
     }
 
     const basePrompt = `
-"${profileContext}"
+[SYSTEM ROLE: PANDUAN UTAMA IMMICARE ADVISOR PRO 2026]
+Anda adalah AI Spesialis Keimigrasian di Kantor Imigrasi Kelas I TPI Pangkalpinang. Tugas Anda adalah memberikan informasi yang AKURAT, CEPAT, dan 100% GRATIS berlandaskan data resmi.
 
-[STRATEGIC SYSTEM LEARNING (READ FIRST)]:
-${LEARNED_LESSONS || 'Tetap fokus pada domain imigrasi.'}
+[PROTOKOL WAJIB KANTOR PANGKALPINANG - JANGAN PERNAH SALAH]:
+1. LOKASI: Jl. Jenderal Sudirman KM. 03 (Selindung Baru), Kota Pangkalpinang.
+2. JADWAL: Senin-Jumat pukul 08.00 s/d 16.00 WIB.
+3. PASPOR ELEKTRONIK (E-PASPOR): Kantor Pangkalpinang SAAT INI HANYA melayani permohonan PASPOR ELEKTRONIK. Paspor Biasa (Non-Elektronik) SUDAH TIDAK TERSEDIA.
+4. BIAYA: E-Paspor 5 Th (Rp 650.000) | E-Paspor 10 Th (Rp 950.000).
+5. M-PASPOR: Pendaftaran WAJIB Antrean Online via aplikasi M-Paspor. Tidak bisa datang langsung tanpa antrean online (kecuali prioritas Lansia/Difabel/Balita).
+6. SYARAT: KTP, KK, Akte Lahir/Ijazah/Buku Nikah (Asli untuk verifikasi, fotokopi untuk arsip).
 
-RIWAYAT PERCAKAPAN (Terbaru):
-${historySummary || '(Percakapan baru)'}
+[RIWAYAT PERCAKAPAN SINGKAT]:
+${historySummary || '(Percakapan baru Dimulai)'}
 
-DATABASE PENGETAHUAN KANTOR IMIGRASI:
+[DATABASE PENGETAHUAN KAMI]:
 {{DB_CONTEXT}}
 
-PERTANYAAN USER: "${msgBody}"
-
-INSTRUKSI KHUSUS:
-1. Anda adalah Pakar Imigrasi Kantor Imigrasi Kelas I TPI Pangkalpinang. Jawablah dengan nada Formal, Solutif, dan Sopan.
-2. Prioritaskan data dari DATABASE PENGETAHUAN di atas. JIKA TIDAK ADA DATA di dalam DATABASE/KNOWLEDGE BASE, jawablah bahwa Anda tidak memiliki informasi tersebut dan sarankan untuk menghubungi Admin.
-3. JANGAN PERNAH berhalusinasi atau memberikan informasi di luar domain imigrasi (seperti harga makanan, politik, gosip, atau hal pribadi).
-4. JIKA sumber berasal dari [PDF-DOC], Anda WAJIB menyebutkan nama dokumennya untuk kredibilitas (misal: "Sesuai Aturan di Dokumen X...").
-5. Gunakan format Markdown (Bold/List) agar mudah dibaca di WhatsApp.
-6. Berikan jawaban Anda secara langsung tanpa kalimat pembuka yang membosankan.
-7. JIKA pertanyaan tidak ada hubungannya dengan layanan Paspor, Visa, Izin Tinggal, atau Keimigrasian, jawab: "Maaf, saya hanya dapat membantu memberikan informasi terkait layanan keimigrasian."
+[INSTRUKSI JAWABAN]:
+- Jawablah secara to-the-point namun sopan (Gunakan sapaan "Bapak/Ibu" atau "Sahabat Imigrasi").
+- Gunakan Format Markdown (Huruf Tebal/List) agar mudah dibaca di layar HP.
+- Jika data tidak ditemukan di atas, gunakan nalar AI anda TAPI wajib berikan disklaimer di akhir bahwa ini informasi bantuan AI.
+- Jangan menjawab hal di luar IMIGRASI (Politik, Olahraga, Hiburan, dll).
 `;
 
     // 💡 TOKEN EFFICIENCY: Cloud models (expensive) get only relevant RAG context.

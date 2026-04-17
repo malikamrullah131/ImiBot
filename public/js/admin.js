@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (tabId === 'dashboard') {
             initCharts();
             fetchAnalytics();
+            fetchLogs(false, true); // Populate mini chat
         } else if (tabId === 'database') {
             fetchKB();
         } else if (tabId === 'broadcast') {
@@ -110,7 +111,36 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchSystemHealth();
             updateInterval = setInterval(fetchSystemHealth, 5000);
         }
+
+        // Sync Sidebar UI
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+            const label = item.querySelector('.nav-label')?.innerText.toLowerCase();
+            if (label && label.includes(tabId)) {
+                item.classList.add('active');
+            }
+        });
+        if (window.lucide) lucide.createIcons();
     };
+
+    // --- GLOBAL SEARCH ---
+    const globalSearch = document.getElementById('global-search');
+    if (globalSearch) {
+        globalSearch.addEventListener('keyup', (e) => {
+            const query = e.target.value;
+            // If on database tab, use its filter
+            if (!document.getElementById('tab-database').classList.contains('hidden')) {
+                window.filterKB(query);
+            } else {
+                // If enter pressed, switch to database tab and search
+                if (e.key === 'Enter') {
+                    switchTab('database', document.querySelectorAll('.nav-item')[1]);
+                    document.getElementById('kb-search').value = query;
+                    window.filterKB(query);
+                }
+            }
+        });
+    }
 
     // --- STATUS & STATS ---
     async function fetchStatus() {
@@ -144,11 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const aiText = document.getElementById('ai-health-text');
             if (aiDot && aiText) {
                 if (data.aiReady) {
-                    aiDot.classList.add('bg-emerald-500');
-                    aiDot.classList.remove('bg-amber-500', 'animate-pulse');
+                    aiDot.className = "status-dot dot-ready";
                     aiText.innerText = "AI: READY";
-                    aiText.classList.remove('text-amber-500');
-                    aiText.classList.add('text-slate-500');
 
                     // Recovery Notification
                     if (lastAIReady === false) {
@@ -156,11 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         playNotification(); // Sound if unmuted
                     }
                 } else {
-                    aiDot.classList.add('bg-amber-500', 'animate-pulse');
-                    aiDot.classList.remove('bg-emerald-500');
+                    aiDot.className = "status-dot dot-warning animate-pulse";
                     aiText.innerText = "AI: COOLING DOWN";
-                    aiText.classList.add('text-amber-500');
-                    aiText.classList.remove('text-slate-500');
                 }
                 lastAIReady = data.aiReady;
             }
@@ -419,9 +443,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function fetchLogs(isTerminal = false) {
+    async function fetchLogs(isTerminal = false, isMini = false) {
         try {
-            const range = document.getElementById('log-range')?.value || 'all';
+            const range = isMini ? '24h' : (document.getElementById('log-range')?.value || 'all');
             const res = await fetch(`/api/logs?range=${range}`);
             const data = await res.json();
             
@@ -437,10 +461,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const container = document.getElementById('chat-container');
+            const container = document.getElementById(isMini ? 'chat-container-mini' : 'chat-container');
             if (!container) return;
 
-            container.innerHTML = data.logs.map(log => {
+            const limit = isMini ? 10 : 50;
+            const logsToRender = isMini ? data.logs.slice(-limit) : data.logs;
+
+            container.innerHTML = logsToRender.map(log => {
                 const isAI = log.includes('[AI Response]');
                 const isUser = log.includes('[Message Received]');
                 const time = log.match(/\[(.*?)\]/)?.[1] || "";
@@ -450,17 +477,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isUser) content = log.split('[Message Received] ')[1]?.split(': ')[1] || log;
 
                 if (isUser) {
-                    return `<div class="message user shadow-soft animate-fade">
+                    return `<div class="chat-bubble user animate-fade-in">
                                 <div class="text-[10px] opacity-70 mb-1 font-bold">${time}</div>
                                 <div>${content}</div>
                             </div>`;
                 } else if (isAI) {
-                    return `<div class="message bot shadow-soft animate-fade">
+                    return `<div class="chat-bubble bot animate-fade-in">
                                 <div class="text-[10px] text-slate-400 mb-1 font-bold">${time}</div>
                                 <div>${content}</div>
                             </div>`;
                 }
-                return `<div class="text-center text-[10px] text-slate-400 my-2">${content}</div>`;
+                return isMini ? '' : `<div class="text-center text-[10px] text-slate-400 my-2">${content}</div>`;
             }).join('');
             
             container.scrollTop = container.scrollHeight;
@@ -492,28 +519,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         container.innerHTML = items.map((item, i) => {
-            // Support multiple possible key names for Question and Answer
             const q = item.Question || item.Pertanyaan || item.question || item.pertanyaan || Object.values(item)[1] || "No Question";
             const a = item.Answer || item.Jawaban || item.answer || item.jawaban || Object.values(item)[2] || "No Answer";
             const id = `kb-item-${i}`;
             
             return `
-                <div class="bg-white rounded-3xl border border-slate-200 hover:border-sky-200 transition-all shadow-sm group overflow-hidden">
-                    <div onclick="toggleKB('${id}')" class="p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-sm">#${i+1}</div>
-                            <span class="text-sm font-bold text-slate-800 line-clamp-1">${q}</span>
+                <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 0.75rem; border-radius: 12px;">
+                    <div onclick="toggleKB('${id}')" style="padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s ease;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.7rem; flex-shrink: 0;">${i+1}</div>
+                            <span style="font-size: 0.875rem; font-weight: 600; color: var(--text-main); line-height: 1.4;">${q}</span>
                         </div>
-                        <i data-lucide="chevron-down" id="icon-${id}" class="w-5 h-5 text-slate-300 group-hover:text-sky-500 transition-all"></i>
+                        <i data-lucide="chevron-down" id="icon-${id}" style="width: 16px; height: 16px; color: var(--text-muted); flex-shrink: 0;"></i>
                     </div>
                     
-                    <div id="${id}" class="hidden p-6 pt-0 border-t border-slate-50 animate-fade-down">
-                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-4">
-                            <p class="text-sm text-slate-600 leading-relaxed font-medium whitespace-pre-wrap">${a}</p>
+                    <div id="${id}" class="hidden" style="padding: 0 1.25rem 1rem 1.25rem; border-top: 1px solid var(--border);">
+                        <div style="background: var(--bg-main); padding: 1rem; border-radius: 10px; margin: 0.75rem 0;">
+                            <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.6; white-space: pre-wrap;">${a}</p>
                         </div>
-                        <div class="flex justify-end gap-2">
-                             <button onclick="fillManual('${q.replace(/'/g, "\\'")}', '${a.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" class="flex items-center gap-2 px-6 py-2 bg-sky-500 text-white hover:bg-sky-600 rounded-xl transition-all font-bold text-xs">
-                                 <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit / Gunakan
+                        <div style="display: flex; justify-content: flex-end;">
+                             <button onclick="fillManual('${q.replace(/'/g, "\\'")}', '${a.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.7rem; border-radius: 6px;">
+                                 <i data-lucide="edit-3" style="width: 12px; height: 12px;"></i> Edit Data
                             </button>
                         </div>
                     </div>
@@ -655,7 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const logRecipients = Array.from(document.querySelectorAll('input[name="recipient"]:checked')).map(c => c.value);
         const manualInput = document.getElementById('manual-ids').value;
         
-        let manualRecipients = manualInput.split(',')
+        let manualRecipients = manualInput.split(/[,|\n]/)
             .map(n => n.trim().replace(/[^0-9]/g, ''))
             .filter(n => n.length > 5)
             .map(n => n + '@c.us');
@@ -718,12 +744,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- ACTIONS ---
-    window.syncSpreadsheet = async () => {
-        const btn = document.getElementById('sync-btn');
-        btn.innerHTML = '<span class="animate-spin inline-block">⏳</span> Syncing...';
+    window.syncSpreadsheet = async (e) => {
+        const btn = (e && e.currentTarget) || document.getElementById('sync-btn');
+        const originalHTML = btn.innerHTML;
+        
+        btn.innerHTML = '<i data-lucide="loader" class="animate-spin w-4 h-4"></i><span>Syncing...</span>';
         btn.disabled = true;
+        if (window.lucide) lucide.createIcons();
+        
         showGlobalProgress(true, 'Sinkronisasi Spreadsheet', 'Sedang mengambil data terbaru dari Google Sheets...');
-
+        
         try {
             const res = await fetch('/api/sync', { method: 'POST' });
             const data = await res.json();
@@ -733,14 +763,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchStatus();
                 fetchKB();
             } else {
-                showNotification('Gagal Sinkronisasi', 'error');
+                showNotification('Gagal Sinkronisasi: ' + (data.error || 'Server Error'), 'error');
             }
         } catch (e) {
             showNotification('Gagal Sinkronisasi', 'error');
         } finally {
-            btn.innerHTML = '🔄 Sync Spreadsheet';
+            btn.innerHTML = originalHTML;
             btn.disabled = false;
             showGlobalProgress(false);
+            if (window.lucide) lucide.createIcons();
         }
     };
 
@@ -904,22 +935,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 7. Update Health Checklist Icons (Updated for Multi-Model)
             const updateCheck = (id, ok) => {
-                const el = document.getElementById(id);
-                if (!el) return;
+                const dot = document.getElementById('health-' + id + '-dot');
+                if (!dot) return;
                 if (ok) {
-                    el.innerHTML = '<i data-lucide="check-circle-2" class="w-3 h-3"></i> READY';
-                    el.className = "font-bold text-emerald-500 flex items-center gap-1 transition-all";
+                    dot.className = "status-dot dot-ready";
                 } else {
-                    el.innerHTML = '<i data-lucide="x-circle" class="w-3 h-3"></i> ERROR';
-                    el.className = "font-bold text-rose-500 flex items-center gap-1 transition-all";
+                    dot.className = "status-dot dot-error animate-pulse";
                 }
             };
             
-            updateCheck('health-ds', data.deepseekReady);
-            updateCheck('health-gemini', data.geminiReady);
-            updateCheck('health-mistral', data.mistralReady);
-            updateCheck('health-ollama', data.ollamaReady);
-            updateCheck('health-vector', true);
+            updateCheck('ds', data.deepseekReady);
+            updateCheck('gemini', data.geminiReady);
+            updateCheck('mistral', data.mistralReady);
+            updateCheck('ollama', data.ollamaReady);
+            updateCheck('vector', true);
             
             const uptimeMsg = `${hours}h ${mins}m`;
             document.getElementById('stat-uptime').innerText = uptimeMsg;
@@ -1255,14 +1284,23 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // 1. Moderation Badge
             const rBadge = document.getElementById('review-badge');
+            const rBadgeHeader = document.getElementById('review-badge-header');
             const rRes = await fetch('/api/reviews');
             const rData = await rRes.json();
+            
             if (rData.reviews && rData.reviews.length > 0) {
-                rBadge.innerText = rData.reviews.length;
-                rBadge.classList.remove('hidden');
-                rBadge.className = "absolute -top-1 -right-1 bg-sky-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-bounce";
+                const count = rData.reviews.length;
+                if (rBadge) {
+                    rBadge.innerText = count;
+                    rBadge.classList.remove('hidden');
+                }
+                if (rBadgeHeader) {
+                    rBadgeHeader.innerText = count;
+                    rBadgeHeader.classList.remove('hidden');
+                }
             } else {
-                rBadge.classList.add('hidden');
+                if (rBadge) rBadge.classList.add('hidden');
+                if (rBadgeHeader) rBadgeHeader.classList.add('hidden');
             }
 
             // 2. Backlog Badge
@@ -1272,11 +1310,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (bData.backlog && bData.backlog.length > 0) {
                 const count = bData.backlog.length;
                 if (bBadge.innerText != count && !isMuted) playNotification();
-                bBadge.innerText = count;
-                bBadge.classList.remove('hidden');
-                bBadge.className = "absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse";
+                if (bBadge) {
+                    bBadge.innerText = count;
+                    bBadge.classList.remove('hidden');
+                }
             } else {
-                bBadge.classList.add('hidden');
+                if (bBadge) bBadge.classList.add('hidden');
             }
         } catch(e) {}
     }

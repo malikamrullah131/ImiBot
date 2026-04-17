@@ -1,14 +1,33 @@
-# ImmiCare Technical Reference Guide — Advanced Memory & Anti-Spam Architecture (v4.1) 🛠️🤖⚖️
+# ImmiCare Technical Reference Guide — Stability & Resilience Architecture (v4.4) 🛠️🤖⚖️
 
-Selamat datang di panduan teknis **ImmiCare**. Folder ini berisi kode sumber chatbot WhatsApp berbasis **Resilient AI Dispatcher** yang dirancang untuk berjalan stabil di komputer dengan spesifikasi terbatas (RAM 8GB).
+Selamat datang di panduan teknis **ImmiCare**. Dokumen ini berisi detail implementasi infrastruktur, proses manajemen, dan arsitektur AI untuk memastikan bot berjalan 24/7 dengan tingkat kegagalan minimum.
 
 ---
 
-## 🏛️ Arsitektur Sistem (Cyber-Resilient & Local-First)
+## 🏛️ Arsitektur Ketahanan (Process Management)
 
-Sistem ini menggunakan arsitektur bertingkat (**Tiered Pipeline**) untuk memastikan kecepatan respon dan efisiensi memori (RAM).
+Sistem ini dirancang untuk "Zero Manual Intervention" menggunakan kombinasi Guardian dan PM2.
 
-### Alur Kerja Pesan (Advanced 6-Step Pipeline + Anti-Spam Gate)
+### 1. Guardian System (`guardian.js`)
+Penyangga utama yang memantau proses `server.js`:
+- **Auto-Recovery**: Menghidupkan kembali bot dalam 5 detik jika terjadi crash.
+- **Memory Cap**: Membatasi RAM Node.js pada 768MB agar tidak membebani host.
+- **Anti-Loop**: Menjeda restart jika terjadi crash 5x berturut-turut dalam 10 menit.
+
+### 2. PM2 Production Management
+Bot dikelola secara profesional menggunakan PM2:
+- **Service Name**: `immicare`
+- **Auto-Startup**: Dikonfigurasi dengan `pm2-windows-startup` agar otomatis menyala saat server/PC reboot.
+- **Persistent State**: Status `botPaused` disimpan di `settings.json` sehingga tetap sinkron meskipun bot di-restart.
+
+### 3. Remote Monitoring (PM2 Plus)
+Admin dapat mengontrol server dari jarak jauh melalui [app.pm2.io](https://app.pm2.io/):
+- **Dashboard Cloud**: Pantau CPU, RAM, dan Log secara real-time dari browser atau aplikasi HP.
+- **Remote Action**: Menghidupkan bot yang mati (`!shut`) dari luar kantor.
+
+---
+
+## 🚀 Alur Kerja Pesan (Tiered Pipeline)
 
 ```mermaid
 graph TD
@@ -16,213 +35,51 @@ graph TD
     B -- Noise/Flood --> Z[Abaikan / Peringatan]
     B -- OK --> C{Step 0: Profile Memory}
     C -- Context Found --> D{🛡️ Quota Guard}
-    D -- Off-Topic Pattern --> E1[Local Block + Free Refusal]
     D -- OK --> D1{Step 1: Rule Engine}
-    D1 -- Match --> E[Kirim Jawaban]
     D1 -- No Match --> F{Step 2: Smart Cache}
-    F -- Hit --> E
     F -- Miss --> G{Step 3: Normalized Search}
-    G -- Match --> E
     G -- No Match --> H{Step 4: Vector-Lite Search}
-    H -- Score > 0.8 --> E
     H -- Low Score --> I{Step 5: LLM Dispatcher}
-    I -- Cloud Failed / Conf < 30 --> J{🌐 Free Search Fallback}
-    J -- DDG / SearxNG --> E
+    I -- Cloud Failed --> J{🌐 Free Search Fallback}
+    J -- DDG / SearxNG --> E[Kirim Jawaban]
     I -- Success --> E
 ```
 
+---
+
+## 📂 Panduan Deployment Cloud (Railway)
+
+Proyek ini dilengkapi dengan `Dockerfile` dan `railway.toml` untuk deployment di Railway.app:
+1. **Repository**: Hubungkan GitHub ke Railway.
+2. **Environment**: Masukkan isi `.env` ke bagian Variables di Railway.
+3. **Volume**: Tambahkan volume pada path `/app/.wwebjs_auth` untuk menyimpan sesi WhatsApp agar tidak perlu scan ulang.
+4. **Port**: Gunakan port 3000 untuk mengakses dashboard internal.
 
 ---
 
-## 🚀 Fitur Teknis Utama
+## 📊 Perintah Admin WhatsApp (Update v4.4)
 
-### 1. 🛡️ Anti-Spam Rate Limiter (`server.js`)
-Sistem perlindungan berlapis untuk mencegah penyalahgunaan dan menjaga stabilitas:
-- **Layer 1 (Noise Filter)**: Pesan ≤ 2 karakter yang tidak bermakna (bukan `hi`, `ya`, dsb.) diabaikan secara diam-diam.
-- **Layer 2 (Silence Period)**: Setelah peringatan flood, pengguna diblokir selama **30 detik**.
-- **Layer 3 (Flood Detection)**: Lebih dari **5 pesan dalam 10 detik** memicu peringatan dan periode diam.
-- **Layer 4 (Reply Cooldown)**: Minimal **1.5 detik** jeda antar balasan bot untuk mencegah duplikasi.
-- **Auto-Cleanup**: State rate limiter dibersihkan otomatis setiap 10 menit untuk menjaga RAM.
-- **Admin Bypass**: Semua filter dilewati untuk nomor admin.
-
-### 2. 🏠 Local-First & Hybrid Database (`db.js`)
-Sistem ini memprioritaskan penyimpanan lokal untuk menjamin **100% Uptime** jika koneksi internet terputus atau Neon DB mengalami gangguan:
-- **Neon DB + pgvector**: Sebagai penyimpanan cloud utama.
-- **Local Fallback**: Sinkronisasi otomatis ke file JSON lokal (`data/local_kb.json`) setiap kali ada perubahan.
-- **`!sync-local` Command**: Admin dapat memicu sinkronisasi manual dari WhatsApp.
-
-### 3. ⚡ Vector-Lite Search (`vectorStore.js`)
-Alih-alih mencari di seluruh database yang besar, sistem ini menggunakan strategi **Vector-Lite**:
-- **FAQ Subset**: Hanya entri penting dan pendek (FAQ) yang di-filter untuk pencarian semantik cepat di RAM kecil.
-- **TopK Tuning**: Pengaturan `config.performance.vectorLiteK` (default: 3) untuk membatasi jumlah hasil pencarian vektor agar hemat memori.
-
-### 4. 🧠 Smart AI Dispatcher (`ai.js`)
-- **Reasoning Model**: Menggunakan `phi3:mini` (3.8B) sebagai mesin otak utama di komputer lokal via **Ollama**.
-- **Model Switching**: Otomatis beralih ke model yang lebih ringan jika penggunaan RAM sistem terdeteksi kritis (>96%).
-- **Circuit Breaker**: Jika kunci API Cloud (GPT-5/Gemini/OpenRouter) bermasalah, sistem akan otomatis menjeda (cooldown) kunci tersebut sebelum dicoba lagi.
-- **Premium Model Tiering**: Menggunakan GPT-5 Nano untuk pertanyaan ringan, GPT-5 Mini untuk pertanyaan sedang, dan DeepSeek V3.2 untuk pemrosesan kompleks sebelum fallback ke model gratis.
-- **Community AI Fallback**: Fallback ke layanan AI komunitas gratis (Pollinations, G4F) sebelum Ollama lokal.
-
-### 5. 🧠 Long-Term Memory System (`db.js` & `ai.js`)
-Sistem dilengkapi dengan profil pengguna (*User Profiling*):
-- **Automated Summary**: AI secara otomatis meringkas riwayat percakapan untuk menghemat token konteks.
-- **Topical Memory**: Bot mengingat topik terakhir yang dibahas untuk memberikan respon yang nyambung pada sesi berikutnya.
-- **Local Fallback**: Profil disimpan di `data/user_profiles.json` jika database cloud offline.
-
-### 6. 📚 PDF Knowledge Base (`pdfReader.js` & `vectorStore.js`)
-- Letakkan dokumen PDF di folder `knowledge_pdf/`.
-- Gunakan perintah `!sync-pdf` dari WhatsApp untuk menganalisa dan mengindeks isi dokumen secara otomatis.
-
-### 7. 📂 Broadcast Engine & Modular Express
-`server.js` mengintegrasikan `Broadcast API` yang memungkinkan Admin mengirim pesan massal dengan jeda keamanan (*anti-ban delay* 3-5 detik):
-- **Recipients Discovery**: Ekstraksi otomatis nomor telepon dari log aktivitas.
-- **Socket.io Integration**: Notifikasi real-time untuk dashboard admin.
-- **Separation of Concerns**: Seluruh logika API dipisahkan ke `routes/api.js`.
-
-### 8. 🌐 SaaS / External API Endpoint
-Bot kini dapat diintegrasikan dengan platform eksternal (Botpress, Typebot, website, dsb.) via REST API:
-- **Endpoint**: `POST /api/external/chat`
-- **Header**: `x-api-key: <EXTERNAL_API_KEY>`
-- **Body**: `{ "message": "...", "remoteId": "user_id_opsional" }`
-- **Response**: `{ success, answer, metadata: { confidence, wasAIGenerated, source } }`
-
-### 9. 💰 Auto Balance Monitor
-Setiap **30 pesan** yang diproses, sistem secara otomatis memeriksa saldo OpenRouter dan mengirimkan peringatan ke WhatsApp Admin jika saldo di bawah **$0.50**.
-
-### 10. 🌐 Zero-Key Free Search Fallback
-Untuk menjaga kelangsungan layanan tanpa biaya API tambahan:
-- **Search Provider Rotation**: Jika DuckDuckGo gagal, sistem otomatis berotasi ke daftar instance publik **SearxNG** (seperti searx.be, searxng.site).
-- **Emergency Trigger**: Mekanisme ini otomatis aktif jika Confidence Score < 30% atau terjadi `API_ERROR` pada cluster Cloud AI.
-
-### 11. 🛡️ Local Quota Guard
-- **Regex Firewall**: Menapis pertanyaan di luar domain imigrasi (politik, olahraga, gossip) menggunakan pola regex lokal sebelum memanggil API berbayar.
-- **Cost Minimization**: Memastikan budget API hanya digunakan untuk pertanyaan substansial terkait layanan keimigrasian.
-
-### 12. 📊 Autonomous Intelligence Analysis (`analyze_and_report_v5.js`)
-Sistem dilengkapi dengan skrip analisa mandiri yang:
-- Membedah log `chatbot_logs.txt` untuk menemukan tren pertanyaan baru.
-- Mendeteksi upaya spamming atau bypass filter.
-- Memperbarui `lessons_learned.json` untuk meningkatkan nalar bot secara berkelanjutan.
+| Perintah | Shortcut | Fungsi Teknis |
+| :--- | :--- | :--- |
+| `!status` | `!s` | Menampilkan statistik OS RAM + PM2 Performance (CPU & Health). |
+| `!pause` | `!p` | Mengatur `botPaused = true` di `settings.json` (Persisten). |
+| `!resume` | `!m` | Mengatur `botPaused = false` di `settings.json`. |
+| `!shut` | - | Eksekusi `pm2 stop immicare` untuk mematikan bot total. |
+| `!sync` | `!y` | Sinkronisasi penuh Google Sheets -> Neon DB -> Vector. |
+| `!audit` | - | Analisa mendalam nalar AI terhadap interaksi terakhir. |
 
 ---
 
-## 🛠️ Konfigurasi & Setup Developer
-
-### 1. Persyaratan Lingkungan
-- **Node.js**: v18.x atau lebih baru.
-- **Ollama**: Terinstal dan berjalan di latar belakang (Local AI) — opsional.
-- **RAM**: Minimal 8GB (Direkomendasikan di Windows/Linux).
-- **Neon DB**: Database PostgreSQL dengan ekstensi `pgvector`.
-
-### 2. Variabel Lingkungan (.env)
-Salin `.env.example` menjadi `.env` dan isi dengan nilai Anda:
-```env
-# AI API Keys (Semua opsional, tapi minimal salah satu harus diisi)
-OPENAI_API_KEY="sk-..."                 # Untuk GPT-5 Nano/Mini
-OPENROUTER_API_KEY="sk-or-v1-..."
-GEMINI_API_KEY="..."
-DEEPSEEK_API_KEY="..."                  # Untuk DeepSeek V3.2
-MISTRAL_API_KEY="..."
-
-# Model Selection
-GPT5_MINI_MODEL="gpt-5-mini"
-GPT5_NANO_MODEL="gpt-5-nano"
-DEEPSEEK_MODEL="deepseek-chat-v3-2"
-
-# Database
-DATABASE_URL="postgresql://..."         # Neon DB dengan pgvector
-
-# Google Integration
-GOOGLE_SCRIPT_WEB_APP_URL="..."         # Google Apps Script untuk Sheets
-GOOGLE_APPLICATION_CREDENTIALS_JSON='{"type":"service_account",...}' # Untuk GA4
-
-# Google Analytics 4
-GA4_MEASUREMENT_ID="G-XXXXXXXXXX"
-GA4_API_SECRET="..."
-GA4_PROPERTY_ID="..."
-
-# Security
-ADMIN_PASSWORD="YourSecretPassword"     # Password dashboard web
-ADMIN_PHONE="628xxxxxxxxxx"             # Nomor admin (tanpa +, tanpa @c.us)
-EXTERNAL_API_KEY="imigrasi_key"         # Kunci untuk endpoint /api/external/chat
-
-# Konfigurasi Bot (Opsional)
-PORT=3000
-BOT_MODE="balanced"                     # lite | balanced | cloud-backup
-VECTOR_MODE="lite"                      # lite | full | off
-```
-
-### 3. Menjalankan Bot
-```bash
-# Install dependensi
-npm install
-
-# Jalankan bot (direkomendasikan)
-npm run bot          # node --max-old-space-size=768 server.js
-
-# Jalankan dengan Guardian (auto-restart jika crash)
-npm start            # node guardian.js
-```
-
-### 4. Struktur Folder Utama
-| File / Folder | Deskripsi |
-|---|---|
-| `server.js` | Titik masuk utama: WhatsApp client, admin commands, anti-spam, Express server. |
-| `ai.js` | Mesin NLP & LLM Dispatcher (6-step pipeline + circuit breaker). |
-| `db.js` | Adaptor database hybrid (Neon Cloud + Local JSON fallback). |
-| `vectorStore.js` | Operasi pencarian semantik (pgvector + Vector-Lite). |
-| `sheets.js` | Integrasi Google Sheets (baca & tulis knowledge base). |
-| `analytics.js` | Pelaporan Google Analytics 4 & category suggestion. |
-| `guardian.js` | Watchdog proses untuk auto-restart jika bot crash. |
-| `pdfReader.js` | Parser PDF untuk knowledge base dokumen. |
-| `config.js` | Pusat pengaturan konfigurasi sistem. |
-| `routes/api.js` | Logika API Dashboard (REST endpoints). |
-| `public/` | File statis dashboard admin (HTML/CSS/JS). |
-| `data/` | Penyimpanan JSON lokal (KB fallback, user profiles, cache). |
-| `knowledge_pdf/` | Letakkan dokumen PDF di sini untuk dianalisa bot. |
+## 🛠️ Persyaratan Sistem
+- **Node.js**: v18.x atau v20.x
+- **Infrastruktur**: PC Lokal (Windows/Linux) atau Cloud (Railway/Render).
+- **Database**: Neon DB (PostgreSQL + pgvector).
 
 ---
 
-## 📊 Perintah Admin WhatsApp (Teknis)
+## ⚖️ Hak Cipta & Lisensi
+Sistem ini bersifat **Internal Enhancement** untuk Kantor Imigrasi PKP. Penggunaan dan modifikasi kode harus sepengetahuan penanggung jawab teknis.
 
-| Perintah | Deskripsi Teknis |
-|---|---|
-| `!help` | Tampilkan daftar semua perintah admin yang tersedia. |
-| `!status` | Laporan RAM, Uptime, mode bot, jumlah KB, dan status pause. |
-| `!saldo` | Cek sisa saldo API OpenRouter secara real-time. Alert jika < $0.50. |
-| `!audit` | Deep-analysis interaksi terakhir dengan model reasoning (Self-Correction). Menyimpan rekomendasi untuk `!gas`. |
-| `!gas` | Mengirim suggested answer ke user + update Sheets, Neon DB & Vector Store dengan Auto-Category + Zapier webhook. |
-| `!benar` | Simpan interaksi ke database sebagai validasi manual (Admin Confirmed). |
-| `!salah [Jawaban]` | Koreksi jawaban terakhir & update Sheets, Neon DB, dan cache secara instan. |
-| `!sync` | Sinkronisasi penuh: Google Sheets → Neon DB → Vector Store + PDF refresh. |
-| `!sync-local` | Backup seluruh Knowledge Base ke file `data/local_kb.json` (Offline Security). |
-| `!sync-pdf` | Parse & indeks ulang dokumen PDF dari folder `knowledge_pdf/`. |
-| `!pause` / `!resume` | Jeda atau aktifkan kembali loop penangan pesan WhatsApp. |
-
----
-
-## 🔌 REST API Endpoints (Dashboard)
-
-| Method | Endpoint | Deskripsi |
-|---|---|---|
-| `GET` | `/api/status` | Status bot, RAM, uptime, AI mode. |
-| `GET` | `/api/system/health` | Health check mendalam termasuk info CPU & hardware. |
-| `GET` | `/api/kb` | Ambil seluruh knowledge base dari Neon DB. |
-| `GET` | `/api/logs?range=24h\|7d\|all` | Ambil log percakapan terfilter. |
-| `POST` | `/api/approve` | Tambah entri baru ke knowledge base. |
-| `GET` | `/api/backlog` | Daftar pertanyaan yang belum terjawab. |
-| `POST` | `/api/backlog/resolve` | Tandai backlog sebagai selesai. |
-| `GET` | `/api/recipients` | Daftar nomor yang pernah menghubungi bot (dari log). |
-| `POST` | `/api/broadcast` | Kirim pesan massal ke daftar penerima. |
-| `POST` | `/api/sync` | Trigger sinkronisasi Sheets → DB → Vector. |
-| `POST` | `/api/system/restart` | Restart proses Node.js. |
-| `POST` | `/api/system/maintenance/clean` | Bersihkan cache AI. |
-| `POST` | `/api/external/chat` | SaaS endpoint untuk integrasi pihak ketiga (butuh `x-api-key`). |
-
----
-
-## ⚖️ Lisensi & Kontribusi
-Sistem ini bersifat **Open Enhancement** untuk internal Kantor Imigrasi PKP. Pengembang dapat melakukan modifikasi pada `config.js` untuk menyesuaikan ambang batas (*threshold*) akurasi AI dan mode operasional.
-
-**Penyusun:** Antigravity AI Team  
-**Status:** ✅ Stable for Production (v4.3 - Intelligence & Resilience Edition)
+**Pengembang Utama:** Malik Amrullah  
+**Edisi:** Stability & Resilience (v4.4)  
+**Status:** ✅ Production Ready

@@ -1,3 +1,4 @@
 {
-  "aiMode": "hybrid"
+  "aiMode": "hybrid",
+  "botPaused": true
 }
