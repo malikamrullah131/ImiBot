@@ -27,13 +27,13 @@ async function createEmbedding(text, retryCount = 0, maxRetries = 3) {
         const result = await model.embedContent(text);
         return result && result.embedding ? result.embedding.values : null;
     } catch (e) {
-        if (e.message.includes('429') && retryCount < maxRetries) {
+        if (e?.message?.includes('429') && retryCount < maxRetries) {
             const waitTime = (retryCount + 1) * 35000;
             console.warn(`[Vector Store] ⏳ Limit 429. Menunggu ${waitTime/1000}s (Upaya ${retryCount + 1}/${maxRetries})...`);
             await new Promise(r => setTimeout(r, waitTime));
             return createEmbedding(text, retryCount + 1, maxRetries);
         }
-        console.error(`[Vector Store] Embedding Error: ${e.message}`);
+        console.error(`[Vector Store] Embedding Error: ${e?.message || e}`);
         return null;
     }
 }
@@ -100,6 +100,10 @@ async function syncVectors() {
 
                 if (embeddings && embeddings.length === chunk.length) {
                     for (let j = 0; j < chunk.length; j++) {
+                        if (!embeddings[j] || !Array.isArray(embeddings[j])) {
+                            console.warn(`[Vector Store] Missing embedding for chunk ${j}, skipping...`);
+                            continue;
+                        }
                         const vectorStr = `[${embeddings[j].join(',')}]`;
                         // Update both Vector and FTS Content
                         await pool.query(`
@@ -115,14 +119,14 @@ async function syncVectors() {
                 await new Promise(r => setTimeout(r, 10000)); 
             } catch (e) {
                 consecutiveErrors++;
-                if (e.message.includes('429')) {
+                if (e?.message?.includes('429')) {
                     console.warn(`[Vector Store] ⚠️ API Key #${currentKeyIdx + 1} hit quota limit (429). Rotating...`);
                     currentKeyIdx++;
                     if (currentKeyIdx >= apiKeys.length) break;
                     i -= limitPerRow;
                     await new Promise(r => setTimeout(r, 5000));
                 } else {
-                    console.error(`[Vector Store] Batch Error: ${e.message}`);
+                    console.error(`[Vector Store] Batch Error: ${e?.message || e}`);
                     if (consecutiveErrors > 3) break;
                 }
             }
@@ -141,7 +145,7 @@ async function getSemanticCache(queryText) {
     if (!process.env.DATABASE_URL) return null;
     try {
         const queryVector = await createEmbedding(queryText, 0, 1);
-        if (!queryVector) return null;
+        if (!queryVector || !Array.isArray(queryVector)) return null;
 
         const vectorStr = `[${queryVector.join(',')}]`;
         const res = await pool.query(
@@ -163,7 +167,7 @@ async function saveSemanticCache(queryText, answerText) {
     if (!process.env.DATABASE_URL || answerText.length < 50) return;
     try {
         const queryVector = await createEmbedding(queryText, 0, 1);
-        if (!queryVector) return;
+        if (!queryVector || !Array.isArray(queryVector)) return;
 
         const vectorStr = `[${queryVector.join(',')}]`;
         await pool.query(
@@ -182,7 +186,7 @@ async function hybridSearch(queryText, limit = 5) {
     if (!process.env.DATABASE_URL) return [];
     try {
         const queryVector = await createEmbedding(queryText, 0, 1);
-        if (!queryVector) return [];
+        if (!queryVector || !Array.isArray(queryVector)) return [];
 
         const vectorStr = `[${queryVector.join(',')}]`;
         
@@ -214,7 +218,7 @@ async function hybridSearch(queryText, limit = 5) {
 
         return res.rows;
     } catch (e) {
-        console.error("[Hybrid Search] Error:", e.message);
+        console.error("[Hybrid Search] Error:", e?.message || e);
         return [];
     }
 }
@@ -227,7 +231,7 @@ async function forceReindexDB() {
         await syncVectors();
         return true;
     } catch (e) {
-        console.error("[Vector Store] Reindex Error:", e.message);
+        console.error("[Vector Store] Reindex Error:", e?.message || e);
         return false;
     }
 }
@@ -305,4 +309,4 @@ async function syncPDFs() {
     }
 }
 
-module.exports = { syncVectors, hybridSearch, forceReindexDB, semanticSearchDB, syncPDFs, getSemanticCache, saveSemanticCache };
+module.exports = { syncVectors, hybridSearch, forceReindexDB, semanticSearchDB, vectorSearch: semanticSearchDB, syncPDFs, getSemanticCache, saveSemanticCache };

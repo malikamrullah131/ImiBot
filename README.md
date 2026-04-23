@@ -9,9 +9,11 @@
 - **Respon Instan**: Melayani pertanyaan masyarakat secara otomatis selama sistem aktif.
 - **Berbasis Pengetahuan Resmi**: Menjawab berdasarkan basis data (Knowledge Base) yang disinkronkan langsung dari Google Sheets resmi kantor.
 - **Kendali Jarak Jauh (WhatsApp)**: Admin dapat mengontrol bot (Pause, Resume, atau Cek Status) langsung melalui chat WhatsApp.
-- **Mode Stabil (Anti-Crash)**: Dilengkapi dengan sistem pengawas (Guardian) dan PM2 yang memastikan bot otomatis aktif kembali jika terjadi gangguan.
+- **Mode Stabil (Anti-Crash & Auto-Recovery)**: Dilengkapi dengan sistem pengawas (Guardian), PM2, dan arsitektur *Circuit Breaker* canggih untuk menahan kegagalan API (*API Rate Limit*) tanpa downtime.
+- **Manajemen Memori (Garbage Collection)**: Secara otomatis membersihkan sesi chat pengguna yang sudah tidak aktif lebih dari 24 jam untuk mencegah kelebihan RAM (Memory Leak) saat beroperasi nonstop.
 - **Monitoring HP**: Anda dapat memantau kesehatan bot dan penggunaan server langsung dari aplikasi HP (via PM2 Plus).
 - **Analitik Cerdas**: Mencatat tren pertanyaan masyarakat untuk membantu pimpinan mengambil keputusan berbasis data.
+- **Human-in-the-loop (HITL)**: Penguatan keamanan dengan fitur verifikasi admin. Jawaban untuk pertanyaan kompleks atau penting akan ditahan untuk ditinjau oleh petugas sebelum dikirim ke masyarakat.
 
 ---
 
@@ -27,6 +29,15 @@ Gunakan perintah berikut dari nomor Admin yang terdaftar:
 | `!shut` | Mematikan bot sepenuhnya (Gunakan hanya saat maintenance). |
 | `!a` / `!help` | Melihat daftar lengkap perintah admin. |
 
+## 🏛️ Arsitektur Database Cloud
+
+Sistem ini menggunakan infrastruktur **Hybrid Cloud** untuk menjamin keamanan dan ketersediaan data:
+
+1.  **Google Sheets (Interface Admin)**: Digunakan sebagai pusat kendali Knowledge Base yang mudah diedit oleh petugas tanpa perlu keahlian teknis.
+2.  **Neon Database (Cloud PostgreSQL)**: Database utama yang menyimpan data interaksi, profil pengguna, dan memori jangka panjang AI. Dilengkapi dengan dukungan **pgvector** untuk pencarian berbasis makna (Semantic Search).
+3.  **Advanced RAG (Retrieval-Augmented Generation)**: AI tidak hanya "mengarang", tetapi mencari referensi hukum dari database cloud sebelum memberikan jawaban. Sistem dirancang untuk mendukung framework open-source (seperti LangChain/LlamaIndex) dan model terbuka (Llama 3.3/Mistral) guna mencapai efisiensi biaya maksimal.
+4.  **Automatic Synchronization**: Setiap perubahan pada Google Sheets akan disinkronkan secara otomatis ke Database Cloud dan Vektor lokal untuk memastikan semua titik data tetap mutakhir.
+
 ---
 
 ## ⚠️ Catatan Penting (Operasional)
@@ -41,6 +52,6 @@ Agar bot dapat melayani secara maksimal, pastikan:
 > [!NOTE]
 > Jika Anda adalah seorang teknisi atau programmer yang ingin mempelajari konfigurasi server, database, dan "daleman" sistem ini, silakan baca **[ReadMeForDevs.md](./ReadMeForDevs.md)**.
 
-**Versi:** 4.4 — Stability & Resilience Edition  
+**Versi:** 4.5 — Anti-Crash & Resilience Edition  
 **Hak Cipta & Pengembang:** Malik Amrullah  
 **Tim Inovasi:** Kantor Imigrasi PKP

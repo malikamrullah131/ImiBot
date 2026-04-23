@@ -1,4 +1,4 @@
-# ImmiCare Technical Reference Guide — Stability & Resilience Architecture (v4.4) 🛠️🤖⚖️
+# ImmiCare Technical Reference Guide — Stability & Resilience Architecture (v4.5) 🛠️🤖⚖️
 
 Selamat datang di panduan teknis **ImmiCare**. Dokumen ini berisi detail implementasi infrastruktur, proses manajemen, dan arsitektur AI untuk memastikan bot berjalan 24/7 dengan tingkat kegagalan minimum.
 
@@ -25,6 +25,12 @@ Admin dapat mengontrol server dari jarak jauh melalui [app.pm2.io](https://app.p
 - **Dashboard Cloud**: Pantau CPU, RAM, dan Log secara real-time dari browser atau aplikasi HP.
 - **Remote Action**: Menghidupkan bot yang mati (`!shut`) dari luar kantor.
 
+### 4. AI Brain Anti-Crash & Garbage Collection (Update v4.5)
+Ketahanan pada layer kode AI untuk menangani instabilitas server API pihak ketiga:
+- **Optional Chaining & Null-Safe Vector**: Mencegah fatal error (TypeError) ketika API AI atau Embedding mengembalikan data kosong (`null`) dengan melakukan pencegatan variabel aman tanpa menghentikan eksekusi sisa dokumen.
+- **Memory Garbage Collector**: Loop otomatis setiap jam yang memantau dan menghapus riwayat RAM (`chatHistory`) pengguna dengan waktu diam (idle) > 24 jam untuk mencegah OOM (Out Of Memory).
+- **Graceful API Circuit Breaker**: Mekanisme rotasi kunci API dinamis yang menerapkan waktu *cooldown* 3 menit ketika API Google/OpenRouter terkena *Rate Limit*, mencegah pembelokiran IP server akibat penembakan request yang agresif.
+
 ---
 
 ## 🚀 Alur Kerja Pesan (Tiered Pipeline)
@@ -40,10 +46,21 @@ graph TD
     F -- Miss --> G{Step 3: Normalized Search}
     G -- No Match --> H{Step 4: Vector-Lite Search}
     H -- Low Score --> I{Step 5: LLM Dispatcher}
+    I -- Success --> I1{🛡️ HITL Gate}
+    I1 -- Approved --> E[Kirim Jawaban]
+    I1 -- Pending --> K[Wait for Admin]
     I -- Cloud Failed --> J{🌐 Free Search Fallback}
-    J -- DDG / SearxNG --> E[Kirim Jawaban]
-    I -- Success --> E
+    J -- DDG / SearxNG --> E
 ```
+
+---
+
+## 🧠 Human-in-the-Loop (HITL) Logic
+Untuk meminimalisir halusinasi AI pada layanan publik, sistem mengimplementasikan gerbang verifikasi:
+- **Trigger**: Pertanyaan kompleks (`isComplex`), jawaban AI baru (`wasAIGenerated`), atau skor keyakinan rendah (`confidence: low`).
+- **State Handling**: Pesan ditahan dalam `lastInteractions` dengan status `awaiting_approval`.
+- **Admin Alert**: Mengirim draf jawaban ke nomor admin untuk divalidasi.
+- **Approval Flow**: Admin menggunakan `!gas` untuk menyetujui draf atau `!salah` untuk melakukan overriding jawaban sebelum sampai ke pengguna.
 
 ---
 
@@ -57,7 +74,7 @@ Proyek ini dilengkapi dengan `Dockerfile` dan `railway.toml` untuk deployment di
 
 ---
 
-## 📊 Perintah Admin WhatsApp (Update v4.4)
+## 📊 Perintah Admin WhatsApp (Update v4.5)
 
 | Perintah | Shortcut | Fungsi Teknis |
 | :--- | :--- | :--- |
@@ -67,6 +84,10 @@ Proyek ini dilengkapi dengan `Dockerfile` dan `railway.toml` untuk deployment di
 | `!shut` | - | Eksekusi `pm2 stop immicare` untuk mematikan bot total. |
 | `!sync` | `!y` | Sinkronisasi penuh Google Sheets -> Neon DB -> Vector. |
 | `!audit` | - | Analisa mendalam nalar AI terhadap interaksi terakhir. |
+| `!gas` | `!g` | Menyetujui draf jawaban HITL atau saran Audit untuk dikirim ke user. |
+| `!benar` | `!b` | Konfirmasi jawaban saat ini sudah benar dan simpan ke DB. |
+| `!salah [teks]` | `!x` | Koreksi jawaban terakhir dan simpan ke Knowledge Base. |
+
 
 ---
 
@@ -77,9 +98,30 @@ Proyek ini dilengkapi dengan `Dockerfile` dan `railway.toml` untuk deployment di
 
 ---
 
+## 🔬 Riset Strategis: Framework RAG & Model Terbuka
+
+Berdasarkan analisis efisiensi biaya dan performa, sistem ini dirancang dengan fleksibilitas untuk mengadopsi ekosistem open-source guna mencapai biaya operasional nol (*Zero Cost Operation*):
+
+### 1. Framework RAG Open-Source
+Sistem ini kompatibel dengan berbagai framework RAG terkemuka yang tersedia secara gratis di GitHub:
+- **Orchestration**: LangChain, AutoGen, CrewAI, LangGraph, Google ADK.
+- **RAG Specialization**: LlamaIndex, Haystack, LightRAG, DSPy, LLMWare.
+- **Keunggulan**: Pemasangan via `pip`/`npm` tanpa biaya lisensi, kontrol penuh atas alur data.
+
+### 2. Model Bahasa Terbuka (Open Weights)
+Untuk menghilangkan ketergantungan pada API berbayar (seperti GPT-4o), sistem mendukung penggunaan model open-source yang dihosting sendiri:
+- **Llama 3.3 70B**: Performa setara model proprietary dengan efisiensi biaya 5–10× lebih murah jika dihosting sendiri.
+- **Mistral Family**: Lisensi Apache 2.0 yang bebas digunakan tanpa batasan, ideal untuk server lokal.
+- **DeepSeek V3 / Gemini 2.0 Flash Lite**: Pilihan model efisien untuk latensi rendah.
+
+### 3. Implementasi Biaya Nol
+Dengan mengkombinasikan framework di atas dengan model lokal (melalui Ollama atau vLLM), biaya operasional model bahasa dapat ditekan hingga **Rp 0**, hanya menyisakan biaya listrik/server yang sudah ada.
+
+---
+
 ## ⚖️ Hak Cipta & Lisensi
 Sistem ini bersifat **Internal Enhancement** untuk Kantor Imigrasi PKP. Penggunaan dan modifikasi kode harus sepengetahuan penanggung jawab teknis.
 
 **Pengembang Utama:** Malik Amrullah  
-**Edisi:** Stability & Resilience (v4.4)  
+**Edisi:** Stability & Resilience (v4.5)  
 **Status:** ✅ Production Ready

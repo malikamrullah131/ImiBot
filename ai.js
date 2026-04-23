@@ -2,9 +2,10 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { semanticSearchDB } = require('./vectorStore');
+const { semanticSearchDB, hybridSearch, saveSemanticCache, getSemanticCache, vectorSearch } = require('./vectorStore');
 const { getUserProfile, updateUserProfile } = require('./db');
 const config = require('./config');
+const { langchainDispatcher, getOpenSourceModelConfig } = require('./rag_frameworks');
 
 // --- DATABASE & CACHE ---
 const cachePath = path.join(__dirname, 'data', 'local_cache.json');
@@ -35,6 +36,19 @@ function getCache(key) { return localCache.get(key); }
 let chatHistory = {}; // { [remoteId]: [{role: 'user'|'model', text: string}, ...] }
 const MAX_HISTORY = 3; // DIPANGKAS: Hanya ingat 1.5 percakapan terakhir untuk hemat RAM/Token
 const BAD_KEYS = new Set(); // Circuit Breaker
+
+// [MEMORY OPTIMIZATION] Garbage Collection: Bersihkan riwayat chat yang tidak aktif > 24 Jam
+setInterval(() => {
+    const now = Date.now();
+    let deletedCount = 0;
+    for (const [id, history] of Object.entries(chatHistory)) {
+        if (history.lastActive && now - history.lastActive > 24 * 60 * 60 * 1000) {
+            delete chatHistory[id];
+            deletedCount++;
+        }
+    }
+    if (deletedCount > 0) console.log(`[MEMORY] Membuang ${deletedCount} riwayat chat usang.`);
+}, 3600 * 1000); // Jalan setiap 1 jam
 const KEY_COOLDOWN = 1000 * 60 * 3; // REDUCED: 3 menit (Previously 15m) agar cepat recovery
 const LAST_REQ_TIME = { brain: 0 }; // Throttle Global
 const MIN_AI_GAP = 1500; // Minimal jeda 1.5 detik antar request AI Cloud
@@ -42,7 +56,7 @@ const MIN_AI_GAP = 1500; // Minimal jeda 1.5 detik antar request AI Cloud
 const CONFIRMATION_SUFFIX = "\n\nAda lagi yang bisa kami bantu? 😊";
 const NUDGE_MESSAGE = "Maaf, kami tidak mengerti apa yang Anda maksud. Apakah maksud Anda salah satu dari kategori berikut?\n\n1. *Paspor* (Syarat, Hilang, Rusak)\n2. *M-Paspor* (Daftar Online, Antrean)\n3. *Lokasi & Jadwal* (Alamat, Jam Kerja)\n4. *Biaya* (Tarif Non-Elektronik & Elektronik)\n\nSilakan berikan pertanyaan Anda kembali dengan menyebutkan salah satu kategori di atas agar kami bisa membantu lebih baik.";
 
-// --- KARPATHY MEGA-WIKI CONTEXT (Optimized for Tokens) ---
+let MEGA_WIKI_CONTEXT = "";
 try {
     const rawData = JSON.parse(fs.readFileSync(path.join(__dirname, 'Final_KB_Rombak.json'), 'utf8'));
     MEGA_WIKI_CONTEXT = rawData.map(item => {
@@ -253,12 +267,15 @@ function levenshtein(s1, s2) {
 // Step 4-1: API Key Rotation
 // Step 4-1: API Key Rotation (With Circuit Breaker)
 function getRandomKey(envVar) {
-    const keys = (process.env[envVar] || "").split(',').filter(k => k.trim() !== "" && !BAD_KEYS.has(k.trim()));
-    if (keys.length === 0) {
-        if (BAD_KEYS.size > 0) BAD_KEYS.clear(); // Emergency Reset if all are bad
+    const allKeys = (process.env[envVar] || "").split(',').map(k => k.trim()).filter(k => k !== "");
+    const availableKeys = allKeys.filter(k => !BAD_KEYS.has(k));
+    
+    if (availableKeys.length === 0) {
+        if (allKeys.length > 0) console.warn(`[API] ❌ SEMUA KUNCI ${envVar} TERKENA LIMIT.`);
+        // Jangan di clear BAD_KEYS secara instan. Biarkan setTimeout auto-recovery yang membersihkan.
         return null;
     }
-    return keys[Math.floor(Math.random() * keys.length)].trim();
+    return availableKeys[Math.floor(Math.random() * availableKeys.length)].trim();
 }
 
 /** Melabeli kunci API sebagai 'Rusak' sementara agar tidak terus-menerus dicoba */
@@ -408,8 +425,8 @@ async function pollinationsFreeAI(prompt) {
         if (typeof res.data === 'string') {
             answerText = res.data;
         } else if (res.data && res.data.choices) {
-            const msgObj = res.data.choices[0].message || res.data.choices[0];
-            answerText = msgObj.content || msgObj.reasoning_content || JSON.stringify(msgObj);
+            const msgObj = res.data.choices[0]?.message || res.data.choices[0];
+            answerText = msgObj?.content || msgObj?.reasoning_content || JSON.stringify(msgObj || res.data);
         } else if (res.data && res.data.content) {
             answerText = res.data.content;
         } else if (res.data && res.data.reasoning_content) {
@@ -437,7 +454,7 @@ async function g4fFreeAI(prompt) {
             headers: { 'Authorization': `Bearer ${randomId}` },
             timeout: 25000
         });
-        return res.data.choices[0].message.content;
+        return res.data?.choices?.[0]?.message?.content || "";
     } catch (e) {
         throw new Error(`G4F Failed: ${e.message}`);
     }
@@ -451,7 +468,7 @@ async function huggingFaceFreeAI(prompt) {
             model: 'gpt-4.1-mini',
             messages: [{ role: 'user', content: prompt.substring(0, 800) }]
         }, { timeout: 25000 });
-        if (res.data && res.data.choices) return res.data.choices[0].message.content;
+        if (res.data && res.data.choices) return res.data?.choices?.[0]?.message?.content || "";
         if (res.data && res.data.message) return res.data.message;
         if (typeof res.data === 'string') return res.data;
         throw new Error('Empty response');
@@ -488,14 +505,13 @@ async function gemini(prompt, isComplex = false) {
     // DAFTAR MODEL GRATIS TERBAIK & TERSTABIL 2026 (100% FREE TIER)
     const models = isComplex
         ? [
-            "deepseek/deepseek-chat", // DeepSeek V3 (Best General)
-            "deepseek/deepseek-reasoner", // DeepSeek R1 (Best Reasoning)
-            "meta-llama/llama-3.3-70b-instruct:free", // Llama 3.3 (High Performance)
-            "google/gemini-2.0-flash-lite-preview-02-05:free" // Gemini 2.0 (Fastest)
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "deepseek/deepseek-chat",
+            "google/gemini-2.0-flash-lite-preview-02-05:free"
         ]
         : [
             "google/gemini-2.0-flash-lite-preview-02-05:free",
-            "deepseek/deepseek-chat"
+            "meta-llama/llama-3.3-70b-instruct:free"
         ];
 
     // --- TIER 0: PREMIUM MODELS (GPT-5 & DEEPSEEK V3.2) ---
@@ -621,7 +637,6 @@ async function reflectOnInteraction(question, answer) {
     // 🔍 NEW: Ambil konteks regulasi resmi dari PDF untuk audit
     let regulationContext = "";
     try {
-        const { vectorSearch } = require('./vectorStore');
         const hits = await vectorSearch(question, 3);
         const pdfHits = hits.filter(h => h.category === 'PDF-DOC');
         if (pdfHits.length > 0) {
@@ -857,7 +872,7 @@ async function ollama(prompt, modelName = "phi3:mini") {
             prompt: prompt,
             stream: false,
             options: { num_ctx: config.performance.localContextLimit }
-        }, { timeout: 60000 }); // Meningkatkan timeout ke 60 detik untuk Mega-Wiki
+        }, { timeout: 90000 }); // Meningkatkan timeout ke 90 detik untuk kestabilan model lokal
         return res.data.response;
     } catch (e) {
         throw new Error(`Ollama Error (${modelName}): ${e.message}`);
@@ -1126,6 +1141,7 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = 
 
     const input = normalize(msgBody);
     const isComplex = detectComplexity(msgBody);
+    const agentIntent = await agentPlan(msgBody);
 
     // 1. Get History Context
     const profile = await getUserProfile(remoteId);
@@ -1159,24 +1175,12 @@ async function askAIProtocol(msgBody, rawKB, remoteId = 'default', onThinking = 
     if (keywordMatch) candidates.push({ q: "Keyword Match", a: keywordMatch.answer });
     semanticHits.forEach(h => candidates.push({ q: h.Question || h.question, a: h.Answer || h.answer }));
 
-    // Stage 3: Intelligent Reranking (Agentic)
+    // Stage 3: Context Preparation (Skip redundant AI Reranking for speed)
     let ragContext = "";
     if (candidates.length > 0) {
-        console.log(`[⚖️ RERANKER] Menganalisis ${candidates.length} kandidat untuk akurasi maksimal...`);
-        const rerankPrompt = `
-TUGAS: Pilih JAWABAN TERBAIK dari kandidat di bawah untuk pertanyaan: "${msgBody}"
-KANDIDAT:
-${candidates.map((c, i) => `${i + 1}. [Tanya: ${c.q}] -> [Jawab: ${c.a}]`).join("\n")}
-
-Jika ada jawaban yang SANGAT RELEVAN, tuliskan kembali isi JAWABAN tersebut saja.
-Jika tidak ada yang cocok, tulis "TIDAK_ADA_YANG_COCOK".
-HASIL:
-`;
-        const bestCandidate = await gemini(rerankPrompt, false);
-        if (bestCandidate && !bestCandidate.includes("TIDAK_ADA_YANG_COCOK")) {
-            ragContext = "REFERENSI DATA TERVERIFIKASI:\n" + bestCandidate;
-            console.log("[🎯 RERANKER] Kandidat terbaik terpilih.");
-        }
+        // Just use the top 3 candidates as context directly to save time/tokens
+        ragContext = "REFERENSI DATA TERVERIFIKASI:\n" + 
+                     candidates.slice(0, 3).map((c, i) => `${i + 1}. [${c.q}] ${c.a}`).join("\n");
     }
     // 🛡️ STOP OFF-TOPIC NOISE BEFORE REACHING CLOUD (SAVE QUOTA)
     if (agentIntent === 'off_topic_noise') {
@@ -1272,11 +1276,10 @@ HASIL:
         }
     }
 
-    // 6. AI Multi-Router with History (Last Resort or Complex Brain Analyzer)
+    // 6. AI Execution (LangChain for Complex, Router for Simple)
     if (onThinking) onThinking();
-    console.log(`[AI] Processing query via AI Brain untuk ${remoteId}`);
-
-    // OPTIMASI: Kumpulkan lebih banyak konteks dari RAG (Semantic Search) jika belum ada
+    
+    // Ensure we have some RAG context if possible
     if (!ragContext) {
         ragContext = dbContextForComplex;
     }
@@ -1367,9 +1370,14 @@ TUGAS ANDA:
 
     let aiResult;
     try {
-        aiResult = isComplex 
-            ? { answer: await multiAgentVote(localPrompt, cloudPrompt, ragContext) }
-            : await aiRouter(msgBody, localPrompt, cloudPrompt, false);
+        if (isComplex) {
+            console.log("[⛓️ LANGCHAIN-FLOW] Menggunakan alur kerja LangChain untuk pertanyaan kompleks...");
+            const openModel = getOpenSourceModelConfig().highPerformance;
+            // Pass 'gemini' as the executor to handle the actual LLM call
+            aiResult = { answer: await langchainDispatcher(msgBody, ragContext, openModel, gemini) };
+        } else {
+            aiResult = await aiRouter(msgBody, localPrompt, cloudPrompt, false);
+        }
             
         // Jika aiRouter mereturn fallback busy, lempar ke catch untuk trigger search
         if (aiResult?.intent === "System Busy") throw new Error("AI Busy Fallback Triggered");
@@ -1414,6 +1422,7 @@ TUGAS ANDA:
     chatHistory[remoteId].push({ role: 'user', text: msgBody });
     chatHistory[remoteId].push({ role: 'model', text: finalAnswer });
     if (chatHistory[remoteId].length > MAX_HISTORY) chatHistory[remoteId].shift();
+    chatHistory[remoteId].lastActive = Date.now(); // Perbarui aktivitas untuk Garbage Collector
 
     // 7. Save to Cache/Pending (Filter out noise/short messages)
     if (!finalAnswer.includes('sangat sibuk') && msgBody.trim().length > 3) {
